@@ -4,4 +4,9 @@
         <TargetFramework>netcoreapp3.1</TargetFramework>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\eStore.ApplicationCore\eStore.ApplicationCore.csproj" />
+      <ProjectReference Include="..\eStore.Infrastructure\eStore.Infrastructure.csproj" />
+    </ItemGroup>
+
 </Project>
