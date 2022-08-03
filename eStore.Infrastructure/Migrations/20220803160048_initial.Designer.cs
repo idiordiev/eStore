@@ -10,15 +10,15 @@ using eStore.Infrastructure.Data;
 namespace eStore.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20220728165129_initialMigration")]
-    partial class initialMigration
+    [Migration("20220803160048_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.27")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
+                .HasAnnotation("ProductVersion", "5.0.17")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("eStore.ApplicationCore.Entities.Customer", b =>
@@ -29,54 +29,54 @@ namespace eStore.Infrastructure.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("AddressLine1")
-                        .HasColumnType("nvarchar(100)")
-                        .HasMaxLength(100);
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("AddressLine2")
-                        .HasColumnType("nvarchar(100)")
-                        .HasMaxLength(100);
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("City")
-                        .HasColumnType("nvarchar(100)")
-                        .HasMaxLength(100);
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Country")
-                        .HasColumnType("nvarchar(100)")
-                        .HasMaxLength(100);
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<DateTime>("DateOfBirth")
                         .HasColumnType("date");
 
                     b.Property<string>("Email")
-                        .HasColumnType("nvarchar(100)")
-                        .HasMaxLength(100);
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("FirstName")
-                        .HasColumnType("nvarchar(120)")
-                        .HasMaxLength(120);
+                        .HasMaxLength(120)
+                        .HasColumnType("nvarchar(120)");
 
                     b.Property<string>("IdentityId")
-                        .HasColumnType("nvarchar(30)")
-                        .HasMaxLength(30);
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<string>("LastName")
-                        .HasColumnType("nvarchar(120)")
-                        .HasMaxLength(120);
+                        .HasMaxLength(120)
+                        .HasColumnType("nvarchar(120)");
 
                     b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(20)")
-                        .HasMaxLength(20);
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("PostalCode")
-                        .HasColumnType("nvarchar(10)")
-                        .HasMaxLength(10);
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
 
                     b.Property<string>("State")
-                        .HasColumnType("nvarchar(2)")
-                        .HasMaxLength(2);
+                        .HasMaxLength(2)
+                        .HasColumnType("nvarchar(2)");
 
                     b.HasKey("Id");
 
@@ -117,8 +117,8 @@ namespace eStore.Infrastructure.Migrations
                         .HasColumnType("datetime");
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(500)")
-                        .HasMaxLength(500);
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -130,23 +130,17 @@ namespace eStore.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(150)")
-                        .HasMaxLength(150);
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("goods_type")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ManufacturerId");
 
                     b.ToTable("Goods");
-
-                    b.HasDiscriminator<string>("goods_type").HasValue("Goods");
                 });
 
             modelBuilder.Entity("eStore.ApplicationCore.Entities.KeyboardSwitch", b =>
@@ -169,8 +163,8 @@ namespace eStore.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(100)")
-                        .HasMaxLength(100);
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
 
@@ -211,28 +205,28 @@ namespace eStore.Infrastructure.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("ShippingAddressLine1")
-                        .HasColumnType("nvarchar(100)")
-                        .HasMaxLength(100);
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("ShippingAddressLine2")
-                        .HasColumnType("nvarchar(100)")
-                        .HasMaxLength(100);
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("ShippingCity")
-                        .HasColumnType("nvarchar(100)")
-                        .HasMaxLength(100);
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("ShippingCountry")
-                        .HasColumnType("nvarchar(100)")
-                        .HasMaxLength(100);
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("ShippingPostalCode")
-                        .HasColumnType("nvarchar(10)")
-                        .HasMaxLength(10);
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
 
                     b.Property<string>("ShippingState")
-                        .HasColumnType("nvarchar(2)")
-                        .HasMaxLength(2);
+                        .HasMaxLength(2)
+                        .HasColumnType("nvarchar(2)");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
@@ -294,7 +288,7 @@ namespace eStore.Infrastructure.Migrations
                     b.Property<float>("Weight")
                         .HasColumnType("real");
 
-                    b.HasDiscriminator().HasValue("goods_gamepad");
+                    b.ToTable("Gamepads");
                 });
 
             modelBuilder.Entity("eStore.ApplicationCore.Entities.Keyboard", b =>
@@ -305,7 +299,6 @@ namespace eStore.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("ConnectionType")
-                        .HasColumnName("Keyboard_ConnectionType")
                         .HasColumnType("int");
 
                     b.Property<int>("FrameMaterial")
@@ -333,7 +326,6 @@ namespace eStore.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.Property<float>("Weight")
-                        .HasColumnName("Keyboard_Weight")
                         .HasColumnType("real");
 
                     b.Property<float>("Width")
@@ -341,7 +333,7 @@ namespace eStore.Infrastructure.Migrations
 
                     b.HasIndex("SwitchId");
 
-                    b.HasDiscriminator().HasValue("goods_keyboard");
+                    b.ToTable("Keyboards");
                 });
 
             modelBuilder.Entity("eStore.ApplicationCore.Entities.Mouse", b =>
@@ -349,40 +341,34 @@ namespace eStore.Infrastructure.Migrations
                     b.HasBaseType("eStore.ApplicationCore.Entities.Goods");
 
                     b.Property<int>("Backlight")
-                        .HasColumnName("Mouse_Backlight")
                         .HasColumnType("int");
 
                     b.Property<int>("ButtonsQuantity")
                         .HasColumnType("int");
 
                     b.Property<int>("ConnectionType")
-                        .HasColumnName("Mouse_ConnectionType")
                         .HasColumnType("int");
 
                     b.Property<float>("Height")
-                        .HasColumnName("Mouse_Height")
                         .HasColumnType("real");
 
                     b.Property<float>("Length")
-                        .HasColumnName("Mouse_Length")
                         .HasColumnType("real");
 
                     b.Property<int>("SensorDPI")
                         .HasColumnType("int");
 
                     b.Property<string>("SensorName")
-                        .HasColumnType("nvarchar(100)")
-                        .HasMaxLength(100);
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<float>("Weight")
-                        .HasColumnName("Mouse_Weight")
                         .HasColumnType("real");
 
                     b.Property<float>("Width")
-                        .HasColumnName("Mouse_Width")
                         .HasColumnType("real");
 
-                    b.HasDiscriminator().HasValue("goods_mouse");
+                    b.ToTable("Mouses");
                 });
 
             modelBuilder.Entity("eStore.ApplicationCore.Entities.Mousepad", b =>
@@ -393,28 +379,24 @@ namespace eStore.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.Property<float>("Height")
-                        .HasColumnName("Mousepad_Height")
                         .HasColumnType("real");
 
                     b.Property<bool>("IsStitched")
                         .HasColumnType("bit");
 
                     b.Property<float>("Length")
-                        .HasColumnName("Mousepad_Length")
                         .HasColumnType("real");
 
                     b.Property<int>("TopMaterial")
                         .HasColumnType("int");
 
                     b.Property<float>("Weight")
-                        .HasColumnName("Mousepad_Weight")
                         .HasColumnType("real");
 
                     b.Property<float>("Width")
-                        .HasColumnName("Mousepad_Width")
                         .HasColumnType("real");
 
-                    b.HasDiscriminator().HasValue("goods_mousepad");
+                    b.ToTable("Mousepads");
                 });
 
             modelBuilder.Entity("eStore.ApplicationCore.Entities.GamepadCompatibleType", b =>
@@ -424,6 +406,8 @@ namespace eStore.Infrastructure.Migrations
                         .HasForeignKey("GamepadId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Gamepad");
                 });
 
             modelBuilder.Entity("eStore.ApplicationCore.Entities.Goods", b =>
@@ -433,6 +417,8 @@ namespace eStore.Infrastructure.Migrations
                         .HasForeignKey("ManufacturerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Manufacturer");
                 });
 
             modelBuilder.Entity("eStore.ApplicationCore.Entities.KeyboardSwitch", b =>
@@ -442,6 +428,8 @@ namespace eStore.Infrastructure.Migrations
                         .HasForeignKey("ManufacturerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Manufacturer");
                 });
 
             modelBuilder.Entity("eStore.ApplicationCore.Entities.Order", b =>
@@ -451,6 +439,8 @@ namespace eStore.Infrastructure.Migrations
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Customer");
                 });
 
             modelBuilder.Entity("eStore.ApplicationCore.Entities.OrderItem", b =>
@@ -466,15 +456,79 @@ namespace eStore.Infrastructure.Migrations
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Goods");
+
+                    b.Navigation("Order");
+                });
+
+            modelBuilder.Entity("eStore.ApplicationCore.Entities.Gamepad", b =>
+                {
+                    b.HasOne("eStore.ApplicationCore.Entities.Goods", null)
+                        .WithOne()
+                        .HasForeignKey("eStore.ApplicationCore.Entities.Gamepad", "Id")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("eStore.ApplicationCore.Entities.Keyboard", b =>
                 {
+                    b.HasOne("eStore.ApplicationCore.Entities.Goods", null)
+                        .WithOne()
+                        .HasForeignKey("eStore.ApplicationCore.Entities.Keyboard", "Id")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+
                     b.HasOne("eStore.ApplicationCore.Entities.KeyboardSwitch", "Switch")
                         .WithMany("Keyboards")
                         .HasForeignKey("SwitchId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Switch");
+                });
+
+            modelBuilder.Entity("eStore.ApplicationCore.Entities.Mouse", b =>
+                {
+                    b.HasOne("eStore.ApplicationCore.Entities.Goods", null)
+                        .WithOne()
+                        .HasForeignKey("eStore.ApplicationCore.Entities.Mouse", "Id")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("eStore.ApplicationCore.Entities.Mousepad", b =>
+                {
+                    b.HasOne("eStore.ApplicationCore.Entities.Goods", null)
+                        .WithOne()
+                        .HasForeignKey("eStore.ApplicationCore.Entities.Mousepad", "Id")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("eStore.ApplicationCore.Entities.Customer", b =>
+                {
+                    b.Navigation("Orders");
+                });
+
+            modelBuilder.Entity("eStore.ApplicationCore.Entities.Goods", b =>
+                {
+                    b.Navigation("OrderItems");
+                });
+
+            modelBuilder.Entity("eStore.ApplicationCore.Entities.KeyboardSwitch", b =>
+                {
+                    b.Navigation("Keyboards");
+                });
+
+            modelBuilder.Entity("eStore.ApplicationCore.Entities.Order", b =>
+                {
+                    b.Navigation("OrderItems");
+                });
+
+            modelBuilder.Entity("eStore.ApplicationCore.Entities.Gamepad", b =>
+                {
+                    b.Navigation("CompatibleWithPlatforms");
                 });
 #pragma warning restore 612, 618
         }

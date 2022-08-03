@@ -72,13 +72,7 @@ namespace eStore.Infrastructure.Data
             modelBuilder.Entity<Customer>()
                 .Property(c => c.PostalCode)
                 .HasMaxLength(10);
-
-            modelBuilder.Entity<Goods>()
-                .HasDiscriminator<string>("goods_type")
-                .HasValue<Keyboard>("goods_keyboard")
-                .HasValue<Mouse>("goods_mouse")
-                .HasValue<Mousepad>("goods_mousepad")
-                .HasValue<Gamepad>("goods_gamepad");
+            
             modelBuilder.Entity<Goods>()
                 .Property(g => g.Name)
                 .HasMaxLength(150);
@@ -99,6 +93,7 @@ namespace eStore.Infrastructure.Data
                 .WithMany()
                 .HasForeignKey(g => g.ManufacturerId);
 
+            modelBuilder.Entity<Gamepad>().ToTable("Gamepads");
             modelBuilder.Entity<Gamepad>()
                 .Property(g => g.ConnectionType)
                 .HasConversion<int>();
@@ -112,7 +107,8 @@ namespace eStore.Infrastructure.Data
                 .HasOne(g => g.Gamepad)
                 .WithMany(gamepad => gamepad.CompatibleWithPlatforms)
                 .HasForeignKey(g => g.GamepadId);
-            
+
+            modelBuilder.Entity<Keyboard>().ToTable("Keyboards");
             modelBuilder.Entity<Keyboard>()
                 .Property(k => k.Type)
                 .HasConversion<int>();
@@ -152,6 +148,7 @@ namespace eStore.Infrastructure.Data
             modelBuilder.Entity<Manufacturer>()
                 .HasKey(m => m.Id);
 
+            modelBuilder.Entity<Mouse>().ToTable("Mouses");
             modelBuilder.Entity<Mouse>()
                 .Property(m => m.ConnectionType)
                 .HasConversion<int>();
@@ -162,6 +159,7 @@ namespace eStore.Infrastructure.Data
                 .Property(m => m.Backlight)
                 .HasConversion<int>();
 
+            modelBuilder.Entity<Mousepad>().ToTable("Mousepads");
             modelBuilder.Entity<Mousepad>()
                 .Property(m => m.BottomMaterial)
                 .HasConversion<int>();
