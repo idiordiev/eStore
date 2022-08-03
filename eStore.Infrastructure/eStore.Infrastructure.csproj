@@ -5,7 +5,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Identity" />
       <Folder Include="Logging" />
     </ItemGroup>
 
