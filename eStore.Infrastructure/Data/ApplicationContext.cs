@@ -1,4 +1,5 @@
-﻿using eStore.ApplicationCore.Entities;
+﻿using System.Reflection;
+using eStore.ApplicationCore.Entities;
 using eStore.Infrastructure.Data.Configurations;
 using Microsoft.EntityFrameworkCore;
 
@@ -35,17 +36,7 @@ namespace eStore.Infrastructure.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfiguration(new CustomerConfiguration());
-            modelBuilder.ApplyConfiguration(new GamepadCompatibleTypeConfiguration());
-            modelBuilder.ApplyConfiguration(new GamepadConfiguration());
-            modelBuilder.ApplyConfiguration(new GoodsConfiguration());
-            modelBuilder.ApplyConfiguration(new KeyboardConfiguration());
-            modelBuilder.ApplyConfiguration(new KeyboardSwitchConfiguration());
-            modelBuilder.ApplyConfiguration(new ManufacturerConfiguration());
-            modelBuilder.ApplyConfiguration(new MouseConfiguration());
-            modelBuilder.ApplyConfiguration(new MousepadConfiguration());
-            modelBuilder.ApplyConfiguration(new OrderConfiguration());
-            modelBuilder.ApplyConfiguration(new OrderItemConfiguration());
+            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
     }
 }
