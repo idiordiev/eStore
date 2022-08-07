@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
-using AutoMapper;
 using eStore.ApplicationCore.Entities;
 using eStore.ApplicationCore.Interfaces.Data;
 using Microsoft.EntityFrameworkCore;
@@ -23,7 +21,11 @@ namespace eStore.Infrastructure.Data.Repositories
         {
             return await _context.Gamepads
                 .Include(g => g.Manufacturer)
-                .Include(g => g.CompatibleWithPlatforms)
+                .Include(g => g.ConnectionTypes)
+                .ThenInclude(t => t.ConnectionType)
+                .Include(g => g.Feedback)
+                .Include(g => g.CompatibleDevices)
+                .ThenInclude(d => d.CompatibleDevice)
                 .FirstAsync(g => g.Id == id);
         }
 
@@ -31,7 +33,11 @@ namespace eStore.Infrastructure.Data.Repositories
         {
             return await _context.Gamepads
                 .Include(g => g.Manufacturer)
-                .Include(g => g.CompatibleWithPlatforms)
+                .Include(g => g.ConnectionTypes)
+                .ThenInclude(t => t.ConnectionType)
+                .Include(g => g.Feedback)
+                .Include(g => g.CompatibleDevices)
+                .ThenInclude(d => d.CompatibleDevice)
                 .ToListAsync();
         }
 
@@ -39,7 +45,11 @@ namespace eStore.Infrastructure.Data.Repositories
         {
             return _context.Gamepads
                 .Include(g => g.Manufacturer)
-                .Include(g => g.CompatibleWithPlatforms)
+                .Include(g => g.ConnectionTypes)
+                .ThenInclude(t => t.ConnectionType)
+                .Include(g => g.Feedback)
+                .Include(g => g.CompatibleDevices)
+                .ThenInclude(d => d.CompatibleDevice)
                 .Where(predicate)
                 .ToList();
         }

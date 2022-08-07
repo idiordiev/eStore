@@ -6,6 +6,11 @@ namespace eStore.ApplicationCore.Entities
 {
     public class Order : Entity
     {
+        public Order()
+        {
+            OrderItems = new List<OrderItem>();
+        }
+
         public DateTime TimeStamp { get; set; }
         public int CustomerId { get; set; }
         public OrderStatus Status { get; set; }
@@ -16,13 +21,8 @@ namespace eStore.ApplicationCore.Entities
         public string ShippingAddressLine1 { get; set; }
         public string ShippingAddressLine2 { get; set; }
         public string ShippingPostalCode { get; set; }
-        
-        public Customer Customer { get;set; }
-        public ICollection<OrderItem> OrderItems { get; set; }
 
-        public Order()
-        {
-            OrderItems = new List<OrderItem>();
-        }
+        public Customer Customer { get; set; }
+        public ICollection<OrderItem> OrderItems { get; set; }
     }
 }

@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
-using AutoMapper;
 using eStore.ApplicationCore.Entities;
 using eStore.ApplicationCore.Interfaces.Data;
 using Microsoft.EntityFrameworkCore;
@@ -39,7 +37,7 @@ namespace eStore.Infrastructure.Data.Repositories
             await _context.Customers.AddAsync(entity);
             await _context.SaveChangesAsync();
         }
-    
+
         public async Task DeleteAsync(int id)
         {
             var customer = await GetByIdAsync(id);

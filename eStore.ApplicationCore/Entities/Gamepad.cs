@@ -1,14 +1,12 @@
 ﻿using System.Collections.Generic;
-using eStore.ApplicationCore.Enums;
 
 namespace eStore.ApplicationCore.Entities
 {
     public class Gamepad : Goods
     {
-        public ConnectionType ConnectionType { get; set; }
-        public GamepadFeedbackType Feedback { get; set; }
+        public int FeedbackId { get; set; }
         public float Weight { get; set; }
-        
-        public ICollection<GamepadCompatibleType> CompatibleWithPlatforms { get; set; }
+        public virtual Feedback Feedback { get; set; }
+        public virtual ICollection<GamepadCompatibleDevice> CompatibleDevices { get; set; }
     }
 }

@@ -10,7 +10,7 @@ namespace eStore.Infrastructure.Data.Configurations
         {
             builder.HasKey(c => c.Id);
             builder.Property(c => c.IdentityId)
-                .HasMaxLength(30);
+                .HasMaxLength(40);
             builder.Property(c => c.FirstName)
                 .HasMaxLength(120);
             builder.Property(c => c.LastName)

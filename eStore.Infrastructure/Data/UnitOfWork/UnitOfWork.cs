@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using eStore.ApplicationCore.Entities;
+﻿using eStore.ApplicationCore.Entities;
 using eStore.ApplicationCore.Interfaces.Data;
 using eStore.Infrastructure.Data.Repositories;
 
@@ -10,13 +9,13 @@ namespace eStore.Infrastructure.Data.UnitOfWork
         private readonly ApplicationContext _context;
 
         private IRepository<Customer> _customerRepository;
-        private IRepository<Goods> _goodsRepository;
         private IRepository<Gamepad> _gamepadRepository;
+        private IRepository<Goods> _goodsRepository;
         private IRepository<Keyboard> _keyboardRepository;
-        private IRepository<Mouse> _mouseRepository;
         private IRepository<Mousepad> _mousepadRepository;
-        private IRepository<Order> _orderRepository;
+        private IRepository<Mouse> _mouseRepository;
         private IRepository<OrderItem> _orderItemRepository;
+        private IRepository<Order> _orderRepository;
 
         public UnitOfWork(ApplicationContext context)
         {

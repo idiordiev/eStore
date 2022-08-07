@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
-using AutoMapper;
 using eStore.ApplicationCore.Entities;
 using eStore.ApplicationCore.Interfaces.Data;
 using Microsoft.EntityFrameworkCore;
@@ -23,8 +21,15 @@ namespace eStore.Infrastructure.Data.Repositories
         {
             return await _context.Keyboards
                 .Include(k => k.Manufacturer)
+                .Include(k => k.ConnectionTypes)
+                .ThenInclude(t => t.ConnectionType)
                 .Include(k => k.Switch)
                 .ThenInclude(sw => sw.Manufacturer)
+                .Include(k => k.Type)
+                .Include(k => k.Size)
+                .Include(k => k.KeycapMaterial)
+                .Include(k => k.FrameMaterial)
+                .Include(k => k.Backlight)
                 .FirstAsync(k => k.Id == id);
         }
 
@@ -32,8 +37,15 @@ namespace eStore.Infrastructure.Data.Repositories
         {
             return await _context.Keyboards
                 .Include(k => k.Manufacturer)
+                .Include(k => k.ConnectionTypes)
+                .ThenInclude(t => t.ConnectionType)
                 .Include(k => k.Switch)
                 .ThenInclude(sw => sw.Manufacturer)
+                .Include(k => k.Type)
+                .Include(k => k.Size)
+                .Include(k => k.KeycapMaterial)
+                .Include(k => k.FrameMaterial)
+                .Include(k => k.Backlight)
                 .ToListAsync();
         }
 
@@ -41,8 +53,15 @@ namespace eStore.Infrastructure.Data.Repositories
         {
             return _context.Keyboards
                 .Include(k => k.Manufacturer)
+                .Include(k => k.ConnectionTypes)
+                .ThenInclude(t => t.ConnectionType)
                 .Include(k => k.Switch)
                 .ThenInclude(sw => sw.Manufacturer)
+                .Include(k => k.Type)
+                .Include(k => k.Size)
+                .Include(k => k.KeycapMaterial)
+                .Include(k => k.FrameMaterial)
+                .Include(k => k.Backlight)
                 .Where(predicate)
                 .ToList();
         }

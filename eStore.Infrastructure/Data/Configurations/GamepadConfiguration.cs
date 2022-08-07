@@ -9,10 +9,9 @@ namespace eStore.Infrastructure.Data.Configurations
         public void Configure(EntityTypeBuilder<Gamepad> builder)
         {
             builder.ToTable("Gamepads");
-            builder.Property(g => g.ConnectionType)
-                .HasConversion<int>();
-            builder.Property(g => g.Feedback)
-                .HasConversion<int>();
+            builder.HasOne(g => g.Feedback)
+                .WithMany(f => f.Gamepads)
+                .HasForeignKey(g => g.FeedbackId);
         }
     }
 }

@@ -1,22 +1,25 @@
-﻿using eStore.ApplicationCore.Enums;
-
-namespace eStore.ApplicationCore.Entities
+﻿namespace eStore.ApplicationCore.Entities
 {
     public class Keyboard : Goods
     {
-        public KeyboardType Type { get; set; }
-        public KeyboardSize Size { get; set; }
-        public ConnectionType ConnectionType { get; set; }
-        public int SwitchId { get; set; }
-        public KeyboardMaterial KeycapMaterial { get; set; }
-        public KeyboardMaterial FrameMaterial { get; set; }
-        public KeyRollover KeyRollover { get; set; }
-        public Backlight Backlight { get; set; }
+        public int TypeId { get; set; }
+        public int SizeId { get; set; }
+        public int? SwitchId { get; set; }
+        public int KeycapMaterialId { get; set; }
+        public int FrameMaterialId { get; set; }
+        public int KeyRolloverId { get; set; }
+        public int BacklightId { get; set; }
         public float Length { get; set; }
         public float Width { get; set; }
         public float Height { get; set; }
         public float Weight { get; set; }
-        
-        public KeyboardSwitch Switch { get; set; }
+
+        public virtual KeyboardType Type { get; set; }
+        public virtual KeyboardSize Size { get; set; }
+        public virtual Material KeycapMaterial { get; set; }
+        public virtual Material FrameMaterial { get; set; }
+        public virtual KeyRollover KeyRollover { get; set; }
+        public virtual Backlight Backlight { get; set; }
+        public virtual KeyboardSwitch Switch { get; set; }
     }
 }

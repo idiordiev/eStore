@@ -1,6 +1,6 @@
 ﻿namespace eStore.ApplicationCore.Entities
 {
-    public class Manufacturer : Entity
+    public class Backlight : Entity
     {
         public string Name { get; set; }
     }

@@ -9,13 +9,9 @@ namespace eStore.Infrastructure.Data.Configurations
         public void Configure(EntityTypeBuilder<Mouse> builder)
         {
             builder.ToTable("Mouses");
-            builder
-                .Property(m => m.ConnectionType)
-                .HasConversion<int>();
-            builder.Property(m => m.SensorName)
-                .HasMaxLength(100);
-            builder.Property(m => m.Backlight)
-                .HasConversion<int>();
+            builder.HasOne(m => m.Backlight)
+                .WithMany()
+                .HasForeignKey(m => m.BacklightId);
         }
     }
 }

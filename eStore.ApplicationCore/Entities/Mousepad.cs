@@ -1,15 +1,18 @@
-﻿using eStore.ApplicationCore.Enums;
-
-namespace eStore.ApplicationCore.Entities
+﻿namespace eStore.ApplicationCore.Entities
 {
     public class Mousepad : Goods
     {
         public bool IsStitched { get; set; }
-        public MousepadMaterial TopMaterial { get; set; }
-        public MousepadMaterial BottomMaterial { get; set; }
+        public int TopMaterialId { get; set; }
+        public int BottomMaterialId { get; set; }
+        public int BacklightId { get; set; }
         public float Length { get; set; }
         public float Width { get; set; }
         public float Height { get; set; }
         public float Weight { get; set; }
+
+        public virtual Material TopMaterial { get; set; }
+        public virtual Material BottomMaterial { get; set; }
+        public virtual Backlight Backlight { get; set; }
     }
 }

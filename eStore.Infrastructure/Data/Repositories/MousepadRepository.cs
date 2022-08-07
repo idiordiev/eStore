@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
-using AutoMapper;
 using eStore.ApplicationCore.Entities;
 using eStore.ApplicationCore.Interfaces.Data;
 using Microsoft.EntityFrameworkCore;
@@ -23,6 +21,11 @@ namespace eStore.Infrastructure.Data.Repositories
         {
             return await _context.Mousepads
                 .Include(m => m.Manufacturer)
+                .Include(m => m.ConnectionTypes)
+                .ThenInclude(t => t.ConnectionType)
+                .Include(m => m.BottomMaterial)
+                .Include(m => m.TopMaterial)
+                .Include(m => m.Backlight)
                 .FirstAsync(m => m.Id == id);
         }
 
@@ -30,6 +33,11 @@ namespace eStore.Infrastructure.Data.Repositories
         {
             return await _context.Mousepads
                 .Include(m => m.Manufacturer)
+                .Include(m => m.ConnectionTypes)
+                .ThenInclude(t => t.ConnectionType)
+                .Include(m => m.BottomMaterial)
+                .Include(m => m.TopMaterial)
+                .Include(m => m.Backlight)
                 .ToListAsync();
         }
 
@@ -37,6 +45,11 @@ namespace eStore.Infrastructure.Data.Repositories
         {
             return _context.Mousepads
                 .Include(m => m.Manufacturer)
+                .Include(m => m.ConnectionTypes)
+                .ThenInclude(t => t.ConnectionType)
+                .Include(m => m.BottomMaterial)
+                .Include(m => m.TopMaterial)
+                .Include(m => m.Backlight)
                 .Where(predicate)
                 .ToList();
         }

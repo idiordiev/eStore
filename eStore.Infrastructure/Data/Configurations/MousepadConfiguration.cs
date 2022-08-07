@@ -9,10 +9,15 @@ namespace eStore.Infrastructure.Data.Configurations
         public void Configure(EntityTypeBuilder<Mousepad> builder)
         {
             builder.ToTable("Mousepads");
-            builder.Property(m => m.BottomMaterial)
-                .HasConversion<int>();
-            builder.Property(m => m.TopMaterial)
-                .HasConversion<int>();
+            builder.HasOne(m => m.BottomMaterial)
+                .WithMany()
+                .HasForeignKey(m => m.BottomMaterialId);
+            builder.HasOne(m => m.TopMaterial)
+                .WithMany()
+                .HasForeignKey(m => m.TopMaterialId);
+            builder.HasOne(m => m.Backlight)
+                .WithMany()
+                .HasForeignKey(m => m.BacklightId);
         }
     }
 }

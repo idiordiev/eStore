@@ -5,6 +5,11 @@ namespace eStore.ApplicationCore.Entities
 {
     public class Customer : Entity
     {
+        public Customer()
+        {
+            Orders = new List<Order>();
+        }
+
         public string IdentityId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -17,12 +22,7 @@ namespace eStore.ApplicationCore.Entities
         public string AddressLine1 { get; set; }
         public string AddressLine2 { get; set; }
         public string PostalCode { get; set; }
-        
-        public ICollection<Order> Orders { get; set; }
 
-        public Customer()
-        {
-            Orders = new List<Order>();
-        }
+        public ICollection<Order> Orders { get; set; }
     }
 }

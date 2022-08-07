@@ -8,6 +8,7 @@ namespace eStore.Infrastructure.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<Goods> builder)
         {
+            builder.HasKey(g => g.Id);
             builder.Property(g => g.Name)
                 .HasMaxLength(150);
             builder.Property(g => g.Description)

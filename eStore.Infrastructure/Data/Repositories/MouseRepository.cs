@@ -21,6 +21,9 @@ namespace eStore.Infrastructure.Data.Repositories
         {
             return await _context.Mouses
                 .Include(m => m.Manufacturer)
+                .Include(m => m.ConnectionTypes)
+                .ThenInclude(t => t.ConnectionType)
+                .Include(m => m.Backlight)
                 .FirstAsync(m => m.Id == id);
         }
 
@@ -28,6 +31,9 @@ namespace eStore.Infrastructure.Data.Repositories
         {
             return await _context.Mouses
                 .Include(m => m.Manufacturer)
+                .Include(m => m.ConnectionTypes)
+                .ThenInclude(t => t.ConnectionType)
+                .Include(m => m.Backlight)
                 .ToListAsync();
         }
 
@@ -35,6 +41,9 @@ namespace eStore.Infrastructure.Data.Repositories
         {
             return _context.Mouses
                 .Include(m => m.Manufacturer)
+                .Include(m => m.ConnectionTypes)
+                .ThenInclude(t => t.ConnectionType)
+                .Include(m => m.Backlight)
                 .Where(predicate)
                 .ToList();
         }
