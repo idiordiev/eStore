@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using eStore.ApplicationCore.Entities;
 using eStore.ApplicationCore.Enums;
 using eStore.ApplicationCore.Exceptions;
+using eStore.ApplicationCore.Interfaces;
 using eStore.ApplicationCore.Interfaces.Data;
 using eStore.ApplicationCore.Interfaces.Services;
 
@@ -12,11 +13,15 @@ namespace eStore.ApplicationCore.Services
 {
     public class OrderService : IOrderService
     {
+        private readonly IAttachmentService _attachmentService;
+        private readonly IEmailService _emailService;
         private readonly IUnitOfWork _unitOfWork;
 
-        public OrderService(IUnitOfWork unitOfWork)
+        public OrderService(IUnitOfWork unitOfWork, IEmailService emailService, IAttachmentService attachmentService)
         {
             _unitOfWork = unitOfWork;
+            _emailService = emailService;
+            _attachmentService = attachmentService;
         }
 
         public async Task<IEnumerable<Order>> GetOrdersByCustomerIdAsync(int customerId)
@@ -31,7 +36,13 @@ namespace eStore.ApplicationCore.Services
 
         public async Task<Order> CreateOrderAsync(int customerId)
         {
-            var order = new Order()
+            var customer = await _unitOfWork.CustomerRepository.GetByIdAsync(customerId);
+            if (customer == null)
+                throw new UserNotFoundException($"The customer with id {customerId} has not been found.");
+            if (customer.IsDeleted)
+                throw new AccountDeactivatedException($"The account with id {customerId} has  been deactivated.");
+
+            var order = new Order
             {
                 CustomerId = customerId,
                 TimeStamp = DateTime.Now,
@@ -45,7 +56,7 @@ namespace eStore.ApplicationCore.Services
         {
             if (quantity <= 0)
                 throw new InvalidQuantityException("The quantity must be greater than 0.");
-            
+
             var order = await _unitOfWork.OrderRepository.GetByIdAsync(orderId);
             if (order == null)
                 throw new OrderNotFoundException($"The order with the ID #{orderId} has not been found.");
@@ -54,7 +65,7 @@ namespace eStore.ApplicationCore.Services
             if (goods == null)
                 throw new GoodsNotFoundException($"The goods with the ID #{goodsId} has not been found.");
 
-            var orderItem = new OrderItem()
+            var orderItem = new OrderItem
             {
                 GoodsId = goodsId,
                 OrderId = orderId,
@@ -80,6 +91,28 @@ namespace eStore.ApplicationCore.Services
             await RecalculateOrderTotal(orderId);
         }
 
+        public async Task PayOrder(int orderId)
+        {
+            var order = await _unitOfWork.OrderRepository.GetByIdAsync(orderId);
+
+            if (order.Status >= OrderStatus.Paid)
+                throw new StatusChangingException($"Status cannot be changed. Current status {order.Status}");
+
+            order.Status = OrderStatus.Paid;
+            await _unitOfWork.OrderRepository.UpdateAsync(order);
+        }
+
+        public async Task CancelOrderAsync(int orderId)
+        {
+            var order = await _unitOfWork.OrderRepository.GetByIdAsync(orderId);
+
+            if (order.Status >= OrderStatus.Received)
+                throw new StatusChangingException($"Status cannot be changed. Current status {order.Status}");
+
+            order.Status = OrderStatus.Cancelled;
+            await _unitOfWork.OrderRepository.UpdateAsync(order);
+        }
+
         private async Task RecalculateOrderTotal(int orderId)
         {
             var order = await _unitOfWork.OrderRepository.GetByIdAsync(orderId);
@@ -91,28 +124,6 @@ namespace eStore.ApplicationCore.Services
 
             var total = order.OrderItems.Sum(orderItem => orderItem.UnitPrice * orderItem.Quantity);
             order.Total = total;
-            await _unitOfWork.OrderRepository.UpdateAsync(order);
-        }
-
-        public async Task PayOrder(int orderId)
-        {
-            var order = await _unitOfWork.OrderRepository.GetByIdAsync(orderId);
-
-            if (order.Status >= OrderStatus.Paid)
-                throw new StatusChangingException($"Status cannot be changed. Current status {order.Status}");
-            
-            order.Status = OrderStatus.Paid;
-            await _unitOfWork.OrderRepository.UpdateAsync(order);
-        }
-
-        public async Task CancelOrderAsync(int orderId)
-        {
-            var order = await _unitOfWork.OrderRepository.GetByIdAsync(orderId);
-            
-            if (order.Status >= OrderStatus.Received)
-                throw new StatusChangingException($"Status cannot be changed. Current status {order.Status}");
-            
-            order.Status = OrderStatus.Cancelled;
             await _unitOfWork.OrderRepository.UpdateAsync(order);
         }
     }

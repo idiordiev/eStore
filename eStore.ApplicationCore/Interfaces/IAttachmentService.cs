@@ -3,7 +3,7 @@ using eStore.ApplicationCore.Entities;
 
 namespace eStore.ApplicationCore.Interfaces
 {
-    public interface IAttachmentFormer
+    public interface IAttachmentService
     {
         Task<string> CreateOrderInfoPdfAndReturnPathAsync(Order order);
     }

@@ -5,9 +5,10 @@ namespace eStore.ApplicationCore.Interfaces.Services
 {
     public interface ICustomerService
     {
-        Task<Customer> RegisterAsync(string email, string password);
-        Task<Customer> LoginAsync(string email, string password);
-        Task ChangePasswordAsync(string email, string oldPassword, string newPassword);
+        Task AddCustomerAsync(Customer customer);
+        Task<Customer> GetCustomerByIdAsync(int customerId);
+        Task<Customer> GetCustomerByIdentityAsync(string identityId);
+        Task<bool> CheckIfAccountNotDeleted(int customerId);
         Task ChangePersonalInfo(Customer customer);
         Task DeactivateAccountAsync(int customerId);
     }
