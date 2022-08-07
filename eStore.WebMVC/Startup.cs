@@ -2,9 +2,20 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using eStore.ApplicationCore.Interfaces;
+using eStore.ApplicationCore.Interfaces.Data;
+using eStore.ApplicationCore.Interfaces.Services;
+using eStore.ApplicationCore.Services;
+using eStore.Infrastructure.Data;
+using eStore.Infrastructure.Data.UnitOfWork;
+using eStore.Infrastructure.Identity;
+using eStore.Infrastructure.Services;
+using eStore.WebMVC.Mapping;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -23,7 +34,26 @@ namespace eStore.WebMVC
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
+            services.AddControllersWithViews().AddRazorRuntimeCompilation();
+            services.AddDbContext<ApplicationContext>(options =>
+            {
+                options.UseSqlServer(Configuration.GetConnectionString("Application"));
+            });
+            services.AddDbContext<IdentityContext>(options =>
+            {
+                options.UseSqlServer(Configuration.GetConnectionString("Identity"));
+            });
+            services.AddIdentity<IdentityUser, IdentityRole>()
+                .AddEntityFrameworkStores<IdentityContext>()
+                .AddDefaultTokenProviders();
+
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IGoodsService, GoodsService>();
+            services.AddScoped<ICustomerService, CustomerService>();
+            services.AddScoped<IOrderService, OrderService>();
+            services.AddScoped<IEmailService, EmailService>();
+            services.AddScoped<IAttachmentService, AttachmentService>();
+            services.AddAutoMapper(typeof(AutomapperProfile));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -45,6 +75,7 @@ namespace eStore.WebMVC
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

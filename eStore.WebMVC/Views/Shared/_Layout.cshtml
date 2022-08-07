@@ -3,42 +3,44 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>@ViewData["Title"] - eStore.WebMVC</title>
+    <title>@ViewData["Title"] - eStore</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="~/css/site.css"/>
 </head>
 <body>
 <header>
-    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-        <div class="container">
-            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">eStore.WebMVC</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                <ul class="navbar-nav flex-grow-1">
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                    </li>
-                </ul>
-            </div>
+    <nav class="navigation">
+        <a asp-action="Index" asp-controller="Home" class="navigation-title">Scenery for desk</a>
+        <div class="navigation-item-container">
+            <a class="navigation-link" asp-action="Services" asp-controller="Home">Services</a>
+            <a class="navigation-link" asp-action="AboutUs" asp-controller="Home">About us</a>
+            <a class="navigation-link" asp-action="Faq" asp-controller="Home">FAQ</a>
+            
+            @if (User.Identity.IsAuthenticated)
+            {
+                <div class="navigation-item-container">
+                    <a class="navigation-ellipse-button">Name</a>
+                    <a class="navigation-ellipse-button" asp-action="Logout" asp-controller="Account">Logout</a>
+                </div>
+            }
+            else
+            {
+                <div class="navigation-item-container">
+                    <a class="navigation-ellipse-button" asp-action="Register" asp-controller="Account">Sign Up</a>
+                    <a class="navigation-ellipse-button" asp-action="Login" asp-controller="Account">Login</a>
+                </div>
+            }
         </div>
     </nav>
 </header>
-<div class="container">
-    <main role="main" class="pb-3">
+<div>
+    <main role="main">
         @RenderBody()
     </main>
 </div>
 
-<footer class="border-top footer text-muted">
-    <div class="container">
-        &copy; 2022 - eStore.WebMVC - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-    </div>
+<footer>
+    <div>2022</div>
 </footer>
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

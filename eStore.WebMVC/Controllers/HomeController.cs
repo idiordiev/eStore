@@ -22,8 +22,18 @@ namespace eStore.WebMVC.Controllers
         {
             return View();
         }
-
-        public IActionResult Privacy()
+        
+        public IActionResult Services()
+        {
+            return View();
+        }
+        
+        public IActionResult AboutUs()
+        {
+            return View();
+        }
+        
+        public IActionResult Faq()
         {
             return View();
         }

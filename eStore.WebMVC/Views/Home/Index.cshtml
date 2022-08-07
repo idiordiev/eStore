@@ -1,8 +1,12 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Home";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="landing-container">
+    <div class="landing-text-container">
+        <h2 class="landing-title">Your table is the best!</h2>
+        <p class="landing-text">Apparently you are tired of your gray workplace. We'll help you fix it. We have a huge range of devices and decorations for every taste.</p>
+        <a class="landing-want-button" asp-action="Index" asp-controller="Goods">I WANT</a>
+    </div>
+    <img src="img/landing.png" alt="" class="landing-image"/>
 </div>
