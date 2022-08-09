@@ -13,16 +13,10 @@ namespace eStore.Infrastructure.Data.Configurations
                 .HasConversion<int>();
             builder.Property(o => o.Total)
                 .HasColumnType("decimal(18,2)");
-            builder.Property(o => o.ShippingCountry)
-                .HasMaxLength(100);
-            builder.Property(o => o.ShippingState)
-                .HasMaxLength(2);
             builder.Property(o => o.ShippingCity)
                 .HasMaxLength(100);
-            builder.Property(o => o.ShippingAddressLine1)
-                .HasMaxLength(100);
-            builder.Property(o => o.ShippingAddressLine2)
-                .HasMaxLength(100);
+            builder.Property(o => o.ShippingAddress)
+                .HasMaxLength(200);
             builder.Property(o => o.ShippingPostalCode)
                 .HasMaxLength(10);
             builder.HasOne(o => o.Customer)

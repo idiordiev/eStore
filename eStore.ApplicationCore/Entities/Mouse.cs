@@ -4,7 +4,8 @@
     {
         public int ButtonsQuantity { get; set; }
         public string SensorName { get; set; }
-        public int SensorDPI { get; set; }
+        public int MinSensorDPI { get; set; }
+        public int MaxSensorDPI { get; set; }
         public int BacklightId { get; set; }
         public float Length { get; set; }
         public float Width { get; set; }

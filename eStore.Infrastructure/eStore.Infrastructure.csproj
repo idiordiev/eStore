@@ -1,37 +1,51 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <TargetFramework>net5.0</TargetFramework>
+        <UserSecretsId>1d384eca-4690-4df9-adf9-038b563943c5</UserSecretsId>
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Logging" />
+        <Folder Include="Logging"/>
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\eStore.ApplicationCore\eStore.ApplicationCore.csproj" />
+        <ProjectReference Include="..\eStore.ApplicationCore\eStore.ApplicationCore.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="AutoMapper" Version="11.0.1" />
-      <PackageReference Include="GemBox.Spreadsheet" Version="49.0.1067" />
-      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.17" />
-      <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.17">
-        <PrivateAssets>all</PrivateAssets>
-        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      </PackageReference>
-      <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="5.0.17" />
-      <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.17" />
-      <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.17">
-        <PrivateAssets>all</PrivateAssets>
-        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      </PackageReference>
+        <PackageReference Include="AutoMapper" Version="11.0.1"/>
+        <PackageReference Include="FluentEmail.Smtp" Version="3.0.2"/>
+        <PackageReference Include="GemBox.Spreadsheet" Version="49.0.1067"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.17"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.17">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="5.0.17"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.17"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.17">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
     </ItemGroup>
 
     <ItemGroup>
-      <None Update="External\invoice-template.xlsx">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
+        <None Update="External\invoice-template.xlsx">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="External\change-password-email-template.html">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="External\deactivate-account-email-template.html">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="External\order-email-template.html">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="External\register-email-template.html">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
 
 </Project>

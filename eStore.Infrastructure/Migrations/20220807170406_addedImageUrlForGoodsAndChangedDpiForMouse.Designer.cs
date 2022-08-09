@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eStore.Infrastructure.Data;
 
 namespace eStore.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20220807170406_addedImageUrlForGoodsAndChangedDpiForMouse")]
+    partial class addedImageUrlForGoodsAndChangedDpiForMouse
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -83,11 +85,19 @@ namespace eStore.Infrastructure.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Address")
+                    b.Property<string>("AddressLine1")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("AddressLine2")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("City")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Country")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
@@ -121,8 +131,9 @@ namespace eStore.Infrastructure.Migrations
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");
 
-                    b.Property<int>("ShoppingCartId")
-                        .HasColumnType("int");
+                    b.Property<string>("State")
+                        .HasMaxLength(2)
+                        .HasColumnType("nvarchar(2)");
 
                     b.HasKey("Id");
 
@@ -216,21 +227,6 @@ namespace eStore.Infrastructure.Migrations
                     b.HasIndex("ManufacturerId");
 
                     b.ToTable("Goods");
-                });
-
-            modelBuilder.Entity("eStore.ApplicationCore.Entities.GoodsInCart", b =>
-                {
-                    b.Property<int>("CartId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("GoodsId")
-                        .HasColumnType("int");
-
-                    b.HasKey("CartId", "GoodsId");
-
-                    b.HasIndex("GoodsId");
-
-                    b.ToTable("GoodsInCarts");
                 });
 
             modelBuilder.Entity("eStore.ApplicationCore.Entities.KeyRollover", b =>
@@ -369,17 +365,29 @@ namespace eStore.Infrastructure.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<string>("ShippingAddress")
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
+                    b.Property<string>("ShippingAddressLine1")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("ShippingAddressLine2")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("ShippingCity")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("ShippingCountry")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("ShippingPostalCode")
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");
+
+                    b.Property<string>("ShippingState")
+                        .HasMaxLength(2)
+                        .HasColumnType("nvarchar(2)");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
@@ -426,27 +434,6 @@ namespace eStore.Infrastructure.Migrations
                     b.HasIndex("OrderId");
 
                     b.ToTable("OrderItems");
-                });
-
-            modelBuilder.Entity("eStore.ApplicationCore.Entities.ShoppingCart", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("CustomerId")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CustomerId")
-                        .IsUnique();
-
-                    b.ToTable("ShoppingCarts");
                 });
 
             modelBuilder.Entity("eStore.ApplicationCore.Entities.Gamepad", b =>
@@ -640,25 +627,6 @@ namespace eStore.Infrastructure.Migrations
                     b.Navigation("Manufacturer");
                 });
 
-            modelBuilder.Entity("eStore.ApplicationCore.Entities.GoodsInCart", b =>
-                {
-                    b.HasOne("eStore.ApplicationCore.Entities.ShoppingCart", "Cart")
-                        .WithMany("Goods")
-                        .HasForeignKey("CartId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("eStore.ApplicationCore.Entities.Goods", "Goods")
-                        .WithMany("GoodsInCarts")
-                        .HasForeignKey("GoodsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Cart");
-
-                    b.Navigation("Goods");
-                });
-
             modelBuilder.Entity("eStore.ApplicationCore.Entities.KeyboardSwitch", b =>
                 {
                     b.HasOne("eStore.ApplicationCore.Entities.Manufacturer", "Manufacturer")
@@ -698,17 +666,6 @@ namespace eStore.Infrastructure.Migrations
                     b.Navigation("Goods");
 
                     b.Navigation("Order");
-                });
-
-            modelBuilder.Entity("eStore.ApplicationCore.Entities.ShoppingCart", b =>
-                {
-                    b.HasOne("eStore.ApplicationCore.Entities.Customer", "Customer")
-                        .WithOne("ShoppingCart")
-                        .HasForeignKey("eStore.ApplicationCore.Entities.ShoppingCart", "CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Customer");
                 });
 
             modelBuilder.Entity("eStore.ApplicationCore.Entities.Gamepad", b =>
@@ -854,8 +811,6 @@ namespace eStore.Infrastructure.Migrations
             modelBuilder.Entity("eStore.ApplicationCore.Entities.Customer", b =>
                 {
                     b.Navigation("Orders");
-
-                    b.Navigation("ShoppingCart");
                 });
 
             modelBuilder.Entity("eStore.ApplicationCore.Entities.Feedback", b =>
@@ -866,8 +821,6 @@ namespace eStore.Infrastructure.Migrations
             modelBuilder.Entity("eStore.ApplicationCore.Entities.Goods", b =>
                 {
                     b.Navigation("ConnectionTypes");
-
-                    b.Navigation("GoodsInCarts");
 
                     b.Navigation("OrderItems");
                 });
@@ -895,11 +848,6 @@ namespace eStore.Infrastructure.Migrations
             modelBuilder.Entity("eStore.ApplicationCore.Entities.Order", b =>
                 {
                     b.Navigation("OrderItems");
-                });
-
-            modelBuilder.Entity("eStore.ApplicationCore.Entities.ShoppingCart", b =>
-                {
-                    b.Navigation("Goods");
                 });
 
             modelBuilder.Entity("eStore.ApplicationCore.Entities.Gamepad", b =>

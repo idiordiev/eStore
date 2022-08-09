@@ -21,18 +21,15 @@ namespace eStore.Infrastructure.Data.Configurations
                 .HasMaxLength(100);
             builder.Property(c => c.PhoneNumber)
                 .HasMaxLength(20);
-            builder.Property(c => c.Country)
-                .HasMaxLength(100);
-            builder.Property(c => c.State)
-                .HasMaxLength(2);
             builder.Property(c => c.City)
                 .HasMaxLength(100);
-            builder.Property(c => c.AddressLine1)
-                .HasMaxLength(100);
-            builder.Property(c => c.AddressLine2)
+            builder.Property(c => c.Address)
                 .HasMaxLength(100);
             builder.Property(c => c.PostalCode)
                 .HasMaxLength(10);
+            builder.HasOne(c => c.ShoppingCart)
+                .WithOne(c => c.Customer)
+                .HasForeignKey<ShoppingCart>(c => c.CustomerId);
         }
     }
 }

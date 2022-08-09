@@ -23,6 +23,7 @@ namespace eStore.Infrastructure.Data
         public DbSet<Gamepad> Gamepads { get; set; }
         public DbSet<GamepadCompatibleDevice> GamepadCompatibleDevices { get; set; }
         public DbSet<Goods> Goods { get; set; }
+        public DbSet<GoodsInCart> GoodsInCarts { get; set; }
         public DbSet<Keyboard> Keyboards { get; set; }
         public DbSet<KeyboardSize> KeyboardSizes { get; set; }
         public DbSet<KeyboardSwitch> KeyboardSwitches { get; set; }
@@ -34,6 +35,7 @@ namespace eStore.Infrastructure.Data
         public DbSet<Mousepad> Mousepads { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
+        public DbSet<ShoppingCart> ShoppingCarts { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -43,10 +45,8 @@ namespace eStore.Infrastructure.Data
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
-            {
                 optionsBuilder.UseSqlServer(
                     @"Server=localhost\sqlexpress;Database=eStore;Trusted_Connection=True;MultipleActiveResultSets=True");
-            }
         }
     }
 }

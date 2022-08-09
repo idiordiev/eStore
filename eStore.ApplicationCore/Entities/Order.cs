@@ -15,11 +15,8 @@ namespace eStore.ApplicationCore.Entities
         public int CustomerId { get; set; }
         public OrderStatus Status { get; set; }
         public decimal Total { get; set; }
-        public string ShippingCountry { get; set; }
-        public string ShippingState { get; set; }
         public string ShippingCity { get; set; }
-        public string ShippingAddressLine1 { get; set; }
-        public string ShippingAddressLine2 { get; set; }
+        public string ShippingAddress { get; set; }
         public string ShippingPostalCode { get; set; }
 
         public Customer Customer { get; set; }
