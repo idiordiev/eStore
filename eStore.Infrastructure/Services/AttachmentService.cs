@@ -84,22 +84,14 @@ namespace eStore.Infrastructure.Services
 
         private string GetFullCustomerAddress(Customer customer)
         {
-            if (string.IsNullOrEmpty(customer.State))
-                return ConcatenateStringWithDelimiter(", ", customer.AddressLine1, customer.AddressLine2, customer.City,
-                    customer.Country, customer.PostalCode);
-
-            return ConcatenateStringWithDelimiter(", ", customer.AddressLine1, customer.AddressLine2, customer.City,
-                customer.State, customer.Country, customer.PostalCode);
+            return ConcatenateStringWithDelimiter(", ", customer.Address, customer.City, "Ukraine",
+                customer.PostalCode);
         }
 
         private string GetFullShippingAddress(Order order)
         {
-            if (string.IsNullOrEmpty(order.ShippingState))
-                return ConcatenateStringWithDelimiter(", ", order.ShippingAddressLine1, order.ShippingAddressLine2,
-                    order.ShippingCity, order.ShippingCountry, order.ShippingPostalCode);
-
-            return ConcatenateStringWithDelimiter(", ", order.ShippingAddressLine1, order.ShippingAddressLine2,
-                order.ShippingCity, order.ShippingState, order.ShippingCountry, order.ShippingPostalCode);
+            return ConcatenateStringWithDelimiter(", ", order.ShippingAddress, order.ShippingCity, "Ukraine",
+                order.ShippingPostalCode);
         }
 
         private string ConcatenateStringWithDelimiter(string delimiter, params string[] parts)
