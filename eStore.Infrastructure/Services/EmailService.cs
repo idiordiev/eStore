@@ -1,27 +1,60 @@
-﻿using System.Net;
+﻿using System;
+using System.IO;
+using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
+using eStore.ApplicationCore.Entities;
 using eStore.ApplicationCore.Interfaces;
 
 namespace eStore.Infrastructure.Services
 {
     public class EmailService : IEmailService
     {
-        private const string SMTP_SERVER_ADDRESS = "smtp.sendgrid.net";
-        private const int SMTP_SERVER_PORT = 587;
-        private const string SMTP_CREDENTIALS_USERNAME = "apikey";
+        private const string SmtpServerAddress = "smtp.sendgrid.net";
+        private const int SmtpServerPort = 587;
+        private const string SmtpCredentialsUsername = "apikey";
 
-        private const string SMTP_CREDENTIALS_PASSWORD =
-            "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";
+        private const string SenderEmail = "i.diordev@gmail.com";
+        private const string SenderName = "Ivan Diordiev";
 
-        private const string SENDER_EMAIL = "i.diordev@gmail.com";
-        private const string SENDER_NAME = "Ivan Diordiev";
+        private const string RegisterEmailFilePath = "bin/Debug/net5.0/External/register-email-template.html";
+        private const string DeactivationEmailFilePath = "deactivate-account-email-template.html";
+        private const string ChangePasswordEmailFilePath = "change-password-email-template.html";
+        private const string PurchaseEmailFilePath = "order-email-template.html";
+
+        public async Task SendRegisterEmailAsync(Customer customer)
+        {
+            var body = await File.ReadAllTextAsync(RegisterEmailFilePath);
+            body = body.Replace("FIRST_NAME", customer.FirstName);
+            body = body.Replace("LAST_NAME", customer.LastName);
+            body = body.Replace("PHONE_NUMBER", customer.PhoneNumber);
+            body = body.Replace("EMAIL_ADDRESS", customer.Email);
+            await SendHtmlEmailAsync(customer.Email, "You've been successfully registered at eStore.com!", body);
+        }
+
+        public async Task SendDeactivationEmailAsync(Customer customer)
+        {
+            var body = await File.ReadAllTextAsync(DeactivationEmailFilePath);
+            await SendHtmlEmailAsync(customer.Email, "Your account has been deactivated", body);
+        }
+
+        public async Task SendChangePasswordEmailAsync(string email, string link)
+        {
+            var body = await File.ReadAllTextAsync(ChangePasswordEmailFilePath);
+            await SendHtmlEmailAsync(email, "Reset password", body);
+        }
+
+        public async Task SendPurchaseEmailAsyncAsync(Order order, string attachmentFilePath)
+        {
+            var body = await File.ReadAllTextAsync(PurchaseEmailFilePath);
+            await SendHtmlEmailAsync(order.Customer.Email, "Thanks for purchase!", body, attachmentFilePath);
+        }
 
         public async Task SendHtmlEmailAsync(string emailTo, string subject, string body)
         {
             var smtpClient = GetSmtpClient();
             var mailMessage = new MailMessage();
-            mailMessage.From = new MailAddress(SENDER_EMAIL, SENDER_NAME);
+            mailMessage.From = new MailAddress(SenderEmail, SenderName);
             mailMessage.To.Add(emailTo);
             mailMessage.Subject = subject;
             mailMessage.Body = body;
@@ -33,7 +66,7 @@ namespace eStore.Infrastructure.Services
         {
             var smtpClient = GetSmtpClient();
             var mailMessage = new MailMessage();
-            mailMessage.From = new MailAddress(SENDER_EMAIL, SENDER_NAME);
+            mailMessage.From = new MailAddress(SenderEmail, SenderName);
             mailMessage.To.Add(emailTo);
             mailMessage.Subject = subject;
             mailMessage.Body = body;
@@ -44,8 +77,9 @@ namespace eStore.Infrastructure.Services
 
         private SmtpClient GetSmtpClient()
         {
-            var smtpClient = new SmtpClient(SMTP_SERVER_ADDRESS, SMTP_SERVER_PORT);
-            smtpClient.Credentials = new NetworkCredential(SMTP_CREDENTIALS_USERNAME, SMTP_CREDENTIALS_PASSWORD);
+            var smtpCredentialsPassword = Environment.GetEnvironmentVariable("SENDGRID_API_KEY");
+            var smtpClient = new SmtpClient(SmtpServerAddress, SmtpServerPort);
+            smtpClient.Credentials = new NetworkCredential(SmtpCredentialsUsername, smtpCredentialsPassword);
             return smtpClient;
         }
     }
