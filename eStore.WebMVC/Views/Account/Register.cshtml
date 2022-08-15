@@ -1,8 +1,61 @@
-﻿@model eStore.WebMVC.Models.RegisterViewModel
+﻿@model RegisterViewModel
 
 @{
     ViewBag.Title = "Sign Up";
     Layout = "_Layout";
 }
 
-<h2>title</h2>
+<div class="register-container">
+    <form asp-action="Register" asp-controller="Account" class="register-form">
+        <div class="register-form-group">
+            <label asp-for="Email" class="register-label"></label>
+            <input asp-for="Email" class="register-input" type="email"/>
+        </div>
+        <div class="register-form-group">
+            <label asp-for="Password" class="register-label"></label>
+            <input asp-for="Password" class="register-input" type="password"/>
+        </div>
+        <div class="register-form-group">
+            <label asp-for="ConfirmPassword" class="register-label"></label>
+            <input asp-for="ConfirmPassword" class="register-input" type="password"/>
+        </div>
+        <br/>
+        <div class="register-form-group">
+            <label asp-for="FirstName" class="register-label"></label>
+            <input asp-for="FirstName" class="register-input" type="text"/>
+        </div>
+        <div class="register-form-group">
+            <label asp-for="LastName" class="register-label"></label>
+            <input asp-for="LastName" class="register-input" type="text"/>
+        </div>
+        <div class="register-form-group">
+            <label asp-for="PhoneNumber" class="register-label"></label>
+            <input asp-for="PhoneNumber" class="register-input" type="tel" pattern="[0-9]{12}" placeholder="380123456789"/>
+        </div>
+        <div class="register-form-group">
+            <label asp-for="City" class="register-label"></label>
+            <input asp-for="City" class="register-input" type="text"/>
+        </div>
+        <div class="register-form-group">
+            <label asp-for="Address" class="register-label"></label>
+            <input asp-for="Address" class="register-input" type="text"/>
+        </div>
+        <div class="register-form-group">
+            <label asp-for="PostalCode" class="register-label"></label>
+            <input asp-for="PostalCode" class="register-input" type="text"/>
+        </div>
+        <div class="register-form-errors">
+            <div asp-validation-summary="All" class="register-error"></div>
+            <span asp-validation-for="Email" class="register-error"></span>
+            <span asp-validation-for="Password" class="register-error"></span>
+            <span asp-validation-for="ConfirmPassword" class="register-error"></span>
+            <span asp-validation-for="FirstName" class="register-error"></span>
+            <span asp-validation-for="LastName" class="register-error"></span>
+            <span asp-validation-for="PhoneNumber" class="register-error"></span>
+            <span asp-validation-for="City" class="register-error"></span>
+            <span asp-validation-for="Address" class="register-error"></span>
+            <span asp-validation-for="PostalCode" class="register-error"></span>
+        </div>
+        <input type="submit" class="register-submit-button" value="REGISTER"/>
+    </form>
+</div>

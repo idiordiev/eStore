@@ -15,8 +15,6 @@ namespace eStore.Infrastructure.Data.Configurations
                 .HasMaxLength(120);
             builder.Property(c => c.LastName)
                 .HasMaxLength(120);
-            builder.Property(c => c.DateOfBirth)
-                .HasColumnType("date");
             builder.Property(c => c.Email)
                 .HasMaxLength(100);
             builder.Property(c => c.PhoneNumber)
@@ -27,9 +25,6 @@ namespace eStore.Infrastructure.Data.Configurations
                 .HasMaxLength(100);
             builder.Property(c => c.PostalCode)
                 .HasMaxLength(10);
-            builder.HasOne(c => c.ShoppingCart)
-                .WithOne(c => c.Customer)
-                .HasForeignKey<ShoppingCart>(c => c.CustomerId);
         }
     }
 }

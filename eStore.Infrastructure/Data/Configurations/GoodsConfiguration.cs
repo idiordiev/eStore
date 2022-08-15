@@ -11,8 +11,6 @@ namespace eStore.Infrastructure.Data.Configurations
             builder.HasKey(g => g.Id);
             builder.Property(g => g.Name)
                 .HasMaxLength(150);
-            builder.Property(g => g.Description)
-                .HasMaxLength(500);
             builder.Property(g => g.Price)
                 .HasColumnType("decimal(18,2)");
             builder.Property(g => g.Created)
@@ -22,6 +20,9 @@ namespace eStore.Infrastructure.Data.Configurations
             builder.HasOne(g => g.Manufacturer)
                 .WithMany()
                 .HasForeignKey(g => g.ManufacturerId);
+            builder.HasOne(g => g.ConnectionType)
+                .WithMany(g => g.Goods)
+                .HasForeignKey(g => g.ConnectionTypeId);
         }
     }
 }

@@ -1,0 +1,29 @@
+﻿@model eStore.WebMVC.Models.Goods.KeyboardViewModel
+
+<a class="goods-tile" asp-action="Keyboard" asp-controller="Goods" asp-route-id="@Model.Id">
+    <div class="goods-image-container">
+        <img src="@Model.ThumbnailImageUrl" alt="@Model.Name"/>
+    </div>
+    <div class="goods-info">
+        <h3>@Model.Name</h3>
+        <div class="goods-details">
+            <div class="goods-details-column">
+                <p>Connection type: @String.Join("/", Model.ConnectionType)</p>
+                <p>Type: @Model.Type</p>
+                <p>Format: @Model.Size</p>
+                @if (!string.IsNullOrEmpty(Model.SwitchName))
+                {
+                    <p>Switches: @Model.SwitchName</p>
+                }
+                <p>#KRO: @Model.KeyRollover</p>
+            </div>
+            <div class="goods-details-column">
+                <p>Material (keycap): @Model.KeycapMaterial</p>
+                <p>Material (frame): @Model.FrameMaterial</p>
+                <p>Backlight: @Model.Backlight</p>
+                <p>Weight: @Model.Weight g</p>
+                <p>Size: @Model.Length x @Model.Width x @Model.Height mm</p>
+            </div>
+        </div>
+    </div>
+</a>

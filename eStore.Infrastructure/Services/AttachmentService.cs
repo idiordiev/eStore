@@ -34,7 +34,7 @@ namespace eStore.Infrastructure.Services
 
         private const string DiscountValueCell = "F32";
 
-        public async Task<string> CreateOrderInfoPdfAndReturnPathAsync(Order order)
+        public string CreateOrderInfoPdfAndReturnPath(Order order)
         {
             if (order == null)
                 throw new ArgumentNullException(nameof(order), "The order is null.");
@@ -44,7 +44,7 @@ namespace eStore.Infrastructure.Services
                 throw new ArgumentNullException(nameof(order.OrderItems), "The collection of the order items is null.");
 
             SpreadsheetInfo.SetLicense("FREE-LIMITED-KEY");
-            var excel = ExcelFile.Load("invoice-template.xlsx");
+            var excel = ExcelFile.Load("bin/Debug/net5.0/External/invoice-template.xlsx");
 
             var worksheet = excel.Worksheets.First();
             worksheet.Cells[InvoiceNumberCell].Value = 121;
@@ -77,35 +77,19 @@ namespace eStore.Infrastructure.Services
             // there are formulas in the template to calculate total
             worksheet.Calculate();
             var invoiceFileName =
-                $"invoices/{order.TimeStamp:yyyyMMdd}-{order.Customer.FirstName}-{order.Customer.LastName}-{order.Id}.pdf";
+                $"bin/Debug/net5.0/External/{order.TimeStamp:yyyyMMdd}-{order.Customer.FirstName}-{order.Customer.LastName}-{order.Id}.pdf";
             excel.Save(invoiceFileName);
             return invoiceFileName;
         }
 
         private string GetFullCustomerAddress(Customer customer)
         {
-            return ConcatenateStringWithDelimiter(", ", customer.Address, customer.City, "Ukraine",
-                customer.PostalCode);
+            return string.Join(", ", customer.Address, customer.City, "Ukraine", customer.PostalCode);
         }
 
         private string GetFullShippingAddress(Order order)
         {
-            return ConcatenateStringWithDelimiter(", ", order.ShippingAddress, order.ShippingCity, "Ukraine",
-                order.ShippingPostalCode);
-        }
-
-        private string ConcatenateStringWithDelimiter(string delimiter, params string[] parts)
-        {
-            if (!parts.Any())
-                return string.Empty;
-
-            if (parts.Length == 1)
-                return parts[0];
-
-            var result = parts[0];
-            foreach (var part in parts.Skip(1)) result += delimiter + part;
-
-            return result;
+            return string.Join(", ", order.ShippingAddress, order.ShippingCity, "Ukraine", order.ShippingPostalCode);
         }
     }
 }

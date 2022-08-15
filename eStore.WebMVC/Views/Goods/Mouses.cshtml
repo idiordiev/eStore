@@ -1,8 +1,59 @@
 ﻿@model System.Collections.Generic.IEnumerable<eStore.WebMVC.Models.Goods.MouseViewModel>
 
 @{
-    ViewBag.Title = "title";
+    ViewBag.Title = "Mouses";
     Layout = "_Layout";
 }
 
-<h2>title</h2>
+<aside id="filter-sidebar" class="filter-sidebar">
+    <form class="filter-list" asp-action="Mouses" asp-controller="Goods" method="get">
+        <label class="filter-category-name">BRAND</label>
+        @foreach (var manufacturer in ViewBag.Manufacturers)
+        {
+            <div class="filter-option-group">
+                <input type="checkbox" value="@manufacturer.Id" name="manufacturerIds"/>
+                <div class="filter-option-label">@manufacturer.Name</div>
+            </div>
+        }
+        <label class="filter-category-name">WEIGHT</label>
+        <div class="filter-option-group">
+            <div class="filter-option-label">Min. (g) </div>
+            <input type="number" step="1" name="minWeight" class="filter-option-price-input"/>
+        </div>
+        <div class="filter-option-group">
+            <div class="filter-option-label">Max. (g)</div>
+            <input type="number" step="1" name="maxWeight" class="filter-option-price-input"/>
+        </div>
+        
+        <label class="filter-category-name">PRICE</label>
+        <div class="filter-option-group">
+            <div class="filter-option-label">Min. </div>
+            <input type="number" step="0.01" name="minPrice" class="filter-option-price-input"/>
+        </div>
+        <div class="filter-option-group">
+            <div class="filter-option-label">Max.</div>
+            <input type="number" step="0.01" name="maxPrice" class="filter-option-price-input"/>
+        </div>
+        
+        <input type="submit" value="APPLY" class="filter-submit"/>
+    </form>
+    <button class="filter-button" onclick="toggleFilter()">
+        FILTER
+    </button>
+</aside>
+<div class="goods-title">MOUSES</div>
+<div class="goods-container">
+    @foreach (var mouse in Model)
+    {
+        @await Html.PartialAsync("_Mouse", mouse)
+    }
+</div>
+<script>
+    function toggleFilter() {
+        let sidebar = document.getElementById("filter-sidebar");
+        if (sidebar.style.left === "0px")
+            sidebar.style.left = "-180px";
+        else
+            sidebar.style.left = "0px";
+    }
+</script>

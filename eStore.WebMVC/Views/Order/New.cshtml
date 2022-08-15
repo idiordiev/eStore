@@ -1,0 +1,89 @@
+﻿@model OrderViewModel
+
+@{
+    ViewBag.Title = "New Order";
+    Layout = "_Layout";
+}
+
+<div class="new-order-container">
+    <form asp-action="New" asp-controller="Order" class="new-order-form">
+        <div class="new-order-column">
+            @for (int i = 0; i < Model.OrderItems.Count; i++)
+            {
+                <div class="new-order-item">
+                    <div class="new-order-item-column">
+                        <h3>@Model.OrderItems[i].Goods.Name</h3>
+                        <img src="@Model.OrderItems[i].Goods.ThumbnailImageUrl" alt="@Model.OrderItems[i].Goods.Name"/>
+                    </div>
+                    <div class="new-order-item-column">
+                        <input asp-for="OrderItems[i].GoodsId" hidden="hidden"/>
+                        <div class="new-order-item-group">
+                            <div class="new-order-label">Quantity:</div>
+                            <input type="number" class="new-order-quantity-input new-order-item-quantity" id="item-quantity-@i" asp-for="@Model.OrderItems[i].Quantity"/>
+                        </div>
+                        <div class="new-order-item-group">
+                            <div class="new-order-label">Unit price: </div>
+                            <div class="new-order-label new-order-item-price" id="item-price-@i">$@Model.OrderItems[i].UnitPrice</div>
+                        </div>
+                        <div class="new-order-item-group">
+                            <div class="new-order-label">Total: </div>
+                            <div class="new-order-label" id="item-total-@i">$@(Model.OrderItems[i].UnitPrice * Model.OrderItems[i].Quantity)</div>
+                        </div>
+                    </div>
+                    <a class="new-order-item-remove" asp-action="RemoveGoodsFromCart" asp-controller="Account" asp-route-goodsId="@Model.OrderItems[i].Goods.Id" asp-route-returnUrl="@Context.Request.Path">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#DFDFDF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M15 9L9 15" stroke="#DFDFDF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M9 9L15 15" stroke="#DFDFDF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </a>
+                </div>
+            }
+        </div>
+        <div class="new-order-column">
+            <h2>ORDER</h2>
+            <div class="new-order-info">
+                <div class="new-order-info-group">
+                    <label asp-for="ShippingCity" class="new-order-label"></label>
+                    <input asp-for="ShippingCity" class="new-order-input" type="text"/>
+                </div>
+                <div class="new-order-info-group">
+                    <label asp-for="ShippingAddress" class="new-order-label"></label>
+                    <input asp-for="ShippingAddress" class="new-order-input" type="text"/>
+                </div>
+                <div class="new-order-info-group">
+                    <label asp-for="ShippingPostalCode" class="new-order-label"></label>
+                    <input asp-for="ShippingPostalCode" class="new-order-input" type="text"/>
+                </div>
+                <div class="register-form-errors">
+                    <div asp-validation-summary="All" class="register-error"></div>
+                    <span asp-validation-for="ShippingCity" class="register-error"></span>
+                    <span asp-validation-for="ShippingAddress" class="register-error"></span>
+                    <span asp-validation-for="ShippingPostalCode" class="register-error"></span>
+                </div>
+                <div class="new-order-total-price" id="total-price">Total: $@Model.OrderItems.Sum(oi => oi.UnitPrice * oi.Quantity)</div>
+            </div>
+            <input type="submit" class="new-order-submit-button" value="CONFIRM"/>
+        </div>
+    </form>
+</div>
+<script>
+    let elements = document.querySelectorAll(".new-order-item-quantity");
+    elements.forEach(el => {
+        el.addEventListener('change', recalculateTotal)
+    });
+
+    function recalculateTotal() { 
+        console.log("function called");
+        let itemsCount = document.getElementsByClassName("new-order-item-quantity").length;
+        let total = 0.0;
+        for (let i = 0; i < itemsCount; i++) {
+            let quantity = parseFloat(document.getElementById("item-quantity-" + i).value);
+            let unitPrice = parseFloat(document.getElementById("item-price-" + i).innerText.substring(1).replace(",", "."));
+            let currentTotal = quantity * unitPrice;
+            document.getElementById("item-total-" + i).innerText = "$" + currentTotal.toFixed(2);
+            total += currentTotal;
+        }
+        document.getElementById("total-price").innerText = "Total: $" + total.toFixed(2);
+    }
+</script>

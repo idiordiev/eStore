@@ -1,8 +1,75 @@
 ﻿@model System.Collections.Generic.IEnumerable<eStore.WebMVC.Models.Goods.KeyboardViewModel>
 
 @{
-    ViewBag.Title = "title";
+    ViewBag.Title = "Keyboards";
     Layout = "_Layout";
 }
 
-<h2>title</h2>
+<aside id="filter-sidebar" class="filter-sidebar">
+    <form class="filter-list" asp-action="Keyboards" asp-controller="Goods" method="get">
+        <label class="filter-category-name">BRAND</label>
+        @foreach (var manufacturer in ViewBag.Manufacturers)
+        {
+            <div class="filter-option-group">
+                <input type="checkbox" value="@manufacturer.Id" name="manufacturerIds"/>
+                <div class="filter-option-label">@manufacturer.Name</div>
+            </div>
+        }
+        <label class="filter-category-name">TYPE</label>
+        @foreach (var type in ViewBag.Types)
+        {
+            <div class="filter-option-group">
+                <input type="checkbox" value="@type.Id" name="typeIds"/>
+                <div class="filter-option-label">@type.Name</div>
+            </div>
+            
+        }
+        <label class="filter-category-name">FORMAT</label>
+        @foreach (var size in ViewBag.Sizes)
+        {
+            <div class="filter-option-group">
+                <input type="checkbox" value="@size.Id" name="sizeIds"/>
+                <div class="filter-option-label">@size.Name</div>
+            </div>
+        }
+        <label class="filter-category-name">SWITCHES</label>
+        @foreach (var sw in ViewBag.Switches)
+        {
+            <div class="filter-option-group">
+                <input type="checkbox" value="@sw.Id" name="switchIds"/>
+                <div class="filter-option-label">@sw.Name</div>
+            </div>
+        }
+        <label class="filter-category-name">PRICE</label>
+        <div class="filter-option-group">
+            <div class="filter-option-label">Min. </div>
+            <input type="number" step="0.01" name="minPrice" class="filter-option-price-input"/>
+        </div>
+        <div class="filter-option-group">
+            <div class="filter-option-label">Max.</div>
+            <input type="number" step="0.01" name="maxPrice" class="filter-option-price-input"/>
+        </div>
+        
+        <input type="submit" value="APPLY" class="filter-submit"/>
+    </form>
+    <button class="filter-button" onclick="toggleFilter()">
+        FILTER
+    </button>
+</aside>
+<div class="goods-title">KEYBOARDS</div>
+<div class="goods-container">
+    @foreach (var keyboard in Model)
+    {
+        @await Html.PartialAsync("_Keyboard", keyboard)
+    }
+</div>
+<script>
+    function toggleFilter() {
+        let sidebar = document.getElementById("filter-sidebar");
+        if (sidebar.style.left === "0px")
+            sidebar.style.left = "-180px";
+        else
+            sidebar.style.left = "0px";
+    }
+</script>
+

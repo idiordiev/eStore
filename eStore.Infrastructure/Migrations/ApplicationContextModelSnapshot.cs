@@ -54,7 +54,7 @@ namespace eStore.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("CompatibleDevicess");
+                    b.ToTable("CompatibleDevices");
                 });
 
             modelBuilder.Entity("eStore.ApplicationCore.Entities.ConnectionType", b =>
@@ -91,9 +91,6 @@ namespace eStore.Infrastructure.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<DateTime>("DateOfBirth")
-                        .HasColumnType("date");
-
                     b.Property<string>("Email")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
@@ -127,21 +124,6 @@ namespace eStore.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Customers");
-                });
-
-            modelBuilder.Entity("eStore.ApplicationCore.Entities.DeviceConnectionType", b =>
-                {
-                    b.Property<int>("GoodsId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ConnectionTypeId")
-                        .HasColumnType("int");
-
-                    b.HasKey("GoodsId", "ConnectionTypeId");
-
-                    b.HasIndex("ConnectionTypeId");
-
-                    b.ToTable("DeviceConnectionTypes");
                 });
 
             modelBuilder.Entity("eStore.ApplicationCore.Entities.Feedback", b =>
@@ -185,14 +167,16 @@ namespace eStore.Infrastructure.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("BigImageUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ConnectionTypeId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("Created")
                         .HasColumnType("datetime");
 
                     b.Property<string>("Description")
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.Property<string>("ImageUrl")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsDeleted")
@@ -211,7 +195,12 @@ namespace eStore.Infrastructure.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<string>("ThumbnailImageUrl")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("ConnectionTypeId");
 
                     b.HasIndex("ManufacturerId");
 
@@ -576,9 +565,6 @@ namespace eStore.Infrastructure.Migrations
                     b.Property<int>("TopMaterialId")
                         .HasColumnType("int");
 
-                    b.Property<float>("Weight")
-                        .HasColumnType("real");
-
                     b.Property<float>("Width")
                         .HasColumnType("real");
 
@@ -589,25 +575,6 @@ namespace eStore.Infrastructure.Migrations
                     b.HasIndex("TopMaterialId");
 
                     b.ToTable("Mousepads");
-                });
-
-            modelBuilder.Entity("eStore.ApplicationCore.Entities.DeviceConnectionType", b =>
-                {
-                    b.HasOne("eStore.ApplicationCore.Entities.ConnectionType", "ConnectionType")
-                        .WithMany("Goods")
-                        .HasForeignKey("ConnectionTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("eStore.ApplicationCore.Entities.Goods", "Goods")
-                        .WithMany("ConnectionTypes")
-                        .HasForeignKey("GoodsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ConnectionType");
-
-                    b.Navigation("Goods");
                 });
 
             modelBuilder.Entity("eStore.ApplicationCore.Entities.GamepadCompatibleDevice", b =>
@@ -631,11 +598,19 @@ namespace eStore.Infrastructure.Migrations
 
             modelBuilder.Entity("eStore.ApplicationCore.Entities.Goods", b =>
                 {
+                    b.HasOne("eStore.ApplicationCore.Entities.ConnectionType", "ConnectionType")
+                        .WithMany("Goods")
+                        .HasForeignKey("ConnectionTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("eStore.ApplicationCore.Entities.Manufacturer", "Manufacturer")
                         .WithMany()
                         .HasForeignKey("ManufacturerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("ConnectionType");
 
                     b.Navigation("Manufacturer");
                 });
@@ -865,8 +840,6 @@ namespace eStore.Infrastructure.Migrations
 
             modelBuilder.Entity("eStore.ApplicationCore.Entities.Goods", b =>
                 {
-                    b.Navigation("ConnectionTypes");
-
                     b.Navigation("GoodsInCarts");
 
                     b.Navigation("OrderItems");

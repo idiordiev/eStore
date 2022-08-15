@@ -9,8 +9,8 @@ namespace eStore.ApplicationCore.Interfaces
         Task SendHtmlEmailAsync(string emailTo, string title, string text, string attachmentFilePath);
 
         Task SendRegisterEmailAsync(Customer customer);
-        Task SendDeactivationEmailAsync(Customer customer);
-        Task SendChangePasswordEmailAsync(string email, string link);
+        Task SendDeactivationEmailAsync(string email);
+        Task SendChangePasswordEmailAsync(string email);
         Task SendPurchaseEmailAsyncAsync(Order order, string attachmentFilePath);
     }
 }

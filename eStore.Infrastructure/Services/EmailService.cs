@@ -18,9 +18,9 @@ namespace eStore.Infrastructure.Services
         private const string SenderName = "Ivan Diordiev";
 
         private const string RegisterEmailFilePath = "bin/Debug/net5.0/External/register-email-template.html";
-        private const string DeactivationEmailFilePath = "deactivate-account-email-template.html";
-        private const string ChangePasswordEmailFilePath = "change-password-email-template.html";
-        private const string PurchaseEmailFilePath = "order-email-template.html";
+        private const string DeactivationEmailFilePath = "bin/Debug/net5.0/External/deactivate-account-email-template.html";
+        private const string ChangePasswordEmailFilePath = "bin/Debug/net5.0/External/change-password-email-template.html";
+        private const string PurchaseEmailFilePath = "bin/Debug/net5.0/External/order-email-template.html";
 
         public async Task SendRegisterEmailAsync(Customer customer)
         {
@@ -32,21 +32,32 @@ namespace eStore.Infrastructure.Services
             await SendHtmlEmailAsync(customer.Email, "You've been successfully registered at eStore.com!", body);
         }
 
-        public async Task SendDeactivationEmailAsync(Customer customer)
+        public async Task SendDeactivationEmailAsync(string email)
         {
             var body = await File.ReadAllTextAsync(DeactivationEmailFilePath);
-            await SendHtmlEmailAsync(customer.Email, "Your account has been deactivated", body);
+            body = body.Replace("DEACTIVATION_DATE", DateTime.Now.ToShortDateString());
+            body = body.Replace("DEACTIVATION_TIME", DateTime.Now.ToShortTimeString());
+            await SendHtmlEmailAsync(email, "Your account has been deactivated", body);
         }
 
-        public async Task SendChangePasswordEmailAsync(string email, string link)
+        public async Task SendChangePasswordEmailAsync(string email)
         {
             var body = await File.ReadAllTextAsync(ChangePasswordEmailFilePath);
+            body = body.Replace("CHANGING_DATE", DateTime.Now.ToShortDateString());
+            body = body.Replace("CHANGING_TIME", DateTime.Now.ToShortTimeString());
             await SendHtmlEmailAsync(email, "Reset password", body);
         }
 
         public async Task SendPurchaseEmailAsyncAsync(Order order, string attachmentFilePath)
         {
             var body = await File.ReadAllTextAsync(PurchaseEmailFilePath);
+            body = body.Replace("FIRST_NAME", order.Customer.FirstName);
+            body = body.Replace("LAST_NAME", order.Customer.LastName);
+            body = body.Replace("PHONE_NUMBER", order.Customer.PhoneNumber);
+            body = body.Replace("CITY", order.ShippingCity);
+            body = body.Replace("ADDRESS", order.ShippingAddress);
+            body = body.Replace("POSTAL_CODE", order.ShippingPostalCode);
+            body = body.Replace("PRICE", order.Total.ToString());
             await SendHtmlEmailAsync(order.Customer.Email, "Thanks for purchase!", body, attachmentFilePath);
         }
 

@@ -21,8 +21,7 @@ namespace eStore.Infrastructure.Data.Repositories
         {
             return await _context.Mousepads
                 .Include(m => m.Manufacturer)
-                .Include(m => m.ConnectionTypes)
-                .ThenInclude(t => t.ConnectionType)
+                .Include(m => m.ConnectionType)
                 .Include(m => m.BottomMaterial)
                 .Include(m => m.TopMaterial)
                 .Include(m => m.Backlight)
@@ -33,8 +32,7 @@ namespace eStore.Infrastructure.Data.Repositories
         {
             return await _context.Mousepads
                 .Include(m => m.Manufacturer)
-                .Include(m => m.ConnectionTypes)
-                .ThenInclude(t => t.ConnectionType)
+                .Include(m => m.ConnectionType)
                 .Include(m => m.BottomMaterial)
                 .Include(m => m.TopMaterial)
                 .Include(m => m.Backlight)
@@ -45,8 +43,7 @@ namespace eStore.Infrastructure.Data.Repositories
         {
             return _context.Mousepads
                 .Include(m => m.Manufacturer)
-                .Include(m => m.ConnectionTypes)
-                .ThenInclude(t => t.ConnectionType)
+                .Include(m => m.ConnectionType)
                 .Include(m => m.BottomMaterial)
                 .Include(m => m.TopMaterial)
                 .Include(m => m.Backlight)

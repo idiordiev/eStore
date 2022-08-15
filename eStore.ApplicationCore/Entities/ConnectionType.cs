@@ -6,11 +6,11 @@ namespace eStore.ApplicationCore.Entities
     {
         public ConnectionType()
         {
-            Goods = new List<DeviceConnectionType>();
+            Goods = new List<Goods>();
         }
 
         public string Name { get; set; }
 
-        public virtual ICollection<DeviceConnectionType> Goods { get; set; }
+        public virtual ICollection<Goods> Goods { get; set; }
     }
 }

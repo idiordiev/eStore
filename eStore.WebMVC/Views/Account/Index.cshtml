@@ -1,0 +1,180 @@
+﻿@using eStore.WebMVC.Models.Goods
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model CustomerViewModel
+
+@{
+    ViewBag.Title = "My account";
+    Layout = "_Layout";
+}
+
+<div class="account-container">
+    <div class="account-left-column">
+        <div class="account-info-container" id="account-info-container">
+            <h3>@Model.FirstName @Model.LastName</h3>
+            <p>Tel: @Model.PhoneNumber</p>
+            <p>Email: @Model.Email</p>
+            <p>City: @Model.City</p>
+            <p>Address: @Model.Address</p>
+            <p>Postal code: @Model.PostalCode</p>
+            <button class="account-info-edit-button" onclick="showEditForm()">
+                <svg width="18" height="17" viewBox="0 0 18 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M9 16H17" stroke="#AAAAAA" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M12.8274 1.54434C13.1759 1.1958 13.6486 1 14.1415 1C14.3856 1 14.6272 1.04807 14.8527 1.14147C15.0782 1.23487 15.2831 1.37176 15.4557 1.54434C15.6282 1.71692 15.7651 1.92179 15.8585 2.14728C15.9519 2.37276 16 2.61443 16 2.85849C16 3.10255 15.9519 3.34422 15.8585 3.5697C15.7651 3.79519 15.6282 4.00006 15.4557 4.17264L4.5044 15.1239L1 16L1.8761 12.4956L12.8274 1.54434Z" stroke="#AAAAAA" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+        </div>
+        <form class="account-info-edit-form" id="account-info-edit-form" asp-action="Edit" asp-controller="Account">
+            <input asp-for="Id" hidden/>
+            <input asp-for="Email" hidden/>
+            <input asp-for="IdentityId" hidden/>
+            <div class="account-edit-form-name-container">
+                <input asp-for="FirstName" class="account-edit-form-name-input"/>
+                <input asp-for="LastName" class="account-edit-form-name-input"/>
+            </div>
+            <div class="account-edit-form-group">
+                <p class="account-edit-form-label">Tel:</p>
+                <input asp-for="PhoneNumber" class="account-edit-form-input" type="tel" pattern="[0-9]{12}" placeholder="380123456789"/>
+            </div>
+            <div class="account-edit-form-group">
+                <p class="account-edit-form-label">Email: @Model.Email</p>
+            </div>
+            <div class="account-edit-form-group">
+                <p class="account-edit-form-label">City:</p>
+                <input asp-for="City" class="account-edit-form-input"/>
+            </div>
+            <div class="account-edit-form-group">
+                <p class="account-edit-form-label">Address:</p>
+                <input asp-for="Address" class="account-edit-form-input"/>
+            </div>
+            <div class="account-edit-form-group">
+                <p class="account-edit-form-label">Postal code:</p>
+                <input asp-for="PostalCode" class="account-edit-form-input"/>
+            </div>
+            <div class="account-edit-form-group">
+                <div asp-validation-summary="All" class="register-error"></div>
+                <span asp-validation-for="FirstName" class="register-error"></span>
+                <span asp-validation-for="LastName" class="register-error"></span>
+                <span asp-validation-for="PhoneNumber" class="register-error"></span>
+                <span asp-validation-for="City" class="register-error"></span>
+                <span asp-validation-for="Address" class="register-error"></span>
+                <span asp-validation-for="PostalCode" class="register-error"></span>
+            </div>
+            <input type="submit" value="SAVE" class="account-edit-form-submit"/>
+            <button class="account-edit-form-close" id="account-edit-form-close" onclick="closeEditForm()">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#DFDFDF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M15 9L9 15" stroke="#DFDFDF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M9 9L15 15" stroke="#DFDFDF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+        </form>
+        <a class="account-change-password" asp-action="ChangePassword" asp-controller="Account"><div>CHANGE</div><div>PASSWORD</div></a>
+        <button class="deactivate-account" onclick="showDeactivationWindow()">DEACTIVATE</button>
+    </div>
+    <div class="account-deactivation-window" id="account-deactivation-window">
+        <h3>ARE YOU SURE YOU WANT TO DEACTIVATE YOUR ACCOUNT?</h3>
+        <div class="account-deactivation-button-container">
+            <a class="account-deactivation-yes-button" asp-action="DeactivateAccount" asp-controller="Account">YES</a>
+            <button class="account-deactivation-no-button" onclick="closeDeactivationWindow()">NO</button>
+        </div>
+    </div>
+    <div class="account-right-column">
+        <h3>CART</h3>
+        <div class="account-cart-container">
+            @if (Model.GoodsInCart.Any())
+            {
+                @foreach (var goods in Model.GoodsInCart)
+                {
+                    if (goods is KeyboardViewModel keyboardModel)
+                    {
+                        <div class="account-cart-item">
+                            @await Html.PartialAsync("_Keyboard", keyboardModel)
+                            <a class="cart-remove-item-button" asp-action="RemoveGoodsFromCart" asp-controller="Account" asp-route-goodsId="@keyboardModel.Id" asp-route-returnUrl="@Context.Request.Path">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#DFDFDF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M15 9L9 15" stroke="#DFDFDF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M9 9L15 15" stroke="#DFDFDF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </a>
+                        </div>
+                    }
+                    else if (goods is MouseViewModel mouseModel)
+                    {
+                        <div class="account-cart-item">
+                            @await Html.PartialAsync("_Mouse", mouseModel)
+                            <a class="cart-remove-item-button" asp-action="RemoveGoodsFromCart" asp-controller="Account" asp-route-goodsId="@mouseModel.Id" asp-route-returnUrl="@Context.Request.Path">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#DFDFDF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M15 9L9 15" stroke="#DFDFDF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M9 9L15 15" stroke="#DFDFDF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </a>
+                        </div>
+                    }
+                    else if (goods is MousepadViewModel mousepadModel)
+                    {
+                        <div class="account-cart-item">
+                            @await Html.PartialAsync("_Mousepad", mousepadModel)
+                            <a class="cart-remove-item-button" asp-action="RemoveGoodsFromCart" asp-controller="Account" asp-route-goodsId="@mousepadModel.Id" asp-route-returnUrl="@Context.Request.Path" >
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#DFDFDF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M15 9L9 15" stroke="#DFDFDF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M9 9L15 15" stroke="#DFDFDF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </a>
+                        </div>
+                    }
+                    else if (goods is GamepadViewModel gamepadModel)
+                    {
+                        <div class="account-cart-item">
+                            @await Html.PartialAsync("_Gamepad", gamepadModel)
+                            <a class="cart-remove-item-button" asp-action="RemoveGoodsFromCart" asp-controller="Account" asp-route-goodsId="@gamepadModel.Id" asp-route-returnUrl="@Context.Request.Path">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#DFDFDF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M15 9L9 15" stroke="#DFDFDF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M9 9L15 15" stroke="#DFDFDF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </a>
+                        </div>
+                    }
+                }
+            }
+            else
+            {
+                <div class="account-cart-no-items">There are no goods in your cart.</div>
+            }
+        </div>
+        <div class="account-buttons-container">
+            <a class="account-order-button" asp-action="New" asp-controller="Order">ORDER</a>
+            <a class="account-history-button" asp-action="Index" asp-controller="Order">HISTORY</a>
+        </div>
+    </div>
+</div>
+@section Scripts
+{
+    <script>
+        function showEditForm() {
+            let form = document.getElementById("account-info-edit-form");
+            let infoContainer = document.getElementById("account-info-container");
+            form.style.display = "flex";
+            infoContainer.style.display = "none";
+        }
+        
+        function closeEditForm() {
+            let form = document.getElementById("account-info-edit-form");
+            let infoContainer = document.getElementById("account-info-container");
+            form.style.display = "none";
+            infoContainer.style.display = "flex";
+        }
+               
+        function showDeactivationWindow() {
+            let window = document.getElementById("account-deactivation-window");
+            window.style.display = "flex";
+        }
+        
+        function closeDeactivationWindow() {
+            let window = document.getElementById("account-deactivation-window");
+            window.style.display = "none";
+        }
+    </script>
+}

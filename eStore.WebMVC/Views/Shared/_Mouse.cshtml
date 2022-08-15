@@ -1,0 +1,23 @@
+﻿@model eStore.WebMVC.Models.Goods.MouseViewModel
+
+<a class="goods-tile" asp-action="Mouse" asp-controller="Goods" asp-route-id="@Model.Id">
+    <div class="goods-image-container">
+        <img src="@Model.ThumbnailImageUrl" alt="@Model.Name"/>
+    </div>
+    <div class="goods-info">
+        <h3>@Model.Name</h3>
+        <div class="goods-details">
+            <div class="goods-details-column">
+                <p>Connection type: @Model.ConnectionType</p>
+                <p>Number of buttons: @Model.ButtonsQuantity</p>
+                <p>Sensor: @Model.SensorName</p>
+                <p>Resolution: @Model.MinSensorDPI - @Model.MaxSensorDPI DPI</p>
+            </div>
+            <div class="goods-details-column">
+                <p>Backlight: @Model.Backlight</p>
+                <p>Weight: @Model.Weight</p>
+                <p>Size: @Model.Length x @Model.Width x @Model.Height mm</p>
+            </div>
+        </div>
+    </div>
+</a>

@@ -1,13 +1,7 @@
 ﻿namespace eStore.WebMVC.Models.Goods
 {
-    public class MousepadViewModel
+    public class MousepadViewModel : GoodsViewModel
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string ManufacturerName { get; set; }
-        public string Description { get; set; }
-        public decimal Price { get; set; }
-        public string ConnectionType { get; set; }
         public bool IsStitched { get; set; }
         public string TopMaterial { get; set; }
         public string BottomMaterial { get; set; }

@@ -1,0 +1,21 @@
+﻿@model eStore.WebMVC.Models.Goods.MousepadViewModel
+
+<a class="goods-tile" asp-action="Mousepad" asp-controller="Goods" asp-route-id="@Model.Id">
+    <div class="goods-image-container">
+        <img src="@Model.ThumbnailImageUrl" alt="@Model.Name"/>
+    </div>
+    <div class="goods-info">
+        <h3>@Model.Name</h3>
+        <div class="goods-details">
+            <div class="goods-details-column">
+                <p>Base material: @Model.BottomMaterial</p>
+                <p>Surface material: @Model.TopMaterial</p>
+                <p>Stitched contour: @Model.IsStitched</p>
+            </div>
+            <div class="goods-details-column">
+                <p>Backlight: @Model.Backlight</p>
+                <p>Size: @Model.Length x @Model.Width x @Model.Height mm</p>
+            </div>
+        </div>
+    </div>
+</a>

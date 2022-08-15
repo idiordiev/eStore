@@ -5,6 +5,6 @@ namespace eStore.ApplicationCore.Interfaces
 {
     public interface IAttachmentService
     {
-        Task<string> CreateOrderInfoPdfAndReturnPathAsync(Order order);
+        string CreateOrderInfoPdfAndReturnPath(Order order);
     }
 }

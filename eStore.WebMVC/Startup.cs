@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using eStore.ApplicationCore.Interfaces;
 using eStore.ApplicationCore.Interfaces.Data;
-using eStore.ApplicationCore.Interfaces.Services;
 using eStore.ApplicationCore.Services;
 using eStore.Infrastructure.Data;
 using eStore.Infrastructure.Data.UnitOfWork;
@@ -43,16 +42,32 @@ namespace eStore.WebMVC
             {
                 options.UseSqlServer(Configuration.GetConnectionString("Identity"));
             });
-            services.AddIdentity<IdentityUser, IdentityRole>()
+            services.AddIdentity<ApplicationUser, IdentityRole>(opt =>
+                {
+                    opt.Password.RequireDigit = true;
+                    opt.Password.RequiredLength = 6;
+                    opt.Password.RequireLowercase = false;
+                    opt.Password.RequireUppercase = false;
+                    opt.Password.RequiredUniqueChars = 2;
+                    opt.Password.RequireNonAlphanumeric = false;
+
+                    opt.User.RequireUniqueEmail = true;
+                })
                 .AddEntityFrameworkStores<IdentityContext>()
                 .AddDefaultTokenProviders();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IGoodsService, GoodsService>();
+            services.AddScoped<IGamepadService, GamepadService>();
+            services.AddScoped<IKeyboardService, KeyboardService>();
+            services.AddScoped<IMouseService, MouseService>();
+            services.AddScoped<IMousepadService, MousepadService>();
             services.AddScoped<ICustomerService, CustomerService>();
             services.AddScoped<IOrderService, OrderService>();
+            
             services.AddScoped<IEmailService, EmailService>();
             services.AddScoped<IAttachmentService, AttachmentService>();
+            
             services.AddAutoMapper(typeof(AutomapperProfile));
         }
 

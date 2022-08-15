@@ -1,6 +1,9 @@
-﻿namespace eStore.ApplicationCore.Entities
+﻿using eStore.ApplicationCore.Interfaces;
+using eStore.ApplicationCore.Interfaces.DTO;
+
+namespace eStore.ApplicationCore.Entities
 {
-    public class OrderItem : Entity
+    public class OrderItem : Entity, IOrderItem
     {
         public int OrderId { get; set; }
         public int GoodsId { get; set; }

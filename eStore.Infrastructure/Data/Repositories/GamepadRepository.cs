@@ -21,8 +21,7 @@ namespace eStore.Infrastructure.Data.Repositories
         {
             return await _context.Gamepads
                 .Include(g => g.Manufacturer)
-                .Include(g => g.ConnectionTypes)
-                .ThenInclude(t => t.ConnectionType)
+                .Include(g => g.ConnectionType)
                 .Include(g => g.Feedback)
                 .Include(g => g.CompatibleDevices)
                 .ThenInclude(d => d.CompatibleDevice)
@@ -33,8 +32,7 @@ namespace eStore.Infrastructure.Data.Repositories
         {
             return await _context.Gamepads
                 .Include(g => g.Manufacturer)
-                .Include(g => g.ConnectionTypes)
-                .ThenInclude(t => t.ConnectionType)
+                .Include(g => g.ConnectionType)
                 .Include(g => g.Feedback)
                 .Include(g => g.CompatibleDevices)
                 .ThenInclude(d => d.CompatibleDevice)
@@ -45,8 +43,7 @@ namespace eStore.Infrastructure.Data.Repositories
         {
             return _context.Gamepads
                 .Include(g => g.Manufacturer)
-                .Include(g => g.ConnectionTypes)
-                .ThenInclude(t => t.ConnectionType)
+                .Include(g => g.ConnectionType)
                 .Include(g => g.Feedback)
                 .Include(g => g.CompatibleDevices)
                 .ThenInclude(d => d.CompatibleDevice)

@@ -15,10 +15,9 @@ namespace eStore.Infrastructure.Data
         }
 
         public DbSet<Backlight> Backlights { get; set; }
-        public DbSet<CompatibleDevice> CompatibleDevicess { get; set; }
+        public DbSet<CompatibleDevice> CompatibleDevices { get; set; }
         public DbSet<ConnectionType> ConnectionTypes { get; set; }
         public DbSet<Customer> Customers { get; set; }
-        public DbSet<DeviceConnectionType> DeviceConnectionTypes { get; set; }
         public DbSet<Feedback> Feedbacks { get; set; }
         public DbSet<Gamepad> Gamepads { get; set; }
         public DbSet<GamepadCompatibleDevice> GamepadCompatibleDevices { get; set; }

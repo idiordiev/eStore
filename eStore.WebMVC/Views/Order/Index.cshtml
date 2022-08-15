@@ -1,0 +1,41 @@
+﻿@model System.Collections.Generic.IEnumerable<eStore.WebMVC.Models.OrderViewModel>
+
+@{
+    ViewBag.Title = "My Orders";
+    Layout = "_Layout";
+}
+
+<div class="orders-history-container">
+    <h2>HISTORY</h2>
+    <div class="orders-history-list">
+        @foreach (var order in Model)
+        {
+            <div class="order-tile">
+                <div class="order-tile-items-column">
+                    @foreach (var item in order.OrderItems)
+                    {
+                        <div class="order-item-group">
+                            <div class="order-item-name">@item.Goods.Name</div>
+                            <div class="order-item-price">$@item.UnitPrice</div>
+                        </div>
+                    }
+                </div>
+                <div class="order-tile-info-column">
+                    <div class="order-item-group">
+                        <div class="order-item-name">Date:</div>
+                        <div class="order-item-name">@order.TimeStamp.ToShortDateString()</div>
+                    </div>
+                    <div class="order-item-group">
+                        <div class="order-item-name">Order number:</div>
+                        <div class="order-item-name">@order.Id</div>
+                    </div>
+                    <div class="order-item-group">
+                        <div class="order-item-name">Status: </div>
+                        <div class="order-item-name">@order.Status</div>
+                    </div>
+                </div>
+                <div class="order-tile-total">$@order.Total</div>
+            </div>
+        }
+    </div>
+</div>

@@ -9,6 +9,9 @@ namespace eStore.Infrastructure.Data.Configurations
         public void Configure(EntityTypeBuilder<ShoppingCart> builder)
         {
             builder.HasKey(c => c.Id);
+            builder.HasOne<Customer>(sc => sc.Customer)
+                .WithOne(c => c.ShoppingCart)
+                .HasForeignKey<ShoppingCart>(sc => sc.CustomerId);
         }
     }
 }
