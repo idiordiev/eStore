@@ -45,7 +45,7 @@ namespace eStore.Infrastructure.Services
             var body = await File.ReadAllTextAsync(ChangePasswordEmailFilePath);
             body = body.Replace("CHANGING_DATE", DateTime.Now.ToShortDateString());
             body = body.Replace("CHANGING_TIME", DateTime.Now.ToShortTimeString());
-            await SendHtmlEmailAsync(email, "Reset password", body);
+            await SendHtmlEmailAsync(email, "You have changed password", body);
         }
 
         public async Task SendPurchaseEmailAsyncAsync(Order order, string attachmentFilePath)

@@ -42,7 +42,7 @@ namespace eStore.WebMVC.Controllers
         [HttpGet("keyboards")]
         public async Task<IActionResult> Keyboards([FromQuery] ICollection<int> manufacturerIds, 
             [FromQuery] ICollection<int> typeIds, 
-            [FromQuery] ICollection<int> switchIds, 
+            [FromQuery] ICollection<int?> switchIds, 
             [FromQuery] ICollection<int> sizeIds,
             [FromQuery] decimal? minPrice,
             [FromQuery] decimal? maxPrice)

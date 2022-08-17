@@ -9,40 +9,40 @@
     <form asp-action="Register" asp-controller="Account" class="register-form">
         <div class="register-form-group">
             <label asp-for="Email" class="register-label"></label>
-            <input asp-for="Email" class="register-input" type="email"/>
+            <input asp-for="Email" class="register-input" type="email" autocomplete="off"/>
         </div>
         <div class="register-form-group">
             <label asp-for="Password" class="register-label"></label>
-            <input asp-for="Password" class="register-input" type="password"/>
+            <input asp-for="Password" class="register-input" type="password" autocomplete="off"/>
         </div>
         <div class="register-form-group">
             <label asp-for="ConfirmPassword" class="register-label"></label>
-            <input asp-for="ConfirmPassword" class="register-input" type="password"/>
+            <input asp-for="ConfirmPassword" class="register-input" type="password" autocomplete="off"/>
         </div>
         <br/>
         <div class="register-form-group">
             <label asp-for="FirstName" class="register-label"></label>
-            <input asp-for="FirstName" class="register-input" type="text"/>
+            <input asp-for="FirstName" class="register-input" type="text" autocomplete="off"/>
         </div>
         <div class="register-form-group">
             <label asp-for="LastName" class="register-label"></label>
-            <input asp-for="LastName" class="register-input" type="text"/>
+            <input asp-for="LastName" class="register-input" type="text" autocomplete="off"/>
         </div>
         <div class="register-form-group">
             <label asp-for="PhoneNumber" class="register-label"></label>
-            <input asp-for="PhoneNumber" class="register-input" type="tel" pattern="[0-9]{12}" placeholder="380123456789"/>
+            <input asp-for="PhoneNumber" class="register-input" type="tel" pattern="[0-9]{12}" placeholder="380123456789" autocomplete="off"/>
         </div>
         <div class="register-form-group">
             <label asp-for="City" class="register-label"></label>
-            <input asp-for="City" class="register-input" type="text"/>
+            <input asp-for="City" class="register-input" type="text" autocomplete="off"/>
         </div>
         <div class="register-form-group">
             <label asp-for="Address" class="register-label"></label>
-            <input asp-for="Address" class="register-input" type="text"/>
+            <input asp-for="Address" class="register-input" type="text" autocomplete="off"/>
         </div>
         <div class="register-form-group">
             <label asp-for="PostalCode" class="register-label"></label>
-            <input asp-for="PostalCode" class="register-input" type="text"/>
+            <input asp-for="PostalCode" class="register-input" type="text" autocomplete="off"/>
         </div>
         <div class="register-form-errors">
             <div asp-validation-summary="All" class="register-error"></div>

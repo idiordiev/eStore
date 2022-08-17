@@ -2,7 +2,7 @@
 {
     public class MouseFilterModel : GoodsFilterModel
     {
-        public int? MinWeight { get; set; }
-        public int? MaxWeight { get; set; }
+        public float? MinWeight { get; set; }
+        public float? MaxWeight { get; set; }
     }
 }

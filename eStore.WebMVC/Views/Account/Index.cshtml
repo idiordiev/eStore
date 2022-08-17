@@ -28,27 +28,27 @@
             <input asp-for="Email" hidden/>
             <input asp-for="IdentityId" hidden/>
             <div class="account-edit-form-name-container">
-                <input asp-for="FirstName" class="account-edit-form-name-input"/>
-                <input asp-for="LastName" class="account-edit-form-name-input"/>
+                <input asp-for="FirstName" class="account-edit-form-name-input" autocomplete="off"/>
+                <input asp-for="LastName" class="account-edit-form-name-input" autocomplete="off"/>
             </div>
             <div class="account-edit-form-group">
                 <p class="account-edit-form-label">Tel:</p>
-                <input asp-for="PhoneNumber" class="account-edit-form-input" type="tel" pattern="[0-9]{12}" placeholder="380123456789"/>
+                <input asp-for="PhoneNumber" class="account-edit-form-input" type="tel" pattern="[0-9]{12}" placeholder="380123456789" autocomplete="off"/>
             </div>
             <div class="account-edit-form-group">
                 <p class="account-edit-form-label">Email: @Model.Email</p>
             </div>
             <div class="account-edit-form-group">
                 <p class="account-edit-form-label">City:</p>
-                <input asp-for="City" class="account-edit-form-input"/>
+                <input asp-for="City" class="account-edit-form-input" autocomplete="off"/>
             </div>
             <div class="account-edit-form-group">
                 <p class="account-edit-form-label">Address:</p>
-                <input asp-for="Address" class="account-edit-form-input"/>
+                <input asp-for="Address" class="account-edit-form-input" autocomplete="off"/>
             </div>
             <div class="account-edit-form-group">
                 <p class="account-edit-form-label">Postal code:</p>
-                <input asp-for="PostalCode" class="account-edit-form-input"/>
+                <input asp-for="PostalCode" class="account-edit-form-input" autocomplete="off"/>
             </div>
             <div class="account-edit-form-group">
                 <div asp-validation-summary="All" class="register-error"></div>
@@ -70,13 +70,6 @@
         </form>
         <a class="account-change-password" asp-action="ChangePassword" asp-controller="Account"><div>CHANGE</div><div>PASSWORD</div></a>
         <button class="deactivate-account" onclick="showDeactivationWindow()">DEACTIVATE</button>
-    </div>
-    <div class="account-deactivation-window" id="account-deactivation-window">
-        <h3>ARE YOU SURE YOU WANT TO DEACTIVATE YOUR ACCOUNT?</h3>
-        <div class="account-deactivation-button-container">
-            <a class="account-deactivation-yes-button" asp-action="DeactivateAccount" asp-controller="Account">YES</a>
-            <button class="account-deactivation-no-button" onclick="closeDeactivationWindow()">NO</button>
-        </div>
     </div>
     <div class="account-right-column">
         <h3>CART</h3>
@@ -147,6 +140,15 @@
         <div class="account-buttons-container">
             <a class="account-order-button" asp-action="New" asp-controller="Order">ORDER</a>
             <a class="account-history-button" asp-action="Index" asp-controller="Order">HISTORY</a>
+        </div>
+    </div>
+</div>
+<div class="account-deactivation-container" id="account-deactivation-window">
+    <div class="account-deactivation-window">
+        <h3>ARE YOU SURE YOU WANT TO DEACTIVATE YOUR ACCOUNT?</h3>
+        <div class="account-deactivation-button-container">
+            <a class="account-deactivation-yes-button" asp-action="DeactivateAccount" asp-controller="Account">YES</a>
+            <button class="account-deactivation-no-button" onclick="closeDeactivationWindow()">NO</button>
         </div>
     </div>
 </div>

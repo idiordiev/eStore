@@ -138,10 +138,6 @@ footer {
     background-color: #1C1C1C;
 }
 
-.main {
-    position: relative;
-}
-
 .landing-container {
     display: flex;
     flex-direction: row;
@@ -479,7 +475,7 @@ footer {
 }
 
 .filter-option-price-input {
-    width: 50px;
+    width: 40px;
     height: 30px;
     font-family: 'Inter', sans-serif;
     font-weight: 400;
@@ -487,6 +483,7 @@ footer {
     color: #131313;
     background: transparent;
     border: 0;
+    border-bottom: 1px solid #888888;
 }
 
 .filter-option-price-input:focus {
@@ -569,7 +566,7 @@ footer {
     width: 980px;
     flex-direction: row;
     border: 1px solid #FFFFFF;
-    align-items: center;
+    align-items: flex-start;
     justify-content: flex-start;
     border-radius: 20px;
 }
@@ -586,7 +583,8 @@ footer {
 }
 
 .goods-image-container img {
-    width: 300px;
+    max-height: 200px;
+    max-width: 260px;
 }
 
 .goods-info {
@@ -597,6 +595,7 @@ footer {
     gap: 5px;
     margin-left: auto;
     margin-right: auto;
+    margin-top: 20px;
 }
 
 .goods-info h3 {
@@ -734,7 +733,7 @@ footer {
     display: flex;
     flex-direction: row;
     align-items: flex-start;
-    justify-content: space-between;
+    justify-content: center;
     margin-top: 20px;
 }
 
@@ -744,6 +743,13 @@ footer {
     width: calc(60vw);
     align-items: center;
     justify-content: flex-start;
+    -webkit-transition: margin-left .5s, opacity 1s;
+    -moz-transition:    margin-left .5s, opacity 1s;
+    -ms-transition:     margin-left .5s, opacity 1s;
+    -o-transition:      margin-left .5s, opacity 1s;
+    transition:         margin-left .5s, opacity 1s;
+    opacity: 0;
+    margin-left: -200px;
 }
 
 .goods-page-left-column h2 {
@@ -760,6 +766,7 @@ footer {
 
 .goods-page-right-column {
     display: flex;
+    height: 100%;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
@@ -771,10 +778,7 @@ footer {
     -ms-transition:     padding 1s, opacity 1s;
     -o-transition:      padding 1s, opacity 1s;
     transition:         padding 1s, opacity 1s;
-    padding-top: 40px;
-    padding-right: 40px;
-    padding-bottom: 40px;
-    padding-left: 0;
+    padding: 40px 80px 40px 0;
 }
 
 .goods-page-details-container {
@@ -864,7 +868,17 @@ footer {
     color: #1C1C1C;
 }
 
-.goods-page-cart-button:disabled {
+.goods-page-cart-button-disabled {
+    display: flex;
+    height: 50px;
+    width: 170px;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    font-size: 20px;
+    border-radius: 25px;
+    margin-top: 20px;
     border: 1px solid #000000;
     background-color: #000000;
     color: #E4E4E4;
@@ -1095,22 +1109,35 @@ footer {
     color: #D40000;
 }
 
+.account-deactivation-container {
+    position: absolute; 
+    top: 0; 
+    left: 0; 
+    width: 100%; 
+    height: 100%; 
+    background-color: transparent;
+    display: none;
+    z-index: 5;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+}
+
 .account-deactivation-window {
+    display: flex;
     width: 300px;
     height: 300px;
     position: absolute;
-    backdrop-filter:blur(5px);
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
     z-index: 10;
-    display: none;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     background-color: #E4E4E4;
     border: none;
     border-radius: 20px;
+    filter: none;
 }
 
 .account-deactivation-window h3 {
@@ -1375,12 +1402,13 @@ footer {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    margin-top: 100px;
 }
 
 .new-order-form {
     display: flex;
     flex-direction: row;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
     gap: 100px;
 }
@@ -1395,13 +1423,14 @@ footer {
 
 .new-order-item {
     display: flex;
+    width: 600px;
     flex-direction: row;
     align-items: flex-start;
-    justify-content: flex-start;
+    justify-content: space-between;
     position: relative;
     border: 1px solid #CFCFCF;
     border-radius: 20px;
-    padding: 20px 40px 20px 20px;
+    padding: 20px 40px 20px 40px;
     gap: 20px;
 }
 
@@ -1417,6 +1446,12 @@ footer {
     font-weight: 700;
     font-size: 26px;
     color: #DFDFDF;
+}
+
+.new-order-item-column img {
+    max-width: 300px;
+    max-height: 120px;
+    align-self: center;
 }
 
 .new-order-item-group {

@@ -9,11 +9,11 @@
     <form asp-action="Login" asp-controller="Account" class="register-form">
         <div class="register-form-group">
             <label asp-for="Email" class="register-label"></label>
-            <input asp-for="Email" class="register-input" type="email"/>
+            <input asp-for="Email" class="register-input" type="email" autocomplete="off"/>
         </div>
         <div class="register-form-group">
             <label asp-for="Password" class="register-label"></label>
-            <input asp-for="Password" class="register-input" type="password"/>
+            <input asp-for="Password" class="register-input" type="password" autocomplete="off"/>
         </div>
         <div class="register-form-group" style="justify-content: flex-start">
             <label asp-for="RememberMe" class="register-label"></label>

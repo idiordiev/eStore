@@ -6,9 +6,9 @@
 }
 
 <div class="goods-page-container">
-    <div class="goods-page-left-column">
+    <div class="goods-page-left-column" id="goods-page-left-column">
         <h2>@Model.Name</h2>
-        <img src="@Model.BigImageUrl" alt="Goods Image"/>
+        <img src="@Model.BigImageUrl" alt="@Model.Name"/>
     </div>
     <div class="goods-page-right-column" id="goods-page-right-column">
         <div class="goods-page-details-container">
@@ -20,7 +20,7 @@
             </div>
             <div class="goods-page-details-column">
                 <p>Backlight: @Model.Backlight</p>
-                <p>Weight: @Model.Weight</p>
+                <p>Weight: @Model.Weight g</p>
                 <p>Size: @Model.Length x @Model.Width x @Model.Height mm</p>
                 
             </div>
@@ -41,13 +41,17 @@
                 }
                 else
                 {
-                    <a id="cart-button" class="goods-page-cart-button" asp-action="RemoveGoodsFromCart" asp-controller="Account" asp-route-goodsId="@Model.Id" asp-route-returnUrl="@Context.Request.Path">
-                        REMOVE FROM CART
-                    </a>
+                    <button id="cart-button" class="goods-page-cart-button-disabled" asp-action="RemoveGoodsFromCart" asp-controller="Account" asp-route-goodsId="@Model.Id" asp-route-returnUrl="@Context.Request.Path">
+                        <svg width="26" height="19" viewBox="0 0 26 19" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M24 2L8.875 17.125L2 10.25" stroke="white" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </button>
                 }
     </div>
 </div>
 <script>
+    let leftColumn = document.getElementById("goods-page-left-column");
+    leftColumn.style.marginLeft = "0";
+    leftColumn.style.opacity = "100%";
+
     let descriptionElement = document.getElementById("goods-page-right-column");
     descriptionElement.style.opacity = "100%";
     descriptionElement.style.padding = "40px";

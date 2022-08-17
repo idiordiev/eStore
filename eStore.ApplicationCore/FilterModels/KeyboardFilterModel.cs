@@ -6,6 +6,6 @@ namespace eStore.ApplicationCore.FilterModels
     {
         public ICollection<int> KeyboardTypeIds { get; set; }
         public ICollection<int> KeyboardSizeIds { get; set; }
-        public ICollection<int> SwitchIds { get; set; }
+        public ICollection<int?> SwitchIds { get; set; }
     }
 }

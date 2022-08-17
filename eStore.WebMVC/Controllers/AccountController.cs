@@ -200,6 +200,11 @@ namespace eStore.WebMVC.Controllers
             if (ModelState.IsValid)
             {
                 var user = await _userManager.GetUserAsync(HttpContext.User);
+                if (!await _userManager.CheckPasswordAsync(user, model.OldPassword))
+                {
+                    ModelState.AddModelError("", "The current password is not correct.");
+                    return View(model);
+                }
                 await _userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
                 await _emailService.SendChangePasswordEmailAsync(user.Email);
                 return RedirectToAction("Index", "Account");

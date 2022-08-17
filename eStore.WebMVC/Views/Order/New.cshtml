@@ -7,7 +7,7 @@
 
 <div class="new-order-container">
     <form asp-action="New" asp-controller="Order" class="new-order-form">
-        <div class="new-order-column">
+        <div class="new-order-column" style="margin-top: 60px">
             @for (int i = 0; i < Model.OrderItems.Count; i++)
             {
                 <div class="new-order-item">
@@ -19,7 +19,7 @@
                         <input asp-for="OrderItems[i].GoodsId" hidden="hidden"/>
                         <div class="new-order-item-group">
                             <div class="new-order-label">Quantity:</div>
-                            <input type="number" class="new-order-quantity-input new-order-item-quantity" id="item-quantity-@i" asp-for="@Model.OrderItems[i].Quantity"/>
+                            <input type="number" min="1" max="99" class="new-order-quantity-input new-order-item-quantity" id="item-quantity-@i" asp-for="@Model.OrderItems[i].Quantity"/>
                         </div>
                         <div class="new-order-item-group">
                             <div class="new-order-label">Unit price: </div>
@@ -45,15 +45,15 @@
             <div class="new-order-info">
                 <div class="new-order-info-group">
                     <label asp-for="ShippingCity" class="new-order-label"></label>
-                    <input asp-for="ShippingCity" class="new-order-input" type="text"/>
+                    <input asp-for="ShippingCity" class="new-order-input" type="text" autocomplete="off"/>
                 </div>
                 <div class="new-order-info-group">
                     <label asp-for="ShippingAddress" class="new-order-label"></label>
-                    <input asp-for="ShippingAddress" class="new-order-input" type="text"/>
+                    <input asp-for="ShippingAddress" class="new-order-input" type="text" autocomplete="off"/>
                 </div>
                 <div class="new-order-info-group">
                     <label asp-for="ShippingPostalCode" class="new-order-label"></label>
-                    <input asp-for="ShippingPostalCode" class="new-order-input" type="text"/>
+                    <input asp-for="ShippingPostalCode" class="new-order-input" type="text" autocomplete="off"/>
                 </div>
                 <div class="register-form-errors">
                     <div asp-validation-summary="All" class="register-error"></div>
@@ -74,7 +74,6 @@
     });
 
     function recalculateTotal() { 
-        console.log("function called");
         let itemsCount = document.getElementsByClassName("new-order-item-quantity").length;
         let total = 0.0;
         for (let i = 0; i < itemsCount; i++) {

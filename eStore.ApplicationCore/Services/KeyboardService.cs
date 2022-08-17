@@ -72,14 +72,13 @@ namespace eStore.ApplicationCore.Services
 
             if (filter.SwitchIds != null && filter.SwitchIds.Any())
             {
-                Expression values = Expression.Constant(filter.SwitchIds, typeof(IEnumerable<int>));
-                Expression nullableProperty = Expression.Property(keyboardParameter, "SwitchId");
-                Expression property = Expression.Property(nullableProperty, "Value");
+                Expression values = Expression.Constant(filter.SwitchIds, typeof(IEnumerable<int?>));
+                Expression property = Expression.Property(keyboardParameter, "SwitchId");
                 var method = typeof(Enumerable)
                     .GetMethods()
                     .Where(x => x.Name == "Contains")
                     .Single(x => x.GetParameters().Length == 2)
-                    .MakeGenericMethod(typeof(int));
+                    .MakeGenericMethod(typeof(int?));
                 Expression containsExpression = Expression.Call(method, values, property);
                 baseExpression = Expression.AndAlso(baseExpression, containsExpression);
             }
@@ -128,7 +127,7 @@ namespace eStore.ApplicationCore.Services
         public async Task<IEnumerable<KeyboardSwitch>> GetSwitchesAsync()
         {
             var keyboards = await _unitOfWork.KeyboardRepository.GetAllAsync();
-            return keyboards.Select(k => k.Switch).Distinct().OrderBy(s => s.Name);
+            return keyboards.Select(k => k.Switch).Where(sw => sw != null).Distinct().OrderBy(s => s.Name);
         }
 
         public async Task<IEnumerable<KeyboardSize>> GetSizesAsync()
