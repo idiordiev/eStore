@@ -37,9 +37,9 @@ namespace eStore.WebMVC.Controllers
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error(int statusCode)
+        public IActionResult Error()
         {
-            return View(new ErrorViewModel {  });
+            return View();
         }
     }
 }

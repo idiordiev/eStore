@@ -1,10 +1,11 @@
-﻿@model ErrorViewModel
+﻿@using Microsoft.AspNetCore.WebUtilities
+
 @{
     ViewData["Title"] = "Error";
 }
 
 <div class="error-container">
     <h1 class="error-code">@Context.Response.StatusCode</h1>
-    <h2 class="error-message">@Model.Message</h2>
+    <h2 class="error-message">@ReasonPhrases.GetReasonPhrase(Context.Response.StatusCode)</h2>
     <a class="error-return" asp-action="Index" asp-controller="Home">BACK TO STORE</a>
 </div>

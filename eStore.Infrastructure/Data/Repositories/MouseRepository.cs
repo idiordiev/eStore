@@ -23,7 +23,7 @@ namespace eStore.Infrastructure.Data.Repositories
                 .Include(m => m.Manufacturer)
                 .Include(m => m.ConnectionType)
                 .Include(m => m.Backlight)
-                .FirstAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
         }
 
         public async Task<IEnumerable<Mouse>> GetAllAsync()

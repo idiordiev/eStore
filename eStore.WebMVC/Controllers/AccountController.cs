@@ -159,7 +159,7 @@ namespace eStore.WebMVC.Controllers
         }
 
         [Authorize]
-        [HttpGet]
+        [HttpPost]
         public async Task<IActionResult> AddGoodsToCart(int goodsId, string returnUrl = null)
         {
             var identityUser = await _userManager.GetUserAsync(HttpContext.User);
@@ -172,7 +172,7 @@ namespace eStore.WebMVC.Controllers
         }
 
         [Authorize]
-        [HttpGet]
+        [HttpPost]
         public async Task<IActionResult> RemoveGoodsFromCart(int goodsId, string returnUrl = null)
         {
             var identityUser = await _userManager.GetUserAsync(HttpContext.User);

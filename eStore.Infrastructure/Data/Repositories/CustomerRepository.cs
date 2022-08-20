@@ -52,7 +52,7 @@ namespace eStore.Infrastructure.Data.Repositories
                 .ThenInclude(g => (g.Goods as Gamepad).Feedback)
                 .Include(c => c.ShoppingCart.Goods)
                 .ThenInclude(g => (g.Goods as Gamepad).CompatibleDevices)
-                .FirstAsync(c => c.Id == id);
+                .FirstOrDefaultAsync(c => c.Id == id);
         }
 
         public async Task<IEnumerable<Customer>> GetAllAsync()

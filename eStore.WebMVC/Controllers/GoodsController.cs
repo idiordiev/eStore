@@ -69,6 +69,9 @@ namespace eStore.WebMVC.Controllers
         public async Task<IActionResult> Keyboard(int id)
         {
             var keyboard = await _keyboardService.GetByIdAsync(id);
+            if (keyboard == null)
+                return NotFound();
+            
             var model = _mapper.Map<KeyboardViewModel>(keyboard);
             if (User.Identity != null && User.Identity.IsAuthenticated)
             {
@@ -104,6 +107,9 @@ namespace eStore.WebMVC.Controllers
         public async Task<IActionResult> Mouse(int id)
         {
             var mouse = await _mouseService.GetByIdAsync(id);
+            if (mouse == null)
+                return NotFound();
+            
             var model = _mapper.Map<MouseViewModel>(mouse);
             if (User.Identity != null && User.Identity.IsAuthenticated)
             {
@@ -142,6 +148,9 @@ namespace eStore.WebMVC.Controllers
         public async Task<IActionResult> Mousepad(int id)
         {
             var mousepad = await _mousepadService.GetByIdAsync(id);
+            if (mousepad == null)
+                return NotFound();
+            
             var model = _mapper.Map<MousepadViewModel>(mousepad);
             if (User.Identity != null && User.Identity.IsAuthenticated)
             {
@@ -178,6 +187,9 @@ namespace eStore.WebMVC.Controllers
         public async Task<IActionResult> Gamepad(int id)
         {
             var gamepad = await _gamepadService.GetByIdAsync(id);
+            if (gamepad == null)
+                return NotFound();
+            
             var model = _mapper.Map<GamepadViewModel>(gamepad);
             if (User.Identity != null && User.Identity.IsAuthenticated)
             {

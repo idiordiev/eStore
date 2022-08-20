@@ -30,7 +30,7 @@ namespace eStore.Infrastructure.Data.Repositories
                 .Include(k => k.FrameMaterial)
                 .Include(k => k.Backlight)
                 .Include(k => k.KeyRollover)
-                .FirstAsync(k => k.Id == id);
+                .FirstOrDefaultAsync(k => k.Id == id);
         }
 
         public async Task<IEnumerable<Keyboard>> GetAllAsync()

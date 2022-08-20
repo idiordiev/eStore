@@ -25,7 +25,7 @@ namespace eStore.Infrastructure.Data.Repositories
                 .Include(g => g.Feedback)
                 .Include(g => g.CompatibleDevices)
                 .ThenInclude(d => d.CompatibleDevice)
-                .FirstAsync(g => g.Id == id);
+                .FirstOrDefaultAsync(g => g.Id == id);
         }
 
         public async Task<IEnumerable<Gamepad>> GetAllAsync()

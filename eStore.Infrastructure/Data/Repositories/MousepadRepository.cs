@@ -25,7 +25,7 @@ namespace eStore.Infrastructure.Data.Repositories
                 .Include(m => m.BottomMaterial)
                 .Include(m => m.TopMaterial)
                 .Include(m => m.Backlight)
-                .FirstAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
         }
 
         public async Task<IEnumerable<Mousepad>> GetAllAsync()

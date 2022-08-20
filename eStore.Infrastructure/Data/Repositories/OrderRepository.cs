@@ -22,7 +22,7 @@ namespace eStore.Infrastructure.Data.Repositories
             return await _context.Orders
                 .Include(o => o.OrderItems)
                 .ThenInclude(oi => oi.Goods)
-                .FirstAsync(o => o.Id == id);
+                .FirstOrDefaultAsync(o => o.Id == id);
         }
 
         public async Task<IEnumerable<Order>> GetAllAsync()

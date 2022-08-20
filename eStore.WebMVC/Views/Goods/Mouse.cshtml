@@ -35,13 +35,13 @@
         </div>
         @if (!Model.IsAddedToCart)
         {
-            <a id="cart-button" class="goods-page-cart-button" asp-action="AddGoodsToCart" asp-controller="Account" asp-route-goodsId="@Model.Id" asp-route-returnUrl="@Context.Request.Path">
-                ADD TO CART
-            </a>
+            <form asp-action="AddGoodsToCart" asp-controller="Account" asp-route-goodsId="@Model.Id" asp-route-returnUrl="@Context.Request.Path">
+                <input type="submit" id="cart-button" class="goods-page-cart-button" value="ADD TO CART" />
+            </form>
         }
         else
         {
-            <button id="cart-button" class="goods-page-cart-button-disabled" asp-action="RemoveGoodsFromCart" asp-controller="Account" asp-route-goodsId="@Model.Id" asp-route-returnUrl="@Context.Request.Path">
+            <button id="cart-button" class="goods-page-cart-button-disabled">
                 <svg width="26" height="19" viewBox="0 0 26 19" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M24 2L8.875 17.125L2 10.25" stroke="white" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
