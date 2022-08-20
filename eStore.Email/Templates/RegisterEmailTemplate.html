@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>Purchase</title>
+    <title>Register</title>
     <link href="https://fonts.googleapis.com" rel="preconnect">
     <link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
@@ -48,37 +48,64 @@
             width: 100%;
             text-align: center;
         }
-        
-        h1 {
+
+        .message {
             position: absolute;
-            top: 170px;
+            top: 130px;
             width: 100%;
-            font-family: 'Roboto', sans-serif;
-            font-size: 56px;
-            font-weight: 500;
-            color: #000000;
-            text-align: center;
         }
-        
-        h2 {
-            position: absolute;
+
+        .message p {
             width: 100%;
-            top: 270px;
             font-family: 'Roboto', sans-serif;
-            font-size: 26px;
-            font-weight: 300;
+            font-size: 24px;
+            font-weight: 400;
             color: #000000;
             text-align: center;
         }
 
-        p {
-            position: absolute;
+        .message h2 {
             width: 100%;
-            top: 550px;
             font-family: 'Roboto', sans-serif;
-            font-size: 20px;
-            font-weight: 300;
+            font-size: 24px;
+            font-weight: 700;
             color: #000000;
+            text-align: center;
+        }
+
+        .user-info-container {
+            position: absolute;
+            top: 200px;
+            height: 180px;
+            width: 100%;
+            padding-left: 415px;
+            padding-right: 415px;
+        }
+
+        .user-info {
+            width: 300px;
+            height: 180px;
+            background-color: #1C1C1C;
+            border: 0;
+            border-radius: 20px;
+            padding: 20px;
+        }
+
+        .user-info h2 {
+            font-family: 'Roboto', sans-serif;
+            font-size: 26px;
+            font-weight: 500;
+            color: #EDEDED;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .user-info p {
+            font-family: 'Roboto', sans-serif;
+            font-size: 16px;
+            font-weight: 400;
+            color: #EDEDED;
+            margin-top: 10px;
             text-align: center;
         }
     </style>
@@ -88,9 +115,17 @@
     <div class="logo">
         <h3>Scenery for desk</h3>
     </div>
-    <h1>Thank you for purchase!</h1>
-    <h2>Our manager will contact you soon.</h2>
-    <p>FIRST_NAME LAST_NAME&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Tel: PHONE_NUMBER &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ukraine, CITY, ADDRESS, POSTAL_CODE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Total: $<strong>PRICE</strong></p>
+    <div class="message">
+        <p>You are registering on site</p>
+        <h2>"Scenery for desk"</h2>
+    </div>
+    <div class="user-info-container">
+        <div class="user-info">
+            <h2>FIRST_NAME LAST_NAME</h2>
+            <p>Tel: PHONE_NUMBER</p>
+            <p>Email: EMAIL_ADDRESS</p>
+        </div>
+    </div>
 </div>
 </body>
 </html>

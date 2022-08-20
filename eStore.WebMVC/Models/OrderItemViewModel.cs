@@ -1,6 +1,4 @@
-﻿using eStore.WebMVC.Models.Goods;
-
-namespace eStore.WebMVC.Models
+﻿namespace eStore.WebMVC.Models
 {
     public class OrderItemViewModel
     {

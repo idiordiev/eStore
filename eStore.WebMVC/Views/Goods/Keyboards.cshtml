@@ -1,4 +1,4 @@
-﻿@model System.Collections.Generic.IEnumerable<eStore.WebMVC.Models.Goods.KeyboardViewModel>
+﻿@model IEnumerable<KeyboardViewModel>
 
 @{
     ViewBag.Title = "Keyboards";
@@ -22,7 +22,6 @@
                 <input type="checkbox" value="@type.Id" name="typeIds"/>
                 <div class="filter-option-label">@type.Name</div>
             </div>
-            
         }
         <label class="filter-category-name">FORMAT</label>
         @foreach (var size in ViewBag.Sizes)
@@ -49,7 +48,7 @@
             <div class="filter-option-label">Max.</div>
             <input type="number" step="0.01" name="maxPrice" class="filter-option-price-input"/>
         </div>
-        
+
         <input type="submit" value="APPLY" class="filter-submit"/>
     </form>
     <button class="filter-button" onclick="toggleFilter()">
@@ -72,4 +71,3 @@
             sidebar.style.left = "0px";
     }
 </script>
-

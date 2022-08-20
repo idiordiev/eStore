@@ -1,14 +1,18 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Threading.Tasks;
 using eStore.ApplicationCore.Interfaces;
 using eStore.ApplicationCore.Interfaces.Data;
 using eStore.ApplicationCore.Services;
+using eStore.Email;
 using eStore.Infrastructure.Data;
 using eStore.Infrastructure.Data.UnitOfWork;
 using eStore.Infrastructure.Identity;
-using eStore.Infrastructure.Services;
+using eStore.Invoice;
+using eStore.WebMVC.DI;
 using eStore.WebMVC.Mapping;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -56,19 +60,13 @@ namespace eStore.WebMVC
                 .AddEntityFrameworkStores<IdentityContext>()
                 .AddDefaultTokenProviders();
 
+            services.AddEntityServices();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
-            services.AddScoped<IGoodsService, GoodsService>();
-            services.AddScoped<IGamepadService, GamepadService>();
-            services.AddScoped<IKeyboardService, KeyboardService>();
-            services.AddScoped<IMouseService, MouseService>();
-            services.AddScoped<IMousepadService, MousepadService>();
-            services.AddScoped<ICustomerService, CustomerService>();
-            services.AddScoped<IOrderService, OrderService>();
-            
             services.AddScoped<IEmailService, EmailService>();
             services.AddScoped<IAttachmentService, AttachmentService>();
             
             services.AddAutoMapper(typeof(AutomapperProfile));
+            services.Configure<SmtpClientOptions>(Configuration.GetSection(SmtpClientOptions.SmtpClient));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -76,12 +74,14 @@ namespace eStore.WebMVC
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
+                app.UseExceptionHandler("/Home/Error");
+                app.UseStatusCodePagesWithReExecute("/Home/Error");
+                app.UseHsts();
             }
             else
             {
                 app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                app.UseStatusCodePagesWithReExecute("/Home/Error");
                 app.UseHsts();
             }
 

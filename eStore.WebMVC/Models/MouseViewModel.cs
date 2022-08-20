@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using eStore.ApplicationCore.Enums;
-
-namespace eStore.WebMVC.Models.Goods
+﻿namespace eStore.WebMVC.Models
 {
     public class MouseViewModel : GoodsViewModel
     {

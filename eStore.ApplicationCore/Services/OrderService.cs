@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Globalization;
+using System.IO;
 using System.Threading.Tasks;
 using eStore.ApplicationCore.Entities;
 using eStore.ApplicationCore.Enums;
@@ -26,7 +27,7 @@ namespace eStore.ApplicationCore.Services
 
         public async Task<IEnumerable<Order>> GetOrdersByCustomerIdAsync(int customerId)
         {
-            return _unitOfWork.OrderRepository.Query(o => o.CustomerId == customerId);
+            return await Task.Run(() => _unitOfWork.OrderRepository.Query(o => o.CustomerId == customerId));
         }
 
         public async Task<Order> GetOrderByIdAsync(int orderId)
@@ -43,7 +44,7 @@ namespace eStore.ApplicationCore.Services
                 throw new AccountDeactivatedException($"The account with id {customerId} has  been deactivated.");
             customer.ShoppingCart.Goods.Clear();
             await _unitOfWork.CustomerRepository.UpdateAsync(customer);
-            
+
             var order = new Order
             {
                 Customer = customer,
@@ -64,11 +65,12 @@ namespace eStore.ApplicationCore.Services
                     throw new EntityDeletedException($"The goods with the id {orderItem.GoodsId} has been deleted.");
                 if (orderItem.Quantity < 1)
                     throw new InvalidQuantityException("The quantity must be greater or equal 1.");
-                
-                order.OrderItems.Add(new OrderItem() {Order = order, Goods = goods, Quantity = orderItem.Quantity, UnitPrice = goods.Price});
+
+                order.OrderItems.Add(new OrderItem
+                    { Order = order, Goods = goods, Quantity = orderItem.Quantity, UnitPrice = goods.Price });
                 order.Total += goods.Price * orderItem.Quantity;
             }
-            
+
             await _unitOfWork.OrderRepository.AddAsync(order);
             var emailAttachment = _attachmentService.CreateOrderInfoPdfAndReturnPath(order);
             await _emailService.SendPurchaseEmailAsyncAsync(order, emailAttachment);

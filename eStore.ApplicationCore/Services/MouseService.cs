@@ -19,17 +19,17 @@ namespace eStore.ApplicationCore.Services
         {
             _unitOfWork = unitOfWork;
         }
-        
-        public Task<IEnumerable<Mouse>> GetAllAsync()
+
+        public async Task<IEnumerable<Mouse>> GetAllAsync()
         {
-            return Task.FromResult(_unitOfWork.MouseRepository.Query(m => !m.IsDeleted));
+            return await Task.Run(() => _unitOfWork.MouseRepository.Query(m => !m.IsDeleted));
         }
 
         public async Task<IEnumerable<Mouse>> GetAllByFilterAsync(MouseFilterModel filter)
         {
             var queryExpression = BuildFilterExpression(filter);
             var queryLambda = (Func<Mouse, bool>)queryExpression.GetLambdaOrNull().Compile();
-            return await Task.FromResult(_unitOfWork.MouseRepository.Query(queryLambda));
+            return await Task.Run(() => _unitOfWork.MouseRepository.Query(queryLambda));
         }
 
         public async Task<Mouse> GetByIdAsync(int mouseId)

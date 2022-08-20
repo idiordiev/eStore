@@ -19,17 +19,17 @@ namespace eStore.ApplicationCore.Services
         {
             _unitOfWork = unitOfWork;
         }
-        
-        public Task<IEnumerable<Gamepad>> GetAllAsync()
+
+        public async Task<IEnumerable<Gamepad>> GetAllAsync()
         {
-            return Task.FromResult(_unitOfWork.GamepadRepository.Query(g => !g.IsDeleted));
+            return await Task.Run(() => _unitOfWork.GamepadRepository.Query(g => !g.IsDeleted));
         }
 
         public async Task<IEnumerable<Gamepad>> GetAllByFilterAsync(GamepadFilterModel filter)
         {
             var queryExpression = BuildFilterExpression(filter);
             var queryLambda = (Func<Gamepad, bool>)queryExpression.GetLambdaOrNull().Compile();
-            return await Task.FromResult(_unitOfWork.GamepadRepository.Query(queryLambda));
+            return await Task.Run(() => _unitOfWork.GamepadRepository.Query(queryLambda));
         }
 
         public async Task<Gamepad> GetByIdAsync(int gamepadId)
@@ -105,7 +105,7 @@ namespace eStore.ApplicationCore.Services
                 Expression containsExpression = Expression.Call(method, values, property);
                 baseExpression = Expression.AndAlso(baseExpression, containsExpression);
             }
-            
+
             if (filter.FeedbackIds != null && filter.FeedbackIds.Any())
             {
                 Expression values = Expression.Constant(filter.FeedbackIds, typeof(IEnumerable<int>));

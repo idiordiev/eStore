@@ -11,7 +11,6 @@
 
     <ItemGroup>
         <PackageReference Include="AutoMapper" Version="11.0.1" />
-        <PackageReference Include="GemBox.Spreadsheet" Version="49.0.1067" />
         <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.17" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.17">
             <PrivateAssets>all</PrivateAssets>
@@ -27,18 +26,6 @@
 
     <ItemGroup>
         <None Update="External\invoice-template.xlsx">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>
-        <None Update="External\change-password-email-template.html">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>
-        <None Update="External\deactivate-account-email-template.html">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>
-        <None Update="External\order-email-template.html">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>
-        <None Update="External\register-email-template.html">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
     </ItemGroup>

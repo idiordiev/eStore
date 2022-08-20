@@ -1,4 +1,4 @@
-﻿@model eStore.WebMVC.Models.Goods.KeyboardViewModel
+﻿@model KeyboardViewModel
 
 <a class="goods-tile" asp-action="Keyboard" asp-controller="Goods" asp-route-id="@Model.Id">
     <div class="goods-image-container">
@@ -8,7 +8,7 @@
         <h3>@Model.Name</h3>
         <div class="goods-details">
             <div class="goods-details-column">
-                <p>Connection type: @String.Join("/", Model.ConnectionType)</p>
+                <p>Connection type: @string.Join("/", Model.ConnectionType)</p>
                 <p>Type: @Model.Type</p>
                 <p>Format: @Model.Size</p>
                 @if (!string.IsNullOrEmpty(Model.SwitchName))

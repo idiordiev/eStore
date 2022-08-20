@@ -1,11 +1,12 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
+using System.Reflection;
 using eStore.ApplicationCore.Entities;
 using eStore.ApplicationCore.Interfaces;
 using GemBox.Spreadsheet;
 
-namespace eStore.Infrastructure.Services
+namespace eStore.Invoice
 {
     public class AttachmentService : IAttachmentService
     {
@@ -44,7 +45,9 @@ namespace eStore.Infrastructure.Services
                 throw new ArgumentNullException(nameof(order.OrderItems), "The collection of the order items is null.");
 
             SpreadsheetInfo.SetLicense("FREE-LIMITED-KEY");
-            var excel = ExcelFile.Load("bin/Debug/net5.0/External/invoice-template.xlsx");
+            var templatePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) +
+                               "/Invoices/Template.xlsx";
+            var excel = ExcelFile.Load(templatePath);
 
             var worksheet = excel.Worksheets.First();
             worksheet.Cells[InvoiceNumberCell].Value = 121;
@@ -76,8 +79,8 @@ namespace eStore.Infrastructure.Services
 
             // there are formulas in the template to calculate total
             worksheet.Calculate();
-            var invoiceFileName =
-                $"bin/Debug/net5.0/External/{order.TimeStamp:yyyyMMdd}-{order.Customer.FirstName}-{order.Customer.LastName}-{order.Id}.pdf";
+            var invoiceFileName = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) +
+                                  $"/Invoices/{order.TimeStamp:yyyyMMdd}-{order.Customer.FirstName}-{order.Customer.LastName}-{order.Id}.pdf";
             excel.Save(invoiceFileName);
             return invoiceFileName;
         }

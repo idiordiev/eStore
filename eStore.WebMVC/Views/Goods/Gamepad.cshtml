@@ -1,4 +1,4 @@
-﻿@model eStore.WebMVC.Models.Goods.GamepadViewModel
+﻿@model GamepadViewModel
 
 @{
     ViewBag.Title = Model.Name;
@@ -13,7 +13,7 @@
     <div class="goods-page-right-column" id="goods-page-right-column">
         <div class="goods-page-details-container">
             <div class="goods-page-details-column">
-                <p>Connection type: @String.Join("/", Model.ConnectionType)</p>
+                <p>Connection type: @string.Join("/", Model.ConnectionType)</p>
                 <p>Feedback: @Model.Feedback</p>
             </div>
             <div class="goods-page-details-column">
@@ -29,17 +29,19 @@
             <div class="goods-page-price-int">$</div>
         </div>
         @if (!Model.IsAddedToCart)
-                {
-                    <a id="cart-button" class="goods-page-cart-button" asp-action="AddGoodsToCart" asp-controller="Account" asp-route-goodsId="@Model.Id" asp-route-returnUrl="@Context.Request.Path">
-                        ADD TO CART
-                    </a>
-                }
-                else
-                {
-                    <button id="cart-button" class="goods-page-cart-button-disabled" asp-action="RemoveGoodsFromCart" asp-controller="Account" asp-route-goodsId="@Model.Id" asp-route-returnUrl="@Context.Request.Path">
-                        <svg width="26" height="19" viewBox="0 0 26 19" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M24 2L8.875 17.125L2 10.25" stroke="white" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                    </button>
-                }
+        {
+            <a id="cart-button" class="goods-page-cart-button" asp-action="AddGoodsToCart" asp-controller="Account" asp-route-goodsId="@Model.Id" asp-route-returnUrl="@Context.Request.Path">
+                ADD TO CART
+            </a>
+        }
+        else
+        {
+            <button id="cart-button" class="goods-page-cart-button-disabled" asp-action="RemoveGoodsFromCart" asp-controller="Account" asp-route-goodsId="@Model.Id" asp-route-returnUrl="@Context.Request.Path">
+                <svg width="26" height="19" viewBox="0 0 26 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M24 2L8.875 17.125L2 10.25" stroke="white" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+        }
     </div>
 </div>
 <script>

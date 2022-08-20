@@ -15,7 +15,7 @@
             <a class="navigation-link" asp-action="Services" asp-controller="Home">Services</a>
             <a class="navigation-link" asp-action="AboutUs" asp-controller="Home">About us</a>
             <a class="navigation-link" asp-action="Faq" asp-controller="Home">FAQ</a>
-            
+
             @if (User.Identity.IsAuthenticated)
             {
                 <div class="navigation-item-container">
@@ -40,7 +40,7 @@
     </nav>
 </header>
 <div>
-    <main role="main" class="main" >
+    <main role="main" class="main">
         @RenderBody()
     </main>
 </div>
@@ -51,6 +51,6 @@
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <script src="~/js/site.js" asp-append-version="true"></script>
-@RenderSection("Scripts", required: false)
+@RenderSection("Scripts", false)
 </body>
 </html>

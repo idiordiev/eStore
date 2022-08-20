@@ -1,4 +1,4 @@
-﻿@model System.Collections.Generic.IEnumerable<eStore.WebMVC.Models.Goods.MousepadViewModel>
+﻿@model IEnumerable<MousepadViewModel>
 
 @{
     ViewBag.Title = "Mousepads";
@@ -49,7 +49,7 @@
             <div class="filter-option-label">Max.</div>
             <input type="number" step="0.01" name="maxPrice" class="filter-option-price-input"/>
         </div>
-        
+
         <input type="submit" value="APPLY" class="filter-submit"/>
     </form>
     <button class="filter-button" onclick="toggleFilter()">

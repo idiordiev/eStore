@@ -3,7 +3,6 @@ using AutoMapper;
 using eStore.ApplicationCore.Entities;
 using eStore.WebMVC.DTO;
 using eStore.WebMVC.Models;
-using eStore.WebMVC.Models.Goods;
 
 namespace eStore.WebMVC.Mapping
 {

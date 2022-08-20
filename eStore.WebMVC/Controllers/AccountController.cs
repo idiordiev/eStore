@@ -6,7 +6,6 @@ using eStore.ApplicationCore.Entities;
 using eStore.ApplicationCore.Interfaces;
 using eStore.Infrastructure.Identity;
 using eStore.WebMVC.Models;
-using eStore.WebMVC.Models.Goods;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -77,7 +76,7 @@ namespace eStore.WebMVC.Controllers
         public async Task<IActionResult> Register()
         {
             var model = new RegisterViewModel();
-            return View(model);
+            return await Task.Run(() => View(model));
         }
 
         [HttpPost]
@@ -128,7 +127,7 @@ namespace eStore.WebMVC.Controllers
         public async Task<IActionResult> Login()
         {
             var model = new LoginViewModel();
-            return View(model);
+            return await Task.Run(() => View(model));
         }
 
         [HttpPost]
@@ -190,7 +189,7 @@ namespace eStore.WebMVC.Controllers
         public async Task<IActionResult> ChangePassword()
         {
             var model = new ChangePasswordViewModel();
-            return View(model);
+            return await Task.Run(() => View(model));
         }
         
         [Authorize]

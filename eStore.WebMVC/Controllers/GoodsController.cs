@@ -5,7 +5,7 @@ using AutoMapper;
 using eStore.ApplicationCore.FilterModels;
 using eStore.ApplicationCore.Interfaces;
 using eStore.Infrastructure.Identity;
-using eStore.WebMVC.Models.Goods;
+using eStore.WebMVC.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -70,7 +70,7 @@ namespace eStore.WebMVC.Controllers
         {
             var keyboard = await _keyboardService.GetByIdAsync(id);
             var model = _mapper.Map<KeyboardViewModel>(keyboard);
-            if (User.Identity.IsAuthenticated)
+            if (User.Identity != null && User.Identity.IsAuthenticated)
             {
                 var user = await _userManager.GetUserAsync(HttpContext.User);
                 model.IsAddedToCart = await _goodsService.CheckIfAddedToCartAsync(user.CustomerId, id);
@@ -105,7 +105,7 @@ namespace eStore.WebMVC.Controllers
         {
             var mouse = await _mouseService.GetByIdAsync(id);
             var model = _mapper.Map<MouseViewModel>(mouse);
-            if (User.Identity.IsAuthenticated)
+            if (User.Identity != null && User.Identity.IsAuthenticated)
             {
                 var user = await _userManager.GetUserAsync(HttpContext.User);
                 model.IsAddedToCart = await _goodsService.CheckIfAddedToCartAsync(user.CustomerId, id);
@@ -143,7 +143,7 @@ namespace eStore.WebMVC.Controllers
         {
             var mousepad = await _mousepadService.GetByIdAsync(id);
             var model = _mapper.Map<MousepadViewModel>(mousepad);
-            if (User.Identity.IsAuthenticated)
+            if (User.Identity != null && User.Identity.IsAuthenticated)
             {
                 var user = await _userManager.GetUserAsync(HttpContext.User);
                 model.IsAddedToCart = await _goodsService.CheckIfAddedToCartAsync(user.CustomerId, id);
@@ -179,7 +179,7 @@ namespace eStore.WebMVC.Controllers
         {
             var gamepad = await _gamepadService.GetByIdAsync(id);
             var model = _mapper.Map<GamepadViewModel>(gamepad);
-            if (User.Identity.IsAuthenticated)
+            if (User.Identity != null && User.Identity.IsAuthenticated)
             {
                 var user = await _userManager.GetUserAsync(HttpContext.User);
                 model.IsAddedToCart = await _goodsService.CheckIfAddedToCartAsync(user.CustomerId, id);

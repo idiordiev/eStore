@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using eStore.ApplicationCore.Entities;
+﻿using eStore.ApplicationCore.Entities;
 
 namespace eStore.ApplicationCore.Interfaces
 {

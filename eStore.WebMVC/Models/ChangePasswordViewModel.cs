@@ -8,10 +8,12 @@ namespace eStore.WebMVC.Models
         [DataType(DataType.Password)]
         [Display(Name = "Old password")]
         public string OldPassword { get; set; }
+
         [Required]
         [DataType(DataType.Password)]
         [Display(Name = "New password")]
         public string NewPassword { get; set; }
+
         [Required]
         [DataType(DataType.Password)]
         [Compare("NewPassword", ErrorMessage = "Passwords are not equal.")]

@@ -10,12 +10,13 @@ namespace eStore.WebMVC.Models
         public DateTime TimeStamp { get; set; }
         public string Status { get; set; }
         public decimal Total { get; set; }
-        [Display(Name = "City")]
-        public string ShippingCity { get; set; }
-        [Display(Name = "Address")]
-        public string ShippingAddress { get; set; }
-        [Display(Name = "Postal code")]
-        public string ShippingPostalCode { get; set; }
+
+        [Display(Name = "City")] public string ShippingCity { get; set; }
+
+        [Display(Name = "Address")] public string ShippingAddress { get; set; }
+
+        [Display(Name = "Postal code")] public string ShippingPostalCode { get; set; }
+
         public IList<OrderItemViewModel> OrderItems { get; set; }
     }
 }

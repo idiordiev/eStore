@@ -7,7 +7,6 @@ using eStore.ApplicationCore.Interfaces;
 using eStore.Infrastructure.Identity;
 using eStore.WebMVC.DTO;
 using eStore.WebMVC.Models;
-using eStore.WebMVC.Models.Goods;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -115,7 +114,7 @@ namespace eStore.WebMVC.Controllers
         [HttpGet]
         public async Task<IActionResult> Success()
         {
-            return View();
+            return await Task.Run(View);
         }
     }
 }

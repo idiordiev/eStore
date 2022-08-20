@@ -1,4 +1,4 @@
-﻿namespace eStore.WebMVC.Models.Goods
+﻿namespace eStore.WebMVC.Models
 {
     public class MousepadViewModel : GoodsViewModel
     {

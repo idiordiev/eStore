@@ -19,17 +19,17 @@ namespace eStore.ApplicationCore.Services
         {
             _unitOfWork = unitOfWork;
         }
-        
-        public Task<IEnumerable<Mousepad>> GetAllAsync()
+
+        public async Task<IEnumerable<Mousepad>> GetAllAsync()
         {
-            return Task.FromResult(_unitOfWork.MousepadRepository.Query(m => !m.IsDeleted));
+            return await Task.Run( () => _unitOfWork.MousepadRepository.Query(m => !m.IsDeleted));
         }
 
         public async Task<IEnumerable<Mousepad>> GetAllByFilterAsync(MousepadFilterModel filter)
         {
             var queryExpression = BuildFilterExpression(filter);
             var queryLambda = (Func<Mousepad, bool>)queryExpression.GetLambdaOrNull().Compile();
-            return await Task.FromResult(_unitOfWork.MousepadRepository.Query(queryLambda));
+            return await Task.Run(() => _unitOfWork.MousepadRepository.Query(queryLambda));
         }
 
         public async Task<Mousepad> GetByIdAsync(int mousepadId)
@@ -105,7 +105,7 @@ namespace eStore.ApplicationCore.Services
                 Expression containsExpression = Expression.Call(method, values, property);
                 baseExpression = Expression.AndAlso(baseExpression, containsExpression);
             }
-            
+
             if (filter.BottomMaterialIds != null && filter.BottomMaterialIds.Any())
             {
                 Expression values = Expression.Constant(filter.BottomMaterialIds, typeof(IEnumerable<int>));
@@ -118,7 +118,7 @@ namespace eStore.ApplicationCore.Services
                 Expression containsExpression = Expression.Call(method, values, property);
                 baseExpression = Expression.AndAlso(baseExpression, containsExpression);
             }
-            
+
             if (filter.TopMaterialIds != null && filter.TopMaterialIds.Any())
             {
                 Expression values = Expression.Constant(filter.TopMaterialIds, typeof(IEnumerable<int>));

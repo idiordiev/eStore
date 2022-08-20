@@ -1,6 +1,4 @@
-﻿using eStore.ApplicationCore.Enums;
-
-namespace eStore.WebMVC.Models.Goods
+﻿namespace eStore.WebMVC.Models
 {
     public class GamepadViewModel : GoodsViewModel
     {
