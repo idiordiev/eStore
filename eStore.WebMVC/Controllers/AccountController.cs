@@ -15,16 +15,18 @@ namespace eStore.WebMVC.Controllers
     public class AccountController : Controller
     {
         private readonly ICustomerService _customerService;
+        private readonly IGoodsService _goodsService;
         private readonly IMapper _mapper;
         private readonly IEmailService _emailService;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
 
-        public AccountController(ICustomerService customerService, IMapper mapper, 
-            IEmailService emailService, UserManager<ApplicationUser> userManager, 
-            SignInManager<ApplicationUser> signInManager)
+        public AccountController(ICustomerService customerService, IGoodsService goodsService,
+            IMapper mapper, IEmailService emailService,
+            UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
         {
             _customerService = customerService;
+            _goodsService = goodsService;
             _mapper = mapper;
             _emailService = emailService;
             _userManager = userManager;
@@ -49,6 +51,12 @@ namespace eStore.WebMVC.Controllers
                 else if (goods is Gamepad gamepad)
                     model.GoodsInCart.Add(_mapper.Map<GamepadViewModel>(gamepad));
             }
+
+            foreach (var goods in model.GoodsInCart)
+            {
+                goods.IsAddedToCart = await _goodsService.CheckIfAddedToCartAsync(user.CustomerId, goods.Id);
+            }
+            
             return View(model);
         }
 
@@ -199,12 +207,12 @@ namespace eStore.WebMVC.Controllers
             if (ModelState.IsValid)
             {
                 var user = await _userManager.GetUserAsync(HttpContext.User);
-                if (!await _userManager.CheckPasswordAsync(user, model.OldPassword))
+                if (!await _userManager.CheckPasswordAsync(user, model.CurrentPassword))
                 {
                     ModelState.AddModelError("", "The current password is not correct.");
                     return View(model);
                 }
-                await _userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
+                await _userManager.ChangePasswordAsync(user, model.CurrentPassword, model.NewPassword);
                 await _emailService.SendChangePasswordEmailAsync(user.Email);
                 return RedirectToAction("Index", "Account");
             }

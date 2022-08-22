@@ -1,12 +1,12 @@
 ﻿@model KeyboardViewModel
 
-<a class="goods-tile" asp-action="Keyboard" asp-controller="Goods" asp-route-id="@Model.Id">
-    <div class="goods-image-container">
+<div class="goods-tile">
+    <a class="goods-image-container" asp-action="Keyboard" asp-controller="Goods" asp-route-id="@Model.Id">
         <img src="@Model.ThumbnailImageUrl" alt="@Model.Name"/>
-    </div>
+    </a>
     <div class="goods-info">
-        <h3>@Model.Name</h3>
-        <div class="goods-details">
+        <a class="goods-info-title" asp-action="Keyboard" asp-controller="Goods" asp-route-id="@Model.Id">@Model.Name</a>
+            <div class="goods-details">
             <div class="goods-details-column">
                 <p>Connection type: @string.Join("/", Model.ConnectionType)</p>
                 <p>Type: @Model.Type</p>
@@ -26,4 +26,36 @@
             </div>
         </div>
     </div>
-</a>
+    <div class="goods-price-cart-container">
+        @if (Model.IsAddedToCart)
+        {
+            <form asp-action="RemoveGoodsFromCart" asp-controller="Account" asp-route-goodsId="@Model.Id" asp-route-returnUrl="@Context.Request.Path">
+                <label style="margin: 0; cursor: pointer;">
+                    <input type="submit" style="display: none"/>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#dfdfdf" viewBox="0 0 256 256">
+                        <rect width="256" height="256" fill="none"></rect>
+                        <circle cx="80" cy="216" r="16"></circle>
+                        <circle cx="184" cy="216" r="16"></circle>
+                        <path d="M42.3,72H221.7l-26.4,92.4A15.9,15.9,0,0,1,179.9,176H84.1a15.9,15.9,0,0,1-15.4-11.6L32.5,37.8A8,8,0,0,0,24.8,32H8" fill="none" stroke="#dfdfdf" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></path>
+                        <line x1="220" y1="36" x2="36" y2="220" stroke="#d40202" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
+                    </svg>
+                </label>
+            </form>
+        }
+        else
+        {
+            <form asp-action="AddGoodsToCart" asp-controller="Account" asp-route-goodsId="@Model.Id" asp-route-returnUrl="@Context.Request.Path">
+                <label style="margin: 0; cursor: pointer;">
+                    <input type="submit" style="display: none"/>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#dfdfdf" viewBox="0 0 256 256">
+                        <rect width="256" height="256" fill="none"></rect>
+                        <circle cx="80" cy="216" r="16"></circle>
+                        <circle cx="184" cy="216" r="16"></circle>
+                        <path d="M42.3,72H221.7l-26.4,92.4A15.9,15.9,0,0,1,179.9,176H84.1a15.9,15.9,0,0,1-15.4-11.6L32.5,37.8A8,8,0,0,0,24.8,32H8" fill="none" stroke="#dfdfdf" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></path>
+                    </svg>
+                </label>
+            </form>
+        }
+        <div class="goods-details-price">$@Model.Price</div>
+    </div>
+</div>

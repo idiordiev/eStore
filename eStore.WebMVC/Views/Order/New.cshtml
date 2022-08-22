@@ -70,7 +70,10 @@
         let itemsCount = document.getElementsByClassName("new-order-item-quantity").length;
         let total = 0.0;
         for (let i = 0; i < itemsCount; i++) {
-            let quantity = parseFloat(document.getElementById("item-quantity-" + i).value);
+            let quantity = parseInt(document.getElementById("item-quantity-" + i).value);
+            if (quantity < 1)
+                return;
+            
             let unitPrice = parseFloat(document.getElementById("item-price-" + i).innerText.substring(1).replace(",", "."));
             let currentTotal = quantity * unitPrice;
             document.getElementById("item-total-" + i).innerText = "$" + currentTotal.toFixed(2);

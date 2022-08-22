@@ -6,12 +6,12 @@
 }
 
 <aside id="filter-sidebar" class="filter-sidebar">
-    <form class="filter-list" asp-action="Keyboards" asp-controller="Goods" method="get">
+    <form id="filter-form" class="filter-list" asp-action="Keyboards" asp-controller="Goods" method="get">
         <label class="filter-category-name">BRAND</label>
         @foreach (var manufacturer in ViewBag.Manufacturers)
         {
             <div class="filter-option-group">
-                <input type="checkbox" value="@manufacturer.Id" name="manufacturerIds"/>
+                <input type="checkbox" value="@manufacturer.Id" name="manufacturerIds" checked="@(Context.Request.Query["manufacturerIds"].Contains(((int)manufacturer.Id).ToString()))"/>
                 <div class="filter-option-label">@manufacturer.Name</div>
             </div>
         }
@@ -19,7 +19,7 @@
         @foreach (var type in ViewBag.Types)
         {
             <div class="filter-option-group">
-                <input type="checkbox" value="@type.Id" name="typeIds"/>
+                <input type="checkbox" value="@type.Id" name="typeIds" checked="@(Context.Request.Query["typeIds"].Contains(((int)type.Id).ToString()))"/>
                 <div class="filter-option-label">@type.Name</div>
             </div>
         }
@@ -27,7 +27,7 @@
         @foreach (var size in ViewBag.Sizes)
         {
             <div class="filter-option-group">
-                <input type="checkbox" value="@size.Id" name="sizeIds"/>
+                <input type="checkbox" value="@size.Id" name="sizeIds" checked="@(Context.Request.Query["sizeIds"].Contains(((int)size.Id).ToString()))"/>
                 <div class="filter-option-label">@size.Name</div>
             </div>
         }
@@ -35,18 +35,18 @@
         @foreach (var sw in ViewBag.Switches)
         {
             <div class="filter-option-group">
-                <input type="checkbox" value="@sw.Id" name="switchIds"/>
+                <input type="checkbox" value="@sw.Id" name="switchIds" checked="@(Context.Request.Query["switchIds"].Contains(((int)sw.Id).ToString()))"/>
                 <div class="filter-option-label">@sw.Name</div>
             </div>
         }
         <label class="filter-category-name">PRICE</label>
         <div class="filter-option-group">
-            <div class="filter-option-label">Min. </div>
-            <input type="number" step="0.01" name="minPrice" class="filter-option-price-input"/>
+            <div class="filter-option-label">Min. $</div>
+            <input type="number" step="0.01" name="minPrice" min="0" max="1000" class="filter-option-price-input" value="@Context.Request.Query["minPrice"]"/>
         </div>
         <div class="filter-option-group">
-            <div class="filter-option-label">Max.</div>
-            <input type="number" step="0.01" name="maxPrice" class="filter-option-price-input"/>
+            <div class="filter-option-label">Max.$</div>
+            <input type="number" step="0.01" name="maxPrice" min="0" max="1000" class="filter-option-price-input" value="@Context.Request.Query["maxPrice"]"/>
         </div>
 
         <input type="submit" value="APPLY" class="filter-submit"/>
@@ -70,4 +70,15 @@
         else
             sidebar.style.left = "0px";
     }
+    
+    let myForm = document.getElementById('filter-form');
+        myForm.addEventListener('submit', function () {
+            let allInputs = myForm.getElementsByTagName('input');
+            for (let i = 0; i < allInputs.length; i++) {
+                let input = allInputs[i];
+                if (input.name && !input.value) {
+                    input.name = '';
+                }
+            }
+        });
 </script>

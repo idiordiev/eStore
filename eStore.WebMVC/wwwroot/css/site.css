@@ -563,23 +563,25 @@ footer {
 
 .goods-tile {
     display: flex;
-    height: 225px;
+    min-height: 225px;
     width: 980px;
     flex-direction: row;
     border: 1px solid #FFFFFF;
     align-items: flex-start;
     justify-content: flex-start;
     border-radius: 20px;
+    position: relative;
 }
 
 .goods-image-container {
     display: flex;
-    height: 223px;
+    min-height: 223px;
+    height: 100%;
     width: 360px;
     flex-direction: column;
     align-items: center;
+    align-self: center;
     justify-content: center;
-    border-right: 1px solid #FFFFFF;
     border-radius: 20px;
 }
 
@@ -594,12 +596,14 @@ footer {
     align-items: center;
     justify-content: center;
     gap: 5px;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 20px;
+    margin: 20px auto 70px;
 }
 
-.goods-info h3 {
+.goods-info-title,
+.goods-info-title:link,
+.goods-info-title:active,
+.goods-info-title:visited,
+.goods-info-title:hover {
     display: inline-block;
     font-family: 'Inter', sans-serif;
     font-weight: 700;
@@ -632,6 +636,24 @@ footer {
     align-items: flex-start;
     justify-content: flex-start;
     gap: 5px;
+}
+
+.goods-price-cart-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+    position: absolute;
+    bottom: 15px;
+    right: 20px;
+}
+
+.goods-details-price {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 32px;
+    color: #DFDFDF;
 }
 
 .register-container {
@@ -1443,10 +1465,12 @@ footer {
 }
 
 .new-order-item-column h3 {
+    text-align: center;
     font-family: 'Inter', sans-serif;
     font-weight: 700;
     font-size: 26px;
     color: #DFDFDF;
+    align-self: center;
 }
 
 .new-order-item-column img {

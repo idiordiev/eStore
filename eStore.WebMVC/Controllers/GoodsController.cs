@@ -62,9 +62,32 @@ namespace eStore.WebMVC.Controllers
             ViewBag.Sizes = await _keyboardService.GetSizesAsync();
             ViewBag.Types = await _keyboardService.GetTypesAsync();
             ViewBag.Switches = await _keyboardService.GetSwitchesAsync();
+            await CheckIfInCartAsync(models);
+            
             return View(models);
         }
-        
+
+        private async Task CheckIfInCartAsync(GoodsViewModel model)
+        {
+            if (User.Identity != null && User.Identity.IsAuthenticated)
+            {
+                var user = await _userManager.GetUserAsync(HttpContext.User);
+                model.IsAddedToCart = await _goodsService.CheckIfAddedToCartAsync(user.CustomerId, model.Id);
+            }
+        }
+
+        private async Task CheckIfInCartAsync(IEnumerable<GoodsViewModel> models)
+        {
+            if (User.Identity != null && User.Identity.IsAuthenticated)
+            {
+                var user = await _userManager.GetUserAsync(HttpContext.User);
+                foreach (var model in models)
+                {
+                    model.IsAddedToCart = await _goodsService.CheckIfAddedToCartAsync(user.CustomerId, model.Id);
+                }
+            }
+        }
+
         [HttpGet("keyboards/{id}")]
         public async Task<IActionResult> Keyboard(int id)
         {
@@ -73,11 +96,7 @@ namespace eStore.WebMVC.Controllers
                 return NotFound();
             
             var model = _mapper.Map<KeyboardViewModel>(keyboard);
-            if (User.Identity != null && User.Identity.IsAuthenticated)
-            {
-                var user = await _userManager.GetUserAsync(HttpContext.User);
-                model.IsAddedToCart = await _goodsService.CheckIfAddedToCartAsync(user.CustomerId, id);
-            }
+            await CheckIfInCartAsync(model);
             
             return View(model);
         }
@@ -100,6 +119,8 @@ namespace eStore.WebMVC.Controllers
             ViewBag.Manufacturers = await _mouseService.GetManufacturersAsync();
             var mouses = await _mouseService.GetAllByFilterAsync(filter);
             var models = _mapper.Map<IEnumerable<MouseViewModel>>(mouses);
+            await CheckIfInCartAsync(models);
+            
             return View(models);
         }
         
@@ -111,11 +132,8 @@ namespace eStore.WebMVC.Controllers
                 return NotFound();
             
             var model = _mapper.Map<MouseViewModel>(mouse);
-            if (User.Identity != null && User.Identity.IsAuthenticated)
-            {
-                var user = await _userManager.GetUserAsync(HttpContext.User);
-                model.IsAddedToCart = await _goodsService.CheckIfAddedToCartAsync(user.CustomerId, id);
-            }
+            await CheckIfInCartAsync(model);
+            
             return View(model);
         }
         
@@ -141,6 +159,8 @@ namespace eStore.WebMVC.Controllers
             ViewBag.BottomMaterials = await _mousepadService.GetBottomMaterialsAsync();
             var mousepads = await _mousepadService.GetAllByFilterAsync(filter);
             var models = _mapper.Map<IEnumerable<MousepadViewModel>>(mousepads);
+            await CheckIfInCartAsync(models);
+            
             return View(models);
         }
         
@@ -152,11 +172,8 @@ namespace eStore.WebMVC.Controllers
                 return NotFound();
             
             var model = _mapper.Map<MousepadViewModel>(mousepad);
-            if (User.Identity != null && User.Identity.IsAuthenticated)
-            {
-                var user = await _userManager.GetUserAsync(HttpContext.User);
-                model.IsAddedToCart = await _goodsService.CheckIfAddedToCartAsync(user.CustomerId, id);
-            }
+            await CheckIfInCartAsync(model);
+            
             return View(model);
         }
         
@@ -180,6 +197,8 @@ namespace eStore.WebMVC.Controllers
             ViewBag.ConnectionTypes = await _gamepadService.GetConnectionTypesAsync();
             var gamepads = await _gamepadService.GetAllByFilterAsync(filter);
             var models = _mapper.Map<IEnumerable<GamepadViewModel>>(gamepads);
+            await CheckIfInCartAsync(models);
+            
             return View(models);
         }
         
@@ -191,11 +210,8 @@ namespace eStore.WebMVC.Controllers
                 return NotFound();
             
             var model = _mapper.Map<GamepadViewModel>(gamepad);
-            if (User.Identity != null && User.Identity.IsAuthenticated)
-            {
-                var user = await _userManager.GetUserAsync(HttpContext.User);
-                model.IsAddedToCart = await _goodsService.CheckIfAddedToCartAsync(user.CustomerId, id);
-            }
+            await CheckIfInCartAsync(model);
+            
             return View(model);
         }
     }

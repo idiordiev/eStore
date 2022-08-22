@@ -6,8 +6,8 @@ namespace eStore.WebMVC.Models
     {
         [Required]
         [DataType(DataType.Password)]
-        [Display(Name = "Old password")]
-        public string OldPassword { get; set; }
+        [Display(Name = "Current password")]
+        public string CurrentPassword { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
