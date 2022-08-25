@@ -16,5 +16,25 @@ namespace eStore.ApplicationCore.Entities
 
         public Manufacturer Manufacturer { get; set; }
         public ICollection<Keyboard> Keyboards { get; set; }
+        
+        public override bool Equals(object obj)
+        {
+            if (obj is KeyboardSwitch other)
+            {
+                return this.Id == other.Id
+                       && this.IsDeleted == other.IsDeleted
+                       && this.Name == other.Name;
+            }
+
+            return false;
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                return Id.GetHashCode() * Name.GetHashCode() * IsDeleted.GetHashCode();
+            }
+        }
     }
 }

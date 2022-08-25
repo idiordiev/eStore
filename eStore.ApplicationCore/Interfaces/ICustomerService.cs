@@ -6,7 +6,7 @@ namespace eStore.ApplicationCore.Interfaces
     public interface ICustomerService
     {
         Task<Customer> GetCustomerByIdAsync(int customerId);
-        Task<Customer> AddCustomerAsync(Customer customer);
+        Task AddCustomerAsync(Customer customer);
         Task UpdateCustomerInfoAsync(Customer customer);
         Task DeactivateAccountAsync(int customerId);
         Task AddGoodsToCartAsync(int customerId, int goodsId);

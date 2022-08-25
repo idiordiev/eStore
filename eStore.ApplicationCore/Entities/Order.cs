@@ -21,5 +21,33 @@ namespace eStore.ApplicationCore.Entities
 
         public Customer Customer { get; set; }
         public ICollection<OrderItem> OrderItems { get; set; }
+        
+        public override bool Equals(object obj)
+        {
+            if (obj is Order other)
+            {
+                return this.Id == other.Id
+                       && this.IsDeleted == other.IsDeleted
+                       && this.TimeStamp == other.TimeStamp
+                       && this.CustomerId == other.CustomerId
+                       && this.Status == other.Status
+                       && this.Total == other.Total
+                       && this.ShippingCity == other.ShippingCity
+                       && this.ShippingAddress == other.ShippingAddress
+                       && this.ShippingPostalCode == other.ShippingPostalCode;
+            }
+
+            return false;
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                return Id.GetHashCode() * IsDeleted.GetHashCode() * TimeStamp.GetHashCode() * CustomerId.GetHashCode() 
+                       * Status.GetHashCode() * Total.GetHashCode() * ShippingCity.GetHashCode() 
+                       * ShippingAddress.GetHashCode() * ShippingPostalCode.GetHashCode();
+            }
+        }
     }
 }

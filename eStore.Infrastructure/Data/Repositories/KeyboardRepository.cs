@@ -69,7 +69,7 @@ namespace eStore.Infrastructure.Data.Repositories
         public async Task AddAsync(Keyboard entity)
         {
             await _context.Keyboards.AddAsync(entity);
-            await _context.DisposeAsync();
+            await _context.SaveChangesAsync();
         }
 
         public async Task DeleteAsync(int id)

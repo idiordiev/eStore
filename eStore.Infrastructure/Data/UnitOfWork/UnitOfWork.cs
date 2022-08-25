@@ -1,4 +1,5 @@
-﻿using eStore.ApplicationCore.Entities;
+﻿using System;
+using eStore.ApplicationCore.Entities;
 using eStore.ApplicationCore.Interfaces.Data;
 using eStore.Infrastructure.Data.Repositories;
 
@@ -99,6 +100,26 @@ namespace eStore.Infrastructure.Data.UnitOfWork
                 if (_orderItemRepository == null)
                     _orderItemRepository = new OrderItemRepository(_context);
                 return _orderItemRepository;
+            }
+        }
+
+        private bool _disposed = false;
+        
+        public void Dispose()
+        {
+            Dispose(true);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if(!_disposed)
+            {
+                if (disposing)
+                {
+                    _context.Dispose();
+                }
+                
+                _disposed = true;
             }
         }
     }

@@ -1,8 +1,9 @@
-﻿using eStore.ApplicationCore.Entities;
+﻿using System;
+using eStore.ApplicationCore.Entities;
 
 namespace eStore.ApplicationCore.Interfaces.Data
 {
-    public interface IUnitOfWork
+    public interface IUnitOfWork : IDisposable
     {
         IRepository<Customer> CustomerRepository { get; }
         IRepository<Goods> GoodsRepository { get; }
