@@ -30,6 +30,9 @@ namespace eStore.Infrastructure.Data.Configurations
             builder.HasOne(k => k.Backlight)
                 .WithMany()
                 .HasForeignKey(k => k.BacklightId);
+            builder.HasOne(k => k.ConnectionType)
+                .WithMany()
+                .HasForeignKey(k => k.ConnectionTypeId);
         }
     }
 }

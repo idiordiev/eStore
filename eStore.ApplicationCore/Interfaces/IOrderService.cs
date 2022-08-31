@@ -10,7 +10,7 @@ namespace eStore.ApplicationCore.Interfaces
         Task<IEnumerable<Order>> GetOrdersByCustomerIdAsync(int customerId);
         Task<Order> GetOrderByIdAsync(int orderId);
         Task<Order> CreateOrderAsync(int customerId, IEnumerable<IOrderItem> items, IOrderAddress address);
-        Task PayOrder(int orderId);
+        Task PayOrderAsync(int orderId);
         Task CancelOrderAsync(int orderId);
     }
 }

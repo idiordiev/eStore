@@ -11,6 +11,7 @@ namespace eStore.ApplicationCore.Entities
         public int FrameMaterialId { get; set; }
         public int KeyRolloverId { get; set; }
         public int BacklightId { get; set; }
+        public int ConnectionTypeId { get; set; }
         public float Length { get; set; }
         public float Width { get; set; }
         public float Height { get; set; }
@@ -22,6 +23,7 @@ namespace eStore.ApplicationCore.Entities
         public virtual Material FrameMaterial { get; set; }
         public virtual KeyRollover KeyRollover { get; set; }
         public virtual Backlight Backlight { get; set; }
+        public virtual ConnectionType ConnectionType { get; set; }
         public virtual KeyboardSwitch Switch { get; set; }
         
         public override bool Equals(object obj)

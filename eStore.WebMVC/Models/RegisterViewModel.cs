@@ -16,15 +16,19 @@ namespace eStore.WebMVC.Models
         [Display(Name = "Confirm password")]
         public string ConfirmPassword { get; set; }
 
-        [Display(Name = "First name")] public string FirstName { get; set; }
+        [Display(Name = "First name")] 
+        public string FirstName { get; set; }
 
-        [Display(Name = "Last name")] public string LastName { get; set; }
+        [Display(Name = "Last name")] 
+        public string LastName { get; set; }
 
-        [Display(Name = "Phone number")] public string PhoneNumber { get; set; }
-
+        [Display(Name = "Phone number")] 
+        public string PhoneNumber { get; set; }
+        public string Country { get; set; }
         public string City { get; set; }
         public string Address { get; set; }
 
-        [Display(Name = "Postal code")] public string PostalCode { get; set; }
+        [Display(Name = "Postal code")] 
+        public string PostalCode { get; set; }
     }
 }

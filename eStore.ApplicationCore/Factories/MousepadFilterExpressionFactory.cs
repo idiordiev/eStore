@@ -4,29 +4,27 @@ using System.Linq;
 using System.Linq.Expressions;
 using eStore.ApplicationCore.Entities;
 using eStore.ApplicationCore.FilterModels;
+using eStore.ApplicationCore.Interfaces;
 
-namespace eStore.ApplicationCore.Factory
+namespace eStore.ApplicationCore.Factories
 {
-    public class MousepadExpressionFactory : IExpressionFactory
+    internal class MousepadFilterExpressionFactory : IFilterExpressionFactory<Mousepad>
     {
-        public Expression CreateFilterExpression(GoodsFilterModel filterModel)
+        public Expression<Func<Mousepad, bool>> CreateExpression(GoodsFilterModel filterModel)
         {
             if (filterModel is not MousepadFilterModel filter)
                 throw new ArgumentException("");
             
-            Expression baseExpression = Expression.Constant(true);
-            var mousepadParameter = Expression.Parameter(typeof(Mousepad), "m");
-
+            ParameterExpression mousepadParameter = Expression.Parameter(typeof(Mousepad), "m");
             Expression isDeletedProperty = Expression.Property(mousepadParameter, nameof(Mousepad.IsDeleted));
-            Expression notDeletedCondition = Expression.IsFalse(isDeletedProperty);
-            baseExpression = Expression.AndAlso(baseExpression, notDeletedCondition);
+            Expression filterExpression = Expression.IsFalse(isDeletedProperty);
 
             if (filter.MinPrice != null)
             {
                 Expression left = Expression.Property(mousepadParameter, "Price");
                 Expression right = Expression.Constant(filter.MinPrice);
                 Expression expression = Expression.GreaterThanOrEqual(left, right);
-                baseExpression = Expression.AndAlso(baseExpression, expression);
+                filterExpression = Expression.AndAlso(filterExpression, expression);
             }
 
             if (filter.MaxPrice != null)
@@ -34,7 +32,7 @@ namespace eStore.ApplicationCore.Factory
                 Expression left = Expression.Property(mousepadParameter, "Price");
                 Expression right = Expression.Constant(filter.MaxPrice);
                 Expression expression = Expression.LessThanOrEqual(left, right);
-                baseExpression = Expression.AndAlso(baseExpression, expression);
+                filterExpression = Expression.AndAlso(filterExpression, expression);
             }
 
             if (filter.ManufacturerIds != null && filter.ManufacturerIds.Any())
@@ -47,7 +45,7 @@ namespace eStore.ApplicationCore.Factory
                     .Single(x => x.GetParameters().Length == 2)
                     .MakeGenericMethod(typeof(int));
                 Expression containsExpression = Expression.Call(method, values, property);
-                baseExpression = Expression.AndAlso(baseExpression, containsExpression);
+                filterExpression = Expression.AndAlso(filterExpression, containsExpression);
             }
 
             if (filter.IsStitchedValues != null && filter.IsStitchedValues.Any())
@@ -60,7 +58,7 @@ namespace eStore.ApplicationCore.Factory
                     .Single(x => x.GetParameters().Length == 2)
                     .MakeGenericMethod(typeof(bool));
                 Expression containsExpression = Expression.Call(method, values, property);
-                baseExpression = Expression.AndAlso(baseExpression, containsExpression);
+                filterExpression = Expression.AndAlso(filterExpression, containsExpression);
             }
 
             if (filter.BottomMaterialIds != null && filter.BottomMaterialIds.Any())
@@ -73,7 +71,7 @@ namespace eStore.ApplicationCore.Factory
                     .Single(x => x.GetParameters().Length == 2)
                     .MakeGenericMethod(typeof(int));
                 Expression containsExpression = Expression.Call(method, values, property);
-                baseExpression = Expression.AndAlso(baseExpression, containsExpression);
+                filterExpression = Expression.AndAlso(filterExpression, containsExpression);
             }
 
             if (filter.TopMaterialIds != null && filter.TopMaterialIds.Any())
@@ -86,11 +84,11 @@ namespace eStore.ApplicationCore.Factory
                     .Single(x => x.GetParameters().Length == 2)
                     .MakeGenericMethod(typeof(int));
                 Expression containsExpression = Expression.Call(method, values, property);
-                baseExpression = Expression.AndAlso(baseExpression, containsExpression);
+                filterExpression = Expression.AndAlso(filterExpression, containsExpression);
             }
 
-            baseExpression = Expression.Lambda(baseExpression, mousepadParameter);
-            return baseExpression;
+            Expression<Func<Mousepad, bool>> result = (Expression<Func<Mousepad, bool>>)Expression.Lambda(filterExpression, mousepadParameter);
+            return result;
         }
     }
 }

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using eStore.ApplicationCore.Entities;
-using eStore.ApplicationCore.Factory;
+using eStore.ApplicationCore.Factories;
 using eStore.ApplicationCore.FilterModels;
 using eStore.ApplicationCore.Interfaces;
 using eStore.ApplicationCore.Interfaces.Data;
@@ -21,17 +21,16 @@ namespace eStore.ApplicationCore.Services
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<IEnumerable<Keyboard>> GetAllAsync()
+        public async Task<IEnumerable<Keyboard>> GetPresentAsync()
         {
             return await Task.Run(() => _unitOfWork.KeyboardRepository.Query(k => !k.IsDeleted));
         }
 
-        public async Task<IEnumerable<Keyboard>> GetAllByFilterAsync(KeyboardFilterModel filter)
+        public async Task<IEnumerable<Keyboard>> GetPresentByFilterAsync(KeyboardFilterModel filter)
         {
-            IExpressionFactory expressionFactory = new KeyboardExpressionFactory();
-            var queryExpression = expressionFactory.CreateFilterExpression(filter);
-            var queryLambda = (Func<Keyboard, bool>)queryExpression.GetLambdaOrNull().Compile();
-            return await Task.Run(() => _unitOfWork.KeyboardRepository.Query(queryLambda));
+            IFilterExpressionFactory<Keyboard> filterExpressionFactory = new KeyboardFilterExpressionFactory();
+            var queryExpression = filterExpressionFactory.CreateExpression(filter);
+            return await Task.Run(() => _unitOfWork.KeyboardRepository.Query(queryExpression));
         }
 
         public async Task<Keyboard> GetByIdAsync(int keyboardId)

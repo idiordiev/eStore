@@ -56,7 +56,7 @@ namespace eStore.WebMVC.Controllers
                 MinPrice = minPrice,
                 MaxPrice = maxPrice
             };
-            var keyboards = await _keyboardService.GetAllByFilterAsync(filter);
+            var keyboards = await _keyboardService.GetPresentByFilterAsync(filter);
             var models = _mapper.Map<IEnumerable<KeyboardViewModel>>(keyboards);
             ViewBag.Manufacturers = await _keyboardService.GetManufacturersAsync();
             ViewBag.Sizes = await _keyboardService.GetSizesAsync();
@@ -117,7 +117,7 @@ namespace eStore.WebMVC.Controllers
                 MinWeight = minWeight
             };
             ViewBag.Manufacturers = await _mouseService.GetManufacturersAsync();
-            var mouses = await _mouseService.GetAllByFilterAsync(filter);
+            var mouses = await _mouseService.GetPresentByFilterAsync(filter);
             var models = _mapper.Map<IEnumerable<MouseViewModel>>(mouses);
             await CheckIfInCartAsync(models);
             
@@ -157,7 +157,7 @@ namespace eStore.WebMVC.Controllers
             ViewBag.Manufacturers = await _mousepadService.GetManufacturersAsync();
             ViewBag.TopMaterials = await _mousepadService.GetTopMaterialsAsync();
             ViewBag.BottomMaterials = await _mousepadService.GetBottomMaterialsAsync();
-            var mousepads = await _mousepadService.GetAllByFilterAsync(filter);
+            var mousepads = await _mousepadService.GetPresentByFilterAsync(filter);
             var models = _mapper.Map<IEnumerable<MousepadViewModel>>(mousepads);
             await CheckIfInCartAsync(models);
             
@@ -195,7 +195,7 @@ namespace eStore.WebMVC.Controllers
             ViewBag.Manufacturers = await _gamepadService.GetManufacturersAsync();
             ViewBag.Feedbacks = await _gamepadService.GetFeedbacksAsync();
             ViewBag.ConnectionTypes = await _gamepadService.GetConnectionTypesAsync();
-            var gamepads = await _gamepadService.GetAllByFilterAsync(filter);
+            var gamepads = await _gamepadService.GetPresentByFilterAsync(filter);
             var models = _mapper.Map<IEnumerable<GamepadViewModel>>(gamepads);
             await CheckIfInCartAsync(models);
             

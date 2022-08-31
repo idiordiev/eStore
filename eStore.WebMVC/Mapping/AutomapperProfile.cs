@@ -38,14 +38,12 @@ namespace eStore.WebMVC.Mapping
 
             CreateMap<Mousepad, MousepadViewModel>()
                 .ForMember(dest => dest.ManufacturerName, opt => opt.MapFrom(src => src.Manufacturer.Name))
-                .ForMember(dest => dest.ConnectionType, opt => opt.MapFrom(src => src.ConnectionType.Name))                
                 .ForMember(dest => dest.TopMaterial, opt => opt.MapFrom(src => src.TopMaterial.Name))
                 .ForMember(dest => dest.BottomMaterial, opt => opt.MapFrom(src => src.BottomMaterial.Name))
                 .ForMember(dest => dest.Backlight, opt => opt.MapFrom(src => src.Backlight.Name));
-            
+
             CreateMap<Mousepad, GoodsViewModel>()
-                .ForMember(dest => dest.ManufacturerName, opt => opt.MapFrom(src => src.Manufacturer.Name))
-                .ForMember(dest => dest.ConnectionType, opt => opt.MapFrom(src => src.ConnectionType.Name));
+                .ForMember(dest => dest.ManufacturerName, opt => opt.MapFrom(src => src.Manufacturer.Name));
 
             CreateMap<Gamepad, GamepadViewModel>()
                 .ForMember(dest => dest.ManufacturerName, opt => opt.MapFrom(src => src.Manufacturer.Name))

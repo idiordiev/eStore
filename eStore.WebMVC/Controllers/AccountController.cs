@@ -110,6 +110,7 @@ namespace eStore.WebMVC.Controllers
                     FirstName = model.FirstName,
                     LastName = model.LastName,
                     PhoneNumber = model.PhoneNumber,
+                    Country = model.Country,
                     City = model.City,
                     Address = model.Address,
                     PostalCode = model.PostalCode

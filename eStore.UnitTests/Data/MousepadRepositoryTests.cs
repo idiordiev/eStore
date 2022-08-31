@@ -87,7 +87,7 @@ namespace eStore.UnitTests.Data
                 LastModified = new DateTime(2022, 01, 25, 14, 40, 20),
                 Description = "Description", ManufacturerId = 4, Price = 23.99m, BigImageUrl = "big16.png",
                 ThumbnailImageUrl = "thumbnail16.png", Length = 320, Width = 270, Height = 3, IsStitched = false, 
-                BacklightId = 1, BottomMaterialId = 4, TopMaterialId = 5, ConnectionTypeId = 3
+                BacklightId = 1, BottomMaterialId = 4, TopMaterialId = 5
             };
             
             // Act

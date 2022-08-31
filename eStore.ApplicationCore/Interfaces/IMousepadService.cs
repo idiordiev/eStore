@@ -7,8 +7,8 @@ namespace eStore.ApplicationCore.Interfaces
 {
     public interface IMousepadService
     {
-        Task<IEnumerable<Mousepad>> GetAllAsync();
-        Task<IEnumerable<Mousepad>> GetAllByFilterAsync(MousepadFilterModel filter);
+        Task<IEnumerable<Mousepad>> GetPresentAsync();
+        Task<IEnumerable<Mousepad>> GetPresentByFilterAsync(MousepadFilterModel filter);
         Task<Mousepad> GetByIdAsync(int mousepadId);
         Task<IEnumerable<Manufacturer>> GetManufacturersAsync();
         Task<IEnumerable<Material>> GetTopMaterialsAsync();

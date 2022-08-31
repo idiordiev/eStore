@@ -40,7 +40,7 @@ namespace eStore.UnitTests.Data
             Assert.AreEqual(expected, actual, "The actual order item is not equal to the expected.");
         }
 
-        [TestCase(16)]
+        [TestCase(19)]
         [TestCase(-1)]
         public async Task GetByIdAsync_NotExistingOrderItem_ReturnsNull(int id)
         {
@@ -100,8 +100,8 @@ namespace eStore.UnitTests.Data
             await repo.AddAsync(newOrderItem);
 
             // Assert
-            Assert.AreEqual(15, context.OrderItems.Count(), "The new order item has not been added to the context.");
-            Assert.IsNotNull(await context.OrderItems.FindAsync(15), "The new order item has been added with the wrong ID.");
+            Assert.AreEqual(19, context.OrderItems.Count(), "The new order item has not been added to the context.");
+            Assert.IsNotNull(await context.OrderItems.FindAsync(19), "The new order item has been added with the wrong ID.");
         }
 
         [Test]
@@ -144,11 +144,11 @@ namespace eStore.UnitTests.Data
             await repo.DeleteAsync(id);
 
             // Assert
-            Assert.AreEqual(13, context.OrderItems.Count(), "Any order items has not been deleted.");
+            Assert.AreEqual(17, context.OrderItems.Count(), "Any order items has not been deleted.");
             Assert.IsNull(await context.OrderItems.FindAsync(id), "The selected order item has not been deleted.");
         }
 
-        [TestCase(16)]
+        [TestCase(19)]
         [TestCase(-1)]
         public async Task DeleteAsync_NotExistingOrderItem_ThrowsArgumentNullException(int id)
         {

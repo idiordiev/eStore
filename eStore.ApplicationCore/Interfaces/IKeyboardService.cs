@@ -7,8 +7,8 @@ namespace eStore.ApplicationCore.Interfaces
 {
     public interface IKeyboardService
     {
-        Task<IEnumerable<Keyboard>> GetAllAsync();
-        Task<IEnumerable<Keyboard>> GetAllByFilterAsync(KeyboardFilterModel filter);
+        Task<IEnumerable<Keyboard>> GetPresentAsync();
+        Task<IEnumerable<Keyboard>> GetPresentByFilterAsync(KeyboardFilterModel filter);
         Task<Keyboard> GetByIdAsync(int keyboardId);
         Task<IEnumerable<Manufacturer>> GetManufacturersAsync();
         Task<IEnumerable<KeyboardSwitch>> GetSwitchesAsync();

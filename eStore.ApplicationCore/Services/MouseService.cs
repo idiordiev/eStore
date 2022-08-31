@@ -4,7 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using eStore.ApplicationCore.Entities;
-using eStore.ApplicationCore.Factory;
+using eStore.ApplicationCore.Factories;
 using eStore.ApplicationCore.FilterModels;
 using eStore.ApplicationCore.Interfaces;
 using eStore.ApplicationCore.Interfaces.Data;
@@ -21,17 +21,16 @@ namespace eStore.ApplicationCore.Services
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<IEnumerable<Mouse>> GetAllAsync()
+        public async Task<IEnumerable<Mouse>> GetPresentAsync()
         {
             return await Task.Run(() => _unitOfWork.MouseRepository.Query(m => !m.IsDeleted));
         }
 
-        public async Task<IEnumerable<Mouse>> GetAllByFilterAsync(MouseFilterModel filter)
+        public async Task<IEnumerable<Mouse>> GetPresentByFilterAsync(MouseFilterModel filter)
         {
-            IExpressionFactory expressionFactory = new MouseExpressionFactory();
-            var queryExpression = expressionFactory.CreateFilterExpression(filter);
-            var queryLambda = (Func<Mouse, bool>)queryExpression.GetLambdaOrNull().Compile();
-            return await Task.Run(() => _unitOfWork.MouseRepository.Query(queryLambda));
+            IFilterExpressionFactory<Mouse> filterExpressionFactory = new MouseFilterExpressionFactory();
+            var queryExpression = filterExpressionFactory.CreateExpression(filter);
+            return await Task.Run(() => _unitOfWork.MouseRepository.Query(queryExpression));
         }
 
         public async Task<Mouse> GetByIdAsync(int mouseId)

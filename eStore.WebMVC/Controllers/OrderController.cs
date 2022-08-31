@@ -45,6 +45,7 @@ namespace eStore.WebMVC.Controllers
             var customer = await _customerService.GetCustomerByIdAsync(user.CustomerId);
             var model = new OrderViewModel
             {
+                ShippingCountry = customer.Country,
                 ShippingCity = customer.City,
                 ShippingAddress = customer.Address,
                 ShippingPostalCode = customer.PostalCode,
@@ -107,14 +108,19 @@ namespace eStore.WebMVC.Controllers
             var shippingAddress = _mapper.Map<OrderAddressDTO>(model);
             var user = await _userManager.GetUserAsync(HttpContext.User);
             await _orderService.CreateOrderAsync(user.CustomerId, orderItems, shippingAddress);
+            await _customerService.ClearCustomerCartAsync(user.CustomerId);
             
+            TempData["IsSuccess"] = true;
             return RedirectToAction("Success", "Order");
         }
 
         [HttpGet]
         public async Task<IActionResult> Success()
         {
-            return await Task.Run(View);
+            if (TempData.ContainsKey("IsSuccess") && (bool)TempData["IsSuccess"])
+                return await Task.Run(View);
+
+            return Forbid();
         }
     }
 }

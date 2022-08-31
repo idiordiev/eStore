@@ -20,9 +20,6 @@ namespace eStore.Infrastructure.Data.Configurations
             builder.HasOne(g => g.Manufacturer)
                 .WithMany()
                 .HasForeignKey(g => g.ManufacturerId);
-            builder.HasOne(g => g.ConnectionType)
-                .WithMany(g => g.Goods)
-                .HasForeignKey(g => g.ConnectionTypeId);
         }
     }
 }

@@ -11,5 +11,6 @@ namespace eStore.ApplicationCore.Interfaces
         Task DeactivateAccountAsync(int customerId);
         Task AddGoodsToCartAsync(int customerId, int goodsId);
         Task RemoveGoodsFromCartAsync(int customerId, int goodsId);
+        Task ClearCustomerCartAsync(int customerId);
     }
 }

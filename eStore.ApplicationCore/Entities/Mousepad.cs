@@ -26,7 +26,6 @@ namespace eStore.ApplicationCore.Entities
                        && this.ManufacturerId == other.ManufacturerId
                        && this.Description == other.Description
                        && this.Price == other.Price
-                       && this.ConnectionTypeId == other.ConnectionTypeId
                        && this.ThumbnailImageUrl == other.ThumbnailImageUrl
                        && this.BigImageUrl == other.BigImageUrl
                        && this.Created == other.Created
@@ -48,11 +47,10 @@ namespace eStore.ApplicationCore.Entities
             unchecked
             {
                 return Id.GetHashCode() * IsDeleted.GetHashCode() * Name.GetHashCode() * ManufacturerId.GetHashCode()
-                       * Description.GetHashCode() * Price.GetHashCode() * ConnectionTypeId.GetHashCode()
-                       * ThumbnailImageUrl.GetHashCode() * BigImageUrl.GetHashCode() * Created.GetHashCode() 
-                       * LastModified.GetHashCode() * IsStitched.GetHashCode() * TopMaterialId.GetHashCode() 
-                       * BottomMaterialId.GetHashCode() * BacklightId.GetHashCode() * Length.GetHashCode() 
-                       * Width.GetHashCode() * Height.GetHashCode();
+                       * Description.GetHashCode() * Price.GetHashCode() * ThumbnailImageUrl.GetHashCode() 
+                       * BigImageUrl.GetHashCode() * Created.GetHashCode() * LastModified.GetHashCode() 
+                       * IsStitched.GetHashCode() * TopMaterialId.GetHashCode() * BottomMaterialId.GetHashCode() 
+                       * BacklightId.GetHashCode() * Length.GetHashCode() * Width.GetHashCode() * Height.GetHashCode();
             }
         }
     }

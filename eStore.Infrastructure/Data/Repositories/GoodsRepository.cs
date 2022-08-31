@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using eStore.ApplicationCore.Entities;
 using eStore.ApplicationCore.Interfaces.Data;
@@ -27,9 +28,9 @@ namespace eStore.Infrastructure.Data.Repositories
             return await _context.Goods.ToListAsync();
         }
 
-        public IEnumerable<Goods> Query(Func<Goods, bool> predicate)
+        public IEnumerable<Goods> Query(Expression<Func<Goods, bool>> predicate)
         {
-            return _context.Goods.Where(predicate).ToList();
+            return _context.Goods.Where(predicate.Compile()).ToList();
         }
 
         public async Task AddAsync(Goods entity)

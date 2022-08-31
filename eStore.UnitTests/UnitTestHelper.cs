@@ -1,15 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using eStore.ApplicationCore.Entities;
 using eStore.ApplicationCore.Enums;
 using eStore.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
+using Moq;
 
 namespace eStore.UnitTests
 {
-    public static class UnitTestHelper
+    internal static class UnitTestHelper
     {
         public static IEnumerable<Backlight> Backlights =>
             new List<Backlight>()
@@ -121,23 +123,6 @@ namespace eStore.UnitTests
                 }
             };
 
-        public static IEnumerable<Customer> Customers =>
-            new List<Customer>()
-            {
-                new()
-                {
-                    Id = 1, IsDeleted = false, Email = "email1@mail.com",
-                    IdentityId = "F9168C5E-CEB2-4faa-B6BF-329BF39FA1E4", ShoppingCartId = 1,
-                    ShoppingCart = new ShoppingCart() { Id = 1, IsDeleted = false, CustomerId = 1 }
-                },
-                new()
-                {
-                    Id = 2, IsDeleted = false, Email = "email2@mail.com",
-                    IdentityId = "936DA01F-9ABD-4d9d-80C7-02AF85C822A8", ShoppingCartId = 2,
-                    ShoppingCart = new ShoppingCart() { Id = 2, IsDeleted = false, CustomerId = 2 }
-                }
-            };
-
         public static IEnumerable<Gamepad> Gamepads =>
             new List<Gamepad>()
             {
@@ -147,15 +132,25 @@ namespace eStore.UnitTests
                     Description = "Description1", ManufacturerId = 3, Price = 34.99m,
                     LastModified = new DateTime(2022, 01, 25, 14, 06, 20),
                     ConnectionTypeId = 1, Weight = 250, FeedbackId = 1, BigImageUrl = "big1.png",
-                    ThumbnailImageUrl = "thumbnail1.png"
+                    ThumbnailImageUrl = "thumbnail1.png", CompatibleDevices = new List<GamepadCompatibleDevice>()
+                    {
+                        new() { GamepadId = 1, CompatibleDeviceId = 1 },
+                        new() { GamepadId = 1, CompatibleDeviceId = 2 },
+                        new() { GamepadId = 1, CompatibleDeviceId = 3 }
+                    }
                 },
                 new()
                 {
-                    Id = 2, IsDeleted = false, Name = "Gamepad2", Created = new DateTime(2022, 01, 25, 14, 07, 20),
+                    Id = 2, IsDeleted = true, Name = "Gamepad2", Created = new DateTime(2022, 01, 25, 14, 07, 20),
                     Description = "Description2", ManufacturerId = 3, Price = 24.99m,
                     LastModified = new DateTime(2022, 01, 25, 14, 07, 20),
                     ConnectionTypeId = 1, Weight = 260, FeedbackId = 1, BigImageUrl = "big2.png",
-                    ThumbnailImageUrl = "thumbnail2.png"
+                    ThumbnailImageUrl = "thumbnail2.png", CompatibleDevices = new List<GamepadCompatibleDevice>()
+                    {
+                        new() { GamepadId = 2, CompatibleDeviceId = 1 },
+                        new() { GamepadId = 2, CompatibleDeviceId = 2 },
+                        new() { GamepadId = 2, CompatibleDeviceId = 3 }
+                    }
                 },
                 new()
                 {
@@ -163,7 +158,12 @@ namespace eStore.UnitTests
                     Description = "Description2", ManufacturerId = 4, Price = 44.99m,
                     LastModified = new DateTime(2022, 01, 25, 14, 08, 20),
                     ConnectionTypeId = 1, Weight = 220, FeedbackId = 1, BigImageUrl = "big3.png",
-                    ThumbnailImageUrl = "thumbnail3.png"
+                    ThumbnailImageUrl = "thumbnail3.png", CompatibleDevices = new List<GamepadCompatibleDevice>()
+                    {
+                        new() { GamepadId = 3, CompatibleDeviceId = 1 },
+                        new() { GamepadId = 3, CompatibleDeviceId = 2 },
+                        new() { GamepadId = 3, CompatibleDeviceId = 3 }
+                    }
                 },
                 new()
                 {
@@ -171,7 +171,11 @@ namespace eStore.UnitTests
                     Description = "Description4", ManufacturerId = 5, Price = 54.99m,
                     LastModified = new DateTime(2022, 01, 25, 14, 09, 20),
                     ConnectionTypeId = 2, Weight = 280, FeedbackId = 2, BigImageUrl = "big4.png",
-                    ThumbnailImageUrl = "thumbnail4.png"
+                    ThumbnailImageUrl = "thumbnail4.png", CompatibleDevices = new List<GamepadCompatibleDevice>()
+                    {
+                        new() { GamepadId = 4, CompatibleDeviceId = 1 },
+                        new() { GamepadId = 4, CompatibleDeviceId = 3 }
+                    }
                 }
             };
 
@@ -190,7 +194,7 @@ namespace eStore.UnitTests
                 },
                 new()
                 {
-                    Id = 6, IsDeleted = false, Name = "Keyboard6", Created = new DateTime(2022, 01, 25, 14, 11, 20),
+                    Id = 6, IsDeleted = true, Name = "Keyboard6", Created = new DateTime(2022, 01, 25, 14, 11, 20),
                     LastModified = new DateTime(2022, 01, 25, 14, 11, 20),
                     Description = "Description6", ManufacturerId = 4, Price = 47.99m, BigImageUrl = "big6.png",
                     ThumbnailImageUrl = "thumbnail6.png",
@@ -232,7 +236,7 @@ namespace eStore.UnitTests
             {
                 new()
                 {
-                    Id = 10, IsDeleted = false, Name = "Mouse10", Created = new DateTime(2022, 01, 25, 14, 15, 20),
+                    Id = 10, IsDeleted = true, Name = "Mouse10", Created = new DateTime(2022, 01, 25, 14, 15, 20),
                     LastModified = new DateTime(2022, 01, 25, 14, 15, 20),
                     Description = "Description10", ManufacturerId = 3, Price = 37.99m, BigImageUrl = "big10.png",
                     ThumbnailImageUrl = "thumbnail10.png",
@@ -267,13 +271,13 @@ namespace eStore.UnitTests
             {
                 new()
                 {
-                    Id = 13, IsDeleted = false, Name = "Mousepad13",
+                    Id = 13, IsDeleted = true, Name = "Mousepad13",
                     Created = new DateTime(2022, 01, 25, 14, 18, 20),
                     LastModified = new DateTime(2022, 01, 25, 14, 18, 20),
                     Description = "Description13", ManufacturerId = 4, Price = 27.99m, BigImageUrl = "big13.png",
                     ThumbnailImageUrl = "thumbnail13.png",
                     Length = 320, Width = 270, Height = 4, IsStitched = true, BacklightId = 1, BottomMaterialId = 4,
-                    TopMaterialId = 5, ConnectionTypeId = 1
+                    TopMaterialId = 5
                 },
                 new()
                 {
@@ -283,7 +287,7 @@ namespace eStore.UnitTests
                     Description = "Description14", ManufacturerId = 5, Price = 45.99m, BigImageUrl = "big14.png",
                     ThumbnailImageUrl = "thumbnail14.png",
                     Length = 450, Width = 400, Height = 3, IsStitched = true, BacklightId = 1, BottomMaterialId = 4,
-                    TopMaterialId = 5, ConnectionTypeId = 1
+                    TopMaterialId = 5
                 },
                 new()
                 {
@@ -293,41 +297,42 @@ namespace eStore.UnitTests
                     Description = "Description15", ManufacturerId = 5, Price = 48.99m, BigImageUrl = "big15.png",
                     ThumbnailImageUrl = "thumbnail15.png",
                     Length = 450, Width = 400, Height = 4, IsStitched = true, BacklightId = 1, BottomMaterialId = 2,
-                    TopMaterialId = 5, ConnectionTypeId = 1
+                    TopMaterialId = 5
                 }
             };
-
-        public static IEnumerable<GoodsInCart> GoodsInCarts =>
-            new List<GoodsInCart>()
+        
+        public static IEnumerable<Customer> Customers =>
+            new List<Customer>()
             {
-                new() { CartId = 1, GoodsId = 1 },
-                new() { CartId = 1, GoodsId = 2 },
-                new() { CartId = 2, GoodsId = 3 },
-                new() { CartId = 2, GoodsId = 6 },
-                new() { CartId = 1, GoodsId = 3 },
-                new() { CartId = 2, GoodsId = 2 },
-                new() { CartId = 1, GoodsId = 4 },
-                new() { CartId = 2, GoodsId = 1 },
-                new() { CartId = 1, GoodsId = 8 },
-                new() { CartId = 2, GoodsId = 10 },
-                new() { CartId = 2, GoodsId = 12 },
-                new() { CartId = 1, GoodsId = 12 }
-            };
-
-        public static IEnumerable<GamepadCompatibleDevice> GamepadCompatibleDevices =>
-            new List<GamepadCompatibleDevice>()
-            {
-                new() { GamepadId = 1, CompatibleDeviceId = 1 },
-                new() { GamepadId = 1, CompatibleDeviceId = 2 },
-                new() { GamepadId = 1, CompatibleDeviceId = 3 },
-                new() { GamepadId = 2, CompatibleDeviceId = 1 },
-                new() { GamepadId = 2, CompatibleDeviceId = 2 },
-                new() { GamepadId = 2, CompatibleDeviceId = 3 },
-                new() { GamepadId = 3, CompatibleDeviceId = 1 },
-                new() { GamepadId = 3, CompatibleDeviceId = 2 },
-                new() { GamepadId = 3, CompatibleDeviceId = 3 },
-                new() { GamepadId = 4, CompatibleDeviceId = 1 },
-                new() { GamepadId = 4, CompatibleDeviceId = 3 }
+                new()
+                {
+                    Id = 1, IsDeleted = false, Email = "email1@mail.com",
+                    IdentityId = "F9168C5E-CEB2-4faa-B6BF-329BF39FA1E4", ShoppingCartId = 1,
+                    ShoppingCart = new ShoppingCart() { Id = 1, IsDeleted = false, CustomerId = 1, Goods = new List<GoodsInCart>()
+                    {
+                        new() { CartId = 1, GoodsId = 1 },
+                        new() { CartId = 1, GoodsId = 2 },
+                        new() { CartId = 1, GoodsId = 3 },
+                        new() { CartId = 1, GoodsId = 4 },
+                        new() { CartId = 1, GoodsId = 8 },
+                        new() { CartId = 1, GoodsId = 12 }
+                    }}
+                },
+                new()
+                {
+                    Id = 2, IsDeleted = true, Email = "email2@mail.com",
+                    IdentityId = "936DA01F-9ABD-4d9d-80C7-02AF85C822A8", ShoppingCartId = 2,
+                    ShoppingCart = new ShoppingCart() { Id = 2, IsDeleted = false, CustomerId = 2, Goods = new List<GoodsInCart>()
+                    {
+                        
+                        new() { CartId = 2, GoodsId = 3 },
+                        new() { CartId = 2, GoodsId = 6 },
+                        new() { CartId = 2, GoodsId = 2 },
+                        new() { CartId = 2, GoodsId = 1 },
+                        new() { CartId = 2, GoodsId = 10 },
+                        new() { CartId = 2, GoodsId = 12 }
+                    }}
+                }
             };
 
         public static IEnumerable<Order> Orders =>
@@ -347,7 +352,7 @@ namespace eStore.UnitTests
                 },
                 new()
                 {
-                    Id = 2, IsDeleted = false, CustomerId = 1, Status = OrderStatus.New,
+                    Id = 2, IsDeleted = false, CustomerId = 1, Status = OrderStatus.Paid,
                     TimeStamp = new DateTime(2022, 02, 10, 13, 45, 23),
                     ShippingAddress = "Address1", ShippingCity = "City1", ShippingPostalCode = "02000", Total = 452.91m,
                     OrderItems = new List<OrderItem>()
@@ -361,7 +366,7 @@ namespace eStore.UnitTests
                 },
                 new()
                 {
-                    Id = 3, IsDeleted = false, CustomerId = 1, Status = OrderStatus.New,
+                    Id = 3, IsDeleted = false, CustomerId = 1, Status = OrderStatus.Processing,
                     TimeStamp = new DateTime(2022, 02, 10, 13, 45, 23),
                     ShippingAddress = "Address1", ShippingCity = "City1", ShippingPostalCode = "02000", Total = 286.92m,
                     OrderItems = new List<OrderItem>()
@@ -383,7 +388,7 @@ namespace eStore.UnitTests
                 },
                 new()
                 {
-                    Id = 4, IsDeleted = false, CustomerId = 1, Status = OrderStatus.New,
+                    Id = 4, IsDeleted = false, CustomerId = 1, Status = OrderStatus.Sent,
                     TimeStamp = new DateTime(2022, 02, 10, 13, 45, 23),
                     ShippingAddress = "Address1", ShippingCity = "City1", ShippingPostalCode = "02000", Total = 98.97m,
                     OrderItems = new List<OrderItem>()
@@ -395,6 +400,40 @@ namespace eStore.UnitTests
                         new()
                         {
                             Id = 14, IsDeleted = false, OrderId = 4, GoodsId = 2, Quantity = 2, UnitPrice = 24.99m
+                        }
+                    }
+                },
+                new()
+                {
+                    Id = 5, IsDeleted = false, CustomerId = 1, Status = OrderStatus.Received,
+                    TimeStamp = new DateTime(2022, 02, 10, 13, 46, 23),
+                    ShippingAddress = "Address1", ShippingCity = "City1", ShippingPostalCode = "02000", Total = 98.97m,
+                    OrderItems = new List<OrderItem>()
+                    {
+                        new()
+                        {
+                            Id = 15, IsDeleted = false, OrderId = 5, GoodsId = 15, Quantity = 1, UnitPrice = 48.99m
+                        },
+                        new()
+                        {
+                            Id = 16, IsDeleted = false, OrderId = 5, GoodsId = 2, Quantity = 2, UnitPrice = 24.99m
+                        }
+                    }
+                },
+                new()
+                {
+                    Id = 6, IsDeleted = false, CustomerId = 1, Status = OrderStatus.Cancelled,
+                    TimeStamp = new DateTime(2022, 02, 10, 13, 47, 23),
+                    ShippingAddress = "Address1", ShippingCity = "City1", ShippingPostalCode = "02000", Total = 98.97m,
+                    OrderItems = new List<OrderItem>()
+                    {
+                        new()
+                        {
+                            Id = 17, IsDeleted = false, OrderId = 6, GoodsId = 15, Quantity = 1, UnitPrice = 48.99m
+                        },
+                        new()
+                        {
+                            Id = 18, IsDeleted = false, OrderId = 6, GoodsId = 2, Quantity = 2, UnitPrice = 24.99m
                         }
                     }
                 }
@@ -444,8 +483,6 @@ namespace eStore.UnitTests
             await context.Keyboards.AddRangeAsync(Keyboards);
             await context.Mouses.AddRangeAsync(Mouses);
             await context.Mousepads.AddRangeAsync(Mousepads);
-            await context.GoodsInCarts.AddRangeAsync(GoodsInCarts);
-            await context.GamepadCompatibleDevices.AddRangeAsync(GamepadCompatibleDevices);
             await context.Orders.AddRangeAsync(Orders);
             await context.SaveChangesAsync();
 

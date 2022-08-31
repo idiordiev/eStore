@@ -14,6 +14,7 @@ namespace eStore.ApplicationCore.Entities
         public string LastName { get; set; }
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
+        public string Country { get; set; }
         public string City { get; set; }
         public string Address { get; set; }
         public string PostalCode { get; set; }
@@ -33,6 +34,7 @@ namespace eStore.ApplicationCore.Entities
                        && this.LastName == other.LastName
                        && this.Email == other.Email
                        && this.PhoneNumber == other.PhoneNumber
+                       && this.Country == other.Country
                        && this.City == other.City
                        && this.Address == other.Address
                        && this.PostalCode == other.PostalCode

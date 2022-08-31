@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using eStore.ApplicationCore.Entities;
 using eStore.ApplicationCore.Interfaces.Data;
@@ -25,7 +26,6 @@ namespace eStore.Infrastructure.Data.Repositories
                 .ThenInclude(g => g.Goods)
                 .ThenInclude(g => g.Manufacturer)
                 .Include(c => c.ShoppingCart.Goods)
-                .ThenInclude(g => g.Goods.ConnectionType)
                 .Include(c => c.ShoppingCart.Goods)
                 .ThenInclude(g => (g.Goods as Keyboard).Backlight)
                 .Include(c => c.ShoppingCart.Goods)
@@ -39,9 +39,13 @@ namespace eStore.Infrastructure.Data.Repositories
                 .Include(c => c.ShoppingCart.Goods)
                 .ThenInclude(g => (g.Goods as Keyboard).FrameMaterial)
                 .Include(c => c.ShoppingCart.Goods)
+                .ThenInclude(g => (g.Goods as Keyboard).ConnectionType)
+                .Include(c => c.ShoppingCart.Goods)
                 .ThenInclude(g => (g.Goods as Keyboard).Switch.Manufacturer)
                 .Include(c => c.ShoppingCart.Goods)
                 .ThenInclude(g => (g.Goods as Mouse).Backlight)
+                .Include(c => c.ShoppingCart.Goods)
+                .ThenInclude(g => (g.Goods as Mouse).ConnectionType)
                 .Include(c => c.ShoppingCart.Goods)
                 .ThenInclude(g => (g.Goods as Mousepad).Backlight)
                 .Include(c => c.ShoppingCart.Goods)
@@ -50,6 +54,8 @@ namespace eStore.Infrastructure.Data.Repositories
                 .ThenInclude(g => (g.Goods as Mousepad).BottomMaterial)
                 .Include(c => c.ShoppingCart.Goods)
                 .ThenInclude(g => (g.Goods as Gamepad).Feedback)
+                .Include(c => c.ShoppingCart.Goods)
+                .ThenInclude(g => (g.Goods as Gamepad).ConnectionType)
                 .Include(c => c.ShoppingCart.Goods)
                 .ThenInclude(g => (g.Goods as Gamepad).CompatibleDevices)
                 .FirstOrDefaultAsync(c => c.Id == id);
@@ -63,7 +69,6 @@ namespace eStore.Infrastructure.Data.Repositories
                 .ThenInclude(g => g.Goods)
                 .ThenInclude(g => g.Manufacturer)
                 .Include(c => c.ShoppingCart.Goods)
-                .ThenInclude(g => g.Goods.ConnectionType)
                 .Include(c => c.ShoppingCart.Goods)
                 .ThenInclude(g => (g.Goods as Keyboard).Backlight)
                 .Include(c => c.ShoppingCart.Goods)
@@ -77,9 +82,13 @@ namespace eStore.Infrastructure.Data.Repositories
                 .Include(c => c.ShoppingCart.Goods)
                 .ThenInclude(g => (g.Goods as Keyboard).FrameMaterial)
                 .Include(c => c.ShoppingCart.Goods)
+                .ThenInclude(g => (g.Goods as Keyboard).ConnectionType)
+                .Include(c => c.ShoppingCart.Goods)
                 .ThenInclude(g => (g.Goods as Keyboard).Switch.Manufacturer)
                 .Include(c => c.ShoppingCart.Goods)
                 .ThenInclude(g => (g.Goods as Mouse).Backlight)
+                .Include(c => c.ShoppingCart.Goods)
+                .ThenInclude(g => (g.Goods as Mouse).ConnectionType)
                 .Include(c => c.ShoppingCart.Goods)
                 .ThenInclude(g => (g.Goods as Mousepad).Backlight)
                 .Include(c => c.ShoppingCart.Goods)
@@ -89,11 +98,13 @@ namespace eStore.Infrastructure.Data.Repositories
                 .Include(c => c.ShoppingCart.Goods)
                 .ThenInclude(g => (g.Goods as Gamepad).Feedback)
                 .Include(c => c.ShoppingCart.Goods)
+                .ThenInclude(g => (g.Goods as Gamepad).ConnectionType)
+                .Include(c => c.ShoppingCart.Goods)
                 .ThenInclude(g => (g.Goods as Gamepad).CompatibleDevices)
                 .ToListAsync();
         }
 
-        public IEnumerable<Customer> Query(Func<Customer, bool> predicate)
+        public IEnumerable<Customer> Query(Expression<Func<Customer, bool>> predicate)
         {
             return _context.Customers
                 .Include(c => c.ShoppingCart)
@@ -101,7 +112,6 @@ namespace eStore.Infrastructure.Data.Repositories
                 .ThenInclude(g => g.Goods)
                 .ThenInclude(g => g.Manufacturer)
                 .Include(c => c.ShoppingCart.Goods)
-                .ThenInclude(g => g.Goods.ConnectionType)
                 .Include(c => c.ShoppingCart.Goods)
                 .ThenInclude(g => (g.Goods as Keyboard).Backlight)
                 .Include(c => c.ShoppingCart.Goods)
@@ -115,9 +125,13 @@ namespace eStore.Infrastructure.Data.Repositories
                 .Include(c => c.ShoppingCart.Goods)
                 .ThenInclude(g => (g.Goods as Keyboard).FrameMaterial)
                 .Include(c => c.ShoppingCart.Goods)
+                .ThenInclude(g => (g.Goods as Keyboard).ConnectionType)
+                .Include(c => c.ShoppingCart.Goods)
                 .ThenInclude(g => (g.Goods as Keyboard).Switch.Manufacturer)
                 .Include(c => c.ShoppingCart.Goods)
                 .ThenInclude(g => (g.Goods as Mouse).Backlight)
+                .Include(c => c.ShoppingCart.Goods)
+                .ThenInclude(g => (g.Goods as Mouse).ConnectionType)
                 .Include(c => c.ShoppingCart.Goods)
                 .ThenInclude(g => (g.Goods as Mousepad).Backlight)
                 .Include(c => c.ShoppingCart.Goods)
@@ -127,8 +141,10 @@ namespace eStore.Infrastructure.Data.Repositories
                 .Include(c => c.ShoppingCart.Goods)
                 .ThenInclude(g => (g.Goods as Gamepad).Feedback)
                 .Include(c => c.ShoppingCart.Goods)
+                .ThenInclude(g => (g.Goods as Gamepad).ConnectionType)
+                .Include(c => c.ShoppingCart.Goods)
                 .ThenInclude(g => (g.Goods as Gamepad).CompatibleDevices)
-                .Where(predicate);
+                .Where(predicate.Compile());
         }
 
         public async Task AddAsync(Customer entity)

@@ -105,9 +105,9 @@ namespace eStore.UnitTests.Data
             await repo.AddAsync(newOrder);
 
             // Assert
-            Assert.AreEqual(5, context.Orders.Count(), "The new order has not been added to the context.");
-            Assert.IsNotNull(await context.Orders.FindAsync(5), "The new order has been added with the wrong ID.");
-            Assert.AreEqual(16, context.OrderItems.Count(), "The items of the new order has not been added to the context.");
+            Assert.AreEqual(7, context.Orders.Count(), "The new order has not been added to the context.");
+            Assert.IsNotNull(await context.Orders.FindAsync(7), "The new order has been added with the wrong ID.");
+            Assert.AreEqual(20, context.OrderItems.Count(), "The items of the new order has not been added to the context.");
         }
 
         [Test]
@@ -140,7 +140,7 @@ namespace eStore.UnitTests.Data
             await repo.DeleteAsync(id);
 
             // Assert
-            Assert.AreEqual(3, context.Orders.Count(), "Any orders has not been deleted.");
+            Assert.AreEqual(5, context.Orders.Count(), "Any orders has not been deleted.");
             Assert.IsNull(await context.Orders.FindAsync(id), "The selected order has not been deleted.");
         }
 

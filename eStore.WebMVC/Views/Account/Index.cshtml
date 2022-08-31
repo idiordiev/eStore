@@ -12,6 +12,7 @@
             <h3>@Model.FirstName @Model.LastName</h3>
             <p>Tel: @Model.PhoneNumber</p>
             <p>Email: @Model.Email</p>
+            <p>Country: @Model.Country</p>
             <p>City: @Model.City</p>
             <p>Address: @Model.Address</p>
             <p>Postal code: @Model.PostalCode</p>
@@ -36,6 +37,10 @@
             </div>
             <div class="account-edit-form-group">
                 <p class="account-edit-form-label">Email: @Model.Email</p>
+            </div>
+            <div class="account-edit-form-group">
+                <p class="account-edit-form-label">Country:</p>
+                <input asp-for="Country" class="account-edit-form-input" autocomplete="off"/>
             </div>
             <div class="account-edit-form-group">
                 <p class="account-edit-form-label">City:</p>

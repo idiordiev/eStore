@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using eStore.ApplicationCore.Entities;
 using eStore.ApplicationCore.Interfaces.Data;
@@ -35,13 +36,13 @@ namespace eStore.Infrastructure.Data.Repositories
                 .ToListAsync();
         }
 
-        public IEnumerable<Mouse> Query(Func<Mouse, bool> predicate)
+        public IEnumerable<Mouse> Query(Expression<Func<Mouse, bool>> predicate)
         {
             return _context.Mouses
                 .Include(m => m.Manufacturer)
                 .Include(m => m.ConnectionType)
                 .Include(m => m.Backlight)
-                .Where(predicate)
+                .Where(predicate.Compile())
                 .ToList();
         }
 

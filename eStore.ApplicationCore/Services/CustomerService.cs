@@ -25,7 +25,7 @@ namespace eStore.ApplicationCore.Services
             return await _unitOfWork.CustomerRepository.GetByIdAsync(customerId);
         }
 
-        public async Task<Customer> AddCustomerAsync(Customer customer)
+        public async Task AddCustomerAsync(Customer customer)
         {
             var existingCustomers = _unitOfWork.CustomerRepository.Query(c => c.Email == customer.Email);
             if (existingCustomers.Any())
@@ -34,7 +34,6 @@ namespace eStore.ApplicationCore.Services
             customer.ShoppingCart = new ShoppingCart();
             await _unitOfWork.CustomerRepository.AddAsync(customer);
             await _emailService.SendRegisterEmailAsync(customer);
-            return customer;
         }
 
         public async Task UpdateCustomerInfoAsync(Customer customer)
@@ -48,10 +47,9 @@ namespace eStore.ApplicationCore.Services
             if (customer == null)
                 throw new CustomerNotFoundException($"The customer with the id {customerId} has not been found.");
             if (customer.IsDeleted)
-                throw new AccountDeactivatedException(
-                    $"The account with the id {customerId} has already been deactivated.");
+                throw new AccountDeactivatedException($"The account with the id {customerId} has already been deactivated.");
 
-            customer.IsDeleted = false;
+            customer.IsDeleted = true;
             var email = customer.Email;
             customer.Email = null;
             await _unitOfWork.CustomerRepository.UpdateAsync(customer);
@@ -77,7 +75,7 @@ namespace eStore.ApplicationCore.Services
             if (goods.IsDeleted)
                 throw new EntityDeletedException($"The goods with the id {goodsId} has been deleted.");
 
-            customer.ShoppingCart.Goods.Add(new GoodsInCart { Cart = customer.ShoppingCart, Goods = goods });
+            customer.ShoppingCart.Goods.Add(new GoodsInCart { CartId = customer.ShoppingCart.Id, GoodsId = goods.Id });
             await _unitOfWork.CustomerRepository.UpdateAsync(customer);
         }
 
@@ -96,6 +94,19 @@ namespace eStore.ApplicationCore.Services
                     $"The goods with the id {goodsId} has not been found in the cart of the customer {customerId}.");
 
             customer.ShoppingCart.Goods.Remove(goodsInCart);
+            await _unitOfWork.CustomerRepository.UpdateAsync(customer);
+        }
+
+        public async Task ClearCustomerCartAsync(int customerId)
+        {
+            var customer = await _unitOfWork.CustomerRepository.GetByIdAsync(customerId);
+            if (customer == null)
+                throw new CustomerNotFoundException($"The customer with the id {customerId} has not been found.");
+            if (customer.IsDeleted)
+                throw new AccountDeactivatedException(
+                    $"The account with the id {customerId} has already been deactivated.");
+            
+            customer.ShoppingCart.Goods.Clear();
             await _unitOfWork.CustomerRepository.UpdateAsync(customer);
         }
     }

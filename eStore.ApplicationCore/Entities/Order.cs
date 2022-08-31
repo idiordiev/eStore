@@ -15,6 +15,7 @@ namespace eStore.ApplicationCore.Entities
         public int CustomerId { get; set; }
         public OrderStatus Status { get; set; }
         public decimal Total { get; set; }
+        public string ShippingCountry { get; set; }
         public string ShippingCity { get; set; }
         public string ShippingAddress { get; set; }
         public string ShippingPostalCode { get; set; }
@@ -32,6 +33,7 @@ namespace eStore.ApplicationCore.Entities
                        && this.CustomerId == other.CustomerId
                        && this.Status == other.Status
                        && this.Total == other.Total
+                       && this.ShippingCountry == other.ShippingCountry
                        && this.ShippingCity == other.ShippingCity
                        && this.ShippingAddress == other.ShippingAddress
                        && this.ShippingPostalCode == other.ShippingPostalCode;

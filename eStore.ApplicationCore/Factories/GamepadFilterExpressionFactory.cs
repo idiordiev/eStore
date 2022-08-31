@@ -4,29 +4,27 @@ using System.Linq;
 using System.Linq.Expressions;
 using eStore.ApplicationCore.Entities;
 using eStore.ApplicationCore.FilterModels;
+using eStore.ApplicationCore.Interfaces;
 
-namespace eStore.ApplicationCore.Factory
+namespace eStore.ApplicationCore.Factories
 {
-    public class GamepadExpressionFactory : IExpressionFactory
+    internal class GamepadFilterExpressionFactory : IFilterExpressionFactory<Gamepad>
     {
-        public Expression CreateFilterExpression(GoodsFilterModel filterModel)
+        public Expression<Func<Gamepad, bool>> CreateExpression(GoodsFilterModel filterModel)
         {
             if (filterModel is not GamepadFilterModel filter)
                 throw new ArgumentException("");
             
-            Expression baseExpression = Expression.Constant(true);
-            var gamepadParameter = Expression.Parameter(typeof(Gamepad), "g");
-
+            ParameterExpression gamepadParameter = Expression.Parameter(typeof(Gamepad), "g");
             Expression isDeletedProperty = Expression.Property(gamepadParameter, nameof(Gamepad.IsDeleted));
-            Expression notDeletedCondition = Expression.IsFalse(isDeletedProperty);
-            baseExpression = Expression.AndAlso(baseExpression, notDeletedCondition);
+            Expression filterExpression = Expression.IsFalse(isDeletedProperty);
 
             if (filter.MinPrice != null)
             {
                 Expression left = Expression.Property(gamepadParameter, "Price");
                 Expression right = Expression.Constant(filter.MinPrice);
                 Expression expression = Expression.GreaterThanOrEqual(left, right);
-                baseExpression = Expression.AndAlso(baseExpression, expression);
+                filterExpression = Expression.AndAlso(filterExpression, expression);
             }
 
             if (filter.MaxPrice != null)
@@ -34,7 +32,7 @@ namespace eStore.ApplicationCore.Factory
                 Expression left = Expression.Property(gamepadParameter, "Price");
                 Expression right = Expression.Constant(filter.MaxPrice);
                 Expression expression = Expression.LessThanOrEqual(left, right);
-                baseExpression = Expression.AndAlso(baseExpression, expression);
+                filterExpression = Expression.AndAlso(filterExpression, expression);
             }
 
             if (filter.ManufacturerIds != null && filter.ManufacturerIds.Any())
@@ -47,7 +45,7 @@ namespace eStore.ApplicationCore.Factory
                     .Single(x => x.GetParameters().Length == 2)
                     .MakeGenericMethod(typeof(int));
                 Expression containsExpression = Expression.Call(method, values, property);
-                baseExpression = Expression.AndAlso(baseExpression, containsExpression);
+                filterExpression = Expression.AndAlso(filterExpression, containsExpression);
             }
 
             if (filter.ConnectionTypeIds != null && filter.ConnectionTypeIds.Any())
@@ -60,7 +58,7 @@ namespace eStore.ApplicationCore.Factory
                     .Single(x => x.GetParameters().Length == 2)
                     .MakeGenericMethod(typeof(int));
                 Expression containsExpression = Expression.Call(method, values, property);
-                baseExpression = Expression.AndAlso(baseExpression, containsExpression);
+                filterExpression = Expression.AndAlso(filterExpression, containsExpression);
             }
 
             if (filter.FeedbackIds != null && filter.FeedbackIds.Any())
@@ -73,11 +71,11 @@ namespace eStore.ApplicationCore.Factory
                     .Single(x => x.GetParameters().Length == 2)
                     .MakeGenericMethod(typeof(int));
                 Expression containsExpression = Expression.Call(method, values, property);
-                baseExpression = Expression.AndAlso(baseExpression, containsExpression);
+                filterExpression = Expression.AndAlso(filterExpression, containsExpression);
             }
 
-            baseExpression = Expression.Lambda(baseExpression, gamepadParameter);
-            return baseExpression;
+            Expression<Func<Gamepad, bool>> result = (Expression<Func<Gamepad, bool>>)Expression.Lambda(filterExpression, gamepadParameter);
+            return result;
         }
     }
 }

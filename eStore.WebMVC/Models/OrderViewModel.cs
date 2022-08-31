@@ -10,6 +10,9 @@ namespace eStore.WebMVC.Models
         public DateTime TimeStamp { get; set; }
         public string Status { get; set; }
         public decimal Total { get; set; }
+        
+        [Display(Name = "Country")]
+        public string ShippingCountry { get; set; }
 
         [Display(Name = "City")]
         public string ShippingCity { get; set; }

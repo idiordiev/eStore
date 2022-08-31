@@ -965,8 +965,8 @@ footer {
 
 .account-edit-form-close {
     position: absolute;
-    top: 20px;
-    right: 20px;
+    top: 10px;
+    right: 10px;
     border: none;
     background-color: transparent;
 }
@@ -1596,7 +1596,7 @@ footer {
     color: #FFFFFF;
 }
 
-.purchase-success-container {
+.info-page-container {
     height: calc(30vh);
     width: calc(100vw);
     display: flex;
@@ -1606,21 +1606,21 @@ footer {
     margin-top: 150px;
 }
 
-.purchase-success-container h2 {
+.info-page-container h2 {
     font-family: 'Roboto', sans-serif;
     font-weight: 500;
     font-size: 56px;
     color: #F5F5F5;
 }
 
-.purchase-success-container h3 {
+.info-page-container h3 {
     font-family: 'Roboto', sans-serif;
     font-weight: 300;
     font-size: 26px;
     color: #F5F5F5;
 }
 
-.purchase-success-container a {
+.info-page-container a {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -1641,7 +1641,7 @@ footer {
     font-size: 26px;
 }
 
-.purchase-success-container a:hover {
+.info-page-container a:hover {
     border: 1px solid #000000;
     background-color: #000000;
     color: #FFFFFF;

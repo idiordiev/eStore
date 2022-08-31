@@ -4,7 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using eStore.ApplicationCore.Entities;
-using eStore.ApplicationCore.Factory;
+using eStore.ApplicationCore.Factories;
 using eStore.ApplicationCore.FilterModels;
 using eStore.ApplicationCore.Interfaces;
 using eStore.ApplicationCore.Interfaces.Data;
@@ -21,17 +21,16 @@ namespace eStore.ApplicationCore.Services
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<IEnumerable<Gamepad>> GetAllAsync()
+        public async Task<IEnumerable<Gamepad>> GetPresentAsync()
         {
             return await Task.Run(() => _unitOfWork.GamepadRepository.Query(g => !g.IsDeleted));
         }
 
-        public async Task<IEnumerable<Gamepad>> GetAllByFilterAsync(GamepadFilterModel filter)
+        public async Task<IEnumerable<Gamepad>> GetPresentByFilterAsync(GamepadFilterModel filter)
         {
-            IExpressionFactory expressionFactory = new GamepadExpressionFactory();
-            var queryExpression = expressionFactory.CreateFilterExpression(filter);
-            var queryLambda = (Func<Gamepad, bool>)queryExpression.GetLambdaOrNull().Compile();
-            return await Task.Run(() => _unitOfWork.GamepadRepository.Query(queryLambda));
+            IFilterExpressionFactory<Gamepad> filterExpressionFactory = new GamepadFilterExpressionFactory();
+            var queryExpression = filterExpressionFactory.CreateExpression(filter);
+            return await Task.Run(() => _unitOfWork.GamepadRepository.Query(queryExpression));
         }
 
         public async Task<Gamepad> GetByIdAsync(int gamepadId)

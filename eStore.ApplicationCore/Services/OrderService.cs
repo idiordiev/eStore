@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
-using System.IO;
 using System.Threading.Tasks;
 using eStore.ApplicationCore.Entities;
 using eStore.ApplicationCore.Enums;
@@ -42,8 +40,6 @@ namespace eStore.ApplicationCore.Services
                 throw new CustomerNotFoundException($"The customer with id {customerId} has not been found.");
             if (customer.IsDeleted)
                 throw new AccountDeactivatedException($"The account with id {customerId} has  been deactivated.");
-            customer.ShoppingCart.Goods.Clear();
-            await _unitOfWork.CustomerRepository.UpdateAsync(customer);
 
             var order = new Order
             {
@@ -52,6 +48,7 @@ namespace eStore.ApplicationCore.Services
                 Status = OrderStatus.New,
                 OrderItems = new List<OrderItem>(),
                 Total = 0,
+                ShippingCountry = address.ShippingCountry,
                 ShippingAddress = address.ShippingAddress,
                 ShippingCity = address.ShippingCity,
                 ShippingPostalCode = address.ShippingPostalCode
@@ -72,12 +69,12 @@ namespace eStore.ApplicationCore.Services
             }
 
             await _unitOfWork.OrderRepository.AddAsync(order);
-            var emailAttachment = _attachmentService.CreateOrderInfoPdfAndReturnPath(order);
+            var emailAttachment = _attachmentService.CreateInvoice(order);
             await _emailService.SendPurchaseEmailAsyncAsync(order, emailAttachment);
             return order;
         }
 
-        public async Task PayOrder(int orderId)
+        public async Task PayOrderAsync(int orderId)
         {
             var order = await _unitOfWork.OrderRepository.GetByIdAsync(orderId);
 

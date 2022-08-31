@@ -7,8 +7,8 @@ namespace eStore.ApplicationCore.Interfaces
 {
     public interface IGamepadService
     {
-        Task<IEnumerable<Gamepad>> GetAllAsync();
-        Task<IEnumerable<Gamepad>> GetAllByFilterAsync(GamepadFilterModel filter);
+        Task<IEnumerable<Gamepad>> GetPresentAsync();
+        Task<IEnumerable<Gamepad>> GetPresentByFilterAsync(GamepadFilterModel filter);
         Task<Gamepad> GetByIdAsync(int gamepadId);
         Task<IEnumerable<Manufacturer>> GetManufacturersAsync();
         Task<IEnumerable<Feedback>> GetFeedbacksAsync();

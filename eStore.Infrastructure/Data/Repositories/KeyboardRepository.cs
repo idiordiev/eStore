@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using eStore.ApplicationCore.Entities;
 using eStore.ApplicationCore.Interfaces.Data;
@@ -49,7 +50,7 @@ namespace eStore.Infrastructure.Data.Repositories
                 .ToListAsync();
         }
 
-        public IEnumerable<Keyboard> Query(Func<Keyboard, bool> predicate)
+        public IEnumerable<Keyboard> Query(Expression<Func<Keyboard, bool>> predicate)
         {
             return _context.Keyboards
                 .Include(k => k.Manufacturer)
@@ -62,7 +63,7 @@ namespace eStore.Infrastructure.Data.Repositories
                 .Include(k => k.FrameMaterial)
                 .Include(k => k.Backlight)
                 .Include(k => k.KeyRollover)
-                .Where(predicate)
+                .Where(predicate.Compile())
                 .ToList();
         }
 

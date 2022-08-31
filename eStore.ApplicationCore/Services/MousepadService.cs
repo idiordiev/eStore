@@ -4,7 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using eStore.ApplicationCore.Entities;
-using eStore.ApplicationCore.Factory;
+using eStore.ApplicationCore.Factories;
 using eStore.ApplicationCore.FilterModels;
 using eStore.ApplicationCore.Interfaces;
 using eStore.ApplicationCore.Interfaces.Data;
@@ -21,17 +21,16 @@ namespace eStore.ApplicationCore.Services
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<IEnumerable<Mousepad>> GetAllAsync()
+        public async Task<IEnumerable<Mousepad>> GetPresentAsync()
         {
             return await Task.Run( () => _unitOfWork.MousepadRepository.Query(m => !m.IsDeleted));
         }
 
-        public async Task<IEnumerable<Mousepad>> GetAllByFilterAsync(MousepadFilterModel filter)
+        public async Task<IEnumerable<Mousepad>> GetPresentByFilterAsync(MousepadFilterModel filter)
         {
-            IExpressionFactory expressionFactory = new MousepadExpressionFactory();
-            var queryExpression = expressionFactory.CreateFilterExpression(filter);
-            var queryLambda = (Func<Mousepad, bool>)queryExpression.GetLambdaOrNull().Compile();
-            return await Task.Run(() => _unitOfWork.MousepadRepository.Query(queryLambda));
+            IFilterExpressionFactory<Mousepad> filterExpressionFactory = new MousepadFilterExpressionFactory();
+            var queryExpression = filterExpressionFactory.CreateExpression(filter);
+            return await Task.Run(() => _unitOfWork.MousepadRepository.Query(queryExpression));
         }
 
         public async Task<Mousepad> GetByIdAsync(int mousepadId)

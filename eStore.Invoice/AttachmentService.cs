@@ -35,7 +35,7 @@ namespace eStore.Invoice
 
         private const string DiscountValueCell = "F32";
 
-        public string CreateOrderInfoPdfAndReturnPath(Order order)
+        public string CreateInvoice(Order order)
         {
             if (order == null)
                 throw new ArgumentNullException(nameof(order), "The order is null.");
@@ -87,12 +87,12 @@ namespace eStore.Invoice
 
         private string GetFullCustomerAddress(Customer customer)
         {
-            return string.Join(", ", customer.Address, customer.City, "Ukraine", customer.PostalCode);
+            return string.Join(", ", customer.Address, customer.City, customer.Country, customer.PostalCode);
         }
 
         private string GetFullShippingAddress(Order order)
         {
-            return string.Join(", ", order.ShippingAddress, order.ShippingCity, "Ukraine", order.ShippingPostalCode);
+            return string.Join(", ", order.ShippingAddress, order.ShippingCity, order.ShippingCountry, order.ShippingPostalCode);
         }
     }
 }

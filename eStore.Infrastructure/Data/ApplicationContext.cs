@@ -40,5 +40,12 @@ namespace eStore.Infrastructure.Data
         {
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
+        
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+                optionsBuilder.UseSqlServer(
+                    @"Server=localhost\sqlexpress;Database=eStore;Trusted_Connection=True;MultipleActiveResultSets=True");
+        }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using eStore.ApplicationCore.Entities;
 using eStore.ApplicationCore.Interfaces.Data;
@@ -21,7 +22,6 @@ namespace eStore.Infrastructure.Data.Repositories
         {
             return await _context.Mousepads
                 .Include(m => m.Manufacturer)
-                .Include(m => m.ConnectionType)
                 .Include(m => m.BottomMaterial)
                 .Include(m => m.TopMaterial)
                 .Include(m => m.Backlight)
@@ -32,22 +32,20 @@ namespace eStore.Infrastructure.Data.Repositories
         {
             return await _context.Mousepads
                 .Include(m => m.Manufacturer)
-                .Include(m => m.ConnectionType)
                 .Include(m => m.BottomMaterial)
                 .Include(m => m.TopMaterial)
                 .Include(m => m.Backlight)
                 .ToListAsync();
         }
 
-        public IEnumerable<Mousepad> Query(Func<Mousepad, bool> predicate)
+        public IEnumerable<Mousepad> Query(Expression<Func<Mousepad, bool>> predicate)
         {
             return _context.Mousepads
                 .Include(m => m.Manufacturer)
-                .Include(m => m.ConnectionType)
                 .Include(m => m.BottomMaterial)
                 .Include(m => m.TopMaterial)
                 .Include(m => m.Backlight)
-                .Where(predicate)
+                .Where(predicate.Compile())
                 .ToList();
         }
 

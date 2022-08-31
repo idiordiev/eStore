@@ -4,7 +4,14 @@
     ViewBag.Title = "New Order";
     Layout = "_Layout";
 }
-
+@if(!Model.OrderItems.Any()) {
+    <div class="info-page-container">
+        <h2>Your cart is empty!</h2>
+        <h3>Please, go back to store and pick up something.</h3>
+        <a asp-action="Index" asp-controller="Home">BACK TO STORE</a>
+    </div>
+}
+else {
 <div class="new-order-container">
     <form asp-action="New" asp-controller="Order" class="new-order-form">
         <div class="new-order-column" style="margin-top: 60px">
@@ -37,6 +44,10 @@
             <h2>ORDER</h2>
             <div class="new-order-info">
                 <div class="new-order-info-group">
+                    <label asp-for="ShippingCountry" class="new-order-label"></label>
+                    <input asp-for="ShippingCountry" class="new-order-input" type="text" autocomplete="off"/>
+                </div>
+                <div class="new-order-info-group">
                     <label asp-for="ShippingCity" class="new-order-label"></label>
                     <input asp-for="ShippingCity" class="new-order-input" type="text" autocomplete="off"/>
                 </div>
@@ -60,6 +71,9 @@
         </div>
     </form>
 </div>
+}
+
+
 <script>
     let elements = document.querySelectorAll(".new-order-item-quantity");
     elements.forEach(el => {

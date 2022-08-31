@@ -12,6 +12,9 @@ namespace eStore.Infrastructure.Data.Configurations
             builder.HasOne(g => g.Feedback)
                 .WithMany(f => f.Gamepads)
                 .HasForeignKey(g => g.FeedbackId);
+            builder.HasOne(g => g.ConnectionType)
+                .WithMany()
+                .HasForeignKey(g => g.ConnectionTypeId);
         }
     }
 }
