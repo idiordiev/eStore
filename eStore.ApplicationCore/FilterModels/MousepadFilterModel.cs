@@ -7,5 +7,6 @@ namespace eStore.ApplicationCore.FilterModels
         public ICollection<bool> IsStitchedValues { get; set; }
         public ICollection<int> BottomMaterialIds { get; set; }
         public ICollection<int> TopMaterialIds { get; set; }
+        public ICollection<int> BacklightIds { get; set; }
     }
 }

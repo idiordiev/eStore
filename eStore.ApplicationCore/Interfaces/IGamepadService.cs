@@ -13,5 +13,6 @@ namespace eStore.ApplicationCore.Interfaces
         Task<IEnumerable<Manufacturer>> GetManufacturersAsync();
         Task<IEnumerable<Feedback>> GetFeedbacksAsync();
         Task<IEnumerable<ConnectionType>> GetConnectionTypesAsync();
+        Task<IEnumerable<CompatibleDevice>> GetCompatibleDevicesAsync();
     }
 }

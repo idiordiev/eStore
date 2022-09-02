@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 using eStore.ApplicationCore.Entities;
 using eStore.ApplicationCore.Factories;
 using eStore.ApplicationCore.FilterModels;
 using eStore.ApplicationCore.Interfaces;
 using eStore.ApplicationCore.Interfaces.Data;
-using Microsoft.EntityFrameworkCore.Internal;
 
 namespace eStore.ApplicationCore.Services
 {
@@ -23,7 +20,7 @@ namespace eStore.ApplicationCore.Services
 
         public async Task<IEnumerable<Mousepad>> GetPresentAsync()
         {
-            return await Task.Run( () => _unitOfWork.MousepadRepository.Query(m => !m.IsDeleted));
+            return await Task.Run(() => _unitOfWork.MousepadRepository.Query(m => !m.IsDeleted));
         }
 
         public async Task<IEnumerable<Mousepad>> GetPresentByFilterAsync(MousepadFilterModel filter)
@@ -54,6 +51,12 @@ namespace eStore.ApplicationCore.Services
         {
             var mousepads = await _unitOfWork.MousepadRepository.GetAllAsync();
             return mousepads.Select(m => m.BottomMaterial).Distinct().OrderBy(m => m.Id);
+        }
+
+        public async Task<IEnumerable<Backlight>> GetBacklightsAsync()
+        {
+            var mousepads = await _unitOfWork.MousepadRepository.GetAllAsync();
+            return mousepads.Select(m => m.Backlight).Distinct().OrderBy(b => b.Id);
         }
     }
 }

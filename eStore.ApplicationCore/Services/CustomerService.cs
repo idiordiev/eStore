@@ -1,6 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using eStore.ApplicationCore.Entities;
 using eStore.ApplicationCore.Exceptions;
@@ -47,7 +45,8 @@ namespace eStore.ApplicationCore.Services
             if (customer == null)
                 throw new CustomerNotFoundException($"The customer with the id {customerId} has not been found.");
             if (customer.IsDeleted)
-                throw new AccountDeactivatedException($"The account with the id {customerId} has already been deactivated.");
+                throw new AccountDeactivatedException(
+                    $"The account with the id {customerId} has already been deactivated.");
 
             customer.IsDeleted = true;
             var email = customer.Email;
@@ -105,7 +104,7 @@ namespace eStore.ApplicationCore.Services
             if (customer.IsDeleted)
                 throw new AccountDeactivatedException(
                     $"The account with the id {customerId} has already been deactivated.");
-            
+
             customer.ShoppingCart.Goods.Clear();
             await _unitOfWork.CustomerRepository.UpdateAsync(customer);
         }

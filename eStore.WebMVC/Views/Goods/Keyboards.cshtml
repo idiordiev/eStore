@@ -39,6 +39,30 @@
                 <div class="filter-option-label">@sw.Name</div>
             </div>
         }
+        <label class="filter-category-name">CONNECTION TYPE</label>
+        @foreach (var ct in ViewBag.ConnectionTypes)
+        {
+            <div class="filter-option-group">
+                <input type="checkbox" value="@ct.Id" name="connectionTypeIds" checked="@(Context.Request.Query["connectionTypeIds"].Contains(((int)ct.Id).ToString()))"/>
+                <div class="filter-option-label">@ct.Name</div>
+            </div>
+        }
+        <label class="filter-category-name">BACKLIGHT</label>
+        @foreach (var b in ViewBag.Backlights)
+        {
+            <div class="filter-option-group">
+                <input type="checkbox" value="@b.Id" name="backlightIds" checked="@(Context.Request.Query["backlightIds"].Contains(((int)b.Id).ToString()))"/>
+                <div class="filter-option-label">@b.Name</div>
+            </div>
+        }
+        <label class="filter-category-name">KEY ROLLOVER</label>
+        @foreach (var kr in ViewBag.KeyRollovers)
+        {
+            <div class="filter-option-group">
+                <input type="checkbox" value="@kr.Id" name="keyRolloverIds" checked="@(Context.Request.Query["keyRolloverIds"].Contains(((int)kr.Id).ToString()))"/>
+                <div class="filter-option-label">@kr.Name</div>
+            </div>
+        }
         <label class="filter-category-name">PRICE</label>
         <div class="filter-option-group">
             <div class="filter-option-label">Min. $</div>

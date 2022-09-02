@@ -10,7 +10,7 @@
             <div class="goods-details-column">
                 <p>Base material: @Model.BottomMaterial</p>
                 <p>Surface material: @Model.TopMaterial</p>
-                <p>Stitched contour: @Model.IsStitched</p>
+                <p>Stitched contour: @(Model.IsStitched ? "Yes" : "No")</p>
             </div>
             <div class="goods-details-column">
                 <p>Backlight: @Model.Backlight</p>

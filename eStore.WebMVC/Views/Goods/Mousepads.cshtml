@@ -31,6 +31,14 @@
                 <div class="filter-option-label">@bottomMaterial.Name</div>
             </div>
         }
+        <label class="filter-category-name">BACKLIGHT</label>
+        @foreach (var b in ViewBag.Backlights)
+        {
+            <div class="filter-option-group">
+                <input type="checkbox" value="@b.Id" name="backlightIds" checked="@(Context.Request.Query["backlightIds"].Contains(((int)b.Id).ToString()))"/>
+                <div class="filter-option-label">@b.Name</div>
+            </div>
+        }
         <label class="filter-category-name">STITCHED</label>
         <div class="filter-option-group">
             <input type="checkbox" value="true" name="isStitchedValues" checked="@(Context.Request.Query["isStitchedValues"].Contains("true"))"/>

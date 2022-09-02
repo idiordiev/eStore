@@ -13,59 +13,121 @@ namespace eStore.ApplicationCore.Factories
         public Expression<Func<Mouse, bool>> CreateExpression(GoodsFilterModel filterModel)
         {
             if (filterModel is not MouseFilterModel filter)
-                throw new ArgumentException("");
-            
-            ParameterExpression mouseParameter = Expression.Parameter(typeof(Mouse), "m");
-            Expression isDeletedProperty = Expression.Property(mouseParameter, nameof(Mouse.IsDeleted));
-            Expression filterExpression = Expression.IsFalse(isDeletedProperty);
+                throw new ArgumentException("This factory can only accept the MouseFilterModel.");
 
-            if (filter.MinPrice != null)
-            {
-                Expression left = Expression.Property(mouseParameter, "Price");
-                Expression right = Expression.Constant(filter.MinPrice);
-                Expression expression = Expression.GreaterThanOrEqual(left, right);
-                filterExpression = Expression.AndAlso(filterExpression, expression);
-            }
+            var mouseParameter = Expression.Parameter(typeof(Mouse), "m");
+            var filterExpression = GetBaseExpression(mouseParameter);
+            AddMinPriceConstraint(ref filterExpression, mouseParameter, filter.MinPrice);
+            AddMaxPriceConstraint(ref filterExpression, mouseParameter, filter.MaxPrice);
+            AddManufacturerConstraint(ref filterExpression, mouseParameter, filter.ManufacturerIds);
+            AddConnectionTypeConstraint(ref filterExpression, mouseParameter, filter.ConnectionTypeIds);
+            AddMinWeightConstraint(ref filterExpression, mouseParameter, filter.MinWeight);
+            AddMaxWeightConstraint(ref filterExpression, mouseParameter, filter.MaxWeight);
+            AddBacklightConstraint(ref filterExpression, mouseParameter, filter.BacklightIds);
 
-            if (filter.MaxPrice != null)
-            {
-                Expression left = Expression.Property(mouseParameter, "Price");
-                Expression right = Expression.Constant(filter.MaxPrice);
-                Expression expression = Expression.LessThanOrEqual(left, right);
-                filterExpression = Expression.AndAlso(filterExpression, expression);
-            }
+            return Expression.Lambda<Func<Mouse, bool>>(filterExpression, mouseParameter);
+        }
 
-            if (filter.ManufacturerIds != null && filter.ManufacturerIds.Any())
-            {
-                Expression values = Expression.Constant(filter.ManufacturerIds, typeof(IEnumerable<int>));
-                Expression property = Expression.Property(mouseParameter, "ManufacturerId");
-                var method = typeof(Enumerable)
-                    .GetMethods()
-                    .Where(x => x.Name == "Contains")
-                    .Single(x => x.GetParameters().Length == 2)
-                    .MakeGenericMethod(typeof(int));
-                Expression containsExpression = Expression.Call(method, values, property);
-                filterExpression = Expression.AndAlso(filterExpression, containsExpression);
-            }
+        private Expression GetBaseExpression(ParameterExpression parameter)
+        {
+            Expression isDeletedProperty = Expression.Property(parameter, nameof(Mouse.IsDeleted));
+            Expression baseExpression = Expression.IsFalse(isDeletedProperty);
+            return baseExpression;
+        }
 
-            if (filter.MinWeight != null)
-            {
-                Expression left = Expression.Property(mouseParameter, "Weight");
-                Expression right = Expression.Constant(filter.MinWeight);
-                Expression expression = Expression.GreaterThanOrEqual(left, right);
-                filterExpression = Expression.AndAlso(filterExpression, expression);
-            }
+        private void AddMinPriceConstraint(ref Expression baseExpression, ParameterExpression parameter, decimal? price)
+        {
+            if (price == null)
+                return;
 
-            if (filter.MaxWeight != null)
-            {
-                Expression left = Expression.Property(mouseParameter, "Weight");
-                Expression right = Expression.Constant(filter.MaxWeight);
-                Expression expression = Expression.LessThanOrEqual(left, right);
-                filterExpression = Expression.AndAlso(filterExpression, expression);
-            }
+            Expression left = Expression.Property(parameter, nameof(Mouse.Price));
+            Expression right = Expression.Constant(price.Value);
+            Expression expression = Expression.GreaterThanOrEqual(left, right);
+            baseExpression = Expression.AndAlso(baseExpression, expression);
+        }
 
-            Expression<Func<Mouse, bool>> result = (Expression<Func<Mouse, bool>>)Expression.Lambda(filterExpression, mouseParameter);
-            return result;
+        private void AddMaxPriceConstraint(ref Expression baseExpression, ParameterExpression parameter, decimal? price)
+        {
+            if (price == null)
+                return;
+
+            Expression left = Expression.Property(parameter, nameof(Mouse.Price));
+            Expression right = Expression.Constant(price.Value);
+            Expression expression = Expression.LessThanOrEqual(left, right);
+            baseExpression = Expression.AndAlso(baseExpression, expression);
+        }
+
+        private void AddManufacturerConstraint(ref Expression baseExpression, ParameterExpression parameter,
+            IEnumerable<int> manufacturerIds)
+        {
+            if (manufacturerIds == null || !manufacturerIds.Any())
+                return;
+
+            Expression values = Expression.Constant(manufacturerIds, typeof(IEnumerable<int>));
+            Expression property = Expression.Property(parameter, nameof(Mouse.ManufacturerId));
+            var method = typeof(Enumerable)
+                .GetMethods()
+                .Where(x => x.Name == "Contains")
+                .Single(x => x.GetParameters().Length == 2)
+                .MakeGenericMethod(typeof(int));
+            Expression containsExpression = Expression.Call(method, values, property);
+            baseExpression = Expression.AndAlso(baseExpression, containsExpression);
+        }
+
+        private void AddMinWeightConstraint(ref Expression baseExpression, ParameterExpression parameter, float? weight)
+        {
+            if (weight == null)
+                return;
+
+            Expression left = Expression.Property(parameter, nameof(Mouse.Weight));
+            Expression right = Expression.Constant(weight.Value);
+            Expression expression = Expression.GreaterThanOrEqual(left, right);
+            baseExpression = Expression.AndAlso(baseExpression, expression);
+        }
+
+        private void AddMaxWeightConstraint(ref Expression baseExpression, ParameterExpression parameter, float? weight)
+        {
+            if (weight == null)
+                return;
+
+            Expression left = Expression.Property(parameter, nameof(Mouse.Weight));
+            Expression right = Expression.Constant(weight.Value);
+            Expression expression = Expression.LessThanOrEqual(left, right);
+            baseExpression = Expression.AndAlso(baseExpression, expression);
+        }
+
+        private void AddConnectionTypeConstraint(ref Expression baseExpression, ParameterExpression parameter,
+            IEnumerable<int> connectionTypeIds)
+        {
+            if (connectionTypeIds == null || !connectionTypeIds.Any())
+                return;
+
+            Expression values = Expression.Constant(connectionTypeIds, typeof(IEnumerable<int>));
+            Expression property = Expression.Property(parameter, nameof(Mouse.ConnectionTypeId));
+            var method = typeof(Enumerable)
+                .GetMethods()
+                .Where(x => x.Name == "Contains")
+                .Single(x => x.GetParameters().Length == 2)
+                .MakeGenericMethod(typeof(int));
+            Expression containsExpression = Expression.Call(method, values, property);
+            baseExpression = Expression.AndAlso(baseExpression, containsExpression);
+        }
+
+        private void AddBacklightConstraint(ref Expression baseExpression, ParameterExpression parameter,
+            IEnumerable<int> backlightIds)
+        {
+            if (backlightIds == null || !backlightIds.Any())
+                return;
+
+            Expression values = Expression.Constant(backlightIds, typeof(IEnumerable<int>));
+            Expression property = Expression.Property(parameter, nameof(Mouse.BacklightId));
+            var method = typeof(Enumerable)
+                .GetMethods()
+                .Where(x => x.Name == "Contains")
+                .Single(x => x.GetParameters().Length == 2)
+                .MakeGenericMethod(typeof(int));
+            Expression containsExpression = Expression.Call(method, values, property);
+            baseExpression = Expression.AndAlso(baseExpression, containsExpression);
         }
     }
 }

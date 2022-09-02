@@ -13,82 +13,169 @@ namespace eStore.ApplicationCore.Factories
         public Expression<Func<Keyboard, bool>> CreateExpression(GoodsFilterModel filterModel)
         {
             if (filterModel is not KeyboardFilterModel filter)
-                throw new ArgumentException("");
-            
-            ParameterExpression keyboardParameter = Expression.Parameter(typeof(Keyboard), "k");
-            Expression isDeletedProperty = Expression.Property(keyboardParameter, nameof(Keyboard.IsDeleted));
-            Expression filterExpression = Expression.IsFalse(isDeletedProperty);
+                throw new ArgumentException("This factory can only accept the KeyboardFilterModel.");
 
-            if (filter.MinPrice != null)
-            {
-                Expression left = Expression.Property(keyboardParameter, "Price");
-                Expression right = Expression.Constant(filter.MinPrice);
-                Expression expression = Expression.GreaterThanOrEqual(left, right);
-                filterExpression = Expression.AndAlso(filterExpression, expression);
-            }
+            var keyboardParameter = Expression.Parameter(typeof(Keyboard), "k");
+            var filterExpression = GetBaseExpression(keyboardParameter);
+            AddMinPriceConstraint(ref filterExpression, keyboardParameter, filter.MinPrice);
+            AddMaxPriceConstraint(ref filterExpression, keyboardParameter, filter.MaxPrice);
+            AddManufacturerConstraint(ref filterExpression, keyboardParameter, filter.ManufacturerIds);
+            AddConnectionTypeConstraint(ref filterExpression, keyboardParameter, filter.ConnectionTypeIds);
+            AddSwitchConstraint(ref filterExpression, keyboardParameter, filter.SwitchIds);
+            AddKeyboardSizeConstraint(ref filterExpression, keyboardParameter, filter.KeyboardSizeIds);
+            AddKeyboardTypeConstraint(ref filterExpression, keyboardParameter, filter.KeyboardTypeIds);
+            AddKeyRolloverConstraint(ref filterExpression, keyboardParameter, filter.KeyRolloverIds);
+            AddBacklightConstraint(ref filterExpression, keyboardParameter, filter.BacklightIds);
 
-            if (filter.MaxPrice != null)
-            {
-                Expression left = Expression.Property(keyboardParameter, "Price");
-                Expression right = Expression.Constant(filter.MaxPrice);
-                Expression expression = Expression.LessThanOrEqual(left, right);
-                filterExpression = Expression.AndAlso(filterExpression, expression);
-            }
+            return Expression.Lambda<Func<Keyboard, bool>>(filterExpression, keyboardParameter);
+        }
 
-            if (filter.ManufacturerIds != null && filter.ManufacturerIds.Any())
-            {
-                Expression values = Expression.Constant(filter.ManufacturerIds, typeof(IEnumerable<int>));
-                Expression property = Expression.Property(keyboardParameter, "ManufacturerId");
-                var method = typeof(Enumerable)
-                    .GetMethods()
-                    .Where(x => x.Name == "Contains")
-                    .Single(x => x.GetParameters().Length == 2)
-                    .MakeGenericMethod(typeof(int));
-                Expression containsExpression = Expression.Call(method, values, property);
-                filterExpression = Expression.AndAlso(filterExpression, containsExpression);
-            }
+        private Expression GetBaseExpression(ParameterExpression parameter)
+        {
+            Expression isDeletedProperty = Expression.Property(parameter, nameof(Keyboard.IsDeleted));
+            Expression baseExpression = Expression.IsFalse(isDeletedProperty);
+            return baseExpression;
+        }
 
-            if (filter.SwitchIds != null && filter.SwitchIds.Any())
-            {
-                Expression values = Expression.Constant(filter.SwitchIds, typeof(IEnumerable<int?>));
-                Expression property = Expression.Property(keyboardParameter, "SwitchId");
-                var method = typeof(Enumerable)
-                    .GetMethods()
-                    .Where(x => x.Name == "Contains")
-                    .Single(x => x.GetParameters().Length == 2)
-                    .MakeGenericMethod(typeof(int?));
-                Expression containsExpression = Expression.Call(method, values, property);
-                filterExpression = Expression.AndAlso(filterExpression, containsExpression);
-            }
+        private void AddMinPriceConstraint(ref Expression baseExpression, ParameterExpression parameter, decimal? price)
+        {
+            if (price == null)
+                return;
 
-            if (filter.KeyboardSizeIds != null && filter.KeyboardSizeIds.Any())
-            {
-                Expression values = Expression.Constant(filter.KeyboardSizeIds, typeof(IEnumerable<int>));
-                Expression property = Expression.Property(keyboardParameter, "SizeId");
-                var method = typeof(Enumerable)
-                    .GetMethods()
-                    .Where(x => x.Name == "Contains")
-                    .Single(x => x.GetParameters().Length == 2)
-                    .MakeGenericMethod(typeof(int));
-                Expression containsExpression = Expression.Call(method, values, property);
-                filterExpression = Expression.AndAlso(filterExpression, containsExpression);
-            }
+            Expression left = Expression.Property(parameter, nameof(Keyboard.Price));
+            Expression right = Expression.Constant(price.Value);
+            Expression expression = Expression.GreaterThanOrEqual(left, right);
+            baseExpression = Expression.AndAlso(baseExpression, expression);
+        }
 
-            if (filter.KeyboardTypeIds != null && filter.KeyboardTypeIds.Any())
-            {
-                Expression values = Expression.Constant(filter.KeyboardTypeIds, typeof(IEnumerable<int>));
-                Expression property = Expression.Property(keyboardParameter, "TypeId");
-                var method = typeof(Enumerable)
-                    .GetMethods()
-                    .Where(x => x.Name == "Contains")
-                    .Single(x => x.GetParameters().Length == 2)
-                    .MakeGenericMethod(typeof(int));
-                Expression containsExpression = Expression.Call(method, values, property);
-                filterExpression = Expression.AndAlso(filterExpression, containsExpression);
-            }
+        private void AddMaxPriceConstraint(ref Expression baseExpression, ParameterExpression parameter, decimal? price)
+        {
+            if (price == null)
+                return;
 
-            Expression<Func<Keyboard, bool>> result = (Expression<Func<Keyboard, bool>>)Expression.Lambda(filterExpression, keyboardParameter);
-            return result;
+            Expression left = Expression.Property(parameter, nameof(Keyboard.Price));
+            Expression right = Expression.Constant(price.Value);
+            Expression expression = Expression.LessThanOrEqual(left, right);
+            baseExpression = Expression.AndAlso(baseExpression, expression);
+        }
+
+        private void AddManufacturerConstraint(ref Expression baseExpression, ParameterExpression parameter,
+            IEnumerable<int> manufacturerIds)
+        {
+            if (manufacturerIds == null || !manufacturerIds.Any())
+                return;
+
+            Expression values = Expression.Constant(manufacturerIds, typeof(IEnumerable<int>));
+            Expression property = Expression.Property(parameter, nameof(Keyboard.ManufacturerId));
+            var method = typeof(Enumerable)
+                .GetMethods()
+                .Where(x => x.Name == "Contains")
+                .Single(x => x.GetParameters().Length == 2)
+                .MakeGenericMethod(typeof(int));
+            Expression containsExpression = Expression.Call(method, values, property);
+            baseExpression = Expression.AndAlso(baseExpression, containsExpression);
+        }
+
+        private void AddConnectionTypeConstraint(ref Expression baseExpression, ParameterExpression parameter,
+            IEnumerable<int> connectionTypeIds)
+        {
+            if (connectionTypeIds == null || !connectionTypeIds.Any())
+                return;
+
+            Expression values = Expression.Constant(connectionTypeIds, typeof(IEnumerable<int>));
+            Expression property = Expression.Property(parameter, nameof(Keyboard.ConnectionTypeId));
+            var method = typeof(Enumerable)
+                .GetMethods()
+                .Where(x => x.Name == "Contains")
+                .Single(x => x.GetParameters().Length == 2)
+                .MakeGenericMethod(typeof(int));
+            Expression containsExpression = Expression.Call(method, values, property);
+            baseExpression = Expression.AndAlso(baseExpression, containsExpression);
+        }
+
+        private void AddSwitchConstraint(ref Expression baseExpression, ParameterExpression parameter,
+            IEnumerable<int?> switchIds)
+        {
+            if (switchIds == null || !switchIds.Any())
+                return;
+
+            Expression values = Expression.Constant(switchIds, typeof(IEnumerable<int?>));
+            Expression property = Expression.Property(parameter, nameof(Keyboard.SwitchId));
+            var method = typeof(Enumerable)
+                .GetMethods()
+                .Where(x => x.Name == "Contains")
+                .Single(x => x.GetParameters().Length == 2)
+                .MakeGenericMethod(typeof(int?));
+            Expression containsExpression = Expression.Call(method, values, property);
+            baseExpression = Expression.AndAlso(baseExpression, containsExpression);
+        }
+
+        private void AddKeyboardSizeConstraint(ref Expression baseExpression, ParameterExpression parameter,
+            IEnumerable<int> sizeIds)
+        {
+            if (sizeIds == null || !sizeIds.Any())
+                return;
+
+            Expression values = Expression.Constant(sizeIds, typeof(IEnumerable<int>));
+            Expression property = Expression.Property(parameter, nameof(Keyboard.SizeId));
+            var method = typeof(Enumerable)
+                .GetMethods()
+                .Where(x => x.Name == "Contains")
+                .Single(x => x.GetParameters().Length == 2)
+                .MakeGenericMethod(typeof(int));
+            Expression containsExpression = Expression.Call(method, values, property);
+            baseExpression = Expression.AndAlso(baseExpression, containsExpression);
+        }
+
+        private void AddKeyboardTypeConstraint(ref Expression baseExpression, ParameterExpression parameter,
+            IEnumerable<int> typeIds)
+        {
+            if (typeIds == null || !typeIds.Any())
+                return;
+
+            Expression values = Expression.Constant(typeIds, typeof(IEnumerable<int>));
+            Expression property = Expression.Property(parameter, nameof(Keyboard.TypeId));
+            var method = typeof(Enumerable)
+                .GetMethods()
+                .Where(x => x.Name == "Contains")
+                .Single(x => x.GetParameters().Length == 2)
+                .MakeGenericMethod(typeof(int));
+            Expression containsExpression = Expression.Call(method, values, property);
+            baseExpression = Expression.AndAlso(baseExpression, containsExpression);
+        }
+
+        private void AddKeyRolloverConstraint(ref Expression baseExpression, ParameterExpression parameter,
+            IEnumerable<int> rolloverIds)
+        {
+            if (rolloverIds == null || !rolloverIds.Any())
+                return;
+
+            Expression values = Expression.Constant(rolloverIds, typeof(IEnumerable<int>));
+            Expression property = Expression.Property(parameter, nameof(Keyboard.KeyRolloverId));
+            var method = typeof(Enumerable)
+                .GetMethods()
+                .Where(x => x.Name == "Contains")
+                .Single(x => x.GetParameters().Length == 2)
+                .MakeGenericMethod(typeof(int));
+            Expression containsExpression = Expression.Call(method, values, property);
+            baseExpression = Expression.AndAlso(baseExpression, containsExpression);
+        }
+
+        private void AddBacklightConstraint(ref Expression baseExpression, ParameterExpression parameter,
+            IEnumerable<int> backlightIds)
+        {
+            if (backlightIds == null || !backlightIds.Any())
+                return;
+
+            Expression values = Expression.Constant(backlightIds, typeof(IEnumerable<int>));
+            Expression property = Expression.Property(parameter, nameof(Keyboard.BacklightId));
+            var method = typeof(Enumerable)
+                .GetMethods()
+                .Where(x => x.Name == "Contains")
+                .Single(x => x.GetParameters().Length == 2)
+                .MakeGenericMethod(typeof(int));
+            Expression containsExpression = Expression.Call(method, values, property);
+            baseExpression = Expression.AndAlso(baseExpression, containsExpression);
         }
     }
 }

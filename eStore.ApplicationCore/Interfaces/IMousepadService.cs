@@ -13,5 +13,6 @@ namespace eStore.ApplicationCore.Interfaces
         Task<IEnumerable<Manufacturer>> GetManufacturersAsync();
         Task<IEnumerable<Material>> GetTopMaterialsAsync();
         Task<IEnumerable<Material>> GetBottomMaterialsAsync();
+        Task<IEnumerable<Backlight>> GetBacklightsAsync();
     }
 }

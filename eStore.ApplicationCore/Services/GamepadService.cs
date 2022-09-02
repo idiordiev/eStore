@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 using eStore.ApplicationCore.Entities;
 using eStore.ApplicationCore.Factories;
 using eStore.ApplicationCore.FilterModels;
 using eStore.ApplicationCore.Interfaces;
 using eStore.ApplicationCore.Interfaces.Data;
-using Microsoft.EntityFrameworkCore.Internal;
 
 namespace eStore.ApplicationCore.Services
 {
@@ -54,6 +51,13 @@ namespace eStore.ApplicationCore.Services
         {
             var gamepads = await _unitOfWork.GamepadRepository.GetAllAsync();
             return gamepads.Select(g => g.ConnectionType).Distinct().OrderBy(t => t.Id);
+        }
+
+        public async Task<IEnumerable<CompatibleDevice>> GetCompatibleDevicesAsync()
+        {
+            var gamepads = await _unitOfWork.GamepadRepository.GetAllAsync();
+            return gamepads.SelectMany(g => g.CompatibleDevices).Select(d => d.CompatibleDevice).Distinct()
+                .OrderBy(t => t.Id);
         }
     }
 }

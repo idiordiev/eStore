@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 using eStore.ApplicationCore.Entities;
 using eStore.ApplicationCore.Factories;
 using eStore.ApplicationCore.FilterModels;
 using eStore.ApplicationCore.Interfaces;
 using eStore.ApplicationCore.Interfaces.Data;
-using Microsoft.EntityFrameworkCore.Internal;
 
 namespace eStore.ApplicationCore.Services
 {
@@ -60,6 +57,24 @@ namespace eStore.ApplicationCore.Services
         {
             var keyboards = await _unitOfWork.KeyboardRepository.GetAllAsync();
             return keyboards.Select(k => k.Type).Distinct().OrderBy(t => t.Id);
+        }
+
+        public async Task<IEnumerable<ConnectionType>> GetConnectionTypesAsync()
+        {
+            var keyboards = await _unitOfWork.KeyboardRepository.GetAllAsync();
+            return keyboards.Select(k => k.ConnectionType).Distinct().OrderBy(t => t.Id);
+        }
+
+        public async Task<IEnumerable<Backlight>> GetBacklightsAsync()
+        {
+            var keyboards = await _unitOfWork.KeyboardRepository.GetAllAsync();
+            return keyboards.Select(k => k.Backlight).Distinct().OrderBy(b => b.Id);
+        }
+
+        public async Task<IEnumerable<KeyRollover>> GetKeyRolloverAsync()
+        {
+            var keyboards = await _unitOfWork.KeyboardRepository.GetAllAsync();
+            return keyboards.Select(k => k.KeyRollover).Distinct().OrderBy(r => r.Id);
         }
     }
 }

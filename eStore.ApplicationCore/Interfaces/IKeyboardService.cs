@@ -14,5 +14,8 @@ namespace eStore.ApplicationCore.Interfaces
         Task<IEnumerable<KeyboardSwitch>> GetSwitchesAsync();
         Task<IEnumerable<KeyboardSize>> GetSizesAsync();
         Task<IEnumerable<KeyboardType>> GetTypesAsync();
+        Task<IEnumerable<ConnectionType>> GetConnectionTypesAsync();
+        Task<IEnumerable<Backlight>> GetBacklightsAsync();
+        Task<IEnumerable<KeyRollover>> GetKeyRolloverAsync();
     }
 }

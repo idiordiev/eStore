@@ -11,5 +11,7 @@ namespace eStore.ApplicationCore.Interfaces
         Task<IEnumerable<Mouse>> GetPresentByFilterAsync(MouseFilterModel filter);
         Task<Mouse> GetByIdAsync(int mouseId);
         Task<IEnumerable<Manufacturer>> GetManufacturersAsync();
+        Task<IEnumerable<ConnectionType>> GetConnectionTypesAsync();
+        Task<IEnumerable<Backlight>> GetBacklightsAsync();
     }
 }

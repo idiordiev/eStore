@@ -31,6 +31,14 @@
                 <div class="filter-option-label">@feedback.Name</div>
             </div>
         }
+        <label class="filter-category-name">COMPATIBLE WITH</label>
+        @foreach (var cd in ViewBag.CompatibleDevices)
+        {
+            <div class="filter-option-group">
+                <input type="checkbox" value="@cd.Id" name="compatibleDeviceIds" checked="@(Context.Request.Query["compatibleDeviceIds"].Contains(((int)cd.Id).ToString()))"/>
+                <div class="filter-option-label">@cd.Name</div>
+            </div>
+        }
         <label class="filter-category-name">PRICE</label>
         <div class="filter-option-group">
             <div class="filter-option-label">Min. </div>

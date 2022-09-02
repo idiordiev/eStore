@@ -33,7 +33,8 @@ namespace eStore.ApplicationCore.Services
             if (customer == null)
                 throw new CustomerNotFoundException($"The customer with the id {customerId} has not been found.");
             if (customer.IsDeleted)
-                throw new AccountDeactivatedException($"The account with the id {customerId} has already been deactivated.");
+                throw new AccountDeactivatedException(
+                    $"The account with the id {customerId} has already been deactivated.");
 
             return customer.ShoppingCart.Goods.Select(g => g.Goods);
         }
@@ -44,8 +45,9 @@ namespace eStore.ApplicationCore.Services
             if (customer == null)
                 throw new CustomerNotFoundException($"The customer with the id {customerId} has not been found.");
             if (customer.IsDeleted)
-                throw new AccountDeactivatedException($"The account with the id {customerId} has already been deactivated.");
-            
+                throw new AccountDeactivatedException(
+                    $"The account with the id {customerId} has already been deactivated.");
+
             return customer.ShoppingCart.Goods.Any(g => g.GoodsId == goodsId);
         }
     }
