@@ -8,6 +8,7 @@ using eStore.ApplicationCore.Interfaces;
 using eStore.ApplicationCore.Interfaces.Data;
 using eStore.ApplicationCore.Services;
 using eStore.Email;
+using eStore.Email.Interfaces;
 using eStore.Infrastructure.Data;
 using eStore.Infrastructure.Data.UnitOfWork;
 using eStore.Infrastructure.Identity;
@@ -22,6 +23,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 
 namespace eStore.WebMVC
 {
@@ -62,11 +64,22 @@ namespace eStore.WebMVC
 
             services.AddEntityServices();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+            services.AddScoped<SmtpClient>(sp =>
+            {
+                SmtpClientOptions options = sp.GetRequiredService<IOptions<SmtpClientOptions>>().Value;
+                string password = Environment.GetEnvironmentVariable("SENDGRID_API_KEY");
+                SmtpClient smtpClient = new SmtpClient(options.Address, options.Port);
+                smtpClient.Credentials = new NetworkCredential(options.UserName, password);
+                return smtpClient;
+            });
+            services.Configure<SmtpClientOptions>(Configuration.GetSection(SmtpClientOptions.SmtpClient));
+            services.AddScoped<IHtmlEmailSender, HtmlEmailSender>();
             services.AddScoped<IEmailService, EmailService>();
+            
             services.AddScoped<IAttachmentService, AttachmentService>();
             
             services.AddAutoMapper(typeof(AutomapperProfile));
-            services.Configure<SmtpClientOptions>(Configuration.GetSection(SmtpClientOptions.SmtpClient));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
