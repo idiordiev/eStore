@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using eStore.ApplicationCore.Entities;
 using eStore.ApplicationCore.Exceptions;
@@ -14,14 +13,21 @@ namespace eStore.UnitTests.Domain
     [TestFixture]
     public class GoodsServiceTests
     {
+        [SetUp]
+        public void Setup()
+        {
+            _mockUnitOfWork = new Mock<IUnitOfWork>();
+        }
+
+        private Mock<IUnitOfWork> _mockUnitOfWork;
+
         [Test]
         public async Task GetAllAsync_NotEmptyContext_ReturnsCollectionOfGoods()
         {
             // Arrange
-            var mockUnitOfWork = new Mock<IUnitOfWork>();
             var expected = UnitTestHelper.Goods;
-            mockUnitOfWork.Setup(x => x.GoodsRepository.GetAllAsync()).ReturnsAsync(expected);
-            IGoodsService service = new GoodsService(mockUnitOfWork.Object);
+            _mockUnitOfWork.Setup(x => x.GoodsRepository.GetAllAsync()).ReturnsAsync(expected);
+            IGoodsService service = new GoodsService(_mockUnitOfWork.Object);
 
             // Act
             var actual = await service.GetAllAsync();
@@ -34,10 +40,9 @@ namespace eStore.UnitTests.Domain
         public async Task GetByIdAsync_ExistingGoods_ReturnsGoods()
         {
             // Arrange
-            var mockUnitOfWork = new Mock<IUnitOfWork>();
             var expected = UnitTestHelper.Goods.First();
-            mockUnitOfWork.Setup(x => x.GoodsRepository.GetByIdAsync(1)).ReturnsAsync(expected);
-            IGoodsService service = new GoodsService(mockUnitOfWork.Object);
+            _mockUnitOfWork.Setup(x => x.GoodsRepository.GetByIdAsync(1)).ReturnsAsync(expected);
+            IGoodsService service = new GoodsService(_mockUnitOfWork.Object);
 
             // Act
             var actual = await service.GetByIdAsync(1);
@@ -50,9 +55,8 @@ namespace eStore.UnitTests.Domain
         public async Task GetByIdAsync_NotExistingGoods_ReturnsNull()
         {
             // Arrange
-            var mockUnitOfWork = new Mock<IUnitOfWork>();
-            mockUnitOfWork.Setup(x => x.GoodsRepository.GetByIdAsync(It.IsAny<int>())).ReturnsAsync((Goods)null);
-            IGoodsService service = new GoodsService(mockUnitOfWork.Object);
+            _mockUnitOfWork.Setup(x => x.GoodsRepository.GetByIdAsync(It.IsAny<int>())).ReturnsAsync((Goods)null);
+            IGoodsService service = new GoodsService(_mockUnitOfWork.Object);
             // Act
             var actual = await service.GetByIdAsync(1);
 
@@ -64,14 +68,11 @@ namespace eStore.UnitTests.Domain
         public async Task GetGoodsInCustomerCartAsync_ExistingCustomerWithGoods_ReturnsCollectionOfGoods()
         {
             // Arrange
-            var mockUnitOfWork = new Mock<IUnitOfWork>();
             var customer = UnitTestHelper.Customers.First(c => c.Id == 1);
             foreach (var goodsInCart in customer.ShoppingCart.Goods)
-            {
                 goodsInCart.Goods = UnitTestHelper.Goods.FirstOrDefault(g => g.Id == goodsInCart.GoodsId);
-            }
-            mockUnitOfWork.Setup(x => x.CustomerRepository.GetByIdAsync(1)).ReturnsAsync(customer);
-            IGoodsService service = new GoodsService(mockUnitOfWork.Object);
+            _mockUnitOfWork.Setup(x => x.CustomerRepository.GetByIdAsync(1)).ReturnsAsync(customer);
+            IGoodsService service = new GoodsService(_mockUnitOfWork.Object);
 
             // Act
             var actual = (await service.GetGoodsInCustomerCartAsync(1)).ToList();
@@ -84,9 +85,8 @@ namespace eStore.UnitTests.Domain
         public void GetGoodsInCustomerCartAsync_NotExistingCustomer_ThrowsCustomerNotFoundException()
         {
             // Arrange
-            var mockUnitOfWork = new Mock<IUnitOfWork>();
-            mockUnitOfWork.Setup(x => x.CustomerRepository.GetByIdAsync(It.IsAny<int>())).ReturnsAsync((Customer)null);
-            IGoodsService service = new GoodsService(mockUnitOfWork.Object);
+            _mockUnitOfWork.Setup(x => x.CustomerRepository.GetByIdAsync(It.IsAny<int>())).ReturnsAsync((Customer)null);
+            IGoodsService service = new GoodsService(_mockUnitOfWork.Object);
 
             // Act
             var exception =
@@ -100,9 +100,9 @@ namespace eStore.UnitTests.Domain
         public void GetGoodsInCustomerCartAsync_DeactivatedCustomer_ThrowsAccountDeactivatedException()
         {
             // Arrange
-            var mockUnitOfWork = new Mock<IUnitOfWork>();
-            mockUnitOfWork.Setup(x => x.CustomerRepository.GetByIdAsync(1)).ReturnsAsync(UnitTestHelper.Customers.First(c => c.Id == 2));
-            IGoodsService service = new GoodsService(mockUnitOfWork.Object);
+            _mockUnitOfWork.Setup(x => x.CustomerRepository.GetByIdAsync(1))
+                .ReturnsAsync(UnitTestHelper.Customers.First(c => c.Id == 2));
+            IGoodsService service = new GoodsService(_mockUnitOfWork.Object);
 
             // Act
             var exception =
@@ -117,9 +117,9 @@ namespace eStore.UnitTests.Domain
         public async Task CheckIfAddedToCartAsync_ExistingCustomerWithSpecifiedGoods_ReturnsTrue()
         {
             // Arrange
-            var mockUnitOfWork = new Mock<IUnitOfWork>();
-            mockUnitOfWork.Setup(x => x.CustomerRepository.GetByIdAsync(1)).ReturnsAsync(UnitTestHelper.Customers.First(c => c.Id == 1));
-            IGoodsService service = new GoodsService(mockUnitOfWork.Object);
+            _mockUnitOfWork.Setup(x => x.CustomerRepository.GetByIdAsync(1))
+                .ReturnsAsync(UnitTestHelper.Customers.First(c => c.Id == 1));
+            IGoodsService service = new GoodsService(_mockUnitOfWork.Object);
 
             // Act
             var result = await service.CheckIfAddedToCartAsync(1, 1);
@@ -133,9 +133,9 @@ namespace eStore.UnitTests.Domain
         public async Task CheckIfAddedToCartAsync_ExistingCustomerWithoutSpecifiedGoods_ReturnsFalse()
         {
             // Arrange
-            var mockUnitOfWork = new Mock<IUnitOfWork>();
-            mockUnitOfWork.Setup(x => x.CustomerRepository.GetByIdAsync(1)).ReturnsAsync(UnitTestHelper.Customers.First(c => c.Id == 1));
-            IGoodsService service = new GoodsService(mockUnitOfWork.Object);
+            _mockUnitOfWork.Setup(x => x.CustomerRepository.GetByIdAsync(1))
+                .ReturnsAsync(UnitTestHelper.Customers.First(c => c.Id == 1));
+            IGoodsService service = new GoodsService(_mockUnitOfWork.Object);
 
             // Act
             var result = await service.CheckIfAddedToCartAsync(1, 5);
@@ -148,9 +148,8 @@ namespace eStore.UnitTests.Domain
         public void CheckIfAddedToCartAsync_NotExistingCustomer_ThrowsCustomerNotFoundException()
         {
             // Arrange
-            var mockUnitOfWork = new Mock<IUnitOfWork>();
-            mockUnitOfWork.Setup(x => x.CustomerRepository.GetByIdAsync(It.IsAny<int>())).ReturnsAsync((Customer)null);
-            IGoodsService service = new GoodsService(mockUnitOfWork.Object);
+            _mockUnitOfWork.Setup(x => x.CustomerRepository.GetByIdAsync(It.IsAny<int>())).ReturnsAsync((Customer)null);
+            IGoodsService service = new GoodsService(_mockUnitOfWork.Object);
 
             // Act
             var exception =
@@ -164,9 +163,9 @@ namespace eStore.UnitTests.Domain
         public void CheckIfAddedToCartAsync_DeactivatedCustomer_ThrowsAccountDeactivatedException()
         {
             // Arrange
-            var mockUnitOfWork = new Mock<IUnitOfWork>();
-            mockUnitOfWork.Setup(x => x.CustomerRepository.GetByIdAsync(1)).ReturnsAsync(UnitTestHelper.Customers.First(c => c.Id == 2));
-            IGoodsService service = new GoodsService(mockUnitOfWork.Object);
+            _mockUnitOfWork.Setup(x => x.CustomerRepository.GetByIdAsync(1))
+                .ReturnsAsync(UnitTestHelper.Customers.First(c => c.Id == 2));
+            IGoodsService service = new GoodsService(_mockUnitOfWork.Object);
 
             // Act
             var exception =
