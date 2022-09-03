@@ -22,24 +22,24 @@ namespace eStore.UnitTests.Domain
         [SetUp]
         public void Setup()
         {
-            mockUnitOfWork = new Mock<IUnitOfWork>();
-            mockEmailService = new Mock<IEmailService>();
-            mockAttachmentService = new Mock<IAttachmentService>();
+            _mockUnitOfWork = new Mock<IUnitOfWork>();
+            _mockEmailService = new Mock<IEmailService>();
+            _mockAttachmentService = new Mock<IAttachmentService>();
         }
 
-        private Mock<IUnitOfWork> mockUnitOfWork;
-        private Mock<IEmailService> mockEmailService;
-        private Mock<IAttachmentService> mockAttachmentService;
+        private Mock<IUnitOfWork> _mockUnitOfWork;
+        private Mock<IEmailService> _mockEmailService;
+        private Mock<IAttachmentService> _mockAttachmentService;
 
         [Test]
         public async Task GetOrdersByCustomerIdAsync_NotEmptyDb_ReturnsCollectionOfOrders()
         {
             // Arrange
             var expected = UnitTestHelper.Orders.Where(o => o.CustomerId == 1);
-            mockUnitOfWork.Setup(x => x.OrderRepository.Query(It.IsAny<Expression<Func<Order, bool>>>()))
+            _mockUnitOfWork.Setup(x => x.OrderRepository.Query(It.IsAny<Expression<Func<Order, bool>>>()))
                 .Returns(expected);
-            IOrderService service = new OrderService(mockUnitOfWork.Object, mockEmailService.Object,
-                mockAttachmentService.Object);
+            IOrderService service = new OrderService(_mockUnitOfWork.Object, _mockEmailService.Object,
+                _mockAttachmentService.Object);
 
             // Act
             var actual = await service.GetOrdersByCustomerIdAsync(1);
@@ -53,9 +53,9 @@ namespace eStore.UnitTests.Domain
         {
             // Arrange
             var expected = UnitTestHelper.Orders.First(o => o.Id == 1);
-            mockUnitOfWork.Setup(x => x.OrderRepository.GetByIdAsync(1)).ReturnsAsync(expected);
-            IOrderService service = new OrderService(mockUnitOfWork.Object, mockEmailService.Object,
-                mockAttachmentService.Object);
+            _mockUnitOfWork.Setup(x => x.OrderRepository.GetByIdAsync(1)).ReturnsAsync(expected);
+            IOrderService service = new OrderService(_mockUnitOfWork.Object, _mockEmailService.Object,
+                _mockAttachmentService.Object);
 
             // Act
             var actual = await service.GetOrderByIdAsync(1);
@@ -68,9 +68,9 @@ namespace eStore.UnitTests.Domain
         public async Task GetOrderByIdAsync_NotExistingOrder_ReturnsNull()
         {
             // Arrange
-            mockUnitOfWork.Setup(x => x.OrderRepository.GetByIdAsync(1)).ReturnsAsync((Order)null);
-            IOrderService service = new OrderService(mockUnitOfWork.Object, mockEmailService.Object,
-                mockAttachmentService.Object);
+            _mockUnitOfWork.Setup(x => x.OrderRepository.GetByIdAsync(1)).ReturnsAsync((Order)null);
+            IOrderService service = new OrderService(_mockUnitOfWork.Object, _mockEmailService.Object,
+                _mockAttachmentService.Object);
 
             // Act
             var actual = await service.GetOrderByIdAsync(1);
@@ -85,14 +85,14 @@ namespace eStore.UnitTests.Domain
             // Arrange
             var customer = UnitTestHelper.Customers.First(c => c.Id == 1);
             var goods = UnitTestHelper.Goods.First(g => g.Id == 1);
-            mockUnitOfWork.Setup(x => x.CustomerRepository.GetByIdAsync(1)).ReturnsAsync(customer);
-            mockUnitOfWork.Setup(x => x.GoodsRepository.GetByIdAsync(1)).ReturnsAsync(goods);
-            mockUnitOfWork.Setup(x => x.OrderRepository.AddAsync(It.IsAny<Order>()));
-            mockAttachmentService.Setup(x => x.CreateInvoice(It.IsAny<Order>()))
+            _mockUnitOfWork.Setup(x => x.CustomerRepository.GetByIdAsync(1)).ReturnsAsync(customer);
+            _mockUnitOfWork.Setup(x => x.GoodsRepository.GetByIdAsync(1)).ReturnsAsync(goods);
+            _mockUnitOfWork.Setup(x => x.OrderRepository.AddAsync(It.IsAny<Order>()));
+            _mockAttachmentService.Setup(x => x.CreateInvoice(It.IsAny<Order>()))
                 .Returns("filepath.ext");
-            mockEmailService.Setup(x => x.SendPurchaseEmailAsyncAsync(It.IsAny<Order>(), It.IsAny<string>()));
-            IOrderService service = new OrderService(mockUnitOfWork.Object, mockEmailService.Object,
-                mockAttachmentService.Object);
+            _mockEmailService.Setup(x => x.SendPurchaseEmailAsyncAsync(It.IsAny<Order>(), It.IsAny<string>()));
+            IOrderService service = new OrderService(_mockUnitOfWork.Object, _mockEmailService.Object,
+                _mockAttachmentService.Object);
 
             // Act
             await service.CreateOrderAsync(1,
@@ -104,9 +104,9 @@ namespace eStore.UnitTests.Domain
                 });
 
             // Assert
-            mockAttachmentService.Verify(x => x.CreateInvoice(It.IsAny<Order>()), Times.Once);
-            mockEmailService.Verify(x => x.SendPurchaseEmailAsyncAsync(It.IsAny<Order>(), "filepath.ext"), Times.Once);
-            mockUnitOfWork.Verify(
+            _mockAttachmentService.Verify(x => x.CreateInvoice(It.IsAny<Order>()), Times.Once);
+            _mockEmailService.Verify(x => x.SendPurchaseEmailAsyncAsync(It.IsAny<Order>(), "filepath.ext"), Times.Once);
+            _mockUnitOfWork.Verify(
                 x => x.OrderRepository.AddAsync(It.Is<Order>(o =>
                     o.Customer.Equals(customer) && o.Total == goods.Price && o.OrderItems.Count == 1 &&
                     o.ShippingAddress == "Address1" && o.ShippingCity == "City1" && o.ShippingPostalCode == "02000" &&
@@ -118,14 +118,14 @@ namespace eStore.UnitTests.Domain
         {
             // Arrange
             var goods = UnitTestHelper.Goods.First(g => g.Id == 1);
-            mockUnitOfWork.Setup(x => x.CustomerRepository.GetByIdAsync(1)).ReturnsAsync((Customer)null);
-            mockUnitOfWork.Setup(x => x.GoodsRepository.GetByIdAsync(1)).ReturnsAsync(goods);
-            mockUnitOfWork.Setup(x => x.OrderRepository.AddAsync(It.IsAny<Order>()));
-            mockAttachmentService.Setup(x => x.CreateInvoice(It.IsAny<Order>()))
+            _mockUnitOfWork.Setup(x => x.CustomerRepository.GetByIdAsync(1)).ReturnsAsync((Customer)null);
+            _mockUnitOfWork.Setup(x => x.GoodsRepository.GetByIdAsync(1)).ReturnsAsync(goods);
+            _mockUnitOfWork.Setup(x => x.OrderRepository.AddAsync(It.IsAny<Order>()));
+            _mockAttachmentService.Setup(x => x.CreateInvoice(It.IsAny<Order>()))
                 .Returns("filepath.ext");
-            mockEmailService.Setup(x => x.SendPurchaseEmailAsyncAsync(It.IsAny<Order>(), It.IsAny<string>()));
-            IOrderService service = new OrderService(mockUnitOfWork.Object, mockEmailService.Object,
-                mockAttachmentService.Object);
+            _mockEmailService.Setup(x => x.SendPurchaseEmailAsyncAsync(It.IsAny<Order>(), It.IsAny<string>()));
+            IOrderService service = new OrderService(_mockUnitOfWork.Object, _mockEmailService.Object,
+                _mockAttachmentService.Object);
 
             // Act
             var exception = Assert.ThrowsAsync<CustomerNotFoundException>(async () => await service.CreateOrderAsync(1,
@@ -146,14 +146,14 @@ namespace eStore.UnitTests.Domain
             // Arrange
             var customer = UnitTestHelper.Customers.First(c => c.Id == 2);
             var goods = UnitTestHelper.Goods.First(c => c.Id == 1);
-            mockUnitOfWork.Setup(x => x.CustomerRepository.GetByIdAsync(1)).ReturnsAsync(customer);
-            mockUnitOfWork.Setup(x => x.GoodsRepository.GetByIdAsync(1)).ReturnsAsync(goods);
-            mockUnitOfWork.Setup(x => x.OrderRepository.AddAsync(It.IsAny<Order>()));
-            mockAttachmentService.Setup(x => x.CreateInvoice(It.IsAny<Order>()))
+            _mockUnitOfWork.Setup(x => x.CustomerRepository.GetByIdAsync(1)).ReturnsAsync(customer);
+            _mockUnitOfWork.Setup(x => x.GoodsRepository.GetByIdAsync(1)).ReturnsAsync(goods);
+            _mockUnitOfWork.Setup(x => x.OrderRepository.AddAsync(It.IsAny<Order>()));
+            _mockAttachmentService.Setup(x => x.CreateInvoice(It.IsAny<Order>()))
                 .Returns("filepath.ext");
-            mockEmailService.Setup(x => x.SendPurchaseEmailAsyncAsync(It.IsAny<Order>(), It.IsAny<string>()));
-            IOrderService service = new OrderService(mockUnitOfWork.Object, mockEmailService.Object,
-                mockAttachmentService.Object);
+            _mockEmailService.Setup(x => x.SendPurchaseEmailAsyncAsync(It.IsAny<Order>(), It.IsAny<string>()));
+            IOrderService service = new OrderService(_mockUnitOfWork.Object, _mockEmailService.Object,
+                _mockAttachmentService.Object);
 
             // Act
             var exception = Assert.ThrowsAsync<AccountDeactivatedException>(async () => await service.CreateOrderAsync(
@@ -174,14 +174,14 @@ namespace eStore.UnitTests.Domain
         {
             // Arrange
             var customer = UnitTestHelper.Customers.First(c => c.Id == 1);
-            mockUnitOfWork.Setup(x => x.CustomerRepository.GetByIdAsync(1)).ReturnsAsync(customer);
-            mockUnitOfWork.Setup(x => x.GoodsRepository.GetByIdAsync(1)).ReturnsAsync((Goods)null);
-            mockUnitOfWork.Setup(x => x.OrderRepository.AddAsync(It.IsAny<Order>()));
-            mockAttachmentService.Setup(x => x.CreateInvoice(It.IsAny<Order>()))
+            _mockUnitOfWork.Setup(x => x.CustomerRepository.GetByIdAsync(1)).ReturnsAsync(customer);
+            _mockUnitOfWork.Setup(x => x.GoodsRepository.GetByIdAsync(1)).ReturnsAsync((Goods)null);
+            _mockUnitOfWork.Setup(x => x.OrderRepository.AddAsync(It.IsAny<Order>()));
+            _mockAttachmentService.Setup(x => x.CreateInvoice(It.IsAny<Order>()))
                 .Returns("filepath.ext");
-            mockEmailService.Setup(x => x.SendPurchaseEmailAsyncAsync(It.IsAny<Order>(), It.IsAny<string>()));
-            IOrderService service = new OrderService(mockUnitOfWork.Object, mockEmailService.Object,
-                mockAttachmentService.Object);
+            _mockEmailService.Setup(x => x.SendPurchaseEmailAsyncAsync(It.IsAny<Order>(), It.IsAny<string>()));
+            IOrderService service = new OrderService(_mockUnitOfWork.Object, _mockEmailService.Object,
+                _mockAttachmentService.Object);
 
             // Act
             var exception = Assert.ThrowsAsync<GoodsNotFoundException>(async () => await service.CreateOrderAsync(1,
@@ -202,14 +202,14 @@ namespace eStore.UnitTests.Domain
             // Arrange
             var customer = UnitTestHelper.Customers.First(c => c.Id == 1);
             var goods = UnitTestHelper.Goods.First(c => c.Id == 2);
-            mockUnitOfWork.Setup(x => x.CustomerRepository.GetByIdAsync(1)).ReturnsAsync(customer);
-            mockUnitOfWork.Setup(x => x.GoodsRepository.GetByIdAsync(1)).ReturnsAsync(goods);
-            mockUnitOfWork.Setup(x => x.OrderRepository.AddAsync(It.IsAny<Order>()));
-            mockAttachmentService.Setup(x => x.CreateInvoice(It.IsAny<Order>()))
+            _mockUnitOfWork.Setup(x => x.CustomerRepository.GetByIdAsync(1)).ReturnsAsync(customer);
+            _mockUnitOfWork.Setup(x => x.GoodsRepository.GetByIdAsync(1)).ReturnsAsync(goods);
+            _mockUnitOfWork.Setup(x => x.OrderRepository.AddAsync(It.IsAny<Order>()));
+            _mockAttachmentService.Setup(x => x.CreateInvoice(It.IsAny<Order>()))
                 .Returns("filepath.ext");
-            mockEmailService.Setup(x => x.SendPurchaseEmailAsyncAsync(It.IsAny<Order>(), It.IsAny<string>()));
-            IOrderService service = new OrderService(mockUnitOfWork.Object, mockEmailService.Object,
-                mockAttachmentService.Object);
+            _mockEmailService.Setup(x => x.SendPurchaseEmailAsyncAsync(It.IsAny<Order>(), It.IsAny<string>()));
+            IOrderService service = new OrderService(_mockUnitOfWork.Object, _mockEmailService.Object,
+                _mockAttachmentService.Object);
 
             // Act
             var exception = Assert.ThrowsAsync<EntityDeletedException>(async () => await service.CreateOrderAsync(1,
@@ -230,14 +230,14 @@ namespace eStore.UnitTests.Domain
             // Arrange
             var customer = UnitTestHelper.Customers.First(c => c.Id == 1);
             var goods = UnitTestHelper.Goods.First(c => c.Id == 1);
-            mockUnitOfWork.Setup(x => x.CustomerRepository.GetByIdAsync(1)).ReturnsAsync(customer);
-            mockUnitOfWork.Setup(x => x.GoodsRepository.GetByIdAsync(1)).ReturnsAsync(goods);
-            mockUnitOfWork.Setup(x => x.OrderRepository.AddAsync(It.IsAny<Order>()));
-            mockAttachmentService.Setup(x => x.CreateInvoice(It.IsAny<Order>()))
+            _mockUnitOfWork.Setup(x => x.CustomerRepository.GetByIdAsync(1)).ReturnsAsync(customer);
+            _mockUnitOfWork.Setup(x => x.GoodsRepository.GetByIdAsync(1)).ReturnsAsync(goods);
+            _mockUnitOfWork.Setup(x => x.OrderRepository.AddAsync(It.IsAny<Order>()));
+            _mockAttachmentService.Setup(x => x.CreateInvoice(It.IsAny<Order>()))
                 .Returns("filepath.ext");
-            mockEmailService.Setup(x => x.SendPurchaseEmailAsyncAsync(It.IsAny<Order>(), It.IsAny<string>()));
-            IOrderService service = new OrderService(mockUnitOfWork.Object, mockEmailService.Object,
-                mockAttachmentService.Object);
+            _mockEmailService.Setup(x => x.SendPurchaseEmailAsyncAsync(It.IsAny<Order>(), It.IsAny<string>()));
+            IOrderService service = new OrderService(_mockUnitOfWork.Object, _mockEmailService.Object,
+                _mockAttachmentService.Object);
 
             // Act
             var exception = Assert.ThrowsAsync<InvalidQuantityException>(async () => await service.CreateOrderAsync(1,
@@ -256,9 +256,9 @@ namespace eStore.UnitTests.Domain
         public void PayOrderAsync_NotExistingOrder_ThrowsOrderNotFoundException()
         {
             // Arrange
-            mockUnitOfWork.Setup(x => x.OrderRepository.GetByIdAsync(It.IsAny<int>())).ReturnsAsync((Order)null);
-            IOrderService service = new OrderService(mockUnitOfWork.Object, mockEmailService.Object,
-                mockAttachmentService.Object);
+            _mockUnitOfWork.Setup(x => x.OrderRepository.GetByIdAsync(It.IsAny<int>())).ReturnsAsync((Order)null);
+            IOrderService service = new OrderService(_mockUnitOfWork.Object, _mockEmailService.Object,
+                _mockAttachmentService.Object);
 
             // Act
             var exception = Assert.ThrowsAsync<OrderNotFoundException>(async () => await service.PayOrderAsync(1));
@@ -271,17 +271,17 @@ namespace eStore.UnitTests.Domain
         public async Task PayOrderAsync_StatusNew_UpdatesStatus()
         {
             // Arrange
-            mockUnitOfWork.Setup(x => x.OrderRepository.GetByIdAsync(1))
+            _mockUnitOfWork.Setup(x => x.OrderRepository.GetByIdAsync(1))
                 .ReturnsAsync(UnitTestHelper.Orders.First(o => o.Id == 1));
-            mockUnitOfWork.Setup(x => x.OrderRepository.UpdateAsync(It.IsAny<Order>()));
-            IOrderService service = new OrderService(mockUnitOfWork.Object, mockEmailService.Object,
-                mockAttachmentService.Object);
+            _mockUnitOfWork.Setup(x => x.OrderRepository.UpdateAsync(It.IsAny<Order>()));
+            IOrderService service = new OrderService(_mockUnitOfWork.Object, _mockEmailService.Object,
+                _mockAttachmentService.Object);
 
             // Act
             await service.PayOrderAsync(1);
 
             // Assert
-            mockUnitOfWork.Verify(
+            _mockUnitOfWork.Verify(
                 x => x.OrderRepository.UpdateAsync(It.Is<Order>(o => o.Id == 1 && o.Status == OrderStatus.Paid)),
                 Times.Once);
         }
@@ -290,11 +290,11 @@ namespace eStore.UnitTests.Domain
         public void PayOrderAsync_StatusPaid_ThrowsStatusChangingException()
         {
             // Arrange
-            mockUnitOfWork.Setup(x => x.OrderRepository.GetByIdAsync(2))
+            _mockUnitOfWork.Setup(x => x.OrderRepository.GetByIdAsync(2))
                 .ReturnsAsync(UnitTestHelper.Orders.First(o => o.Id == 2));
-            mockUnitOfWork.Setup(x => x.OrderRepository.UpdateAsync(It.IsAny<Order>()));
-            IOrderService service = new OrderService(mockUnitOfWork.Object, mockEmailService.Object,
-                mockAttachmentService.Object);
+            _mockUnitOfWork.Setup(x => x.OrderRepository.UpdateAsync(It.IsAny<Order>()));
+            IOrderService service = new OrderService(_mockUnitOfWork.Object, _mockEmailService.Object,
+                _mockAttachmentService.Object);
 
             // Act
             var exception = Assert.ThrowsAsync<StatusChangingException>(async () => await service.PayOrderAsync(2));
@@ -307,11 +307,11 @@ namespace eStore.UnitTests.Domain
         public void PayOrderAsync_StatusProcessing_ThrowsStatusChangingException()
         {
             // Arrange
-            mockUnitOfWork.Setup(x => x.OrderRepository.GetByIdAsync(3))
+            _mockUnitOfWork.Setup(x => x.OrderRepository.GetByIdAsync(3))
                 .ReturnsAsync(UnitTestHelper.Orders.First(o => o.Id == 3));
-            mockUnitOfWork.Setup(x => x.OrderRepository.UpdateAsync(It.IsAny<Order>()));
-            IOrderService service = new OrderService(mockUnitOfWork.Object, mockEmailService.Object,
-                mockAttachmentService.Object);
+            _mockUnitOfWork.Setup(x => x.OrderRepository.UpdateAsync(It.IsAny<Order>()));
+            IOrderService service = new OrderService(_mockUnitOfWork.Object, _mockEmailService.Object,
+                _mockAttachmentService.Object);
 
             // Act
             var exception = Assert.ThrowsAsync<StatusChangingException>(async () => await service.PayOrderAsync(3));
@@ -324,11 +324,11 @@ namespace eStore.UnitTests.Domain
         public void PayOrderAsync_StatusSent_ThrowsStatusChangingException()
         {
             // Arrange
-            mockUnitOfWork.Setup(x => x.OrderRepository.GetByIdAsync(4))
+            _mockUnitOfWork.Setup(x => x.OrderRepository.GetByIdAsync(4))
                 .ReturnsAsync(UnitTestHelper.Orders.First(o => o.Id == 4));
-            mockUnitOfWork.Setup(x => x.OrderRepository.UpdateAsync(It.IsAny<Order>()));
-            IOrderService service = new OrderService(mockUnitOfWork.Object, mockEmailService.Object,
-                mockAttachmentService.Object);
+            _mockUnitOfWork.Setup(x => x.OrderRepository.UpdateAsync(It.IsAny<Order>()));
+            IOrderService service = new OrderService(_mockUnitOfWork.Object, _mockEmailService.Object,
+                _mockAttachmentService.Object);
 
             // Act
             var exception = Assert.ThrowsAsync<StatusChangingException>(async () => await service.PayOrderAsync(4));
@@ -341,11 +341,11 @@ namespace eStore.UnitTests.Domain
         public void PayOrderAsync_StatusReceived_ThrowsStatusChangingException()
         {
             // Arrange
-            mockUnitOfWork.Setup(x => x.OrderRepository.GetByIdAsync(5))
+            _mockUnitOfWork.Setup(x => x.OrderRepository.GetByIdAsync(5))
                 .ReturnsAsync(UnitTestHelper.Orders.First(o => o.Id == 5));
-            mockUnitOfWork.Setup(x => x.OrderRepository.UpdateAsync(It.IsAny<Order>()));
-            IOrderService service = new OrderService(mockUnitOfWork.Object, mockEmailService.Object,
-                mockAttachmentService.Object);
+            _mockUnitOfWork.Setup(x => x.OrderRepository.UpdateAsync(It.IsAny<Order>()));
+            IOrderService service = new OrderService(_mockUnitOfWork.Object, _mockEmailService.Object,
+                _mockAttachmentService.Object);
 
             // Act
             var exception = Assert.ThrowsAsync<StatusChangingException>(async () => await service.PayOrderAsync(5));
@@ -358,11 +358,11 @@ namespace eStore.UnitTests.Domain
         public void PayOrderAsync_StatusCancelled_ThrowsStatusChangingException()
         {
             // Arrange
-            mockUnitOfWork.Setup(x => x.OrderRepository.GetByIdAsync(6))
+            _mockUnitOfWork.Setup(x => x.OrderRepository.GetByIdAsync(6))
                 .ReturnsAsync(UnitTestHelper.Orders.First(o => o.Id == 6));
-            mockUnitOfWork.Setup(x => x.OrderRepository.UpdateAsync(It.IsAny<Order>()));
-            IOrderService service = new OrderService(mockUnitOfWork.Object, mockEmailService.Object,
-                mockAttachmentService.Object);
+            _mockUnitOfWork.Setup(x => x.OrderRepository.UpdateAsync(It.IsAny<Order>()));
+            IOrderService service = new OrderService(_mockUnitOfWork.Object, _mockEmailService.Object,
+                _mockAttachmentService.Object);
 
             // Act
             var exception = Assert.ThrowsAsync<StatusChangingException>(async () => await service.PayOrderAsync(6));
@@ -375,10 +375,10 @@ namespace eStore.UnitTests.Domain
         public void CancelOrderAsync_NotExistingOrder_ThrowsOrderNotFoundException()
         {
             // Arrange
-            mockUnitOfWork.Setup(x => x.OrderRepository.GetByIdAsync(It.IsAny<int>())).ReturnsAsync((Order)null);
-            mockUnitOfWork.Setup(x => x.OrderRepository.UpdateAsync(It.IsAny<Order>()));
-            IOrderService service = new OrderService(mockUnitOfWork.Object, mockEmailService.Object,
-                mockAttachmentService.Object);
+            _mockUnitOfWork.Setup(x => x.OrderRepository.GetByIdAsync(It.IsAny<int>())).ReturnsAsync((Order)null);
+            _mockUnitOfWork.Setup(x => x.OrderRepository.UpdateAsync(It.IsAny<Order>()));
+            IOrderService service = new OrderService(_mockUnitOfWork.Object, _mockEmailService.Object,
+                _mockAttachmentService.Object);
 
             // Act
             var exception = Assert.ThrowsAsync<OrderNotFoundException>(async () => await service.CancelOrderAsync(1));
@@ -391,17 +391,17 @@ namespace eStore.UnitTests.Domain
         public async Task CancelOrderAsync_StatusNew_UpdatesStatus()
         {
             // Arrange
-            mockUnitOfWork.Setup(x => x.OrderRepository.GetByIdAsync(1))
+            _mockUnitOfWork.Setup(x => x.OrderRepository.GetByIdAsync(1))
                 .ReturnsAsync(UnitTestHelper.Orders.First(o => o.Id == 1));
-            mockUnitOfWork.Setup(x => x.OrderRepository.UpdateAsync(It.IsAny<Order>()));
-            IOrderService service = new OrderService(mockUnitOfWork.Object, mockEmailService.Object,
-                mockAttachmentService.Object);
+            _mockUnitOfWork.Setup(x => x.OrderRepository.UpdateAsync(It.IsAny<Order>()));
+            IOrderService service = new OrderService(_mockUnitOfWork.Object, _mockEmailService.Object,
+                _mockAttachmentService.Object);
 
             // Act
             await service.CancelOrderAsync(1);
 
             // Assert
-            mockUnitOfWork.Verify(
+            _mockUnitOfWork.Verify(
                 x => x.OrderRepository.UpdateAsync(It.Is<Order>(o => o.Id == 1 && o.Status == OrderStatus.Cancelled)),
                 Times.Once);
         }
@@ -410,17 +410,17 @@ namespace eStore.UnitTests.Domain
         public async Task CancelOrderAsync_StatusPaid_UpdatesStatus()
         {
             // Arrange
-            mockUnitOfWork.Setup(x => x.OrderRepository.GetByIdAsync(2))
+            _mockUnitOfWork.Setup(x => x.OrderRepository.GetByIdAsync(2))
                 .ReturnsAsync(UnitTestHelper.Orders.First(o => o.Id == 2));
-            mockUnitOfWork.Setup(x => x.OrderRepository.UpdateAsync(It.IsAny<Order>()));
-            IOrderService service = new OrderService(mockUnitOfWork.Object, mockEmailService.Object,
-                mockAttachmentService.Object);
+            _mockUnitOfWork.Setup(x => x.OrderRepository.UpdateAsync(It.IsAny<Order>()));
+            IOrderService service = new OrderService(_mockUnitOfWork.Object, _mockEmailService.Object,
+                _mockAttachmentService.Object);
 
             // Act
             await service.CancelOrderAsync(2);
 
             // Assert
-            mockUnitOfWork.Verify(
+            _mockUnitOfWork.Verify(
                 x => x.OrderRepository.UpdateAsync(It.Is<Order>(o => o.Id == 2 && o.Status == OrderStatus.Cancelled)),
                 Times.Once);
         }
@@ -429,17 +429,17 @@ namespace eStore.UnitTests.Domain
         public async Task CancelOrderAsync_StatusProcessing_UpdatesStatus()
         {
             // Arrange
-            mockUnitOfWork.Setup(x => x.OrderRepository.GetByIdAsync(3))
+            _mockUnitOfWork.Setup(x => x.OrderRepository.GetByIdAsync(3))
                 .ReturnsAsync(UnitTestHelper.Orders.First(o => o.Id == 3));
-            mockUnitOfWork.Setup(x => x.OrderRepository.UpdateAsync(It.IsAny<Order>()));
-            IOrderService service = new OrderService(mockUnitOfWork.Object, mockEmailService.Object,
-                mockAttachmentService.Object);
+            _mockUnitOfWork.Setup(x => x.OrderRepository.UpdateAsync(It.IsAny<Order>()));
+            IOrderService service = new OrderService(_mockUnitOfWork.Object, _mockEmailService.Object,
+                _mockAttachmentService.Object);
 
             // Act
             await service.CancelOrderAsync(3);
 
             // Assert
-            mockUnitOfWork.Verify(
+            _mockUnitOfWork.Verify(
                 x => x.OrderRepository.UpdateAsync(It.Is<Order>(o => o.Id == 3 && o.Status == OrderStatus.Cancelled)),
                 Times.Once);
         }
@@ -448,17 +448,17 @@ namespace eStore.UnitTests.Domain
         public async Task CancelOrderAsync_StatusSent_UpdatesStatus()
         {
             // Arrange
-            mockUnitOfWork.Setup(x => x.OrderRepository.GetByIdAsync(4))
+            _mockUnitOfWork.Setup(x => x.OrderRepository.GetByIdAsync(4))
                 .ReturnsAsync(UnitTestHelper.Orders.First(o => o.Id == 4));
-            mockUnitOfWork.Setup(x => x.OrderRepository.UpdateAsync(It.IsAny<Order>()));
-            IOrderService service = new OrderService(mockUnitOfWork.Object, mockEmailService.Object,
-                mockAttachmentService.Object);
+            _mockUnitOfWork.Setup(x => x.OrderRepository.UpdateAsync(It.IsAny<Order>()));
+            IOrderService service = new OrderService(_mockUnitOfWork.Object, _mockEmailService.Object,
+                _mockAttachmentService.Object);
 
             // Act
             await service.CancelOrderAsync(4);
 
             // Assert
-            mockUnitOfWork.Verify(
+            _mockUnitOfWork.Verify(
                 x => x.OrderRepository.UpdateAsync(It.Is<Order>(o => o.Id == 4 && o.Status == OrderStatus.Cancelled)),
                 Times.Once);
         }
@@ -467,11 +467,11 @@ namespace eStore.UnitTests.Domain
         public void CancelOrderAsync_StatusReceived_ThrowsStatusChangingException()
         {
             // Arrange
-            mockUnitOfWork.Setup(x => x.OrderRepository.GetByIdAsync(5))
+            _mockUnitOfWork.Setup(x => x.OrderRepository.GetByIdAsync(5))
                 .ReturnsAsync(UnitTestHelper.Orders.First(o => o.Id == 5));
-            mockUnitOfWork.Setup(x => x.OrderRepository.UpdateAsync(It.IsAny<Order>()));
-            IOrderService service = new OrderService(mockUnitOfWork.Object, mockEmailService.Object,
-                mockAttachmentService.Object);
+            _mockUnitOfWork.Setup(x => x.OrderRepository.UpdateAsync(It.IsAny<Order>()));
+            IOrderService service = new OrderService(_mockUnitOfWork.Object, _mockEmailService.Object,
+                _mockAttachmentService.Object);
 
             // Act
             var exception = Assert.ThrowsAsync<StatusChangingException>(async () => await service.CancelOrderAsync(5));
@@ -484,11 +484,11 @@ namespace eStore.UnitTests.Domain
         public void CancelOrderAsync_StatusCancelled_ThrowsStatusChangingException()
         {
             // Arrange
-            mockUnitOfWork.Setup(x => x.OrderRepository.GetByIdAsync(6))
+            _mockUnitOfWork.Setup(x => x.OrderRepository.GetByIdAsync(6))
                 .ReturnsAsync(UnitTestHelper.Orders.First(o => o.Id == 6));
-            mockUnitOfWork.Setup(x => x.OrderRepository.UpdateAsync(It.IsAny<Order>()));
-            IOrderService service = new OrderService(mockUnitOfWork.Object, mockEmailService.Object,
-                mockAttachmentService.Object);
+            _mockUnitOfWork.Setup(x => x.OrderRepository.UpdateAsync(It.IsAny<Order>()));
+            IOrderService service = new OrderService(_mockUnitOfWork.Object, _mockEmailService.Object,
+                _mockAttachmentService.Object);
 
             // Act
             var exception = Assert.ThrowsAsync<StatusChangingException>(async () => await service.CancelOrderAsync(6));

@@ -17,7 +17,7 @@ namespace eStore.UnitTests.Domain
     public class GamepadServiceTests
     {
         [SetUp]
-        private void Setup()
+        public void Setup()
         {
             _mockUnitOfWork = new Mock<IUnitOfWork>();
         }
