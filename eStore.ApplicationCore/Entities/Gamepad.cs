@@ -8,28 +8,28 @@ namespace eStore.ApplicationCore.Entities
         public int ConnectionTypeId { get; set; }
         public int FeedbackId { get; set; }
         public float Weight { get; set; }
-        
-        public virtual ConnectionType ConnectionType { get; set; }
-        public virtual Feedback Feedback { get; set; }
-        public virtual ICollection<GamepadCompatibleDevice> CompatibleDevices { get; set; }
-        
+
+        public ConnectionType ConnectionType { get; set; }
+        public Feedback Feedback { get; set; }
+        public ICollection<GamepadCompatibleDevice> CompatibleDevices { get; set; }
+
         public override bool Equals(object obj)
         {
             if (obj is Gamepad other)
             {
-                return this.Id == other.Id
-                       && this.IsDeleted == other.IsDeleted
-                       && this.Name == other.Name
-                       && this.ManufacturerId == other.ManufacturerId
-                       && this.Description == other.Description
-                       && this.Price == other.Price
-                       && this.ConnectionTypeId == other.ConnectionTypeId
-                       && this.ThumbnailImageUrl == other.ThumbnailImageUrl
-                       && this.BigImageUrl == other.BigImageUrl
-                       && this.Created == other.Created
-                       && this.LastModified == other.LastModified
-                       && this.FeedbackId == other.FeedbackId
-                       && Math.Abs(this.Weight - other.Weight) < 0.01;
+                return Id == other.Id
+                       && IsDeleted == other.IsDeleted
+                       && Name == other.Name
+                       && ManufacturerId == other.ManufacturerId
+                       && Description == other.Description
+                       && Price == other.Price
+                       && ConnectionTypeId == other.ConnectionTypeId
+                       && ThumbnailImageUrl == other.ThumbnailImageUrl
+                       && BigImageUrl == other.BigImageUrl
+                       && Created == other.Created
+                       && LastModified == other.LastModified
+                       && FeedbackId == other.FeedbackId
+                       && Math.Abs(Weight - other.Weight) < 0.01;
             }
 
             return false;
@@ -41,7 +41,7 @@ namespace eStore.ApplicationCore.Entities
             {
                 return Id.GetHashCode() * IsDeleted.GetHashCode() * Name.GetHashCode() * ManufacturerId.GetHashCode()
                        * Description.GetHashCode() * Price.GetHashCode() * ConnectionTypeId.GetHashCode()
-                       * ThumbnailImageUrl.GetHashCode() * BigImageUrl.GetHashCode() * Created.GetHashCode() 
+                       * ThumbnailImageUrl.GetHashCode() * BigImageUrl.GetHashCode() * Created.GetHashCode()
                        * LastModified.GetHashCode() * FeedbackId.GetHashCode() * Weight.GetHashCode();
             }
         }

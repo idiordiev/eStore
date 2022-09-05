@@ -5,15 +5,15 @@
         public int GamepadId { get; set; }
         public int CompatibleDeviceId { get; set; }
 
-        public virtual Gamepad Gamepad { get; set; }
-        public virtual CompatibleDevice CompatibleDevice { get; set; }
-        
+        public Gamepad Gamepad { get; set; }
+        public CompatibleDevice CompatibleDevice { get; set; }
+
         public override bool Equals(object obj)
         {
             if (obj is GamepadCompatibleDevice other)
             {
-                return this.GamepadId == other.GamepadId
-                       && this.CompatibleDeviceId == other.CompatibleDeviceId;
+                return GamepadId == other.GamepadId
+                       && CompatibleDeviceId == other.CompatibleDeviceId;
             }
 
             return false;

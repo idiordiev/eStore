@@ -11,17 +11,17 @@ namespace eStore.ApplicationCore.Entities
         public Order Order { get; set; }
         public int GoodsId { get; set; }
         public int Quantity { get; set; }
-        
+
         public override bool Equals(object obj)
         {
             if (obj is OrderItem other)
             {
-                return this.Id == other.Id
-                       && this.IsDeleted == other.IsDeleted
-                       && this.OrderId == other.OrderId
-                       && this.UnitPrice == other.UnitPrice
-                       && this.GoodsId == other.GoodsId
-                       && this.Quantity == other.Quantity;
+                return Id == other.Id
+                       && IsDeleted == other.IsDeleted
+                       && OrderId == other.OrderId
+                       && UnitPrice == other.UnitPrice
+                       && GoodsId == other.GoodsId
+                       && Quantity == other.Quantity;
             }
 
             return false;
@@ -31,7 +31,7 @@ namespace eStore.ApplicationCore.Entities
         {
             unchecked
             {
-                return Id.GetHashCode() * IsDeleted.GetHashCode() * OrderId.GetHashCode() * UnitPrice.GetHashCode() 
+                return Id.GetHashCode() * IsDeleted.GetHashCode() * OrderId.GetHashCode() * UnitPrice.GetHashCode()
                        * GoodsId.GetHashCode() * Quantity.GetHashCode();
             }
         }

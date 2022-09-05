@@ -12,31 +12,31 @@ namespace eStore.ApplicationCore.Entities
         public float Width { get; set; }
         public float Height { get; set; }
 
-        public virtual Material TopMaterial { get; set; }
-        public virtual Material BottomMaterial { get; set; }
-        public virtual Backlight Backlight { get; set; }
-        
+        public Material TopMaterial { get; set; }
+        public Material BottomMaterial { get; set; }
+        public Backlight Backlight { get; set; }
+
         public override bool Equals(object obj)
         {
             if (obj is Mousepad other)
             {
-                return this.Id == other.Id
-                       && this.IsDeleted == other.IsDeleted
-                       && this.Name == other.Name
-                       && this.ManufacturerId == other.ManufacturerId
-                       && this.Description == other.Description
-                       && this.Price == other.Price
-                       && this.ThumbnailImageUrl == other.ThumbnailImageUrl
-                       && this.BigImageUrl == other.BigImageUrl
-                       && this.Created == other.Created
-                       && this.LastModified == other.LastModified
-                       && this.IsStitched == other.IsStitched
-                       && this.TopMaterialId == other.TopMaterialId
-                       && this.BottomMaterialId == other.BottomMaterialId
-                       && this.BacklightId == other.BacklightId
-                       && Math.Abs(this.Length - other.Length) < 0.01
-                       && Math.Abs(this.Width - other.Width) < 0.01
-                       && Math.Abs(this.Height - other.Height) < 0.01;
+                return Id == other.Id
+                       && IsDeleted == other.IsDeleted
+                       && Name == other.Name
+                       && ManufacturerId == other.ManufacturerId
+                       && Description == other.Description
+                       && Price == other.Price
+                       && ThumbnailImageUrl == other.ThumbnailImageUrl
+                       && BigImageUrl == other.BigImageUrl
+                       && Created == other.Created
+                       && LastModified == other.LastModified
+                       && IsStitched == other.IsStitched
+                       && TopMaterialId == other.TopMaterialId
+                       && BottomMaterialId == other.BottomMaterialId
+                       && BacklightId == other.BacklightId
+                       && Math.Abs(Length - other.Length) < 0.01
+                       && Math.Abs(Width - other.Width) < 0.01
+                       && Math.Abs(Height - other.Height) < 0.01;
             }
 
             return false;
@@ -47,9 +47,9 @@ namespace eStore.ApplicationCore.Entities
             unchecked
             {
                 return Id.GetHashCode() * IsDeleted.GetHashCode() * Name.GetHashCode() * ManufacturerId.GetHashCode()
-                       * Description.GetHashCode() * Price.GetHashCode() * ThumbnailImageUrl.GetHashCode() 
-                       * BigImageUrl.GetHashCode() * Created.GetHashCode() * LastModified.GetHashCode() 
-                       * IsStitched.GetHashCode() * TopMaterialId.GetHashCode() * BottomMaterialId.GetHashCode() 
+                       * Description.GetHashCode() * Price.GetHashCode() * ThumbnailImageUrl.GetHashCode()
+                       * BigImageUrl.GetHashCode() * Created.GetHashCode() * LastModified.GetHashCode()
+                       * IsStitched.GetHashCode() * TopMaterialId.GetHashCode() * BottomMaterialId.GetHashCode()
                        * BacklightId.GetHashCode() * Length.GetHashCode() * Width.GetHashCode() * Height.GetHashCode();
             }
         }

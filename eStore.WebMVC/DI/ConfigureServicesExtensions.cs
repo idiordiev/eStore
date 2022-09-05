@@ -1,4 +1,5 @@
 ﻿using eStore.ApplicationCore.Interfaces;
+using eStore.ApplicationCore.Interfaces.DomainServices;
 using eStore.ApplicationCore.Services;
 using Microsoft.Extensions.DependencyInjection;
 

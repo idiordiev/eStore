@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using eStore.ApplicationCore.Entities;
 using eStore.ApplicationCore.Interfaces;
+using eStore.ApplicationCore.Interfaces.DomainServices;
 using eStore.Infrastructure.Identity;
 using eStore.WebMVC.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -43,13 +44,21 @@ namespace eStore.WebMVC.Controllers
             foreach (var goods in customer.ShoppingCart.Goods.Select(g => g.Goods))
             {
                 if (goods is Keyboard keyboard)
+                {
                     model.GoodsInCart.Add(_mapper.Map<KeyboardViewModel>(keyboard));
+                }
                 else if (goods is Mouse mouse)
+                {
                     model.GoodsInCart.Add(_mapper.Map<MouseViewModel>(mouse));
+                }
                 else if (goods is Mousepad mousepad)
+                {
                     model.GoodsInCart.Add(_mapper.Map<MousepadViewModel>(mousepad));
+                }
                 else if (goods is Gamepad gamepad)
+                {
                     model.GoodsInCart.Add(_mapper.Map<GamepadViewModel>(gamepad));
+                }
             }
 
             foreach (var goods in model.GoodsInCart)
@@ -151,7 +160,9 @@ namespace eStore.WebMVC.Controllers
             if (result.Succeeded)
             {
                 if (string.IsNullOrEmpty(model.ReturnUrl))
+                {
                     return RedirectToAction("Index", "Home");
+                }
                 
                 return Redirect(model.ReturnUrl);
             }
@@ -175,7 +186,9 @@ namespace eStore.WebMVC.Controllers
             var customer = await _customerService.GetCustomerByIdAsync(identityUser.CustomerId);
             await _customerService.AddGoodsToCartAsync(customer.Id, goodsId);
             if (string.IsNullOrEmpty(returnUrl))
+            {
                 return RedirectToAction("Index", "Goods");
+            }
 
             return Redirect(returnUrl);
         }
@@ -188,7 +201,9 @@ namespace eStore.WebMVC.Controllers
             var customer = await _customerService.GetCustomerByIdAsync(identityUser.CustomerId);
             await _customerService.RemoveGoodsFromCartAsync(customer.Id, goodsId);
             if (string.IsNullOrEmpty(returnUrl))
+            {
                 return RedirectToAction("Index", "Goods");
+            }
 
             return Redirect(returnUrl);
         }

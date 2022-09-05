@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using eStore.ApplicationCore.Entities;
 using eStore.ApplicationCore.Interfaces;
+using eStore.ApplicationCore.Interfaces.DomainServices;
 using eStore.Infrastructure.Identity;
 using eStore.WebMVC.DTO;
 using eStore.WebMVC.Models;
@@ -102,7 +103,9 @@ namespace eStore.WebMVC.Controllers
         public async Task<IActionResult> New(OrderViewModel model)
         {
             if (!ModelState.IsValid)
+            {
                 return View(model);
+            }
 
             var orderItems = _mapper.Map<IEnumerable<OrderItemDTO>>(model.OrderItems);
             var shippingAddress = _mapper.Map<OrderAddressDTO>(model);
@@ -118,7 +121,9 @@ namespace eStore.WebMVC.Controllers
         public async Task<IActionResult> Success()
         {
             if (TempData.ContainsKey("IsSuccess") && (bool)TempData["IsSuccess"])
+            {
                 return await Task.Run(View);
+            }
 
             return Forbid();
         }

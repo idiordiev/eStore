@@ -20,25 +20,25 @@ namespace eStore.ApplicationCore.Entities
         public string PostalCode { get; set; }
         public int ShoppingCartId { get; set; }
 
-        public virtual ICollection<Order> Orders { get; set; }
-        public virtual ShoppingCart ShoppingCart { get; set; }
-        
+        public ICollection<Order> Orders { get; set; }
+        public ShoppingCart ShoppingCart { get; set; }
+
         public override bool Equals(object obj)
         {
             if (obj is Customer other)
             {
-                return this.Id == other.Id
-                       && this.IsDeleted == other.IsDeleted
-                       && this.IdentityId == other.IdentityId
-                       && this.FirstName == other.LastName
-                       && this.LastName == other.LastName
-                       && this.Email == other.Email
-                       && this.PhoneNumber == other.PhoneNumber
-                       && this.Country == other.Country
-                       && this.City == other.City
-                       && this.Address == other.Address
-                       && this.PostalCode == other.PostalCode
-                       && this.ShoppingCartId == other.ShoppingCartId;
+                return Id == other.Id
+                       && IsDeleted == other.IsDeleted
+                       && IdentityId == other.IdentityId
+                       && FirstName == other.LastName
+                       && LastName == other.LastName
+                       && Email == other.Email
+                       && PhoneNumber == other.PhoneNumber
+                       && Country == other.Country
+                       && City == other.City
+                       && Address == other.Address
+                       && PostalCode == other.PostalCode
+                       && ShoppingCartId == other.ShoppingCartId;
             }
 
             return false;
@@ -48,8 +48,8 @@ namespace eStore.ApplicationCore.Entities
         {
             unchecked
             {
-                return Id.GetHashCode() * IsDeleted.GetHashCode() * IdentityId.GetHashCode() * FirstName.GetHashCode() 
-                       * LastName.GetHashCode() * Email.GetHashCode() * PhoneNumber.GetHashCode() * City.GetHashCode() 
+                return Id.GetHashCode() * IsDeleted.GetHashCode() * IdentityId.GetHashCode() * FirstName.GetHashCode()
+                       * LastName.GetHashCode() * Email.GetHashCode() * PhoneNumber.GetHashCode() * City.GetHashCode()
                        * Address.GetHashCode() * PostalCode.GetHashCode() * ShoppingCartId.GetHashCode();
             }
         }

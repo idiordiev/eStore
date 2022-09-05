@@ -1,4 +1,4 @@
-﻿namespace eStore.ApplicationCore.Interfaces
+﻿namespace eStore.ApplicationCore.Interfaces.Identity
 {
     public interface IApplicationUser
     {

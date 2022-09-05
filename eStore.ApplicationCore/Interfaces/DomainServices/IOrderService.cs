@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using eStore.ApplicationCore.Entities;
 using eStore.ApplicationCore.Interfaces.DTO;
 
-namespace eStore.ApplicationCore.Interfaces
+namespace eStore.ApplicationCore.Interfaces.DomainServices
 {
     public interface IOrderService
     {

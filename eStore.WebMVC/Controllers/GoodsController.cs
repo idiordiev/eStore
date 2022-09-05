@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using eStore.ApplicationCore.FilterModels;
 using eStore.ApplicationCore.Interfaces;
+using eStore.ApplicationCore.Interfaces.DomainServices;
 using eStore.Infrastructure.Identity;
 using eStore.WebMVC.Models;
 using Microsoft.AspNetCore.Identity;
@@ -101,8 +102,10 @@ namespace eStore.WebMVC.Controllers
         public async Task<IActionResult> Keyboard(int id)
         {
             var keyboard = await _keyboardService.GetByIdAsync(id);
-            if (keyboard == null)
+            if (keyboard == null || keyboard.IsDeleted)
+            {
                 return NotFound();
+            }
             
             var model = _mapper.Map<KeyboardViewModel>(keyboard);
             await CheckIfInCartAsync(model);
@@ -143,8 +146,10 @@ namespace eStore.WebMVC.Controllers
         public async Task<IActionResult> Mouse(int id)
         {
             var mouse = await _mouseService.GetByIdAsync(id);
-            if (mouse == null)
+            if (mouse == null || mouse.IsDeleted)
+            {
                 return NotFound();
+            }
             
             var model = _mapper.Map<MouseViewModel>(mouse);
             await CheckIfInCartAsync(model);
@@ -186,8 +191,10 @@ namespace eStore.WebMVC.Controllers
         public async Task<IActionResult> Mousepad(int id)
         {
             var mousepad = await _mousepadService.GetByIdAsync(id);
-            if (mousepad == null)
+            if (mousepad == null || mousepad.IsDeleted)
+            {
                 return NotFound();
+            }
             
             var model = _mapper.Map<MousepadViewModel>(mousepad);
             await CheckIfInCartAsync(model);
@@ -201,7 +208,7 @@ namespace eStore.WebMVC.Controllers
             [FromQuery] decimal? maxPrice,
             [FromQuery] ICollection<int> connectionTypeIds,
             [FromQuery] ICollection<int> feedbackIds,
-            [FromQuery] ICollection<int> compatibleDevicesIds)
+            [FromQuery] ICollection<int> compatibleDeviceIds)
         {
             var filter = new GamepadFilterModel()
             {
@@ -210,7 +217,7 @@ namespace eStore.WebMVC.Controllers
                 MinPrice = minPrice,
                 ConnectionTypeIds = connectionTypeIds,
                 FeedbackIds = feedbackIds, 
-                CompatibleDevicesIds = compatibleDevicesIds
+                CompatibleDevicesIds = compatibleDeviceIds
             };
             ViewBag.Manufacturers = await _gamepadService.GetManufacturersAsync();
             ViewBag.Feedbacks = await _gamepadService.GetFeedbacksAsync();
@@ -227,8 +234,10 @@ namespace eStore.WebMVC.Controllers
         public async Task<IActionResult> Gamepad(int id)
         {
             var gamepad = await _gamepadService.GetByIdAsync(id);
-            if (gamepad == null)
+            if (gamepad == null || gamepad.IsDeleted)
+            {
                 return NotFound();
+            }
             
             var model = _mapper.Map<GamepadViewModel>(gamepad);
             await CheckIfInCartAsync(model);

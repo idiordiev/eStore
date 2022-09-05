@@ -8,6 +8,7 @@ using eStore.ApplicationCore.Enums;
 using eStore.ApplicationCore.Exceptions;
 using eStore.ApplicationCore.Interfaces;
 using eStore.ApplicationCore.Interfaces.Data;
+using eStore.ApplicationCore.Interfaces.DomainServices;
 using eStore.ApplicationCore.Interfaces.DTO;
 using eStore.ApplicationCore.Services;
 using eStore.WebMVC.DTO;
@@ -19,6 +20,14 @@ namespace eStore.UnitTests.Domain
     [TestFixture]
     public class OrderServiceTests
     {
+        internal class OrderAddress : IOrderAddress
+        {
+            public string ShippingCountry { get; set; }
+            public string ShippingCity { get; set; }
+            public string ShippingAddress { get; set; }
+            public string ShippingPostalCode { get; set; }
+        }
+        
         [SetUp]
         public void Setup()
         {
@@ -96,8 +105,9 @@ namespace eStore.UnitTests.Domain
 
             // Act
             await service.CreateOrderAsync(1,
-                new List<IOrderItem> { new OrderItemDTO { GoodsId = 1, Quantity = 1 } }, new OrderAddressDTO
+                new List<IOrderItem> { new OrderItem { GoodsId = 1, Quantity = 1 } }, new OrderAddress() 
                 {
+                    ShippingCountry = "Country1",
                     ShippingAddress = "Address1",
                     ShippingCity = "City1",
                     ShippingPostalCode = "02000"
@@ -108,9 +118,10 @@ namespace eStore.UnitTests.Domain
             _mockEmailService.Verify(x => x.SendPurchaseEmailAsyncAsync(It.IsAny<Order>(), "filepath.ext"), Times.Once);
             _mockUnitOfWork.Verify(
                 x => x.OrderRepository.AddAsync(It.Is<Order>(o =>
-                    o.Customer.Equals(customer) && o.Total == goods.Price && o.OrderItems.Count == 1 &&
-                    o.ShippingAddress == "Address1" && o.ShippingCity == "City1" && o.ShippingPostalCode == "02000" &&
-                    o.Status == OrderStatus.New && o.TimeStamp - DateTime.Now <= TimeSpan.FromMinutes(1))), Times.Once);
+                    o.Customer.Equals(customer) && o.Total == goods.Price && o.OrderItems.Count == 1 && 
+                    o.ShippingCountry == "Country1" && o.ShippingAddress == "Address1" && o.ShippingCity == "City1" && 
+                    o.ShippingPostalCode == "02000" 
+                    && o.Status == OrderStatus.New && o.TimeStamp - DateTime.Now <= TimeSpan.FromMinutes(1))), Times.Once);
         }
 
         [Test]
@@ -129,8 +140,9 @@ namespace eStore.UnitTests.Domain
 
             // Act
             var exception = Assert.ThrowsAsync<CustomerNotFoundException>(async () => await service.CreateOrderAsync(1,
-                new List<IOrderItem> { new OrderItemDTO { GoodsId = 1, Quantity = 1 } }, new OrderAddressDTO
+                new List<IOrderItem> { new OrderItem { GoodsId = 1, Quantity = 1 } }, new OrderAddress
                 {
+                    ShippingCountry = "Country1",
                     ShippingAddress = "Address1",
                     ShippingCity = "City1",
                     ShippingPostalCode = "02000"
@@ -158,8 +170,9 @@ namespace eStore.UnitTests.Domain
             // Act
             var exception = Assert.ThrowsAsync<AccountDeactivatedException>(async () => await service.CreateOrderAsync(
                 1,
-                new List<IOrderItem> { new OrderItemDTO { GoodsId = 1, Quantity = 1 } }, new OrderAddressDTO
+                new List<IOrderItem> { new OrderItem { GoodsId = 1, Quantity = 1 } }, new OrderAddress
                 {
+                    ShippingCountry = "Country1",
                     ShippingAddress = "Address1",
                     ShippingCity = "City1",
                     ShippingPostalCode = "02000"
@@ -185,8 +198,9 @@ namespace eStore.UnitTests.Domain
 
             // Act
             var exception = Assert.ThrowsAsync<GoodsNotFoundException>(async () => await service.CreateOrderAsync(1,
-                new List<IOrderItem> { new OrderItemDTO { GoodsId = 1, Quantity = 1 } }, new OrderAddressDTO
+                new List<IOrderItem> { new OrderItem { GoodsId = 1, Quantity = 1 } }, new OrderAddress
                 {
+                    ShippingCountry = "Country1",
                     ShippingAddress = "Address1",
                     ShippingCity = "City1",
                     ShippingPostalCode = "02000"
@@ -213,8 +227,9 @@ namespace eStore.UnitTests.Domain
 
             // Act
             var exception = Assert.ThrowsAsync<EntityDeletedException>(async () => await service.CreateOrderAsync(1,
-                new List<IOrderItem> { new OrderItemDTO { GoodsId = 1, Quantity = 1 } }, new OrderAddressDTO
+                new List<IOrderItem> { new OrderItem { GoodsId = 1, Quantity = 1 } }, new OrderAddress
                 {
+                    ShippingCountry = "Country1",
                     ShippingAddress = "Address1",
                     ShippingCity = "City1",
                     ShippingPostalCode = "02000"
@@ -241,8 +256,9 @@ namespace eStore.UnitTests.Domain
 
             // Act
             var exception = Assert.ThrowsAsync<InvalidQuantityException>(async () => await service.CreateOrderAsync(1,
-                new List<IOrderItem> { new OrderItemDTO { GoodsId = 1, Quantity = 0 } }, new OrderAddressDTO
+                new List<IOrderItem> { new OrderItem { GoodsId = 1, Quantity = 0 } }, new OrderAddress
                 {
+                    ShippingCountry = "Country1",
                     ShippingAddress = "Address1",
                     ShippingCity = "City1",
                     ShippingPostalCode = "02000"

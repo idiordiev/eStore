@@ -1,4 +1,5 @@
 ﻿using eStore.ApplicationCore.Interfaces;
+using eStore.ApplicationCore.Interfaces.Identity;
 using Microsoft.AspNetCore.Identity;
 
 namespace eStore.Infrastructure.Identity

@@ -13,7 +13,9 @@ namespace eStore.ApplicationCore.Factories
         public Expression<Func<Gamepad, bool>> CreateExpression(GoodsFilterModel filterModel)
         {
             if (filterModel is not GamepadFilterModel filter)
+            {
                 throw new ArgumentException("This factory can only accept the GamepadFilterModel.");
+            }
 
             var gamepadParameter = Expression.Parameter(typeof(Gamepad), "g");
 
@@ -23,7 +25,7 @@ namespace eStore.ApplicationCore.Factories
             AddManufacturerConstraint(ref filterExpression, gamepadParameter, filter.ManufacturerIds);
             AddConnectionTypeConstraint(ref filterExpression, gamepadParameter, filter.ConnectionTypeIds);
             AddFeedbackConstraint(ref filterExpression, gamepadParameter, filter.FeedbackIds);
-            AddCompatibleDeviceIds(ref filterExpression, gamepadParameter, filter.CompatibleDevicesIds);
+            AddCompatibleDevicesConstraint(ref filterExpression, gamepadParameter, filter.CompatibleDevicesIds);
 
             return Expression.Lambda<Func<Gamepad, bool>>(filterExpression, gamepadParameter);
         }
@@ -38,7 +40,9 @@ namespace eStore.ApplicationCore.Factories
         private void AddMinPriceConstraint(ref Expression baseExpression, ParameterExpression parameter, decimal? price)
         {
             if (price == null)
+            {
                 return;
+            }
 
             Expression left = Expression.Property(parameter, nameof(Gamepad.Price));
             Expression right = Expression.Constant(price.Value);
@@ -49,7 +53,9 @@ namespace eStore.ApplicationCore.Factories
         private void AddMaxPriceConstraint(ref Expression baseExpression, ParameterExpression parameter, decimal? price)
         {
             if (price == null)
+            {
                 return;
+            }
 
             Expression left = Expression.Property(parameter, nameof(Gamepad.Price));
             Expression right = Expression.Constant(price.Value);
@@ -61,7 +67,9 @@ namespace eStore.ApplicationCore.Factories
             IEnumerable<int> manufacturerIds)
         {
             if (manufacturerIds == null || !manufacturerIds.Any())
+            {
                 return;
+            }
 
             Expression values = Expression.Constant(manufacturerIds, typeof(IEnumerable<int>));
             Expression property = Expression.Property(parameter, nameof(Gamepad.ManufacturerId));
@@ -78,7 +86,9 @@ namespace eStore.ApplicationCore.Factories
             IEnumerable<int> connectionTypeIds)
         {
             if (connectionTypeIds == null || !connectionTypeIds.Any())
+            {
                 return;
+            }
 
             Expression values = Expression.Constant(connectionTypeIds, typeof(IEnumerable<int>));
             Expression property = Expression.Property(parameter, nameof(Gamepad.ConnectionTypeId));
@@ -95,7 +105,9 @@ namespace eStore.ApplicationCore.Factories
             IEnumerable<int> feedbackIds)
         {
             if (feedbackIds == null || !feedbackIds.Any())
+            {
                 return;
+            }
 
             Expression values = Expression.Constant(feedbackIds, typeof(IEnumerable<int>));
             Expression property = Expression.Property(parameter, nameof(Gamepad.FeedbackId));
@@ -108,11 +120,13 @@ namespace eStore.ApplicationCore.Factories
             baseExpression = Expression.AndAlso(baseExpression, containsExpression);
         }
 
-        private void AddCompatibleDeviceIds(ref Expression baseExpression, ParameterExpression parameter,
+        private void AddCompatibleDevicesConstraint(ref Expression baseExpression, ParameterExpression parameter,
             IEnumerable<int> deviceIds)
         {
             if (deviceIds == null || !deviceIds.Any())
+            {
                 return;
+            }
 
             // LINQ expression: gamepads.Where(g => g.CompatibleDevice.Select(d => d.CompatibleDeviceId).Distinct.Intersect(deviceIds).Any());
             Expression deviceIdValues = Expression.Constant(deviceIds, typeof(IEnumerable<int>));

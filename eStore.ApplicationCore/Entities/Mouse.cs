@@ -15,33 +15,33 @@ namespace eStore.ApplicationCore.Entities
         public float Height { get; set; }
         public float Weight { get; set; }
 
-        public virtual ConnectionType ConnectionType { get; set; }
-        public virtual Backlight Backlight { get; set; }
-        
+        public ConnectionType ConnectionType { get; set; }
+        public Backlight Backlight { get; set; }
+
         public override bool Equals(object obj)
         {
             if (obj is Mouse other)
             {
-                return this.Id == other.Id
-                       && this.IsDeleted == other.IsDeleted
-                       && this.Name == other.Name
-                       && this.ManufacturerId == other.ManufacturerId
-                       && this.Description == other.Description
-                       && this.Price == other.Price
-                       && this.ConnectionTypeId == other.ConnectionTypeId
-                       && this.ThumbnailImageUrl == other.ThumbnailImageUrl
-                       && this.BigImageUrl == other.BigImageUrl
-                       && this.Created == other.Created
-                       && this.LastModified == other.LastModified
-                       && this.ButtonsQuantity == other.ButtonsQuantity
-                       && this.SensorName == other.SensorName
-                       && this.MinSensorDPI == other.MinSensorDPI
-                       && this.MaxSensorDPI == other.MaxSensorDPI
-                       && this.BacklightId == other.BacklightId
-                       && Math.Abs(this.Length - other.Length) < 0.01
-                       && Math.Abs(this.Width - other.Width) < 0.01
-                       && Math.Abs(this.Height - other.Height) < 0.01
-                       && Math.Abs(this.Weight - other.Weight) < 0.01;
+                return Id == other.Id
+                       && IsDeleted == other.IsDeleted
+                       && Name == other.Name
+                       && ManufacturerId == other.ManufacturerId
+                       && Description == other.Description
+                       && Price == other.Price
+                       && ConnectionTypeId == other.ConnectionTypeId
+                       && ThumbnailImageUrl == other.ThumbnailImageUrl
+                       && BigImageUrl == other.BigImageUrl
+                       && Created == other.Created
+                       && LastModified == other.LastModified
+                       && ButtonsQuantity == other.ButtonsQuantity
+                       && SensorName == other.SensorName
+                       && MinSensorDPI == other.MinSensorDPI
+                       && MaxSensorDPI == other.MaxSensorDPI
+                       && BacklightId == other.BacklightId
+                       && Math.Abs(Length - other.Length) < 0.01
+                       && Math.Abs(Width - other.Width) < 0.01
+                       && Math.Abs(Height - other.Height) < 0.01
+                       && Math.Abs(Weight - other.Weight) < 0.01;
             }
 
             return false;
@@ -53,9 +53,9 @@ namespace eStore.ApplicationCore.Entities
             {
                 return Id.GetHashCode() * IsDeleted.GetHashCode() * Name.GetHashCode() * ManufacturerId.GetHashCode()
                        * Description.GetHashCode() * Price.GetHashCode() * ConnectionTypeId.GetHashCode()
-                       * ThumbnailImageUrl.GetHashCode() * BigImageUrl.GetHashCode() * Created.GetHashCode() 
-                       * LastModified.GetHashCode() * ButtonsQuantity.GetHashCode() * SensorName.GetHashCode() 
-                       * MaxSensorDPI.GetHashCode() * MinSensorDPI.GetHashCode() * BacklightId.GetHashCode() 
+                       * ThumbnailImageUrl.GetHashCode() * BigImageUrl.GetHashCode() * Created.GetHashCode()
+                       * LastModified.GetHashCode() * ButtonsQuantity.GetHashCode() * SensorName.GetHashCode()
+                       * MaxSensorDPI.GetHashCode() * MinSensorDPI.GetHashCode() * BacklightId.GetHashCode()
                        * Length.GetHashCode() * Width.GetHashCode() * Height.GetHashCode() * Weight.GetHashCode();
             }
         }

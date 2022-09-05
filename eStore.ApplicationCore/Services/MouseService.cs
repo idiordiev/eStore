@@ -6,6 +6,7 @@ using eStore.ApplicationCore.Factories;
 using eStore.ApplicationCore.FilterModels;
 using eStore.ApplicationCore.Interfaces;
 using eStore.ApplicationCore.Interfaces.Data;
+using eStore.ApplicationCore.Interfaces.DomainServices;
 
 namespace eStore.ApplicationCore.Services
 {

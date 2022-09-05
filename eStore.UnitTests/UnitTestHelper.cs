@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 using eStore.ApplicationCore.Entities;
 using eStore.ApplicationCore.Enums;
 using eStore.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
-using Moq;
 
 namespace eStore.UnitTests
 {
@@ -136,7 +134,6 @@ namespace eStore.UnitTests
                     {
                         new() { GamepadId = 1, CompatibleDeviceId = 1 },
                         new() { GamepadId = 1, CompatibleDeviceId = 2 },
-                        new() { GamepadId = 1, CompatibleDeviceId = 3 }
                     }
                 },
                 new()
@@ -148,7 +145,6 @@ namespace eStore.UnitTests
                     ThumbnailImageUrl = "thumbnail2.png", CompatibleDevices = new List<GamepadCompatibleDevice>()
                     {
                         new() { GamepadId = 2, CompatibleDeviceId = 1 },
-                        new() { GamepadId = 2, CompatibleDeviceId = 2 },
                         new() { GamepadId = 2, CompatibleDeviceId = 3 }
                     }
                 },
@@ -160,7 +156,6 @@ namespace eStore.UnitTests
                     ConnectionTypeId = 1, Weight = 220, FeedbackId = 1, BigImageUrl = "big3.png",
                     ThumbnailImageUrl = "thumbnail3.png", CompatibleDevices = new List<GamepadCompatibleDevice>()
                     {
-                        new() { GamepadId = 3, CompatibleDeviceId = 1 },
                         new() { GamepadId = 3, CompatibleDeviceId = 2 },
                         new() { GamepadId = 3, CompatibleDeviceId = 3 }
                     }

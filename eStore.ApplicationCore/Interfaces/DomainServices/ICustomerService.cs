@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using eStore.ApplicationCore.Entities;
 
-namespace eStore.ApplicationCore.Interfaces
+namespace eStore.ApplicationCore.Interfaces.DomainServices
 {
     public interface ICustomerService
     {

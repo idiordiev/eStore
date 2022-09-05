@@ -10,9 +10,9 @@ namespace eStore.ApplicationCore.Entities
         {
             if (obj is ConnectionType other)
             {
-                return this.Id == other.Id
-                       && this.IsDeleted == other.IsDeleted
-                       && this.Name == other.Name;
+                return Id == other.Id
+                       && IsDeleted == other.IsDeleted
+                       && Name == other.Name;
             }
 
             return false;

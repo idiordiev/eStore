@@ -21,7 +21,9 @@ namespace eStore.Email
         public async Task SendRegisterEmailAsync(Customer customer)
         {
             if (customer == null)
+            {
                 throw new ArgumentNullException(nameof(customer), "The order is null.");
+            }
             
             var bodyPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) +
                            "/Templates/RegisterEmailTemplate.html";
@@ -56,7 +58,9 @@ namespace eStore.Email
         public async Task SendPurchaseEmailAsyncAsync(Order order, string attachmentFilePath)
         {
             if (order == null)
+            {
                 throw new ArgumentNullException(nameof(order), "The order is null.");
+            }
             
             var bodyPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) +
                            "/Templates/OrderEmailTemplate.html";

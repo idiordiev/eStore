@@ -5,6 +5,7 @@ using eStore.ApplicationCore.Entities;
 using eStore.ApplicationCore.Exceptions;
 using eStore.ApplicationCore.Interfaces;
 using eStore.ApplicationCore.Interfaces.Data;
+using eStore.ApplicationCore.Interfaces.DomainServices;
 
 namespace eStore.ApplicationCore.Services
 {

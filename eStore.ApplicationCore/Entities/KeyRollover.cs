@@ -11,15 +11,15 @@ namespace eStore.ApplicationCore.Entities
 
         public string Name { get; set; }
 
-        public virtual ICollection<Keyboard> Keyboards { get; set; }
-        
+        public ICollection<Keyboard> Keyboards { get; set; }
+
         public override bool Equals(object obj)
         {
             if (obj is KeyRollover other)
             {
-                return this.Id == other.Id
-                       && this.IsDeleted == other.IsDeleted
-                       && this.Name == other.Name;
+                return Id == other.Id
+                       && IsDeleted == other.IsDeleted
+                       && Name == other.Name;
             }
 
             return false;

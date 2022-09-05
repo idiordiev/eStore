@@ -19,6 +19,8 @@ namespace eStore.Infrastructure.Data.Configurations
                 .HasMaxLength(100);
             builder.Property(c => c.PhoneNumber)
                 .HasMaxLength(20);
+            builder.Property(c => c.Country)
+                .HasMaxLength(100);
             builder.Property(c => c.City)
                 .HasMaxLength(100);
             builder.Property(c => c.Address)

@@ -7,6 +7,7 @@ using eStore.ApplicationCore.Entities;
 using eStore.ApplicationCore.Exceptions;
 using eStore.ApplicationCore.Interfaces;
 using eStore.ApplicationCore.Interfaces.Data;
+using eStore.ApplicationCore.Interfaces.DomainServices;
 using eStore.ApplicationCore.Services;
 using Moq;
 using NUnit.Framework;

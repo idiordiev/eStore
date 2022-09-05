@@ -13,7 +13,9 @@ namespace eStore.ApplicationCore.Factories
         public Expression<Func<Keyboard, bool>> CreateExpression(GoodsFilterModel filterModel)
         {
             if (filterModel is not KeyboardFilterModel filter)
+            {
                 throw new ArgumentException("This factory can only accept the KeyboardFilterModel.");
+            }
 
             var keyboardParameter = Expression.Parameter(typeof(Keyboard), "k");
             var filterExpression = GetBaseExpression(keyboardParameter);
@@ -40,7 +42,9 @@ namespace eStore.ApplicationCore.Factories
         private void AddMinPriceConstraint(ref Expression baseExpression, ParameterExpression parameter, decimal? price)
         {
             if (price == null)
+            {
                 return;
+            }
 
             Expression left = Expression.Property(parameter, nameof(Keyboard.Price));
             Expression right = Expression.Constant(price.Value);
@@ -51,7 +55,9 @@ namespace eStore.ApplicationCore.Factories
         private void AddMaxPriceConstraint(ref Expression baseExpression, ParameterExpression parameter, decimal? price)
         {
             if (price == null)
+            {
                 return;
+            }
 
             Expression left = Expression.Property(parameter, nameof(Keyboard.Price));
             Expression right = Expression.Constant(price.Value);
@@ -63,7 +69,9 @@ namespace eStore.ApplicationCore.Factories
             IEnumerable<int> manufacturerIds)
         {
             if (manufacturerIds == null || !manufacturerIds.Any())
+            {
                 return;
+            }
 
             Expression values = Expression.Constant(manufacturerIds, typeof(IEnumerable<int>));
             Expression property = Expression.Property(parameter, nameof(Keyboard.ManufacturerId));
@@ -80,7 +88,9 @@ namespace eStore.ApplicationCore.Factories
             IEnumerable<int> connectionTypeIds)
         {
             if (connectionTypeIds == null || !connectionTypeIds.Any())
+            {
                 return;
+            }
 
             Expression values = Expression.Constant(connectionTypeIds, typeof(IEnumerable<int>));
             Expression property = Expression.Property(parameter, nameof(Keyboard.ConnectionTypeId));
@@ -97,7 +107,9 @@ namespace eStore.ApplicationCore.Factories
             IEnumerable<int?> switchIds)
         {
             if (switchIds == null || !switchIds.Any())
+            {
                 return;
+            }
 
             Expression values = Expression.Constant(switchIds, typeof(IEnumerable<int?>));
             Expression property = Expression.Property(parameter, nameof(Keyboard.SwitchId));
@@ -114,7 +126,9 @@ namespace eStore.ApplicationCore.Factories
             IEnumerable<int> sizeIds)
         {
             if (sizeIds == null || !sizeIds.Any())
+            {
                 return;
+            }
 
             Expression values = Expression.Constant(sizeIds, typeof(IEnumerable<int>));
             Expression property = Expression.Property(parameter, nameof(Keyboard.SizeId));
@@ -131,7 +145,9 @@ namespace eStore.ApplicationCore.Factories
             IEnumerable<int> typeIds)
         {
             if (typeIds == null || !typeIds.Any())
+            {
                 return;
+            }
 
             Expression values = Expression.Constant(typeIds, typeof(IEnumerable<int>));
             Expression property = Expression.Property(parameter, nameof(Keyboard.TypeId));
@@ -148,7 +164,9 @@ namespace eStore.ApplicationCore.Factories
             IEnumerable<int> rolloverIds)
         {
             if (rolloverIds == null || !rolloverIds.Any())
+            {
                 return;
+            }
 
             Expression values = Expression.Constant(rolloverIds, typeof(IEnumerable<int>));
             Expression property = Expression.Property(parameter, nameof(Keyboard.KeyRolloverId));
@@ -165,7 +183,9 @@ namespace eStore.ApplicationCore.Factories
             IEnumerable<int> backlightIds)
         {
             if (backlightIds == null || !backlightIds.Any())
+            {
                 return;
+            }
 
             Expression values = Expression.Constant(backlightIds, typeof(IEnumerable<int>));
             Expression property = Expression.Property(parameter, nameof(Keyboard.BacklightId));

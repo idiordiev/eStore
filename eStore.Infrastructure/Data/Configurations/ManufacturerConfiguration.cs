@@ -9,6 +9,8 @@ namespace eStore.Infrastructure.Data.Configurations
         public void Configure(EntityTypeBuilder<Manufacturer> builder)
         {
             builder.HasKey(m => m.Id);
+            builder.Property(m => m.Name)
+                .HasMaxLength(250);
         }
     }
 }

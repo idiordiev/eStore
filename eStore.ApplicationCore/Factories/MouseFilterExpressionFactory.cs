@@ -13,7 +13,9 @@ namespace eStore.ApplicationCore.Factories
         public Expression<Func<Mouse, bool>> CreateExpression(GoodsFilterModel filterModel)
         {
             if (filterModel is not MouseFilterModel filter)
+            {
                 throw new ArgumentException("This factory can only accept the MouseFilterModel.");
+            }
 
             var mouseParameter = Expression.Parameter(typeof(Mouse), "m");
             var filterExpression = GetBaseExpression(mouseParameter);
@@ -38,7 +40,9 @@ namespace eStore.ApplicationCore.Factories
         private void AddMinPriceConstraint(ref Expression baseExpression, ParameterExpression parameter, decimal? price)
         {
             if (price == null)
+            {
                 return;
+            }
 
             Expression left = Expression.Property(parameter, nameof(Mouse.Price));
             Expression right = Expression.Constant(price.Value);
@@ -49,7 +53,9 @@ namespace eStore.ApplicationCore.Factories
         private void AddMaxPriceConstraint(ref Expression baseExpression, ParameterExpression parameter, decimal? price)
         {
             if (price == null)
+            {
                 return;
+            }
 
             Expression left = Expression.Property(parameter, nameof(Mouse.Price));
             Expression right = Expression.Constant(price.Value);
@@ -61,7 +67,9 @@ namespace eStore.ApplicationCore.Factories
             IEnumerable<int> manufacturerIds)
         {
             if (manufacturerIds == null || !manufacturerIds.Any())
+            {
                 return;
+            }
 
             Expression values = Expression.Constant(manufacturerIds, typeof(IEnumerable<int>));
             Expression property = Expression.Property(parameter, nameof(Mouse.ManufacturerId));
@@ -77,7 +85,9 @@ namespace eStore.ApplicationCore.Factories
         private void AddMinWeightConstraint(ref Expression baseExpression, ParameterExpression parameter, float? weight)
         {
             if (weight == null)
+            {
                 return;
+            }
 
             Expression left = Expression.Property(parameter, nameof(Mouse.Weight));
             Expression right = Expression.Constant(weight.Value);
@@ -88,7 +98,9 @@ namespace eStore.ApplicationCore.Factories
         private void AddMaxWeightConstraint(ref Expression baseExpression, ParameterExpression parameter, float? weight)
         {
             if (weight == null)
+            {
                 return;
+            }
 
             Expression left = Expression.Property(parameter, nameof(Mouse.Weight));
             Expression right = Expression.Constant(weight.Value);
@@ -100,7 +112,9 @@ namespace eStore.ApplicationCore.Factories
             IEnumerable<int> connectionTypeIds)
         {
             if (connectionTypeIds == null || !connectionTypeIds.Any())
+            {
                 return;
+            }
 
             Expression values = Expression.Constant(connectionTypeIds, typeof(IEnumerable<int>));
             Expression property = Expression.Property(parameter, nameof(Mouse.ConnectionTypeId));
@@ -117,7 +131,9 @@ namespace eStore.ApplicationCore.Factories
             IEnumerable<int> backlightIds)
         {
             if (backlightIds == null || !backlightIds.Any())
+            {
                 return;
+            }
 
             Expression values = Expression.Constant(backlightIds, typeof(IEnumerable<int>));
             Expression property = Expression.Property(parameter, nameof(Mouse.BacklightId));
