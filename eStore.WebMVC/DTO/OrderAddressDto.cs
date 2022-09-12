@@ -2,7 +2,7 @@
 
 namespace eStore.WebMVC.DTO
 {
-    public class OrderAddressDTO : IOrderAddress
+    public class OrderAddressDto : IOrderAddress
     {
         public string ShippingCountry { get; set; }
         public string ShippingCity { get; set; }

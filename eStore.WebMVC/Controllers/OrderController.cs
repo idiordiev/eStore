@@ -107,8 +107,8 @@ namespace eStore.WebMVC.Controllers
                 return View(model);
             }
 
-            var orderItems = _mapper.Map<IEnumerable<OrderItemDTO>>(model.OrderItems);
-            var shippingAddress = _mapper.Map<OrderAddressDTO>(model);
+            var orderItems = _mapper.Map<IEnumerable<OrderItemDto>>(model.OrderItems);
+            var shippingAddress = _mapper.Map<OrderAddressDto>(model);
             var user = await _userManager.GetUserAsync(HttpContext.User);
             await _orderService.CreateOrderAsync(user.CustomerId, orderItems, shippingAddress);
             await _customerService.ClearCustomerCartAsync(user.CustomerId);

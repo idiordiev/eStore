@@ -68,11 +68,11 @@ namespace eStore.WebMVC.Mapping
                 .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status.ToString()))
                 .ForMember(dest => dest.OrderItems, opt => opt.MapFrom(src => src.OrderItems));
 
-            CreateMap<OrderItemViewModel, OrderItemDTO>()
+            CreateMap<OrderItemViewModel, OrderItemDto>()
                 .ForMember(dest => dest.GoodsId, opt => opt.MapFrom(src => src.GoodsId))
                 .ForMember(dest => dest.Quantity, opt => opt.MapFrom(src => src.Quantity));
 
-            CreateMap<OrderViewModel, OrderAddressDTO>();
+            CreateMap<OrderViewModel, OrderAddressDto>();
         }
     }
 }

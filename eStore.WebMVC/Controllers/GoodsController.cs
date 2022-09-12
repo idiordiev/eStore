@@ -41,29 +41,9 @@ namespace eStore.WebMVC.Controllers
         }
 
         [HttpGet("keyboards")]
-        public async Task<IActionResult> Keyboards([FromQuery] ICollection<int> manufacturerIds, 
-            [FromQuery] ICollection<int> typeIds, 
-            [FromQuery] ICollection<int?> switchIds, 
-            [FromQuery] ICollection<int> sizeIds,
-            [FromQuery] ICollection<int> connectionTypeIds,
-            [FromQuery] ICollection<int> backlightIds,
-            [FromQuery] ICollection<int> keyRolloverIds,
-            [FromQuery] decimal? minPrice,
-            [FromQuery] decimal? maxPrice)
+        public async Task<IActionResult> Keyboards([FromQuery] KeyboardFilterModel filterModel)
         {
-            var filter = new KeyboardFilterModel()
-            {
-                ManufacturerIds = manufacturerIds,
-                KeyboardTypeIds = typeIds,
-                SwitchIds = switchIds,
-                KeyboardSizeIds = sizeIds,
-                ConnectionTypeIds = connectionTypeIds,
-                BacklightIds = backlightIds,
-                KeyRolloverIds = keyRolloverIds,
-                MinPrice = minPrice,
-                MaxPrice = maxPrice
-            };
-            var keyboards = await _keyboardService.GetPresentByFilterAsync(filter);
+            var keyboards = await _keyboardService.GetPresentByFilterAsync(filterModel);
             var models = _mapper.Map<IEnumerable<KeyboardViewModel>>(keyboards);
             ViewBag.Manufacturers = await _keyboardService.GetManufacturersAsync();
             ViewBag.Sizes = await _keyboardService.GetSizesAsync();
@@ -114,28 +94,12 @@ namespace eStore.WebMVC.Controllers
         }
 
         [HttpGet("mouses")]
-        public async Task<IActionResult> Mouses([FromQuery] ICollection<int> manufacturerIds,
-            [FromQuery] ICollection<int> connectionTypeIds,
-            [FromQuery] ICollection<int> backlightIds,
-            [FromQuery] decimal? minPrice,
-            [FromQuery] decimal? maxPrice,
-            [FromQuery] int? minWeight,
-            [FromQuery] int? maxWeight)
+        public async Task<IActionResult> Mouses([FromQuery] MouseFilterModel filterModel)
         {
-            var filter = new MouseFilterModel()
-            {
-                ManufacturerIds = manufacturerIds,
-                ConnectionTypeIds = connectionTypeIds,
-                BacklightIds = backlightIds,
-                MaxPrice = maxPrice,
-                MinPrice = minPrice,
-                MaxWeight = maxWeight,
-                MinWeight = minWeight
-            };
             ViewBag.Manufacturers = await _mouseService.GetManufacturersAsync();
             ViewBag.Backlights = await _mouseService.GetBacklightsAsync();
             ViewBag.ConnectionTypes = await _mouseService.GetConnectionTypesAsync();
-            var mouses = await _mouseService.GetPresentByFilterAsync(filter);
+            var mouses = await _mouseService.GetPresentByFilterAsync(filterModel);
             var models = _mapper.Map<IEnumerable<MouseViewModel>>(mouses);
             await CheckIfInCartAsync(models);
             
@@ -158,29 +122,13 @@ namespace eStore.WebMVC.Controllers
         }
         
         [HttpGet("mousepads")]
-        public async Task<IActionResult> Mousepads([FromQuery] ICollection<int> manufacturerIds,
-            [FromQuery] decimal? minPrice,
-            [FromQuery] decimal? maxPrice,
-            [FromQuery] ICollection<int> topMaterialIds,
-            [FromQuery] ICollection<int> bottomMaterialIds,
-            [FromQuery] ICollection<bool> isStitchedValues,
-            [FromQuery] ICollection<int> backlightIds)
+        public async Task<IActionResult> Mousepads([FromQuery] MousepadFilterModel filterModel)
         {
-            var filter = new MousepadFilterModel()
-            {
-                ManufacturerIds = manufacturerIds,
-                MaxPrice = maxPrice,
-                MinPrice = minPrice,
-                TopMaterialIds = topMaterialIds,
-                BottomMaterialIds = bottomMaterialIds,
-                IsStitchedValues = isStitchedValues,
-                BacklightIds = backlightIds
-            };
             ViewBag.Manufacturers = await _mousepadService.GetManufacturersAsync();
             ViewBag.TopMaterials = await _mousepadService.GetTopMaterialsAsync();
             ViewBag.BottomMaterials = await _mousepadService.GetBottomMaterialsAsync();
             ViewBag.Backlights = await _mousepadService.GetBacklightsAsync();
-            var mousepads = await _mousepadService.GetPresentByFilterAsync(filter);
+            var mousepads = await _mousepadService.GetPresentByFilterAsync(filterModel);
             var models = _mapper.Map<IEnumerable<MousepadViewModel>>(mousepads);
             await CheckIfInCartAsync(models);
             
@@ -203,27 +151,13 @@ namespace eStore.WebMVC.Controllers
         }
         
         [HttpGet("gamepads")]
-        public async Task<IActionResult> Gamepads([FromQuery] ICollection<int> manufacturerIds,
-            [FromQuery] decimal? minPrice,
-            [FromQuery] decimal? maxPrice,
-            [FromQuery] ICollection<int> connectionTypeIds,
-            [FromQuery] ICollection<int> feedbackIds,
-            [FromQuery] ICollection<int> compatibleDeviceIds)
+        public async Task<IActionResult> Gamepads([FromQuery] GamepadFilterModel filterModel)
         {
-            var filter = new GamepadFilterModel()
-            {
-                ManufacturerIds = manufacturerIds,
-                MaxPrice = maxPrice,
-                MinPrice = minPrice,
-                ConnectionTypeIds = connectionTypeIds,
-                FeedbackIds = feedbackIds, 
-                CompatibleDevicesIds = compatibleDeviceIds
-            };
             ViewBag.Manufacturers = await _gamepadService.GetManufacturersAsync();
             ViewBag.Feedbacks = await _gamepadService.GetFeedbacksAsync();
             ViewBag.ConnectionTypes = await _gamepadService.GetConnectionTypesAsync();
             ViewBag.CompatibleDevices = await _gamepadService.GetCompatibleDevicesAsync();
-            var gamepads = await _gamepadService.GetPresentByFilterAsync(filter);
+            var gamepads = await _gamepadService.GetPresentByFilterAsync(filterModel);
             var models = _mapper.Map<IEnumerable<GamepadViewModel>>(gamepads);
             await CheckIfInCartAsync(models);
             
