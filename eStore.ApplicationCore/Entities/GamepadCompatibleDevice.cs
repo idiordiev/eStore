@@ -11,10 +11,8 @@
         public override bool Equals(object obj)
         {
             if (obj is GamepadCompatibleDevice other)
-            {
                 return GamepadId == other.GamepadId
                        && CompatibleDeviceId == other.CompatibleDeviceId;
-            }
 
             return false;
         }

@@ -16,11 +16,11 @@ namespace eStore.WebMVC.Controllers
     public class AccountController : Controller
     {
         private readonly ICustomerService _customerService;
+        private readonly IEmailService _emailService;
         private readonly IGoodsService _goodsService;
         private readonly IMapper _mapper;
-        private readonly IEmailService _emailService;
-        private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
 
         public AccountController(ICustomerService customerService, IGoodsService goodsService,
             IMapper mapper, IEmailService emailService,
@@ -42,30 +42,18 @@ namespace eStore.WebMVC.Controllers
             var customer = await _customerService.GetCustomerByIdAsync(user.CustomerId);
             var model = _mapper.Map<CustomerViewModel>(customer);
             foreach (var goods in customer.ShoppingCart.Goods.Select(g => g.Goods))
-            {
                 if (goods is Keyboard keyboard)
-                {
                     model.GoodsInCart.Add(_mapper.Map<KeyboardViewModel>(keyboard));
-                }
                 else if (goods is Mouse mouse)
-                {
                     model.GoodsInCart.Add(_mapper.Map<MouseViewModel>(mouse));
-                }
                 else if (goods is Mousepad mousepad)
-                {
                     model.GoodsInCart.Add(_mapper.Map<MousepadViewModel>(mousepad));
-                }
-                else if (goods is Gamepad gamepad)
-                {
+                else if (goods is Gamepad gamepad) 
                     model.GoodsInCart.Add(_mapper.Map<GamepadViewModel>(gamepad));
-                }
-            }
 
             foreach (var goods in model.GoodsInCart)
-            {
                 goods.IsAddedToCart = await _goodsService.CheckIfAddedToCartAsync(user.CustomerId, goods.Id);
-            }
-            
+
             return View(model);
         }
 
@@ -87,7 +75,7 @@ namespace eStore.WebMVC.Controllers
             }
             
             return RedirectToAction("Index", "Account");
-        } 
+        }
 
         [HttpGet]
         public async Task<IActionResult> Register()
@@ -99,19 +87,17 @@ namespace eStore.WebMVC.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
-            if (!ModelState.IsValid)
-            {
+            if (!ModelState.IsValid) 
                 return View(model);
-            }
 
             try
             {
-                var identityUser = new ApplicationUser()
+                var identityUser = new ApplicationUser
                 {
                     Email = model.Email,
                     UserName = model.Email
                 };
-                var customer = new Customer()
+                var customer = new Customer
                 {
                     Email = model.Email,
                     IdentityId = identityUser.Id,
@@ -127,10 +113,8 @@ namespace eStore.WebMVC.Controllers
                 await _customerService.AddCustomerAsync(customer);
                 identityUser.CustomerId = customer.Id;
                 var registerResult = await _userManager.CreateAsync(identityUser, model.Password);
-                if (registerResult.Succeeded)
-                {
+                if (registerResult.Succeeded) 
                     await _signInManager.SignInAsync(identityUser, true);
-                }
             }
             catch (Exception e)
             {
@@ -151,22 +135,18 @@ namespace eStore.WebMVC.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
-            if (!ModelState.IsValid)
-            {
+            if (!ModelState.IsValid) 
                 return View(model);
-            }
-            
+
             var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
             if (result.Succeeded)
             {
-                if (string.IsNullOrEmpty(model.ReturnUrl))
-                {
+                if (string.IsNullOrWhiteSpace(model.ReturnUrl)) 
                     return RedirectToAction("Index", "Home");
-                }
-                
+
                 return Redirect(model.ReturnUrl);
             }
-            
+
             ModelState.AddModelError("", "Email and/or password is incorrect.");
             return View(model);
         }
@@ -185,10 +165,8 @@ namespace eStore.WebMVC.Controllers
             var identityUser = await _userManager.GetUserAsync(HttpContext.User);
             var customer = await _customerService.GetCustomerByIdAsync(identityUser.CustomerId);
             await _customerService.AddGoodsToCartAsync(customer.Id, goodsId);
-            if (string.IsNullOrEmpty(returnUrl))
-            {
+            if (string.IsNullOrWhiteSpace(returnUrl)) 
                 return RedirectToAction("Index", "Goods");
-            }
 
             return Redirect(returnUrl);
         }
@@ -200,10 +178,8 @@ namespace eStore.WebMVC.Controllers
             var identityUser = await _userManager.GetUserAsync(HttpContext.User);
             var customer = await _customerService.GetCustomerByIdAsync(identityUser.CustomerId);
             await _customerService.RemoveGoodsFromCartAsync(customer.Id, goodsId);
-            if (string.IsNullOrEmpty(returnUrl))
-            {
+            if (string.IsNullOrWhiteSpace(returnUrl)) 
                 return RedirectToAction("Index", "Goods");
-            }
 
             return Redirect(returnUrl);
         }
@@ -215,7 +191,7 @@ namespace eStore.WebMVC.Controllers
             var model = new ChangePasswordViewModel();
             return await Task.Run(() => View(model));
         }
-        
+
         [Authorize]
         [HttpPost]
         public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
@@ -228,6 +204,7 @@ namespace eStore.WebMVC.Controllers
                     ModelState.AddModelError("", "The current password is not correct.");
                     return View(model);
                 }
+
                 await _userManager.ChangePasswordAsync(user, model.CurrentPassword, model.NewPassword);
                 await _emailService.SendChangePasswordEmailAsync(user.Email);
                 return RedirectToAction("Index", "Account");

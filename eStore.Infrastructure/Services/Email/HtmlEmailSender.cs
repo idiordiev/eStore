@@ -6,15 +6,15 @@ namespace eStore.Infrastructure.Services.Email
 {
     public class HtmlEmailSender : IHtmlEmailSender
     {
-        private readonly SmtpClient _smtpClient;
         private readonly SmtpClientOptions _options;
+        private readonly SmtpClient _smtpClient;
 
         public HtmlEmailSender(SmtpClient smtpClient, IOptions<SmtpClientOptions> options)
         {
             _options = options.Value;
             _smtpClient = smtpClient;
         }
-        
+
         public async Task SendEmailAsync(string emailTo, string subject, string body)
         {
             var mailMessage = new MailMessage();

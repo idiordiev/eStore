@@ -1,9 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using eStore.ApplicationCore.FilterModels;
-using eStore.ApplicationCore.Interfaces;
 using eStore.ApplicationCore.Interfaces.DomainServices;
 using eStore.Infrastructure.Identity;
 using eStore.WebMVC.Models;
@@ -14,16 +12,16 @@ namespace eStore.WebMVC.Controllers
 {
     public class GoodsController : Controller
     {
-        private readonly IGoodsService _goodsService;
         private readonly IGamepadService _gamepadService;
+        private readonly IGoodsService _goodsService;
         private readonly IKeyboardService _keyboardService;
-        private readonly IMouseService _mouseService;
-        private readonly IMousepadService _mousepadService;
         private readonly IMapper _mapper;
+        private readonly IMousepadService _mousepadService;
+        private readonly IMouseService _mouseService;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public GoodsController(IGoodsService goodsService, IGamepadService gamepadService, 
-            IKeyboardService keyboardService, IMouseService mouseService, 
+        public GoodsController(IGoodsService goodsService, IGamepadService gamepadService,
+            IKeyboardService keyboardService, IMouseService mouseService,
             IMousepadService mousepadService, IMapper mapper, UserManager<ApplicationUser> userManager)
         {
             _goodsService = goodsService;
@@ -35,9 +33,9 @@ namespace eStore.WebMVC.Controllers
             _userManager = userManager;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            return await Task.Run(View);
         }
 
         [HttpGet("keyboards")]
@@ -53,7 +51,7 @@ namespace eStore.WebMVC.Controllers
             ViewBag.Backlights = await _keyboardService.GetBacklightsAsync();
             ViewBag.KeyRollovers = await _keyboardService.GetKeyRolloverAsync();
             await CheckIfInCartAsync(models);
-            
+
             return View(models);
         }
 
@@ -72,9 +70,7 @@ namespace eStore.WebMVC.Controllers
             {
                 var user = await _userManager.GetUserAsync(HttpContext.User);
                 foreach (var model in models)
-                {
                     model.IsAddedToCart = await _goodsService.CheckIfAddedToCartAsync(user.CustomerId, model.Id);
-                }
             }
         }
 
@@ -82,14 +78,12 @@ namespace eStore.WebMVC.Controllers
         public async Task<IActionResult> Keyboard(int id)
         {
             var keyboard = await _keyboardService.GetByIdAsync(id);
-            if (keyboard == null || keyboard.IsDeleted)
-            {
+            if (keyboard == null || keyboard.IsDeleted) 
                 return NotFound();
-            }
-            
+
             var model = _mapper.Map<KeyboardViewModel>(keyboard);
             await CheckIfInCartAsync(model);
-            
+
             return View(model);
         }
 
@@ -102,25 +96,23 @@ namespace eStore.WebMVC.Controllers
             var mouses = await _mouseService.GetPresentByFilterAsync(filterModel);
             var models = _mapper.Map<IEnumerable<MouseViewModel>>(mouses);
             await CheckIfInCartAsync(models);
-            
+
             return View(models);
         }
-        
+
         [HttpGet("mouses/{id}")]
         public async Task<IActionResult> Mouse(int id)
         {
             var mouse = await _mouseService.GetByIdAsync(id);
-            if (mouse == null || mouse.IsDeleted)
-            {
+            if (mouse == null || mouse.IsDeleted) 
                 return NotFound();
-            }
-            
+
             var model = _mapper.Map<MouseViewModel>(mouse);
             await CheckIfInCartAsync(model);
-            
+
             return View(model);
         }
-        
+
         [HttpGet("mousepads")]
         public async Task<IActionResult> Mousepads([FromQuery] MousepadFilterModel filterModel)
         {
@@ -131,25 +123,23 @@ namespace eStore.WebMVC.Controllers
             var mousepads = await _mousepadService.GetPresentByFilterAsync(filterModel);
             var models = _mapper.Map<IEnumerable<MousepadViewModel>>(mousepads);
             await CheckIfInCartAsync(models);
-            
+
             return View(models);
         }
-        
+
         [HttpGet("mousepads/{id}")]
         public async Task<IActionResult> Mousepad(int id)
         {
             var mousepad = await _mousepadService.GetByIdAsync(id);
-            if (mousepad == null || mousepad.IsDeleted)
-            {
+            if (mousepad == null || mousepad.IsDeleted) 
                 return NotFound();
-            }
-            
+
             var model = _mapper.Map<MousepadViewModel>(mousepad);
             await CheckIfInCartAsync(model);
-            
+
             return View(model);
         }
-        
+
         [HttpGet("gamepads")]
         public async Task<IActionResult> Gamepads([FromQuery] GamepadFilterModel filterModel)
         {
@@ -160,22 +150,20 @@ namespace eStore.WebMVC.Controllers
             var gamepads = await _gamepadService.GetPresentByFilterAsync(filterModel);
             var models = _mapper.Map<IEnumerable<GamepadViewModel>>(gamepads);
             await CheckIfInCartAsync(models);
-            
+
             return View(models);
         }
-        
+
         [HttpGet("gamepads/{id}")]
         public async Task<IActionResult> Gamepad(int id)
         {
             var gamepad = await _gamepadService.GetByIdAsync(id);
-            if (gamepad == null || gamepad.IsDeleted)
-            {
+            if (gamepad == null || gamepad.IsDeleted) 
                 return NotFound();
-            }
-            
+
             var model = _mapper.Map<GamepadViewModel>(gamepad);
             await CheckIfInCartAsync(model);
-            
+
             return View(model);
         }
     }

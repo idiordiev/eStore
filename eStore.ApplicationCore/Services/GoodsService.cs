@@ -3,7 +3,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using eStore.ApplicationCore.Entities;
 using eStore.ApplicationCore.Exceptions;
-using eStore.ApplicationCore.Interfaces;
 using eStore.ApplicationCore.Interfaces.Data;
 using eStore.ApplicationCore.Interfaces.DomainServices;
 

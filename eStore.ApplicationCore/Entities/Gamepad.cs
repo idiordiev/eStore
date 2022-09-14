@@ -16,7 +16,6 @@ namespace eStore.ApplicationCore.Entities
         public override bool Equals(object obj)
         {
             if (obj is Gamepad other)
-            {
                 return Id == other.Id
                        && IsDeleted == other.IsDeleted
                        && Name == other.Name
@@ -30,7 +29,6 @@ namespace eStore.ApplicationCore.Entities
                        && LastModified == other.LastModified
                        && FeedbackId == other.FeedbackId
                        && Math.Abs(Weight - other.Weight) < 0.01;
-            }
 
             return false;
         }

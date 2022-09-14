@@ -1,40 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using eStore.WebMVC.Models;
 
 namespace eStore.WebMVC.Controllers
 {
     public class HomeController : Controller
     {
-        public HomeController()
+        public async Task<IActionResult> Index()
         {
-
+            return await Task.Run(View);
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Services()
         {
-            return View();
+            return await Task.Run(View);
+        }
+
+        public async Task<IActionResult> Faq()
+        {
+            return await Task.Run(View);
         }
         
-        public IActionResult Services()
+        public async Task<IActionResult> Error()
         {
-            return View();
-        }
-
-        public IActionResult Faq()
-        {
-            return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View();
+            return await Task.Run(View);
         }
     }
 }

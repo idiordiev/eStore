@@ -10,7 +10,7 @@ namespace eStore.WebMVC.Models
         public DateTime TimeStamp { get; set; }
         public string Status { get; set; }
         public decimal Total { get; set; }
-        
+
         [Display(Name = "Country")]
         [MaxLength(100)]
         public string ShippingCountry { get; set; }

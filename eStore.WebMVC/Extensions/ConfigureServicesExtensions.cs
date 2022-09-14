@@ -71,11 +71,11 @@ namespace eStore.WebMVC.Extensions
 
         public static void AddSmtpClient(this IServiceCollection services)
         {
-            services.AddScoped<SmtpClient>(sp =>
+            services.AddScoped(sp =>
             {
-                SmtpClientOptions options = sp.GetRequiredService<IOptions<SmtpClientOptions>>().Value;
-                string password = Environment.GetEnvironmentVariable("SENDGRID_API_KEY");
-                SmtpClient smtpClient = new SmtpClient(options.Address, options.Port);
+                var options = sp.GetRequiredService<IOptions<SmtpClientOptions>>().Value;
+                var password = Environment.GetEnvironmentVariable("SENDGRID_API_KEY");
+                var smtpClient = new SmtpClient(options.Address, options.Port);
                 smtpClient.Credentials = new NetworkCredential(options.UserName, password);
                 return smtpClient;
             });

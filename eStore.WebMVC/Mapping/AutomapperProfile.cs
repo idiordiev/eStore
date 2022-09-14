@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using AutoMapper;
+﻿using AutoMapper;
 using eStore.ApplicationCore.Entities;
 using eStore.WebMVC.DTO;
 using eStore.WebMVC.Models;

@@ -26,7 +26,6 @@ namespace eStore.ApplicationCore.Entities
         public override bool Equals(object obj)
         {
             if (obj is Customer other)
-            {
                 return Id == other.Id
                        && IsDeleted == other.IsDeleted
                        && IdentityId == other.IdentityId
@@ -39,7 +38,6 @@ namespace eStore.ApplicationCore.Entities
                        && Address == other.Address
                        && PostalCode == other.PostalCode
                        && ShoppingCartId == other.ShoppingCartId;
-            }
 
             return false;
         }

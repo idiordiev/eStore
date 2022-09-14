@@ -33,7 +33,7 @@
         @if (!Model.IsAddedToCart)
         {
             <form asp-action="AddGoodsToCart" asp-controller="Account" asp-route-goodsId="@Model.Id" asp-route-returnUrl="@Context.Request.Path">
-                <input type="submit" id="cart-button" class="goods-page-cart-button" value="ADD TO CART" />
+                <input type="submit" id="cart-button" class="goods-page-cart-button" value="ADD TO CART"/>
             </form>
         }
         else

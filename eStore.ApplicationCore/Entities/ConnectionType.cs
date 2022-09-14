@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace eStore.ApplicationCore.Entities
+﻿namespace eStore.ApplicationCore.Entities
 {
     public class ConnectionType : Entity
     {
@@ -9,11 +7,9 @@ namespace eStore.ApplicationCore.Entities
         public override bool Equals(object obj)
         {
             if (obj is ConnectionType other)
-            {
                 return Id == other.Id
                        && IsDeleted == other.IsDeleted
                        && Name == other.Name;
-            }
 
             return false;
         }

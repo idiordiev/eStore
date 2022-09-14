@@ -7,11 +7,9 @@
         public override bool Equals(object obj)
         {
             if (obj is Backlight other)
-            {
                 return Id == other.Id
                        && IsDeleted == other.IsDeleted
                        && Name == other.Name;
-            }
 
             return false;
         }

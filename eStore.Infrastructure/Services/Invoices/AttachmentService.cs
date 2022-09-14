@@ -92,7 +92,8 @@ namespace eStore.Infrastructure.Services.Invoices
 
         private string GetFullShippingAddress(Order order)
         {
-            return string.Join(", ", order.ShippingAddress, order.ShippingCity, order.ShippingCountry, order.ShippingPostalCode);
+            return string.Join(", ", order.ShippingAddress, order.ShippingCity, order.ShippingCountry,
+                order.ShippingPostalCode);
         }
     }
 }

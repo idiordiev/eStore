@@ -19,11 +19,9 @@ namespace eStore.Infrastructure.Services.Email
 
         public async Task SendRegisterEmailAsync(Customer customer)
         {
-            if (customer == null)
-            {
+            if (customer == null) 
                 throw new ArgumentNullException(nameof(customer), "The order is null.");
-            }
-            
+
             var bodyPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) +
                            "/Services/Email/Templates/RegisterEmailTemplate.html";
             var body = await File.ReadAllTextAsync(bodyPath);
@@ -31,7 +29,8 @@ namespace eStore.Infrastructure.Services.Email
             body = body.Replace("LAST_NAME", customer.LastName);
             body = body.Replace("PHONE_NUMBER", customer.PhoneNumber);
             body = body.Replace("EMAIL_ADDRESS", customer.Email);
-            await _htmlEmailSender.SendEmailAsync(customer.Email, "You've been successfully registered at eStore.com!", body);
+            await _htmlEmailSender.SendEmailAsync(customer.Email, "You've been successfully registered at eStore.com!",
+                body);
         }
 
         public async Task SendDeactivationEmailAsync(string email)
@@ -56,11 +55,9 @@ namespace eStore.Infrastructure.Services.Email
 
         public async Task SendPurchaseEmailAsyncAsync(Order order, string attachmentFilePath)
         {
-            if (order == null)
-            {
+            if (order == null) 
                 throw new ArgumentNullException(nameof(order), "The order is null.");
-            }
-            
+
             var bodyPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) +
                            "/Services/Email/Templates/OrderEmailTemplate.html";
             var body = await File.ReadAllTextAsync(bodyPath);
@@ -71,7 +68,8 @@ namespace eStore.Infrastructure.Services.Email
             body = body.Replace("ADDRESS", order.ShippingAddress);
             body = body.Replace("POSTAL_CODE", order.ShippingPostalCode);
             body = body.Replace("PRICE", order.Total.ToString(CultureInfo.InvariantCulture));
-            await _htmlEmailSender.SendEmailAsync(order.Customer.Email, "Thanks for purchase!", body, attachmentFilePath);
+            await _htmlEmailSender.SendEmailAsync(order.Customer.Email, "Thanks for purchase!", body,
+                attachmentFilePath);
         }
     }
 }

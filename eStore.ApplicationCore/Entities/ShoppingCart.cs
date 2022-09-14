@@ -17,11 +17,9 @@ namespace eStore.ApplicationCore.Entities
         public override bool Equals(object obj)
         {
             if (obj is ShoppingCart other)
-            {
                 return Id == other.Id
                        && IsDeleted == other.IsDeleted
                        && CustomerId == other.CustomerId;
-            }
 
             return false;
         }

@@ -54,7 +54,7 @@ namespace eStore.ApplicationCore.Services
             foreach (var orderItem in items)
             {
                 var goods = await _unitOfWork.GoodsRepository.GetByIdAsync(orderItem.GoodsId);
-                
+
                 CheckIfGoodsIsPresent(goods);
                 if (orderItem.Quantity < 1)
                     throw new InvalidQuantityException("The quantity must be greater or equal 1.");
@@ -68,33 +68,6 @@ namespace eStore.ApplicationCore.Services
             var emailAttachment = _attachmentService.CreateInvoice(order);
             await _emailService.SendPurchaseEmailAsyncAsync(order, emailAttachment);
             return order;
-        }
-        
-        private static void CheckIfCustomerIsPresent(Customer customer)
-        {
-            if (customer == null)
-            {
-                throw new CustomerNotFoundException("The customer has not been found.");
-            }
-
-            if (customer.IsDeleted)
-            {
-                throw new AccountDeactivatedException(
-                    $"The account with the id {customer.Id} has already been deactivated.");
-            }
-        }
-        
-        private static void CheckIfGoodsIsPresent(Goods goods)
-        {
-            if (goods == null)
-            {
-                throw new GoodsNotFoundException($"The goods has not been found.");
-            }
-
-            if (goods.IsDeleted)
-            {
-                throw new EntityDeletedException($"The goods with the id {goods.Id} has been deleted.");
-            }
         }
 
         public async Task PayOrderAsync(int orderId)
@@ -121,6 +94,25 @@ namespace eStore.ApplicationCore.Services
 
             order.Status = OrderStatus.Cancelled;
             await _unitOfWork.OrderRepository.UpdateAsync(order);
+        }
+
+        private static void CheckIfCustomerIsPresent(Customer customer)
+        {
+            if (customer == null) 
+                throw new CustomerNotFoundException("The customer has not been found.");
+
+            if (customer.IsDeleted)
+                throw new AccountDeactivatedException(
+                    $"The account with the id {customer.Id} has already been deactivated.");
+        }
+
+        private static void CheckIfGoodsIsPresent(Goods goods)
+        {
+            if (goods == null) 
+                throw new GoodsNotFoundException("The goods has not been found.");
+
+            if (goods.IsDeleted)
+                throw new EntityDeletedException($"The goods with the id {goods.Id} has been deleted.");
         }
     }
 }

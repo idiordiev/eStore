@@ -21,7 +21,6 @@ namespace eStore.ApplicationCore.Entities
         public override bool Equals(object obj)
         {
             if (obj is Mouse other)
-            {
                 return Id == other.Id
                        && IsDeleted == other.IsDeleted
                        && Name == other.Name
@@ -42,7 +41,6 @@ namespace eStore.ApplicationCore.Entities
                        && Math.Abs(Width - other.Width) < 0.01
                        && Math.Abs(Height - other.Height) < 0.01
                        && Math.Abs(Weight - other.Weight) < 0.01;
-            }
 
             return false;
         }

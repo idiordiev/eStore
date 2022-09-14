@@ -11,10 +11,8 @@
         public override bool Equals(object obj)
         {
             if (obj is GoodsInCart other)
-            {
                 return CartId == other.CartId
                        && GoodsId == other.GoodsId;
-            }
 
             return false;
         }

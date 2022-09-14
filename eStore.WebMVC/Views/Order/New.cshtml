@@ -4,70 +4,72 @@
     ViewBag.Title = "New Order";
     Layout = "_Layout";
 }
-@if(!Model.OrderItems.Any()) {
+@if (!Model.OrderItems.Any())
+{
     <div class="info-page-container">
         <h2>Your cart is empty!</h2>
         <h3>Please, go back to store and pick up something.</h3>
         <a asp-action="Index" asp-controller="Home">BACK TO STORE</a>
     </div>
 }
-else {
-<div class="new-order-container">
-    <form asp-action="New" asp-controller="Order" class="new-order-form">
-        <div class="new-order-column" style="margin-top: 60px">
-            @for (var i = 0; i < Model.OrderItems.Count; i++)
-            {
-                <div class="new-order-item">
-                    <div class="new-order-item-column">
-                        <h3>@Model.OrderItems[i].Goods.Name</h3>
-                        <img src="@Model.OrderItems[i].Goods.ThumbnailImageUrl" alt="@Model.OrderItems[i].Goods.Name"/>
+else
+{
+    <div class="new-order-container">
+        <form asp-action="New" asp-controller="Order" class="new-order-form">
+            <div class="new-order-column" style="margin-top: 60px">
+                @for (var i = 0; i < Model.OrderItems.Count; i++)
+                {
+                    <div class="new-order-item">
+                        <div class="new-order-item-column">
+                            <h3>@Model.OrderItems[i].Goods.Name</h3>
+                            <img src="@Model.OrderItems[i].Goods.ThumbnailImageUrl" alt="@Model.OrderItems[i].Goods.Name"/>
+                        </div>
+                        <div class="new-order-item-column">
+                            <input asp-for="OrderItems[i].GoodsId" hidden="hidden"/>
+                            <div class="new-order-item-group">
+                                <div class="new-order-label">Quantity:</div>
+                                <input type="number" min="1" max="99" class="new-order-quantity-input new-order-item-quantity" id="item-quantity-@i" asp-for="@Model.OrderItems[i].Quantity"/>
+                            </div>
+                            <div class="new-order-item-group">
+                                <div class="new-order-label">Unit price: </div>
+                                <div class="new-order-label new-order-item-price" id="item-price-@i">$@Model.OrderItems[i].UnitPrice</div>
+                            </div>
+                            <div class="new-order-item-group">
+                                <div class="new-order-label">Total: </div>
+                                <div class="new-order-label" id="item-total-@i">$@(Model.OrderItems[i].UnitPrice * Model.OrderItems[i].Quantity)</div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="new-order-item-column">
-                        <input asp-for="OrderItems[i].GoodsId" hidden="hidden"/>
-                        <div class="new-order-item-group">
-                            <div class="new-order-label">Quantity:</div>
-                            <input type="number" min="1" max="99" class="new-order-quantity-input new-order-item-quantity" id="item-quantity-@i" asp-for="@Model.OrderItems[i].Quantity"/>
-                        </div>
-                        <div class="new-order-item-group">
-                            <div class="new-order-label">Unit price: </div>
-                            <div class="new-order-label new-order-item-price" id="item-price-@i">$@Model.OrderItems[i].UnitPrice</div>
-                        </div>
-                        <div class="new-order-item-group">
-                            <div class="new-order-label">Total: </div>
-                            <div class="new-order-label" id="item-total-@i">$@(Model.OrderItems[i].UnitPrice * Model.OrderItems[i].Quantity)</div>
-                        </div>
-                    </div>
-                </div>
-            }
-        </div>
-        <div class="new-order-column">
-            <h2>ORDER</h2>
-            <div class="new-order-info">
-                <div class="new-order-info-group">
-                    <label asp-for="ShippingCountry" class="new-order-label"></label>
-                    <input asp-for="ShippingCountry" class="new-order-input" type="text" autocomplete="off"/>
-                </div>
-                <div class="new-order-info-group">
-                    <label asp-for="ShippingCity" class="new-order-label"></label>
-                    <input asp-for="ShippingCity" class="new-order-input" type="text" autocomplete="off"/>
-                </div>
-                <div class="new-order-info-group">
-                    <label asp-for="ShippingAddress" class="new-order-label"></label>
-                    <input asp-for="ShippingAddress" class="new-order-input" type="text" autocomplete="off"/>
-                </div>
-                <div class="new-order-info-group">
-                    <label asp-for="ShippingPostalCode" class="new-order-label"></label>
-                    <input asp-for="ShippingPostalCode" class="new-order-input" type="text" autocomplete="off"/>
-                </div>
-                <div class="register-form-errors">
-                    <div asp-validation-summary="All" class="register-error"></div>
-                </div>
-                <div class="new-order-total-price" id="total-price">Total: $@Model.OrderItems.Sum(oi => oi.UnitPrice * oi.Quantity)</div>
+                }
             </div>
-            <input type="submit" class="new-order-submit-button" value="CONFIRM"/>
-        </div>
-    </form>
-</div>
+            <div class="new-order-column">
+                <h2>ORDER</h2>
+                <div class="new-order-info">
+                    <div class="new-order-info-group">
+                        <label asp-for="ShippingCountry" class="new-order-label"></label>
+                        <input asp-for="ShippingCountry" class="new-order-input" type="text" autocomplete="off"/>
+                    </div>
+                    <div class="new-order-info-group">
+                        <label asp-for="ShippingCity" class="new-order-label"></label>
+                        <input asp-for="ShippingCity" class="new-order-input" type="text" autocomplete="off"/>
+                    </div>
+                    <div class="new-order-info-group">
+                        <label asp-for="ShippingAddress" class="new-order-label"></label>
+                        <input asp-for="ShippingAddress" class="new-order-input" type="text" autocomplete="off"/>
+                    </div>
+                    <div class="new-order-info-group">
+                        <label asp-for="ShippingPostalCode" class="new-order-label"></label>
+                        <input asp-for="ShippingPostalCode" class="new-order-input" type="text" autocomplete="off"/>
+                    </div>
+                    <div class="register-form-errors">
+                        <div asp-validation-summary="All" class="register-error"></div>
+                    </div>
+                    <div class="new-order-total-price" id="total-price">Total: $@Model.OrderItems.Sum(oi => oi.UnitPrice * oi.Quantity)</div>
+                </div>
+                <input type="submit" class="new-order-submit-button" value="CONFIRM"/>
+            </div>
+        </form>
+    </div>
 }
 
 

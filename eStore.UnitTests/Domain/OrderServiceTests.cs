@@ -11,7 +11,6 @@ using eStore.ApplicationCore.Interfaces.Data;
 using eStore.ApplicationCore.Interfaces.DomainServices;
 using eStore.ApplicationCore.Interfaces.DTO;
 using eStore.ApplicationCore.Services;
-using eStore.WebMVC.DTO;
 using Moq;
 using NUnit.Framework;
 

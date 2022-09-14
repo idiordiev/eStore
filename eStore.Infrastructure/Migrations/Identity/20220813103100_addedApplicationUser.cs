@@ -7,9 +7,9 @@ namespace eStore.Infrastructure.Migrations.Identity
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<int>(
-                name: "CustomerId",
-                table: "AspNetUsers",
-                type: "int",
+                "CustomerId",
+                "AspNetUsers",
+                "int",
                 nullable: false,
                 defaultValue: 0);
         }
@@ -17,8 +17,8 @@ namespace eStore.Infrastructure.Migrations.Identity
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "CustomerId",
-                table: "AspNetUsers");
+                "CustomerId",
+                "AspNetUsers");
         }
     }
 }
