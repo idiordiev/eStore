@@ -1,4 +1,4 @@
-﻿namespace eStore.Email
+﻿namespace eStore.Infrastructure.Services.Email
 {
     public class SmtpClientOptions
     {

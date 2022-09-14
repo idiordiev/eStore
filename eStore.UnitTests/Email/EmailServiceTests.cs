@@ -2,8 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using eStore.ApplicationCore.Interfaces;
-using eStore.Email;
-using eStore.Email.Interfaces;
+using eStore.Infrastructure.Services.Email;
 using Moq;
 using NUnit.Framework;
 

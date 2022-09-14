@@ -6,7 +6,7 @@ using eStore.ApplicationCore.Entities;
 using eStore.ApplicationCore.Interfaces;
 using GemBox.Spreadsheet;
 
-namespace eStore.Invoice
+namespace eStore.Infrastructure.Services.Invoices
 {
     public class AttachmentService : IAttachmentService
     {
@@ -46,7 +46,7 @@ namespace eStore.Invoice
 
             SpreadsheetInfo.SetLicense("FREE-LIMITED-KEY");
             var templatePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) +
-                               "/Invoices/Template.xlsx";
+                               "/Services/Invoices/Template.xlsx";
             var excel = ExcelFile.Load(templatePath);
 
             var worksheet = excel.Worksheets.First();

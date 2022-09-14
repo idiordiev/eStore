@@ -1,9 +1,8 @@
 ﻿using System.Net.Mail;
 using System.Threading.Tasks;
-using eStore.Email.Interfaces;
 using Microsoft.Extensions.Options;
 
-namespace eStore.Email
+namespace eStore.Infrastructure.Services.Email
 {
     public class HtmlEmailSender : IHtmlEmailSender
     {

@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace eStore.Email.Interfaces
+namespace eStore.Infrastructure.Services.Email
 {
     public interface IHtmlEmailSender
     {

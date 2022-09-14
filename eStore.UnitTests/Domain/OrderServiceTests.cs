@@ -313,7 +313,7 @@ namespace eStore.UnitTests.Domain
                 _mockAttachmentService.Object);
 
             // Act
-            var exception = Assert.ThrowsAsync<StatusChangingException>(async () => await service.PayOrderAsync(2));
+            var exception = Assert.ThrowsAsync<StatusUnchangeableException>(async () => await service.PayOrderAsync(2));
 
             // Assert
             Assert.IsNotNull(exception, "The method didn't throw StatusChangingException.");
@@ -330,7 +330,7 @@ namespace eStore.UnitTests.Domain
                 _mockAttachmentService.Object);
 
             // Act
-            var exception = Assert.ThrowsAsync<StatusChangingException>(async () => await service.PayOrderAsync(3));
+            var exception = Assert.ThrowsAsync<StatusUnchangeableException>(async () => await service.PayOrderAsync(3));
 
             // Assert
             Assert.IsNotNull(exception, "The method didn't throw StatusChangingException.");
@@ -347,7 +347,7 @@ namespace eStore.UnitTests.Domain
                 _mockAttachmentService.Object);
 
             // Act
-            var exception = Assert.ThrowsAsync<StatusChangingException>(async () => await service.PayOrderAsync(4));
+            var exception = Assert.ThrowsAsync<StatusUnchangeableException>(async () => await service.PayOrderAsync(4));
 
             // Assert
             Assert.IsNotNull(exception, "The method didn't throw StatusChangingException.");
@@ -364,7 +364,7 @@ namespace eStore.UnitTests.Domain
                 _mockAttachmentService.Object);
 
             // Act
-            var exception = Assert.ThrowsAsync<StatusChangingException>(async () => await service.PayOrderAsync(5));
+            var exception = Assert.ThrowsAsync<StatusUnchangeableException>(async () => await service.PayOrderAsync(5));
 
             // Assert
             Assert.IsNotNull(exception, "The method didn't throw StatusChangingException.");
@@ -381,7 +381,7 @@ namespace eStore.UnitTests.Domain
                 _mockAttachmentService.Object);
 
             // Act
-            var exception = Assert.ThrowsAsync<StatusChangingException>(async () => await service.PayOrderAsync(6));
+            var exception = Assert.ThrowsAsync<StatusUnchangeableException>(async () => await service.PayOrderAsync(6));
 
             // Assert
             Assert.IsNotNull(exception, "The method didn't throw StatusChangingException.");
@@ -490,7 +490,7 @@ namespace eStore.UnitTests.Domain
                 _mockAttachmentService.Object);
 
             // Act
-            var exception = Assert.ThrowsAsync<StatusChangingException>(async () => await service.CancelOrderAsync(5));
+            var exception = Assert.ThrowsAsync<StatusUnchangeableException>(async () => await service.CancelOrderAsync(5));
 
             // Assert
             Assert.IsNotNull(exception, "The method didn't throw StatusChangingException.");
@@ -507,7 +507,7 @@ namespace eStore.UnitTests.Domain
                 _mockAttachmentService.Object);
 
             // Act
-            var exception = Assert.ThrowsAsync<StatusChangingException>(async () => await service.CancelOrderAsync(6));
+            var exception = Assert.ThrowsAsync<StatusUnchangeableException>(async () => await service.CancelOrderAsync(6));
 
             // Assert
             Assert.IsNotNull(exception, "The method didn't throw StatusChangingException.");

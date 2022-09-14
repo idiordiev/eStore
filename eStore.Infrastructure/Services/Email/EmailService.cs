@@ -5,9 +5,8 @@ using System.Reflection;
 using System.Threading.Tasks;
 using eStore.ApplicationCore.Entities;
 using eStore.ApplicationCore.Interfaces;
-using eStore.Email.Interfaces;
 
-namespace eStore.Email
+namespace eStore.Infrastructure.Services.Email
 {
     public class EmailService : IEmailService
     {
@@ -26,7 +25,7 @@ namespace eStore.Email
             }
             
             var bodyPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) +
-                           "/Templates/RegisterEmailTemplate.html";
+                           "/Services/Email/Templates/RegisterEmailTemplate.html";
             var body = await File.ReadAllTextAsync(bodyPath);
             body = body.Replace("FIRST_NAME", customer.FirstName);
             body = body.Replace("LAST_NAME", customer.LastName);
@@ -38,7 +37,7 @@ namespace eStore.Email
         public async Task SendDeactivationEmailAsync(string email)
         {
             var bodyPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) +
-                           "/Templates/DeactivateAccountEmailTemplate.html";
+                           "/Services/Email/Templates/DeactivateAccountEmailTemplate.html";
             var body = await File.ReadAllTextAsync(bodyPath);
             body = body.Replace("DEACTIVATION_DATE", DateTime.Now.ToShortDateString());
             body = body.Replace("DEACTIVATION_TIME", DateTime.Now.ToShortTimeString());
@@ -48,7 +47,7 @@ namespace eStore.Email
         public async Task SendChangePasswordEmailAsync(string email)
         {
             var bodyPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) +
-                           "/Templates/ChangePasswordEmailTemplate.html";
+                           "/Services/Email/Templates/ChangePasswordEmailTemplate.html";
             var body = await File.ReadAllTextAsync(bodyPath);
             body = body.Replace("CHANGING_DATE", DateTime.Now.ToShortDateString());
             body = body.Replace("CHANGING_TIME", DateTime.Now.ToShortTimeString());
@@ -63,7 +62,7 @@ namespace eStore.Email
             }
             
             var bodyPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) +
-                           "/Templates/OrderEmailTemplate.html";
+                           "/Services/Email/Templates/OrderEmailTemplate.html";
             var body = await File.ReadAllTextAsync(bodyPath);
             body = body.Replace("FIRST_NAME", order.Customer.FirstName);
             body = body.Replace("LAST_NAME", order.Customer.LastName);

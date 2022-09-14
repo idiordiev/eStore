@@ -6,9 +6,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\eStore.ApplicationCore\eStore.ApplicationCore.csproj" />
-      <ProjectReference Include="..\eStore.Email\eStore.Email.csproj" />
       <ProjectReference Include="..\eStore.Infrastructure\eStore.Infrastructure.csproj" />
-      <ProjectReference Include="..\eStore.Invoice\eStore.Invoice.csproj" />
     </ItemGroup>
 
     <ItemGroup>

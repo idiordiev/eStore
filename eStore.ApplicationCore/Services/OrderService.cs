@@ -104,7 +104,7 @@ namespace eStore.ApplicationCore.Services
             if (order == null)
                 throw new OrderNotFoundException($"The order with the id {orderId} has not been found.");
             if (order.Status >= OrderStatus.Paid)
-                throw new StatusChangingException($"Status cannot be changed. Current status {order.Status}");
+                throw new StatusUnchangeableException($"Status cannot be changed. Current status {order.Status}");
 
             order.Status = OrderStatus.Paid;
             await _unitOfWork.OrderRepository.UpdateAsync(order);
@@ -117,7 +117,7 @@ namespace eStore.ApplicationCore.Services
             if (order == null)
                 throw new OrderNotFoundException($"The order with the id {orderId} has not been found.");
             if (order.Status >= OrderStatus.Received)
-                throw new StatusChangingException($"Status cannot be changed. Current status {order.Status}");
+                throw new StatusUnchangeableException($"Status cannot be changed. Current status {order.Status}");
 
             order.Status = OrderStatus.Cancelled;
             await _unitOfWork.OrderRepository.UpdateAsync(order);
