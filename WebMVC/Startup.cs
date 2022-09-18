@@ -41,9 +41,7 @@ namespace eStore.WebMVC
         {
             if (env.IsDevelopment())
             {
-                app.UseExceptionHandler("/Home/Error");
-                app.UseStatusCodePagesWithReExecute("/Home/Error");
-                app.UseHsts();
+                app.UseDeveloperExceptionPage();
             }
             else
             {
