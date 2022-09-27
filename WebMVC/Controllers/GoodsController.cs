@@ -36,7 +36,7 @@ namespace eStore.WebMVC.Controllers
 
         public async Task<IActionResult> Index()
         {
-            return await Task.Run(View);
+            return await Task.FromResult(View());
         }
 
         [HttpGet("keyboards")]

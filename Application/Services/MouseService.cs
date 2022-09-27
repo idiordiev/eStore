@@ -21,14 +21,14 @@ namespace eStore.Application.Services
 
         public async Task<IEnumerable<Mouse>> GetPresentAsync()
         {
-            return await Task.Run(() => _unitOfWork.MouseRepository.Query(m => !m.IsDeleted));
+            return await Task.FromResult(_unitOfWork.MouseRepository.Query(m => !m.IsDeleted));
         }
 
         public async Task<IEnumerable<Mouse>> GetPresentByFilterAsync(MouseFilterModel filter)
         {
             IFilterExpressionFactory<Mouse> filterExpressionFactory = new MouseFilterExpressionFactory();
             var queryExpression = filterExpressionFactory.CreateExpression(filter);
-            return await Task.Run(() => _unitOfWork.MouseRepository.Query(queryExpression));
+            return await Task.FromResult(_unitOfWork.MouseRepository.Query(queryExpression));
         }
 
         public async Task<Mouse> GetByIdAsync(int mouseId)

@@ -21,14 +21,14 @@ namespace eStore.Application.Services
 
         public async Task<IEnumerable<Mousepad>> GetPresentAsync()
         {
-            return await Task.Run(() => _unitOfWork.MousepadRepository.Query(m => !m.IsDeleted));
+            return await Task.FromResult(_unitOfWork.MousepadRepository.Query(m => !m.IsDeleted));
         }
 
         public async Task<IEnumerable<Mousepad>> GetPresentByFilterAsync(MousepadFilterModel filter)
         {
             IFilterExpressionFactory<Mousepad> filterExpressionFactory = new MousepadFilterExpressionFactory();
             var queryExpression = filterExpressionFactory.CreateExpression(filter);
-            return await Task.Run(() => _unitOfWork.MousepadRepository.Query(queryExpression));
+            return await Task.FromResult(_unitOfWork.MousepadRepository.Query(queryExpression));
         }
 
         public async Task<Mousepad> GetByIdAsync(int mousepadId)

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using eStore.Application.Interfaces;
@@ -81,7 +82,7 @@ namespace eStore.WebMVC.Controllers
         public async Task<IActionResult> Register()
         {
             var model = new RegisterViewModel();
-            return await Task.Run(() => View(model));
+            return await Task.FromResult(View(model));
         }
 
         [HttpPost]
@@ -129,7 +130,7 @@ namespace eStore.WebMVC.Controllers
         public async Task<IActionResult> Login()
         {
             var model = new LoginViewModel();
-            return await Task.Run(() => View(model));
+            return await Task.FromResult(View(model));
         }
 
         [HttpPost]
@@ -189,7 +190,7 @@ namespace eStore.WebMVC.Controllers
         public async Task<IActionResult> ChangePassword()
         {
             var model = new ChangePasswordViewModel();
-            return await Task.Run(() => View(model));
+            return await Task.FromResult(View(model));
         }
 
         [Authorize]

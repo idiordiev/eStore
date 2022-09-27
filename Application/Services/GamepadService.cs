@@ -22,14 +22,14 @@ namespace eStore.Application.Services
 
         public async Task<IEnumerable<Gamepad>> GetPresentAsync()
         {
-            return await Task.Run(() => _unitOfWork.GamepadRepository.Query(g => !g.IsDeleted));
+            return await Task.FromResult(_unitOfWork.GamepadRepository.Query(g => !g.IsDeleted));
         }
 
         public async Task<IEnumerable<Gamepad>> GetPresentByFilterAsync(GamepadFilterModel filter)
         {
             IFilterExpressionFactory<Gamepad> filterExpressionFactory = new GamepadFilterExpressionFactory();
             var queryExpression = filterExpressionFactory.CreateExpression(filter);
-            return await Task.Run(() => _unitOfWork.GamepadRepository.Query(queryExpression));
+            return await Task.FromResult(_unitOfWork.GamepadRepository.Query(queryExpression));
         }
 
         public async Task<Gamepad> GetByIdAsync(int gamepadId)

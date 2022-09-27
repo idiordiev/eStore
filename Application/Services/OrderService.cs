@@ -26,7 +26,7 @@ namespace eStore.Application.Services
 
         public async Task<IEnumerable<Order>> GetOrdersByCustomerIdAsync(int customerId)
         {
-            return await Task.Run(() => _unitOfWork.OrderRepository.Query(o => o.CustomerId == customerId));
+            return await Task.FromResult(_unitOfWork.OrderRepository.Query(o => o.CustomerId == customerId));
         }
 
         public async Task<Order> GetOrderByIdAsync(int orderId)

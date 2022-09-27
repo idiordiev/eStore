@@ -7,22 +7,22 @@ namespace eStore.WebMVC.Controllers
     {
         public async Task<IActionResult> Index()
         {
-            return await Task.Run(View);
+            return await Task.FromResult(View());
         }
 
         public async Task<IActionResult> Services()
         {
-            return await Task.Run(View);
+            return await Task.FromResult(View());
         }
 
         public async Task<IActionResult> Faq()
         {
-            return await Task.Run(View);
+            return await Task.FromResult(View());
         }
         
         public async Task<IActionResult> Error()
         {
-            return await Task.Run(View);
+            return await Task.FromResult(View());
         }
     }
 }

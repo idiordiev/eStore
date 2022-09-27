@@ -21,14 +21,14 @@ namespace eStore.Application.Services
 
         public async Task<IEnumerable<Keyboard>> GetPresentAsync()
         {
-            return await Task.Run(() => _unitOfWork.KeyboardRepository.Query(k => !k.IsDeleted));
+            return await Task.FromResult(_unitOfWork.KeyboardRepository.Query(k => !k.IsDeleted));
         }
 
         public async Task<IEnumerable<Keyboard>> GetPresentByFilterAsync(KeyboardFilterModel filter)
         {
             IFilterExpressionFactory<Keyboard> filterExpressionFactory = new KeyboardFilterExpressionFactory();
             var queryExpression = filterExpressionFactory.CreateExpression(filter);
-            return await Task.Run(() => _unitOfWork.KeyboardRepository.Query(queryExpression));
+            return await Task.FromResult(_unitOfWork.KeyboardRepository.Query(queryExpression));
         }
 
         public async Task<Keyboard> GetByIdAsync(int keyboardId)

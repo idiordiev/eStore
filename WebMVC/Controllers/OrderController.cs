@@ -111,7 +111,7 @@ namespace eStore.WebMVC.Controllers
         public async Task<IActionResult> Success()
         {
             if (TempData.ContainsKey("IsSuccess") && (bool)TempData["IsSuccess"]) 
-                return await Task.Run(View);
+                return await Task.FromResult(View());
 
             return Forbid();
         }
