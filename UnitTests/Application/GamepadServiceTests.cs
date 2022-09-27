@@ -4,7 +4,6 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using eStore.Application.FilterModels;
-using eStore.Application.FilterModels.Shared;
 using eStore.Application.Interfaces;
 using eStore.Application.Interfaces.Data;
 using eStore.Application.Interfaces.Services;

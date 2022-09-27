@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using eStore.Application.FilterModels;
+using eStore.Application.FilterModels.Shared;
 using eStore.Application.Interfaces;
 using eStore.Domain.Entities;
 

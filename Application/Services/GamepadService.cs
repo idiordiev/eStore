@@ -3,7 +3,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using eStore.Application.Factories;
 using eStore.Application.FilterModels;
-using eStore.Application.FilterModels.Shared;
 using eStore.Application.Interfaces;
 using eStore.Application.Interfaces.Data;
 using eStore.Application.Interfaces.Services;

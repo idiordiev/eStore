@@ -19,7 +19,7 @@
         @foreach (var type in ViewBag.Types)
         {
             <div class="filter-option-group">
-                <input type="checkbox" value="@type.Id" name="typeIds" checked="@(Context.Request.Query["typeIds"].Contains(((int)type.Id).ToString()))"/>
+                <input type="checkbox" value="@type.Id" name="keyboardTypeIds" checked="@(Context.Request.Query["keyboardTypeIds"].Contains(((int)type.Id).ToString()))"/>
                 <div class="filter-option-label">@type.Name</div>
             </div>
         }
@@ -27,7 +27,7 @@
         @foreach (var size in ViewBag.Sizes)
         {
             <div class="filter-option-group">
-                <input type="checkbox" value="@size.Id" name="sizeIds" checked="@(Context.Request.Query["sizeIds"].Contains(((int)size.Id).ToString()))"/>
+                <input type="checkbox" value="@size.Id" name="keyboardSizeIds" checked="@(Context.Request.Query["keyboardSizeIds"].Contains(((int)size.Id).ToString()))"/>
                 <div class="filter-option-label">@size.Name</div>
             </div>
         }

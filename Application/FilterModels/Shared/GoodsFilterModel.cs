@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace eStore.Application.FilterModels
+namespace eStore.Application.FilterModels.Shared
 {
     public abstract class GoodsFilterModel
     {

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using eStore.Application.FilterModels.Shared;
 
 namespace eStore.Application.FilterModels
 {

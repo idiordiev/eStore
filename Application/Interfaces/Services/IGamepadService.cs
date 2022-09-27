@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using eStore.Application.FilterModels;
-using eStore.Application.FilterModels.Shared;
 using eStore.Domain.Entities;
 
 namespace eStore.Application.Interfaces.Services

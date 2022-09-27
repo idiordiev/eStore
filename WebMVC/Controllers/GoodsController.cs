@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using AutoMapper;
 using eStore.Application.FilterModels;
-using eStore.Application.FilterModels.Shared;
 using eStore.Application.Interfaces.Services;
 using eStore.Infrastructure.Identity;
 using eStore.WebMVC.Models;
