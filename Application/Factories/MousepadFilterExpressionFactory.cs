@@ -20,11 +20,11 @@ namespace eStore.Application.Factories
             var filterExpression = GetBaseExpression(mousepadParameter);
             AddMinPriceConstraint(ref filterExpression, mousepadParameter, filter.MinPrice);
             AddMaxPriceConstraint(ref filterExpression, mousepadParameter, filter.MaxPrice);
-            AddManufacturerConstraint(ref filterExpression, mousepadParameter, filter.ManufacturerIds);
-            AddBacklightConstraint(ref filterExpression, mousepadParameter, filter.BacklightIds);
+            AddManufacturerConstraint(ref filterExpression, mousepadParameter, filter.Manufacturers);
+            AddBacklightConstraint(ref filterExpression, mousepadParameter, filter.Backlights);
             AddIsStitchedConstraint(ref filterExpression, mousepadParameter, filter.IsStitchedValues);
-            AddBottomMaterialConstraint(ref filterExpression, mousepadParameter, filter.BottomMaterialIds);
-            AddTopMaterialConstraint(ref filterExpression, mousepadParameter, filter.TopMaterialIds);
+            AddBottomMaterialConstraint(ref filterExpression, mousepadParameter, filter.BottomMaterials);
+            AddTopMaterialConstraint(ref filterExpression, mousepadParameter, filter.TopMaterials);
 
             return Expression.Lambda<Func<Mousepad, bool>>(filterExpression, mousepadParameter);
         }
@@ -59,35 +59,35 @@ namespace eStore.Application.Factories
         }
 
         private void AddManufacturerConstraint(ref Expression baseExpression, ParameterExpression parameter,
-            IEnumerable<int> manufacturerIds)
+            IEnumerable<string> manufacturerIds)
         {
             if (manufacturerIds == null || !manufacturerIds.Any())
                 return;
 
-            Expression values = Expression.Constant(manufacturerIds, typeof(IEnumerable<int>));
-            Expression property = Expression.Property(parameter, nameof(Mousepad.ManufacturerId));
+            Expression values = Expression.Constant(manufacturerIds, typeof(IEnumerable<string>));
+            Expression property = Expression.Property(parameter, nameof(Mousepad.Manufacturer));
             var method = typeof(Enumerable)
                 .GetMethods()
                 .Where(x => x.Name == "Contains")
                 .Single(x => x.GetParameters().Length == 2)
-                .MakeGenericMethod(typeof(int));
+                .MakeGenericMethod(typeof(string));
             Expression containsExpression = Expression.Call(method, values, property);
             baseExpression = Expression.AndAlso(baseExpression, containsExpression);
         }
 
         private void AddBacklightConstraint(ref Expression baseExpression, ParameterExpression parameter,
-            IEnumerable<int> backlightIds)
+            IEnumerable<string> backlightIds)
         {
             if (backlightIds == null || !backlightIds.Any())
                 return;
 
-            Expression values = Expression.Constant(backlightIds, typeof(IEnumerable<int>));
-            Expression property = Expression.Property(parameter, nameof(Mousepad.BacklightId));
+            Expression values = Expression.Constant(backlightIds, typeof(IEnumerable<string>));
+            Expression property = Expression.Property(parameter, nameof(Mousepad.Backlight));
             var method = typeof(Enumerable)
                 .GetMethods()
                 .Where(x => x.Name == "Contains")
                 .Single(x => x.GetParameters().Length == 2)
-                .MakeGenericMethod(typeof(int));
+                .MakeGenericMethod(typeof(string));
             Expression containsExpression = Expression.Call(method, values, property);
             baseExpression = Expression.AndAlso(baseExpression, containsExpression);
         }
@@ -110,35 +110,35 @@ namespace eStore.Application.Factories
         }
 
         private void AddBottomMaterialConstraint(ref Expression baseExpression, ParameterExpression parameter,
-            IEnumerable<int> materialIds)
+            IEnumerable<string> materialIds)
         {
             if (materialIds == null || !materialIds.Any())
                 return;
 
-            Expression values = Expression.Constant(materialIds, typeof(IEnumerable<int>));
-            Expression property = Expression.Property(parameter, nameof(Mousepad.BottomMaterialId));
+            Expression values = Expression.Constant(materialIds, typeof(IEnumerable<string>));
+            Expression property = Expression.Property(parameter, nameof(Mousepad.BottomMaterial));
             var method = typeof(Enumerable)
                 .GetMethods()
                 .Where(x => x.Name == "Contains")
                 .Single(x => x.GetParameters().Length == 2)
-                .MakeGenericMethod(typeof(int));
+                .MakeGenericMethod(typeof(string));
             Expression containsExpression = Expression.Call(method, values, property);
             baseExpression = Expression.AndAlso(baseExpression, containsExpression);
         }
 
         private void AddTopMaterialConstraint(ref Expression baseExpression, ParameterExpression parameter,
-            IEnumerable<int> materialIds)
+            IEnumerable<string> materialIds)
         {
             if (materialIds == null || !materialIds.Any())
                 return;
 
-            Expression values = Expression.Constant(materialIds, typeof(IEnumerable<int>));
-            Expression property = Expression.Property(parameter, nameof(Mousepad.TopMaterialId));
+            Expression values = Expression.Constant(materialIds, typeof(IEnumerable<string>));
+            Expression property = Expression.Property(parameter, nameof(Mousepad.TopMaterial));
             var method = typeof(Enumerable)
                 .GetMethods()
                 .Where(x => x.Name == "Contains")
                 .Single(x => x.GetParameters().Length == 2)
-                .MakeGenericMethod(typeof(int));
+                .MakeGenericMethod(typeof(string));
             Expression containsExpression = Expression.Call(method, values, property);
             baseExpression = Expression.AndAlso(baseExpression, containsExpression);
         }

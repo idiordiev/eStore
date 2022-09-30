@@ -21,10 +21,10 @@ namespace eStore.Application.Factories
             var filterExpression = GetBaseExpression(gamepadParameter);
             AddMinPriceConstraint(ref filterExpression, gamepadParameter, filter.MinPrice);
             AddMaxPriceConstraint(ref filterExpression, gamepadParameter, filter.MaxPrice);
-            AddManufacturerConstraint(ref filterExpression, gamepadParameter, filter.ManufacturerIds);
-            AddConnectionTypeConstraint(ref filterExpression, gamepadParameter, filter.ConnectionTypeIds);
-            AddFeedbackConstraint(ref filterExpression, gamepadParameter, filter.FeedbackIds);
-            AddCompatibleDevicesConstraint(ref filterExpression, gamepadParameter, filter.CompatibleDevicesIds);
+            AddManufacturerConstraint(ref filterExpression, gamepadParameter, filter.Manufacturers);
+            AddConnectionTypeConstraint(ref filterExpression, gamepadParameter, filter.ConnectionTypes);
+            AddFeedbackConstraint(ref filterExpression, gamepadParameter, filter.Feedbacks);
+            AddCompatibleDevicesConstraint(ref filterExpression, gamepadParameter, filter.CompatibleDevices);
 
             return Expression.Lambda<Func<Gamepad, bool>>(filterExpression, gamepadParameter);
         }
@@ -59,90 +59,88 @@ namespace eStore.Application.Factories
         }
 
         private void AddManufacturerConstraint(ref Expression baseExpression, ParameterExpression parameter,
-            IEnumerable<int> manufacturerIds)
+            IEnumerable<string> manufacturers)
         {
-            if (manufacturerIds == null || !manufacturerIds.Any())
+            if (manufacturers == null || !manufacturers.Any())
                 return;
 
-            Expression values = Expression.Constant(manufacturerIds, typeof(IEnumerable<int>));
-            Expression property = Expression.Property(parameter, nameof(Gamepad.ManufacturerId));
+            Expression values = Expression.Constant(manufacturers, typeof(IEnumerable<string>));
+            Expression property = Expression.Property(parameter, nameof(Gamepad.Manufacturer));
             var method = typeof(Enumerable)
                 .GetMethods()
                 .Where(x => x.Name == "Contains")
                 .Single(x => x.GetParameters().Length == 2)
-                .MakeGenericMethod(typeof(int));
+                .MakeGenericMethod(typeof(string));
             Expression containsExpression = Expression.Call(method, values, property);
             baseExpression = Expression.AndAlso(baseExpression, containsExpression);
         }
 
         private void AddConnectionTypeConstraint(ref Expression baseExpression, ParameterExpression parameter,
-            IEnumerable<int> connectionTypeIds)
+            IEnumerable<string> connectionTypes)
         {
-            if (connectionTypeIds == null || !connectionTypeIds.Any())
+            if (connectionTypes == null || !connectionTypes.Any())
                 return;
 
-            Expression values = Expression.Constant(connectionTypeIds, typeof(IEnumerable<int>));
-            Expression property = Expression.Property(parameter, nameof(Gamepad.ConnectionTypeId));
+            Expression values = Expression.Constant(connectionTypes, typeof(IEnumerable<string>));
+            Expression property = Expression.Property(parameter, nameof(Gamepad.ConnectionType));
             var method = typeof(Enumerable)
                 .GetMethods()
                 .Where(x => x.Name == "Contains")
                 .Single(x => x.GetParameters().Length == 2)
-                .MakeGenericMethod(typeof(int));
+                .MakeGenericMethod(typeof(string));
             Expression containsExpression = Expression.Call(method, values, property);
             baseExpression = Expression.AndAlso(baseExpression, containsExpression);
         }
 
         private void AddFeedbackConstraint(ref Expression baseExpression, ParameterExpression parameter,
-            IEnumerable<int> feedbackIds)
+            IEnumerable<string> feedbacks)
         {
-            if (feedbackIds == null || !feedbackIds.Any())
+            if (feedbacks == null || !feedbacks.Any())
                 return;
 
-            Expression values = Expression.Constant(feedbackIds, typeof(IEnumerable<int>));
-            Expression property = Expression.Property(parameter, nameof(Gamepad.FeedbackId));
+            Expression values = Expression.Constant(feedbacks, typeof(IEnumerable<string>));
+            Expression property = Expression.Property(parameter, nameof(Gamepad.Feedback));
             var method = typeof(Enumerable)
                 .GetMethods()
                 .Where(x => x.Name == "Contains")
                 .Single(x => x.GetParameters().Length == 2)
-                .MakeGenericMethod(typeof(int));
+                .MakeGenericMethod(typeof(string));
             Expression containsExpression = Expression.Call(method, values, property);
             baseExpression = Expression.AndAlso(baseExpression, containsExpression);
         }
 
         private void AddCompatibleDevicesConstraint(ref Expression baseExpression, ParameterExpression parameter,
-            IEnumerable<int> deviceIds)
+            IEnumerable<string> devices)
         {
-            if (deviceIds == null || !deviceIds.Any())
+            if (devices == null || !devices.Any())
                 return;
 
-            // LINQ expression: gamepads.Where(g => g.CompatibleDevice.Select(d => d.CompatibleDeviceId).Distinct.Intersect(deviceIds).Any());
-            Expression deviceIdValues = Expression.Constant(deviceIds, typeof(IEnumerable<int>));
+            // LINQ expression: gamepads.Where(g => g.CompatibleDevices.Select(d => d).Distinct.Intersect(devices).Any());
+            Expression deviceIdValues = Expression.Constant(devices, typeof(IEnumerable<string>));
             Expression compatibleDevicesProperty = Expression.Property(parameter, nameof(Gamepad.CompatibleDevices));
             var selectMethod = typeof(Enumerable)
                 .GetMethods()
                 .First(x => x.Name == "Select")
-                .MakeGenericMethod(typeof(GamepadCompatibleDevice), typeof(int));
+                .MakeGenericMethod(typeof(string), typeof(string));
             var distinctMethod = typeof(Enumerable)
                 .GetMethods()
                 .Where(x => x.Name == "Distinct")
                 .Single(x => x.GetParameters().Length == 1)
-                .MakeGenericMethod(typeof(int));
+                .MakeGenericMethod(typeof(string));
             var intersectMethod = typeof(Enumerable)
                 .GetMethods()
                 .Where(x => x.Name == "Intersect")
                 .Single(x => x.GetParameters().Length == 2)
-                .MakeGenericMethod(typeof(int));
+                .MakeGenericMethod(typeof(string));
             var anyMethod = typeof(Enumerable)
                 .GetMethods()
                 .Where(x => x.Name == "Any")
                 .Single(x => x.GetParameters().Length == 1)
-                .MakeGenericMethod(typeof(int));
+                .MakeGenericMethod(typeof(string));
 
-            var compatibleDeviceParameter = Expression.Parameter(typeof(GamepadCompatibleDevice), "d");
-            Expression deviceIdProperty = Expression.Property(compatibleDeviceParameter,
-                nameof(GamepadCompatibleDevice.CompatibleDeviceId));
+            var compatibleDeviceParameter = Expression.Parameter(typeof(string), "d");
             var selectInnerExpression =
-                Expression.Lambda<Func<GamepadCompatibleDevice, int>>(deviceIdProperty, compatibleDeviceParameter);
+                Expression.Lambda<Func<string, string>>(compatibleDeviceParameter, compatibleDeviceParameter);
 
             Expression selectCall = Expression.Call(selectMethod, compatibleDevicesProperty, selectInnerExpression);
             Expression distinctCall = Expression.Call(distinctMethod, selectCall);

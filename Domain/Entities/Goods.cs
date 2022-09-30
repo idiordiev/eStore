@@ -5,14 +5,8 @@ namespace eStore.Domain.Entities
 {
     public abstract class Goods : Entity
     {
-        public Goods()
-        {
-            OrderItems = new List<OrderItem>();
-            GoodsInCarts = new List<GoodsInCart>();
-        }
-
         public string Name { get; set; }
-        public int ManufacturerId { get; set; }
+        public string Manufacturer { get; set; }
         public string Description { get; set; }
         public decimal Price { get; set; }
         public string ThumbnailImageUrl { get; set; }
@@ -20,8 +14,7 @@ namespace eStore.Domain.Entities
         public DateTime Created { get; set; }
         public DateTime LastModified { get; set; }
 
-        public virtual Manufacturer Manufacturer { get; set; }
-        public virtual ICollection<OrderItem> OrderItems { get; set; }
-        public virtual ICollection<GoodsInCart> GoodsInCarts { get; set; }
+        public ICollection<OrderItem> OrderItems { get; set; }
+        public ICollection<ShoppingCart> ShoppingCarts { get; set; }
     }
 }

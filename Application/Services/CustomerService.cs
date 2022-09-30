@@ -57,14 +57,14 @@ namespace eStore.Application.Services
             var customer = await _unitOfWork.CustomerRepository.GetByIdAsync(customerId);
             CheckIfCustomerIsPresent(customer);
 
-            if (customer.ShoppingCart.Goods.Any(g => g.GoodsId == goodsId))
+            if (customer.ShoppingCart.Goods.Any(g => g.Id == goodsId))
                 throw new GoodsAlreadyAddedException(
                     $"The goods with id {goodsId} is already added to the cart of the customer {customerId}.");
 
             var goods = await _unitOfWork.GoodsRepository.GetByIdAsync(goodsId);
             CheckIfGoodsIsPresent(goods);
 
-            customer.ShoppingCart.Goods.Add(new GoodsInCart { CartId = customer.ShoppingCart.Id, GoodsId = goods.Id });
+            customer.ShoppingCart.Goods.Add(goods);
             await _unitOfWork.CustomerRepository.UpdateAsync(customer);
         }
 
@@ -73,7 +73,7 @@ namespace eStore.Application.Services
             var customer = await _unitOfWork.CustomerRepository.GetByIdAsync(customerId);
             CheckIfCustomerIsPresent(customer);
 
-            var goodsInCart = customer.ShoppingCart.Goods.FirstOrDefault(g => g.GoodsId == goodsId);
+            var goodsInCart = customer.ShoppingCart.Goods.FirstOrDefault(g => g.Id == goodsId);
             if (goodsInCart == null)
                 throw new GoodsNotFoundException(
                     $"The goods with the id {goodsId} has not been found in the cart of the customer {customerId}.");
@@ -102,7 +102,8 @@ namespace eStore.Application.Services
 
         private static void CheckIfGoodsIsPresent(Goods goods)
         {
-            if (goods == null) throw new GoodsNotFoundException("The goods has not been found.");
+            if (goods == null) 
+                throw new GoodsNotFoundException("The goods has not been found.");
 
             if (goods.IsDeleted)
                 throw new EntityDeletedException($"The goods with the id {goods.Id} has been deleted.");

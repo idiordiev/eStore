@@ -12,6 +12,18 @@ namespace eStore.UnitTests.Persistence
     [TestFixture]
     public class KeyboardRepositoryTests
     {
+        private UnitTestHelper _helper;
+        private ApplicationContext _context;
+        private IRepository<Keyboard> _repository;
+
+        [SetUp]
+        public void Setup()
+        {
+            _helper = new UnitTestHelper();
+            _context = _helper.GetApplicationContext();
+            _repository = new KeyboardRepository(_context);
+        }
+        
         [TestCase(5)]
         [TestCase(6)]
         [TestCase(7)]
@@ -20,12 +32,10 @@ namespace eStore.UnitTests.Persistence
         public async Task GetByIdAsync_ExistingKeyboard_ReturnsKeyboard(int id)
         {
             // Arrange
-            ApplicationContext context = await UnitTestHelper.GetApplicationContext();
-            IRepository<Keyboard> repo = new KeyboardRepository(context);
-            var expected = UnitTestHelper.Keyboards.FirstOrDefault(c => c.Id == id);
+            var expected = _helper.Keyboards.FirstOrDefault(c => c.Id == id);
             
             // Act
-            var actual = await repo.GetByIdAsync(id);
+            var actual = await _repository.GetByIdAsync(id);
             
             // Assert
             Assert.AreEqual(expected, actual, "The actual keyboard is not equal to the expected.");
@@ -37,11 +47,9 @@ namespace eStore.UnitTests.Persistence
         public async Task GetByIdAsync_NotExistingKeyboard_ReturnsNull(int id)
         {
             // Arrange
-            ApplicationContext context = await UnitTestHelper.GetApplicationContext();
-            IRepository<Keyboard> repo = new KeyboardRepository(context);
 
             // Act
-            var actual = await repo.GetByIdAsync(id);
+            var actual = await _repository.GetByIdAsync(id);
 
             // Assert
             Assert.IsNull(actual, "The method returned not-null keyboard.");
@@ -51,12 +59,10 @@ namespace eStore.UnitTests.Persistence
         public async Task GetAllAsync_NotEmptyDb_ReturnsCollectionOfKeyboards()
         {
             // Arrange
-            ApplicationContext context = await UnitTestHelper.GetApplicationContext();
-            IRepository<Keyboard> repo = new KeyboardRepository(context);
-            var expected = UnitTestHelper.Keyboards;
+            var expected = _helper.Keyboards;
             
             // Act
-            var actual = await repo.GetAllAsync();
+            var actual = await _repository.GetAllAsync();
 
             // Assert
             Assert.AreEqual(expected, actual, "The actual collection of keyboards is not equal to the expected.");
@@ -66,12 +72,10 @@ namespace eStore.UnitTests.Persistence
         public async Task Query_WithPredicate_ReturnsSuitableKeyboards()
         {
             // Arrange
-            ApplicationContext context = await UnitTestHelper.GetApplicationContext();
-            IRepository<Keyboard> repo = new KeyboardRepository(context);
-            var expected = UnitTestHelper.Keyboards.Where(c => c.Id == 5);
+            var expected = _helper.Keyboards.Where(c => c.Id == 5);
 
             // Act
-            var actual = repo.Query(c => c.Id == 5);
+            var actual = _repository.Query(c => c.Id == 5);
 
             // Assert
             Assert.AreEqual(expected, actual, "The actual collection of keyboards is not equal to the expected.");
@@ -81,40 +85,36 @@ namespace eStore.UnitTests.Persistence
         public async Task AddAsync_NewKeyboard_AddsKeyboardAndSavesToDb()
         {
             // Arrange
-            ApplicationContext context = await UnitTestHelper.GetApplicationContext();
-            IRepository<Keyboard> repo = new KeyboardRepository(context);
             var newKeyboard = new Keyboard()
             {
                 IsDeleted = false, Name = "NewKeyboard", Created = new DateTime(2022, 01, 27, 14, 56, 20),
                 LastModified = new DateTime(2022, 01, 27, 14, 56, 20),
-                Description = "Description", ManufacturerId = 5, Price = 67.99m, BigImageUrl = "big16.png",
+                Description = "Description", Manufacturer = "Manufacturer5", Price = 67.99m, BigImageUrl = "big16.png",
                 ThumbnailImageUrl = "thumbnail16.png",
-                Length = 450, Width = 140, Height = 35, Weight = 800, BacklightId = 2, SizeId = 2, TypeId = 2,
-                ConnectionTypeId = 2, SwitchId = 1, FrameMaterialId = 3, KeycapMaterialId = 2, KeyRolloverId = 2
+                Length = 450, Width = 140, Height = 35, Weight = 800, Backlight = "Backlight2", Size = "Size2", Type = "Type2",
+                ConnectionType = "ConnectionType2", SwitchId = 1, FrameMaterial = "Material3", KeycapMaterial = "Material2", KeyRollover = "Rollover2"
             };
             
             // Act
-            await repo.AddAsync(newKeyboard);
+            await _repository.AddAsync(newKeyboard);
 
             // Assert
-            Assert.AreEqual(6, context.Keyboards.Count(), "The new keyboard has not been added to the context.");
-            Assert.IsNotNull(await context.Keyboards.FindAsync(16), "The new keyboard has been added with the wrong ID.");
+            Assert.AreEqual(6, _context.Keyboards.Count(), "The new keyboard has not been added to the context.");
+            Assert.IsNotNull(await _context.Keyboards.FindAsync(16), "The new keyboard has been added with the wrong ID.");
         }
 
         [Test]
         public async Task UpdateAsync_ExistingKeyboard_UpdatesKeyboardAndSavesToDb()
         {
             // Arrange
-            ApplicationContext context = await UnitTestHelper.GetApplicationContext();
-            IRepository<Keyboard> repo = new KeyboardRepository(context);
-            var keyboard = await context.Keyboards.FindAsync(5);
+            var keyboard = await _context.Keyboards.FindAsync(5);
             
             // Act
             keyboard.Name = "NewName";
-            await repo.UpdateAsync(keyboard);
+            await _repository.UpdateAsync(keyboard);
 
             // Assert
-            Assert.AreEqual("NewName", (await context.Keyboards.FindAsync(keyboard.Id)).Name, "The keyboard has not been updated.");
+            Assert.AreEqual("NewName", (await _context.Keyboards.FindAsync(keyboard.Id)).Name, "The keyboard has not been updated.");
         }
 
         [TestCase(5)]
@@ -125,15 +125,13 @@ namespace eStore.UnitTests.Persistence
         public async Task DeleteAsync_ExistingKeyboard_DeletesKeyboardAndSavesToDb(int id)
         {
             // Arrange
-            ApplicationContext context = await UnitTestHelper.GetApplicationContext();
-            IRepository<Keyboard> repo = new KeyboardRepository(context);
             
             // Act
-            await repo.DeleteAsync(id);
+            await _repository.DeleteAsync(id);
 
             // Assert
-            Assert.AreEqual(4, context.Keyboards.Count(), "Any keyboards has not been deleted.");
-            Assert.IsNull(await context.Keyboards.FindAsync(id), "The selected keyboard has not been deleted.");
+            Assert.AreEqual(4, _context.Keyboards.Count(), "Any keyboards has not been deleted.");
+            Assert.IsNull(await _context.Keyboards.FindAsync(id), "The selected keyboard has not been deleted.");
         }
 
         [TestCase(12)]
@@ -142,11 +140,9 @@ namespace eStore.UnitTests.Persistence
         public async Task DeleteAsync_NotExistingKeyboard_ThrowsArgumentNullException(int id)
         {
             // Arrange
-            ApplicationContext context = await UnitTestHelper.GetApplicationContext();
-            IRepository<Keyboard> repo = new KeyboardRepository(context);
             
             // Act
-            var exception = Assert.CatchAsync<ArgumentNullException>(async () => await repo.DeleteAsync(id));
+            var exception = Assert.CatchAsync<ArgumentNullException>(async () => await _repository.DeleteAsync(id));
 
             // Assert
             Assert.IsNotNull(exception, "The method has not thrown the ArgumentNullException.");

@@ -20,11 +20,11 @@ namespace eStore.Application.Factories
             var filterExpression = GetBaseExpression(mouseParameter);
             AddMinPriceConstraint(ref filterExpression, mouseParameter, filter.MinPrice);
             AddMaxPriceConstraint(ref filterExpression, mouseParameter, filter.MaxPrice);
-            AddManufacturerConstraint(ref filterExpression, mouseParameter, filter.ManufacturerIds);
-            AddConnectionTypeConstraint(ref filterExpression, mouseParameter, filter.ConnectionTypeIds);
+            AddManufacturerConstraint(ref filterExpression, mouseParameter, filter.Manufacturers);
+            AddConnectionTypeConstraint(ref filterExpression, mouseParameter, filter.ConnectionTypes);
             AddMinWeightConstraint(ref filterExpression, mouseParameter, filter.MinWeight);
             AddMaxWeightConstraint(ref filterExpression, mouseParameter, filter.MaxWeight);
-            AddBacklightConstraint(ref filterExpression, mouseParameter, filter.BacklightIds);
+            AddBacklightConstraint(ref filterExpression, mouseParameter, filter.Backlights);
 
             return Expression.Lambda<Func<Mouse, bool>>(filterExpression, mouseParameter);
         }
@@ -59,18 +59,18 @@ namespace eStore.Application.Factories
         }
 
         private void AddManufacturerConstraint(ref Expression baseExpression, ParameterExpression parameter,
-            IEnumerable<int> manufacturerIds)
+            IEnumerable<string> manufacturerIds)
         {
             if (manufacturerIds == null || !manufacturerIds.Any())
                 return;
 
-            Expression values = Expression.Constant(manufacturerIds, typeof(IEnumerable<int>));
-            Expression property = Expression.Property(parameter, nameof(Mouse.ManufacturerId));
+            Expression values = Expression.Constant(manufacturerIds, typeof(IEnumerable<string>));
+            Expression property = Expression.Property(parameter, nameof(Mouse.Manufacturer));
             var method = typeof(Enumerable)
                 .GetMethods()
                 .Where(x => x.Name == "Contains")
                 .Single(x => x.GetParameters().Length == 2)
-                .MakeGenericMethod(typeof(int));
+                .MakeGenericMethod(typeof(string));
             Expression containsExpression = Expression.Call(method, values, property);
             baseExpression = Expression.AndAlso(baseExpression, containsExpression);
         }
@@ -98,35 +98,35 @@ namespace eStore.Application.Factories
         }
 
         private void AddConnectionTypeConstraint(ref Expression baseExpression, ParameterExpression parameter,
-            IEnumerable<int> connectionTypeIds)
+            IEnumerable<string> connectionTypeIds)
         {
             if (connectionTypeIds == null || !connectionTypeIds.Any())
                 return;
 
-            Expression values = Expression.Constant(connectionTypeIds, typeof(IEnumerable<int>));
-            Expression property = Expression.Property(parameter, nameof(Mouse.ConnectionTypeId));
+            Expression values = Expression.Constant(connectionTypeIds, typeof(IEnumerable<string>));
+            Expression property = Expression.Property(parameter, nameof(Mouse.ConnectionType));
             var method = typeof(Enumerable)
                 .GetMethods()
                 .Where(x => x.Name == "Contains")
                 .Single(x => x.GetParameters().Length == 2)
-                .MakeGenericMethod(typeof(int));
+                .MakeGenericMethod(typeof(string));
             Expression containsExpression = Expression.Call(method, values, property);
             baseExpression = Expression.AndAlso(baseExpression, containsExpression);
         }
 
         private void AddBacklightConstraint(ref Expression baseExpression, ParameterExpression parameter,
-            IEnumerable<int> backlightIds)
+            IEnumerable<string> backlightIds)
         {
             if (backlightIds == null || !backlightIds.Any())
                 return;
 
-            Expression values = Expression.Constant(backlightIds, typeof(IEnumerable<int>));
-            Expression property = Expression.Property(parameter, nameof(Mouse.BacklightId));
+            Expression values = Expression.Constant(backlightIds, typeof(IEnumerable<string>));
+            Expression property = Expression.Property(parameter, nameof(Mouse.Backlight));
             var method = typeof(Enumerable)
                 .GetMethods()
                 .Where(x => x.Name == "Contains")
                 .Single(x => x.GetParameters().Length == 2)
-                .MakeGenericMethod(typeof(int));
+                .MakeGenericMethod(typeof(string));
             Expression containsExpression = Expression.Call(method, values, property);
             baseExpression = Expression.AndAlso(baseExpression, containsExpression);
         }

@@ -11,32 +11,32 @@
         @foreach (var manufacturer in ViewBag.Manufacturers)
         {
             <div class="filter-option-group">
-                <input type="checkbox" value="@manufacturer.Id" name="manufacturerIds" checked="@(Context.Request.Query["manufacturerIds"].Contains(((int)manufacturer.Id).ToString()))"/>
-                <div class="filter-option-label">@manufacturer.Name</div>
+                <input type="checkbox" value="@manufacturer" name="manufacturers" checked="@Context.Request.Query["manufacturers"].Contains((string)manufacturer)"/>
+                <div class="filter-option-label">@manufacturer</div>
             </div>
         }
         <label class="filter-category-name">TOP MATERIAL</label>
         @foreach (var topMaterial in ViewBag.TopMaterials)
         {
             <div class="filter-option-group">
-                <input type="checkbox" value="@topMaterial.Id" name="topMaterialIds" checked="@(Context.Request.Query["topMaterialIds"].Contains(((int)topMaterial.Id).ToString()))"/>
-                <div class="filter-option-label">@topMaterial.Name</div>
+                <input type="checkbox" value="@topMaterial" name="topMaterials" checked="@Context.Request.Query["topMaterials"].Contains((string)topMaterial)"/>
+                <div class="filter-option-label">@topMaterial</div>
             </div>
         }
         <label class="filter-category-name">BOTTOM MATERIAL</label>
         @foreach (var bottomMaterial in ViewBag.BottomMaterials)
         {
             <div class="filter-option-group">
-                <input type="checkbox" value="@bottomMaterial.Id" name="bottomMaterialIds" checked="@(Context.Request.Query["bottomMaterialIds"].Contains(((int)bottomMaterial.Id).ToString()))"/>
-                <div class="filter-option-label">@bottomMaterial.Name</div>
+                <input type="checkbox" value="@bottomMaterial" name="bottomMaterials" checked="@Context.Request.Query["bottomMaterials"].Contains((string)bottomMaterial)"/>
+                <div class="filter-option-label">@bottomMaterial</div>
             </div>
         }
         <label class="filter-category-name">BACKLIGHT</label>
-        @foreach (var b in ViewBag.Backlights)
+        @foreach (var backlight in ViewBag.Backlights)
         {
             <div class="filter-option-group">
-                <input type="checkbox" value="@b.Id" name="backlightIds" checked="@(Context.Request.Query["backlightIds"].Contains(((int)b.Id).ToString()))"/>
-                <div class="filter-option-label">@b.Name</div>
+                <input type="checkbox" value="@backlight" name="backlights" checked="@Context.Request.Query["backlights"].Contains((string)backlight)"/>
+                <div class="filter-option-label">@backlight</div>
             </div>
         }
         <label class="filter-category-name">STITCHED</label>

@@ -7,7 +7,7 @@ namespace eStore.Application.FilterModels
     {
         public float? MinWeight { get; set; }
         public float? MaxWeight { get; set; }
-        public ICollection<int> ConnectionTypeIds { get; set; }
-        public ICollection<int> BacklightIds { get; set; }
+        public ICollection<string> ConnectionTypes { get; set; }
+        public ICollection<string> Backlights { get; set; }
     }
 }

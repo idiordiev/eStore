@@ -20,34 +20,18 @@ namespace eStore.Infrastructure.Persistence.Repositories
 
         public async Task<Gamepad> GetByIdAsync(int id)
         {
-            return await _context.Gamepads
-                .Include(g => g.Manufacturer)
-                .Include(g => g.ConnectionType)
-                .Include(g => g.Feedback)
-                .Include(g => g.CompatibleDevices)
-                .ThenInclude(d => d.CompatibleDevice)
-                .FirstOrDefaultAsync(g => g.Id == id);
+            return await _context.Gamepads.FirstOrDefaultAsync(g => g.Id == id);
         }
 
         public async Task<IEnumerable<Gamepad>> GetAllAsync()
         {
             return await _context.Gamepads
-                .Include(g => g.Manufacturer)
-                .Include(g => g.ConnectionType)
-                .Include(g => g.Feedback)
-                .Include(g => g.CompatibleDevices)
-                .ThenInclude(d => d.CompatibleDevice)
                 .ToListAsync();
         }
 
         public IEnumerable<Gamepad> Query(Expression<Func<Gamepad, bool>> predicate)
         {
             return _context.Gamepads
-                .Include(g => g.Manufacturer)
-                .Include(g => g.ConnectionType)
-                .Include(g => g.Feedback)
-                .Include(g => g.CompatibleDevices)
-                .ThenInclude(d => d.CompatibleDevice)
                 .Where(predicate.Compile())
                 .ToList();
         }

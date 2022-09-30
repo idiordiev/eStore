@@ -5,13 +5,11 @@ namespace eStore.Domain.Entities
 {
     public class Gamepad : Goods
     {
-        public int ConnectionTypeId { get; set; }
-        public int FeedbackId { get; set; }
         public float Weight { get; set; }
 
-        public ConnectionType ConnectionType { get; set; }
-        public Feedback Feedback { get; set; }
-        public ICollection<GamepadCompatibleDevice> CompatibleDevices { get; set; }
+        public string ConnectionType { get; set; }
+        public string Feedback { get; set; }
+        public ICollection<string> CompatibleDevices { get; set; }
 
         public override bool Equals(object obj)
         {
@@ -19,15 +17,15 @@ namespace eStore.Domain.Entities
                 return Id == other.Id
                        && IsDeleted == other.IsDeleted
                        && Name == other.Name
-                       && ManufacturerId == other.ManufacturerId
+                       && Manufacturer == other.Manufacturer
                        && Description == other.Description
                        && Price == other.Price
-                       && ConnectionTypeId == other.ConnectionTypeId
+                       && ConnectionType == other.ConnectionType
                        && ThumbnailImageUrl == other.ThumbnailImageUrl
                        && BigImageUrl == other.BigImageUrl
                        && Created == other.Created
                        && LastModified == other.LastModified
-                       && FeedbackId == other.FeedbackId
+                       && Feedback== other.Feedback
                        && Math.Abs(Weight - other.Weight) < 0.01;
 
             return false;
@@ -37,10 +35,10 @@ namespace eStore.Domain.Entities
         {
             unchecked
             {
-                return Id.GetHashCode() * IsDeleted.GetHashCode() * Name.GetHashCode() * ManufacturerId.GetHashCode()
-                       * Description.GetHashCode() * Price.GetHashCode() * ConnectionTypeId.GetHashCode()
+                return Id.GetHashCode() * IsDeleted.GetHashCode() * Name.GetHashCode() * Manufacturer.GetHashCode()
+                       * Description.GetHashCode() * Price.GetHashCode() * ConnectionType.GetHashCode()
                        * ThumbnailImageUrl.GetHashCode() * BigImageUrl.GetHashCode() * Created.GetHashCode()
-                       * LastModified.GetHashCode() * FeedbackId.GetHashCode() * Weight.GetHashCode();
+                       * LastModified.GetHashCode() * Feedback.GetHashCode() * Weight.GetHashCode();
             }
         }
     }

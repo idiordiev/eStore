@@ -36,29 +36,28 @@ namespace eStore.Application.Services
             return await _unitOfWork.GamepadRepository.GetByIdAsync(gamepadId);
         }
 
-        public async Task<IEnumerable<Manufacturer>> GetManufacturersAsync()
+        public async Task<IEnumerable<string>> GetManufacturersAsync()
         {
             var gamepads = await _unitOfWork.GamepadRepository.GetAllAsync();
-            return gamepads.Select(g => g.Manufacturer).Distinct().OrderBy(m => m.Name);
+            return gamepads.Select(g => g.Manufacturer).Distinct();
         }
 
-        public async Task<IEnumerable<Feedback>> GetFeedbacksAsync()
+        public async Task<IEnumerable<string>> GetFeedbacksAsync()
         {
             var gamepads = await _unitOfWork.GamepadRepository.GetAllAsync();
-            return gamepads.Select(g => g.Feedback).Distinct().OrderBy(f => f.Id);
+            return gamepads.Select(g => g.Feedback).Distinct();
         }
 
-        public async Task<IEnumerable<ConnectionType>> GetConnectionTypesAsync()
+        public async Task<IEnumerable<string>> GetConnectionTypesAsync()
         {
             var gamepads = await _unitOfWork.GamepadRepository.GetAllAsync();
-            return gamepads.Select(g => g.ConnectionType).Distinct().OrderBy(t => t.Id);
+            return gamepads.Select(g => g.ConnectionType).Distinct();
         }
 
-        public async Task<IEnumerable<CompatibleDevice>> GetCompatibleDevicesAsync()
+        public async Task<IEnumerable<string>> GetCompatibleDevicesAsync()
         {
             var gamepads = await _unitOfWork.GamepadRepository.GetAllAsync();
-            return gamepads.SelectMany(g => g.CompatibleDevices).Select(d => d.CompatibleDevice).Distinct()
-                .OrderBy(t => t.Id);
+            return gamepads.SelectMany(g => g.CompatibleDevices).Distinct();
         }
     }
 }

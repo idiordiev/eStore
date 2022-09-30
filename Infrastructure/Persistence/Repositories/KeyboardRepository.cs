@@ -21,48 +21,21 @@ namespace eStore.Infrastructure.Persistence.Repositories
         public async Task<Keyboard> GetByIdAsync(int id)
         {
             return await _context.Keyboards
-                .Include(k => k.Manufacturer)
-                .Include(k => k.ConnectionType)
                 .Include(k => k.Switch)
-                .ThenInclude(sw => sw.Manufacturer)
-                .Include(k => k.Type)
-                .Include(k => k.Size)
-                .Include(k => k.KeycapMaterial)
-                .Include(k => k.FrameMaterial)
-                .Include(k => k.Backlight)
-                .Include(k => k.KeyRollover)
                 .FirstOrDefaultAsync(k => k.Id == id);
         }
 
         public async Task<IEnumerable<Keyboard>> GetAllAsync()
         {
             return await _context.Keyboards
-                .Include(k => k.Manufacturer)
-                .Include(k => k.ConnectionType)
                 .Include(k => k.Switch)
-                .ThenInclude(sw => sw.Manufacturer)
-                .Include(k => k.Type)
-                .Include(k => k.Size)
-                .Include(k => k.KeycapMaterial)
-                .Include(k => k.FrameMaterial)
-                .Include(k => k.Backlight)
-                .Include(k => k.KeyRollover)
                 .ToListAsync();
         }
 
         public IEnumerable<Keyboard> Query(Expression<Func<Keyboard, bool>> predicate)
         {
             return _context.Keyboards
-                .Include(k => k.Manufacturer)
-                .Include(k => k.ConnectionType)
                 .Include(k => k.Switch)
-                .ThenInclude(sw => sw.Manufacturer)
-                .Include(k => k.Type)
-                .Include(k => k.Size)
-                .Include(k => k.KeycapMaterial)
-                .Include(k => k.FrameMaterial)
-                .Include(k => k.Backlight)
-                .Include(k => k.KeyRollover)
                 .Where(predicate.Compile())
                 .ToList();
         }

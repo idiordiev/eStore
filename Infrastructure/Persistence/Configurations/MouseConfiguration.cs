@@ -9,12 +9,10 @@ namespace eStore.Infrastructure.Persistence.Configurations
         public void Configure(EntityTypeBuilder<Mouse> builder)
         {
             builder.ToTable("Mouses");
-            builder.HasOne(m => m.Backlight)
-                .WithMany()
-                .HasForeignKey(m => m.BacklightId);
-            builder.HasOne(m => m.ConnectionType)
-                .WithMany()
-                .HasForeignKey(m => m.ConnectionTypeId);
+            builder.Property(m => m.Backlight)
+                .HasMaxLength(50);
+            builder.Property(m => m.ConnectionType)
+                .HasMaxLength(50);
         }
     }
 }

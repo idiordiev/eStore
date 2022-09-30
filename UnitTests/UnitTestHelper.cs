@@ -9,329 +9,218 @@ using Microsoft.EntityFrameworkCore;
 
 namespace eStore.UnitTests
 {
-    internal static class UnitTestHelper
+    internal class UnitTestHelper
     {
-        public static IEnumerable<Backlight> Backlights =>
-            new List<Backlight>()
-            {
-                new() { Id = 1, IsDeleted = false, Name = "Backlight1" },
-                new() { Id = 2, IsDeleted = false, Name = "Backlight2" },
-                new() { Id = 3, IsDeleted = false, Name = "Backlight3" },
-                new() { Id = 4, IsDeleted = false, Name = "Backlight4" }
-            };
+        private readonly List<KeyboardSwitch> _keyboardSwitches;
+        private readonly List<Gamepad> _gamepads;
+        private readonly List<Keyboard> _keyboards;
+        private readonly List<Mouse> _mouses;
+        private readonly List<Mousepad> _mousepads;
+        private readonly List<Customer> _customers;
+        private readonly List<Order> _orders;
 
-        public static IEnumerable<Feedback> Feedbacks =>
-            new List<Feedback>()
-            {
-                new() { Id = 1, IsDeleted = false, Name = "Feedback1" },
-                new() { Id = 2, IsDeleted = false, Name = "Feedback2" },
-                new() { Id = 3, IsDeleted = false, Name = "Feedback3" }
-            };
-
-        public static IEnumerable<Manufacturer> Manufacturers =>
-            new List<Manufacturer>()
-            {
-                new() { Id = 1, IsDeleted = false, Name = "Manufacturer1" },
-                new() { Id = 2, IsDeleted = false, Name = "Manufacturer2" },
-                new() { Id = 3, IsDeleted = false, Name = "Manufacturer3" },
-                new() { Id = 4, IsDeleted = false, Name = "Manufacturer4" },
-                new() { Id = 5, IsDeleted = false, Name = "Manufacturer5" },
-                new() { Id = 6, IsDeleted = false, Name = "Manufacturer6" }
-            };
-
-        public static IEnumerable<Material> Materials =>
-            new List<Material>()
-            {
-                new() { Id = 1, IsDeleted = false, Name = "Material1" },
-                new() { Id = 2, IsDeleted = false, Name = "Material2" },
-                new() { Id = 3, IsDeleted = false, Name = "Material3" },
-                new() { Id = 4, IsDeleted = false, Name = "Material4" },
-                new() { Id = 5, IsDeleted = false, Name = "Material5" }
-            };
-
-        public static IEnumerable<CompatibleDevice> CompatibleDevices =>
-            new List<CompatibleDevice>()
-            {
-                new() { Id = 1, IsDeleted = false, Name = "Device1" },
-                new() { Id = 2, IsDeleted = false, Name = "Device2" },
-                new() { Id = 3, IsDeleted = false, Name = "Device3" },
-                new() { Id = 4, IsDeleted = false, Name = "Device4" }
-            };
-
-        public static IEnumerable<ConnectionType> ConnectionTypes =>
-            new List<ConnectionType>()
-            {
-                new() { Id = 1, IsDeleted = false, Name = "ConnectionType1" },
-                new() { Id = 2, IsDeleted = false, Name = "ConnectionType2" },
-                new() { Id = 3, IsDeleted = false, Name = "ConnectionType3" },
-                new() { Id = 4, IsDeleted = false, Name = "ConnectionType4" }
-            };
-
-        public static IEnumerable<KeyboardSize> KeyboardSizes =>
-            new List<KeyboardSize>()
-            {
-                new() { Id = 1, IsDeleted = false, Name = "Size1" },
-                new() { Id = 2, IsDeleted = false, Name = "Size2" },
-                new() { Id = 3, IsDeleted = false, Name = "Size3" }
-            };
-
-        public static IEnumerable<KeyboardType> KeyboardTypes =>
-            new List<KeyboardType>()
-            {
-                new() { Id = 1, IsDeleted = false, Name = "Type1" },
-                new() { Id = 2, IsDeleted = false, Name = "Type2" },
-                new() { Id = 3, IsDeleted = false, Name = "Type3" }
-            };
-
-        public static IEnumerable<KeyRollover> KeyRollovers =>
-            new List<KeyRollover>()
-            {
-                new() { Id = 1, IsDeleted = false, Name = "Rollover1" },
-                new() { Id = 2, IsDeleted = false, Name = "Rollover2" },
-                new() { Id = 3, IsDeleted = false, Name = "Rollover3" }
-            };
-
-        public static IEnumerable<KeyboardSwitch> KeyboardSwitches =>
-            new List<KeyboardSwitch>()
+        public UnitTestHelper()
+        {
+            _keyboardSwitches = new List<KeyboardSwitch>()
             {
                 new()
                 {
-                    Id = 1, IsDeleted = false, ManufacturerId = 1, Name = "Switch1", IsClicking = false,
+                    Id = 1, IsDeleted = false, Manufacturer = "Manufacturer1", Name = "Switch1", IsClicking = false,
                     IsTactile = false
                 },
                 new()
                 {
-                    Id = 2, IsDeleted = false, ManufacturerId = 1, Name = "Switch2", IsClicking = true,
+                    Id = 2, IsDeleted = false, Manufacturer = "Manufacturer1", Name = "Switch2", IsClicking = true,
                     IsTactile = false
                 },
                 new()
                 {
-                    Id = 3, IsDeleted = false, ManufacturerId = 2, Name = "Switch3", IsClicking = true,
+                    Id = 3, IsDeleted = false, Manufacturer = "Manufacturer2", Name = "Switch3", IsClicking = true,
                     IsTactile = true
                 },
                 new()
                 {
-                    Id = 4, IsDeleted = false, ManufacturerId = 2, Name = "Switch4", IsClicking = false,
+                    Id = 4, IsDeleted = false, Manufacturer = "Manufacturer2", Name = "Switch4", IsClicking = false,
                     IsTactile = true
                 },
                 new()
                 {
-                    Id = 5, IsDeleted = false, ManufacturerId = 2, Name = "Switch5", IsClicking = false,
+                    Id = 5, IsDeleted = false, Manufacturer = "Manufacturer2", Name = "Switch5", IsClicking = false,
                     IsTactile = false
                 }
             };
-
-        public static IEnumerable<Gamepad> Gamepads =>
-            new List<Gamepad>()
+            
+            _gamepads = new List<Gamepad>()
             {
                 new()
                 {
                     Id = 1, IsDeleted = false, Name = "Gamepad1", Created = new DateTime(2022, 01, 25, 14, 06, 20),
-                    Description = "Description1", ManufacturerId = 3, Price = 34.99m,
+                    Description = "Description1", Manufacturer = "Manufacturer3", Price = 34.99m,
                     LastModified = new DateTime(2022, 01, 25, 14, 06, 20),
-                    ConnectionTypeId = 1, Weight = 250, FeedbackId = 1, BigImageUrl = "big1.png",
-                    ThumbnailImageUrl = "thumbnail1.png", CompatibleDevices = new List<GamepadCompatibleDevice>()
-                    {
-                        new() { GamepadId = 1, CompatibleDeviceId = 1 },
-                        new() { GamepadId = 1, CompatibleDeviceId = 2 },
-                    }
+                    ConnectionType = "ConnectionType1", Weight = 250, Feedback = "Feedback1", BigImageUrl = "big1.png",
+                    ThumbnailImageUrl = "thumbnail1.png", CompatibleDevices = new List<string>() { "CompatibleDevice1", "CompatibleDevice2" }
                 },
                 new()
                 {
                     Id = 2, IsDeleted = true, Name = "Gamepad2", Created = new DateTime(2022, 01, 25, 14, 07, 20),
-                    Description = "Description2", ManufacturerId = 3, Price = 24.99m,
+                    Description = "Description2", Manufacturer = "Manufacturer3", Price = 24.99m,
                     LastModified = new DateTime(2022, 01, 25, 14, 07, 20),
-                    ConnectionTypeId = 1, Weight = 260, FeedbackId = 1, BigImageUrl = "big2.png",
-                    ThumbnailImageUrl = "thumbnail2.png", CompatibleDevices = new List<GamepadCompatibleDevice>()
-                    {
-                        new() { GamepadId = 2, CompatibleDeviceId = 1 },
-                        new() { GamepadId = 2, CompatibleDeviceId = 3 }
-                    }
+                    ConnectionType = "ConnectionType1", Weight = 260, Feedback = "Feedback1", BigImageUrl = "big2.png",
+                    ThumbnailImageUrl = "thumbnail2.png", CompatibleDevices = new List<string>() { "CompatibleDevice1", "CompatibleDevice3" }
                 },
                 new()
                 {
                     Id = 3, IsDeleted = false, Name = "Gamepad3", Created = new DateTime(2022, 01, 25, 14, 08, 20),
-                    Description = "Description2", ManufacturerId = 4, Price = 44.99m,
+                    Description = "Description2", Manufacturer = "Manufacturer4", Price = 44.99m,
                     LastModified = new DateTime(2022, 01, 25, 14, 08, 20),
-                    ConnectionTypeId = 1, Weight = 220, FeedbackId = 1, BigImageUrl = "big3.png",
-                    ThumbnailImageUrl = "thumbnail3.png", CompatibleDevices = new List<GamepadCompatibleDevice>()
-                    {
-                        new() { GamepadId = 3, CompatibleDeviceId = 2 },
-                        new() { GamepadId = 3, CompatibleDeviceId = 3 }
-                    }
+                    ConnectionType = "ConnectionType1", Weight = 220, Feedback = "Feedback1", BigImageUrl = "big3.png",
+                    ThumbnailImageUrl = "thumbnail3.png", CompatibleDevices = new List<string>() { "CompatibleDevice2", "CompatibleDevice3" }
                 },
                 new()
                 {
                     Id = 4, IsDeleted = false, Name = "Gamepad4", Created = new DateTime(2022, 01, 25, 14, 09, 20),
-                    Description = "Description4", ManufacturerId = 5, Price = 54.99m,
+                    Description = "Description4", Manufacturer = "Manufacturer5", Price = 54.99m,
                     LastModified = new DateTime(2022, 01, 25, 14, 09, 20),
-                    ConnectionTypeId = 2, Weight = 280, FeedbackId = 2, BigImageUrl = "big4.png",
-                    ThumbnailImageUrl = "thumbnail4.png", CompatibleDevices = new List<GamepadCompatibleDevice>()
-                    {
-                        new() { GamepadId = 4, CompatibleDeviceId = 1 },
-                        new() { GamepadId = 4, CompatibleDeviceId = 3 }
-                    }
+                    ConnectionType = "ConnectionType2", Weight = 280, Feedback = "Feedback2", BigImageUrl = "big4.png",
+                    ThumbnailImageUrl = "thumbnail4.png", CompatibleDevices = new List<string>() { "CompatibleDevice1", "CompatibleDevice3" }
                 }
             };
-
-        public static IEnumerable<Keyboard> Keyboards =>
-            new List<Keyboard>()
+            
+            _keyboards = new List<Keyboard>()
             {
                 new()
                 {
                     Id = 5, IsDeleted = false, Name = "Keyboard5", Created = new DateTime(2022, 01, 25, 14, 10, 20),
                     LastModified = new DateTime(2022, 01, 25, 14, 10, 20),
-                    Description = "Description5", ManufacturerId = 4, Price = 37.99m, BigImageUrl = "big5.png",
+                    Description = "Description5", Manufacturer = "Manufacturer4", Price = 37.99m, BigImageUrl = "big5.png",
                     ThumbnailImageUrl = "thumbnail5.png",
-                    Length = 440, Width = 150, Height = 40, Weight = 700, BacklightId = 1, SizeId = 1, TypeId = 1,
-                    ConnectionTypeId = 3, SwitchId = null, FrameMaterialId = 2, KeycapMaterialId = 1,
-                    KeyRolloverId = 1
+                    Length = 440, Width = 150, Height = 40, Weight = 700, Backlight = "Backlight1", Size = "Size1", Type = "Type1",
+                    ConnectionType = "ConnectionType3", SwitchId = null, FrameMaterial = "Material2", KeycapMaterial = "Material1",
+                    KeyRollover = "Rollover1"
                 },
                 new()
                 {
                     Id = 6, IsDeleted = true, Name = "Keyboard6", Created = new DateTime(2022, 01, 25, 14, 11, 20),
                     LastModified = new DateTime(2022, 01, 25, 14, 11, 20),
-                    Description = "Description6", ManufacturerId = 4, Price = 47.99m, BigImageUrl = "big6.png",
+                    Description = "Description6", Manufacturer = "Manufacturer4", Price = 47.99m, BigImageUrl = "big6.png",
                     ThumbnailImageUrl = "thumbnail6.png",
-                    Length = 380, Width = 140, Height = 30, Weight = 600, BacklightId = 2, SizeId = 1, TypeId = 2,
-                    ConnectionTypeId = 3, SwitchId = 1, FrameMaterialId = 2, KeycapMaterialId = 3, KeyRolloverId = 2
+                    Length = 380, Width = 140, Height = 30, Weight = 600, Backlight = "Backlight2", Size = "Size1", Type = "Type2",
+                    ConnectionType = "ConnectionType3", SwitchId = 1, FrameMaterial = "Material2", KeycapMaterial = "Material3", KeyRollover = "Rollover2"
                 },
                 new()
                 {
                     Id = 7, IsDeleted = false, Name = "Keyboard7", Created = new DateTime(2022, 01, 25, 14, 12, 20),
                     LastModified = new DateTime(2022, 01, 25, 14, 12, 20),
-                    Description = "Description7", ManufacturerId = 4, Price = 57.99m, BigImageUrl = "big7.png",
+                    Description = "Description7", Manufacturer = "Manufacturer4", Price = 57.99m, BigImageUrl = "big7.png",
                     ThumbnailImageUrl = "thumbnail7.png",
-                    Length = 440, Width = 150, Height = 40, Weight = 750, BacklightId = 3, SizeId = 1, TypeId = 1,
-                    ConnectionTypeId = 2, SwitchId = null, FrameMaterialId = 2, KeycapMaterialId = 1,
-                    KeyRolloverId = 2
+                    Length = 440, Width = 150, Height = 40, Weight = 750, Backlight = "Backlight3", Size = "Size1", Type = "Type1",
+                    ConnectionType = "ConnectionType2", SwitchId = null, FrameMaterial = "Material2", KeycapMaterial = "Material1",
+                    KeyRollover = "Rollover2"
                 },
                 new()
                 {
                     Id = 8, IsDeleted = false, Name = "Keyboard8", Created = new DateTime(2022, 01, 25, 14, 13, 20),
                     LastModified = new DateTime(2022, 01, 25, 14, 13, 20),
-                    Description = "Description8", ManufacturerId = 5, Price = 53.99m, BigImageUrl = "big8.png",
+                    Description = "Description8", Manufacturer = "Manufacturer5", Price = 53.99m, BigImageUrl = "big8.png",
                     ThumbnailImageUrl = "thumbnail8.png",
-                    Length = 450, Width = 140, Height = 40, Weight = 900, BacklightId = 2, SizeId = 2, TypeId = 2,
-                    ConnectionTypeId = 1, SwitchId = 2, FrameMaterialId = 1, KeycapMaterialId = 3, KeyRolloverId = 2
+                    Length = 450, Width = 140, Height = 40, Weight = 900, Backlight = "Backlight2", Size = "Size2", Type = "Type2",
+                    ConnectionType = "ConnectionType1", SwitchId = 2, FrameMaterial = "Material1", KeycapMaterial = "Material3", KeyRollover = "Rollover2"
                 },
                 new()
                 {
                     Id = 9, IsDeleted = false, Name = "Keyboard9", Created = new DateTime(2022, 01, 25, 14, 14, 20),
                     LastModified = new DateTime(2022, 01, 25, 14, 14, 20),
-                    Description = "Description9", ManufacturerId = 6, Price = 67.99m, BigImageUrl = "big9.png",
+                    Description = "Description9", Manufacturer = "Manufacturer6", Price = 67.99m, BigImageUrl = "big9.png",
                     ThumbnailImageUrl = "thumbnail9.png",
-                    Length = 480, Width = 150, Height = 35, Weight = 1000, BacklightId = 2, SizeId = 2, TypeId = 2,
-                    ConnectionTypeId = 3, SwitchId = 3, FrameMaterialId = 1, KeycapMaterialId = 3, KeyRolloverId = 3
+                    Length = 480, Width = 150, Height = 35, Weight = 1000, Backlight = "Backlight2", Size = "Size2", Type = "Type2",
+                    ConnectionType = "ConnectionType3", SwitchId = 3, FrameMaterial = "Material1", KeycapMaterial = "Material3", KeyRollover = "Rollover3"
                 }
             };
-
-        public static IEnumerable<Mouse> Mouses =>
-            new List<Mouse>()
+            
+            _mouses = new List<Mouse>()
             {
                 new()
                 {
                     Id = 10, IsDeleted = true, Name = "Mouse10", Created = new DateTime(2022, 01, 25, 14, 15, 20),
                     LastModified = new DateTime(2022, 01, 25, 14, 15, 20),
-                    Description = "Description10", ManufacturerId = 3, Price = 37.99m, BigImageUrl = "big10.png",
+                    Description = "Description10", Manufacturer = "Manufacturer3", Price = 37.99m, BigImageUrl = "big10.png",
                     ThumbnailImageUrl = "thumbnail10.png",
                     Length = 125, Width = 70, Height = 45, Weight = 56,
-                    BacklightId = 1, ButtonsQuantity = 4, SensorName = "Sensor1", MinSensorDPI = 100,
-                    MaxSensorDPI = 25000, ConnectionTypeId = 1
+                    Backlight = "Backlight1", ButtonsQuantity = 4, SensorName = "Sensor1", MinSensorDPI = 100,
+                    MaxSensorDPI = 25000, ConnectionType = "ConnectionType1"
                 },
                 new()
                 {
                     Id = 11, IsDeleted = false, Name = "Mouse11", Created = new DateTime(2022, 01, 25, 14, 16, 20),
                     LastModified = new DateTime(2022, 01, 25, 14, 16, 20),
-                    Description = "Description11", ManufacturerId = 4, Price = 47.99m, BigImageUrl = "big11.png",
+                    Description = "Description11", Manufacturer = "Manufacturer4", Price = 47.99m, BigImageUrl = "big11.png",
                     ThumbnailImageUrl = "thumbnail11.png",
                     Length = 127, Width = 63, Height = 52, Weight = 70,
-                    BacklightId = 2, ButtonsQuantity = 4, SensorName = "Sensor2", MinSensorDPI = 200,
-                    MaxSensorDPI = 20000, ConnectionTypeId = 1
+                    Backlight = "Backlight2", ButtonsQuantity = 4, SensorName = "Sensor2", MinSensorDPI = 200,
+                    MaxSensorDPI = 20000, ConnectionType = "ConnectionType1"
                 },
                 new()
                 {
                     Id = 12, IsDeleted = false, Name = "Mouse12", Created = new DateTime(2022, 01, 25, 14, 17, 20),
                     LastModified = new DateTime(2022, 01, 25, 14, 17, 20),
-                    Description = "Description12", ManufacturerId = 4, Price = 57.99m, BigImageUrl = "big12.png",
+                    Description = "Description12", Manufacturer = "Manufacturer4", Price = 57.99m, BigImageUrl = "big12.png",
                     ThumbnailImageUrl = "thumbnail12.png",
                     Length = 130, Width = 67, Height = 42, Weight = 83,
-                    BacklightId = 2, ButtonsQuantity = 4, SensorName = "Sensor3", MinSensorDPI = 400,
-                    MaxSensorDPI = 18000, ConnectionTypeId = 2
+                    Backlight = "Backlight2", ButtonsQuantity = 4, SensorName = "Sensor3", MinSensorDPI = 400,
+                    MaxSensorDPI = 18000, ConnectionType = "ConnectionType2"
                 }
             };
 
-        public static IEnumerable<Mousepad> Mousepads =>
-            new List<Mousepad>()
+            _mousepads = new List<Mousepad>()
             {
                 new()
                 {
                     Id = 13, IsDeleted = true, Name = "Mousepad13",
                     Created = new DateTime(2022, 01, 25, 14, 18, 20),
                     LastModified = new DateTime(2022, 01, 25, 14, 18, 20),
-                    Description = "Description13", ManufacturerId = 4, Price = 27.99m, BigImageUrl = "big13.png",
+                    Description = "Description13", Manufacturer = "Manufacturer4", Price = 27.99m, BigImageUrl = "big13.png",
                     ThumbnailImageUrl = "thumbnail13.png",
-                    Length = 320, Width = 270, Height = 4, IsStitched = true, BacklightId = 1, BottomMaterialId = 4,
-                    TopMaterialId = 5
+                    Length = 320, Width = 270, Height = 4, IsStitched = true, Backlight = "Backlight1", BottomMaterial = "Material4",
+                    TopMaterial = "Material5"
                 },
                 new()
                 {
                     Id = 14, IsDeleted = false, Name = "Mousepad14",
                     Created = new DateTime(2022, 01, 25, 14, 19, 20),
                     LastModified = new DateTime(2022, 01, 25, 14, 19, 20),
-                    Description = "Description14", ManufacturerId = 5, Price = 45.99m, BigImageUrl = "big14.png",
+                    Description = "Description14", Manufacturer = "Manufacturer5", Price = 45.99m, BigImageUrl = "big14.png",
                     ThumbnailImageUrl = "thumbnail14.png",
-                    Length = 450, Width = 400, Height = 3, IsStitched = true, BacklightId = 1, BottomMaterialId = 4,
-                    TopMaterialId = 5
+                    Length = 450, Width = 400, Height = 3, IsStitched = true, Backlight = "Backlight1", BottomMaterial = "Material4",
+                    TopMaterial = "Material5"
                 },
                 new()
                 {
                     Id = 15, IsDeleted = false, Name = "Mousepad15",
                     Created = new DateTime(2022, 01, 25, 14, 20, 20),
                     LastModified = new DateTime(2022, 01, 25, 14, 20, 20),
-                    Description = "Description15", ManufacturerId = 5, Price = 48.99m, BigImageUrl = "big15.png",
+                    Description = "Description15", Manufacturer = "Manufacturer5", Price = 48.99m, BigImageUrl = "big15.png",
                     ThumbnailImageUrl = "thumbnail15.png",
-                    Length = 450, Width = 400, Height = 4, IsStitched = true, BacklightId = 1, BottomMaterialId = 2,
-                    TopMaterialId = 5
+                    Length = 450, Width = 400, Height = 4, IsStitched = true, Backlight = "Backlight1", BottomMaterial = "Material2",
+                    TopMaterial = "Material5"
                 }
             };
-        
-        public static IEnumerable<Customer> Customers =>
-            new List<Customer>()
+            
+            _customers = new List<Customer>()
             {
                 new()
                 {
                     Id = 1, IsDeleted = false, Email = "email1@mail.com",
                     IdentityId = "F9168C5E-CEB2-4faa-B6BF-329BF39FA1E4", ShoppingCartId = 1,
-                    ShoppingCart = new ShoppingCart() { Id = 1, IsDeleted = false, CustomerId = 1, Goods = new List<GoodsInCart>()
-                    {
-                        new() { CartId = 1, GoodsId = 1 },
-                        new() { CartId = 1, GoodsId = 2 },
-                        new() { CartId = 1, GoodsId = 3 },
-                        new() { CartId = 1, GoodsId = 4 },
-                        new() { CartId = 1, GoodsId = 8 },
-                        new() { CartId = 1, GoodsId = 12 }
-                    }}
+                    ShoppingCart = new ShoppingCart() { Id = 1, IsDeleted = false, CustomerId = 1, Goods = new List<Goods>(Goods.Where(g => new [] {1, 2, 3, 4, 8, 12}.Contains(g.Id))) }
                 },
                 new()
                 {
                     Id = 2, IsDeleted = true, Email = "email2@mail.com",
                     IdentityId = "936DA01F-9ABD-4d9d-80C7-02AF85C822A8", ShoppingCartId = 2,
-                    ShoppingCart = new ShoppingCart() { Id = 2, IsDeleted = false, CustomerId = 2, Goods = new List<GoodsInCart>()
-                    {
-                        
-                        new() { CartId = 2, GoodsId = 3 },
-                        new() { CartId = 2, GoodsId = 6 },
-                        new() { CartId = 2, GoodsId = 2 },
-                        new() { CartId = 2, GoodsId = 1 },
-                        new() { CartId = 2, GoodsId = 10 },
-                        new() { CartId = 2, GoodsId = 12 }
-                    }}
+                    ShoppingCart = new ShoppingCart() { Id = 2, IsDeleted = false, CustomerId = 2, Goods = new List<Goods>(Goods.Where(g => new [] {3, 6, 2, 1, 10, 12}.Contains(g.Id))) }
                 }
             };
-
-        public static IEnumerable<Order> Orders =>
-            new List<Order>()
+            _orders = new List<Order>()
             {
                 new()
                 {
@@ -433,8 +322,24 @@ namespace eStore.UnitTests
                     }
                 }
             };
+        }
 
-        public static IEnumerable<Goods> Goods
+        public IEnumerable<KeyboardSwitch> KeyboardSwitches => _keyboardSwitches;
+
+        public IEnumerable<Gamepad> Gamepads => _gamepads;
+
+
+        public IEnumerable<Keyboard> Keyboards => _keyboards;
+
+        public IEnumerable<Mouse> Mouses => _mouses;
+
+        public IEnumerable<Mousepad> Mousepads => _mousepads;
+        
+        public IEnumerable<Customer> Customers => _customers;
+
+        public IEnumerable<Order> Orders => _orders;
+
+        public IEnumerable<Goods> Goods
         {
             get
             {
@@ -447,7 +352,7 @@ namespace eStore.UnitTests
             }
         }
 
-        public static IEnumerable<OrderItem> OrderItems
+        public IEnumerable<OrderItem> OrderItems
         {
             get
             {
@@ -455,7 +360,7 @@ namespace eStore.UnitTests
             }
         }
 
-        public static async Task<ApplicationContext> GetApplicationContext()
+        public ApplicationContext GetApplicationContext()
         {
             var options = new DbContextOptionsBuilder<ApplicationContext>()
                 .UseInMemoryDatabase(Guid.NewGuid().ToString())
@@ -463,23 +368,14 @@ namespace eStore.UnitTests
 
             var context = new ApplicationContext(options);
 
-            await context.Backlights.AddRangeAsync(Backlights);
-            await context.Feedbacks.AddRangeAsync(Feedbacks);
-            await context.Manufacturers.AddRangeAsync(Manufacturers);
-            await context.Materials.AddRangeAsync(Materials);
-            await context.CompatibleDevices.AddRangeAsync(CompatibleDevices);
-            await context.ConnectionTypes.AddRangeAsync(ConnectionTypes);
-            await context.KeyboardSizes.AddRangeAsync(KeyboardSizes);
-            await context.KeyboardTypes.AddRangeAsync(KeyboardTypes);
-            await context.KeyRollovers.AddRangeAsync(KeyRollovers);
-            await context.KeyboardSwitches.AddRangeAsync(KeyboardSwitches);
-            await context.Customers.AddRangeAsync(Customers);
-            await context.Gamepads.AddRangeAsync(Gamepads);
-            await context.Keyboards.AddRangeAsync(Keyboards);
-            await context.Mouses.AddRangeAsync(Mouses);
-            await context.Mousepads.AddRangeAsync(Mousepads);
-            await context.Orders.AddRangeAsync(Orders);
-            await context.SaveChangesAsync();
+            context.KeyboardSwitches.AddRange(_keyboardSwitches);
+            context.Gamepads.AddRange(_gamepads);
+            context.Keyboards.AddRange(_keyboards);
+            context.Mouses.AddRange(_mouses);
+            context.Mousepads.AddRange(_mousepads);
+            context.Customers.AddRange(_customers);
+            context.Orders.AddRange(_orders);
+            context.SaveChanges();
 
             return context;
         }

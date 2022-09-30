@@ -42,7 +42,7 @@ namespace eStore.WebMVC.Controllers
             var user = await _userManager.GetUserAsync(HttpContext.User);
             var customer = await _customerService.GetCustomerByIdAsync(user.CustomerId);
             var model = _mapper.Map<CustomerViewModel>(customer);
-            foreach (var goods in customer.ShoppingCart.Goods.Select(g => g.Goods))
+            foreach (var goods in customer.ShoppingCart.Goods)
                 if (goods is Keyboard keyboard)
                     model.GoodsInCart.Add(_mapper.Map<KeyboardViewModel>(keyboard));
                 else if (goods is Mouse mouse)

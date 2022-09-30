@@ -17,9 +17,8 @@ namespace eStore.Infrastructure.Persistence.Configurations
                 .HasColumnType("datetime");
             builder.Property(g => g.LastModified)
                 .HasColumnType("datetime");
-            builder.HasOne(g => g.Manufacturer)
-                .WithMany()
-                .HasForeignKey(g => g.ManufacturerId);
+            builder.Property(g => g.Manufacturer)
+                .HasMaxLength(150);
         }
     }
 }

@@ -4,26 +4,18 @@ namespace eStore.Domain.Entities
 {
     public class Keyboard : Goods
     {
-        public int TypeId { get; set; }
-        public int SizeId { get; set; }
+        public string Type { get; set; }
+        public string Size { get; set; }
+        public string KeycapMaterial { get; set; }
+        public string FrameMaterial { get; set; }
+        public string KeyRollover { get; set; }
+        public string Backlight { get; set; }
+        public string ConnectionType { get; set; }
         public int? SwitchId { get; set; }
-        public int KeycapMaterialId { get; set; }
-        public int FrameMaterialId { get; set; }
-        public int KeyRolloverId { get; set; }
-        public int BacklightId { get; set; }
-        public int ConnectionTypeId { get; set; }
         public float Length { get; set; }
         public float Width { get; set; }
         public float Height { get; set; }
         public float Weight { get; set; }
-
-        public KeyboardType Type { get; set; }
-        public KeyboardSize Size { get; set; }
-        public Material KeycapMaterial { get; set; }
-        public Material FrameMaterial { get; set; }
-        public KeyRollover KeyRollover { get; set; }
-        public Backlight Backlight { get; set; }
-        public ConnectionType ConnectionType { get; set; }
         public KeyboardSwitch Switch { get; set; }
 
         public override bool Equals(object obj)
@@ -32,21 +24,21 @@ namespace eStore.Domain.Entities
                 return Id == other.Id
                        && IsDeleted == other.IsDeleted
                        && Name == other.Name
-                       && ManufacturerId == other.ManufacturerId
+                       && Manufacturer == other.Manufacturer
                        && Description == other.Description
                        && Price == other.Price
-                       && ConnectionTypeId == other.ConnectionTypeId
+                       && ConnectionType == other.ConnectionType
                        && ThumbnailImageUrl == other.ThumbnailImageUrl
                        && BigImageUrl == other.BigImageUrl
                        && Created == other.Created
                        && LastModified == other.LastModified
-                       && TypeId == other.TypeId
-                       && SizeId == other.SizeId
+                       && Type == other.Type
+                       && Size == other.Size
                        && SwitchId == other.SwitchId
-                       && KeycapMaterialId == other.KeycapMaterialId
-                       && FrameMaterialId == other.FrameMaterialId
-                       && KeyRolloverId == other.KeyRolloverId
-                       && BacklightId == other.BacklightId
+                       && KeycapMaterial == other.KeycapMaterial
+                       && FrameMaterial == other.FrameMaterial
+                       && KeyRollover == other.KeyRollover
+                       && Backlight == other.Backlight
                        && Math.Abs(Length - other.Length) < 0.01
                        && Math.Abs(Width - other.Width) < 0.01
                        && Math.Abs(Height - other.Height) < 0.01
@@ -59,14 +51,10 @@ namespace eStore.Domain.Entities
         {
             unchecked
             {
-                return Id.GetHashCode() * IsDeleted.GetHashCode() * Name.GetHashCode() * ManufacturerId.GetHashCode()
-                       * Description.GetHashCode() * Price.GetHashCode() * ConnectionTypeId.GetHashCode()
-                       * ThumbnailImageUrl.GetHashCode() * BigImageUrl.GetHashCode() * Created.GetHashCode()
-                       * LastModified.GetHashCode() * TypeId.GetHashCode() * SizeId.GetHashCode() *
-                       SwitchId.GetHashCode()
-                       * KeycapMaterialId.GetHashCode() * FrameMaterialId.GetHashCode() * KeyRolloverId.GetHashCode()
-                       * BacklightId.GetHashCode() * Length.GetHashCode() * Width.GetHashCode() * Height.GetHashCode() *
-                       Weight.GetHashCode();
+                return Id.GetHashCode() * IsDeleted.GetHashCode() * Name.GetHashCode() * Description.GetHashCode() 
+                       * Price.GetHashCode() * ThumbnailImageUrl.GetHashCode() * BigImageUrl.GetHashCode() 
+                       * Created.GetHashCode() * LastModified.GetHashCode() * SwitchId.GetHashCode()
+                       *  Length.GetHashCode() * Width.GetHashCode() * Height.GetHashCode() * Weight.GetHashCode();
             }
         }
     }

@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using eStore.Application.Interfaces.Data;
+﻿using eStore.Application.Interfaces.Data;
 using eStore.Infrastructure.Persistence;
 using eStore.Infrastructure.Persistence.Repositories;
 using Moq;
@@ -10,233 +9,213 @@ namespace eStore.UnitTests.Persistence
     [TestFixture]
     public class UnitOfWorkTests
     {
+        private UnitTestHelper _helper;
+        private ApplicationContext _context;
+        private IUnitOfWork _unitOfWork;
+
+        [SetUp]
+        public void Setup()
+        {
+            _helper = new UnitTestHelper();
+            _context = _helper.GetApplicationContext();
+            _unitOfWork = new UnitOfWork(_context);
+        }
+        
         [Test]
-        public async Task CustomerRepository_FirstCall_ReturnsNewInstance()
+        public void CustomerRepository_FirstCall_ReturnsNewInstance()
         {
             // Arrange
-            ApplicationContext context = await UnitTestHelper.GetApplicationContext();
-            IUnitOfWork unitOfWork = new UnitOfWork(context);
             
             // Act
-            var instance = unitOfWork.CustomerRepository;
+            var instance = _unitOfWork.CustomerRepository;
 
             // Assert
             Assert.IsInstanceOf<CustomerRepository>(instance, "UnitOfWork returned wrong implementation.");
         }
 
         [Test]
-        public async Task CustomerRepository_SecondCall_ReturnsSameInstance()
+        public void CustomerRepository_SecondCall_ReturnsSameInstance()
         {
             // Arrange
-            ApplicationContext context = await UnitTestHelper.GetApplicationContext();
-            IUnitOfWork unitOfWork = new UnitOfWork(context);
             
             // Act
-            var first = unitOfWork.CustomerRepository;
-            var second = unitOfWork.CustomerRepository;
+            var first = _unitOfWork.CustomerRepository;
+            var second = _unitOfWork.CustomerRepository;
 
             // Assert
             Assert.AreSame(first, second, "UnitOfWork returned different instances.");
         }
         
         [Test]
-        public async Task GamepadRepository_FirstCall_ReturnsNewInstance()
+        public void GamepadRepository_FirstCall_ReturnsNewInstance()
         {
             // Arrange
-            ApplicationContext context = await UnitTestHelper.GetApplicationContext();
-            IUnitOfWork unitOfWork = new UnitOfWork(context);
             
             // Act
-            var instance = unitOfWork.GamepadRepository;
+            var instance = _unitOfWork.GamepadRepository;
 
             // Assert
             Assert.IsInstanceOf<GamepadRepository>(instance, "UnitOfWork returned wrong implementation.");
         }
 
         [Test]
-        public async Task GamepadRepository_SecondCall_ReturnsSameInstance()
+        public void GamepadRepository_SecondCall_ReturnsSameInstance()
         {
             // Arrange
-            ApplicationContext context = await UnitTestHelper.GetApplicationContext();
-            IUnitOfWork unitOfWork = new UnitOfWork(context);
             
             // Act
-            var first = unitOfWork.GamepadRepository;
-            var second = unitOfWork.GamepadRepository;
+            var first = _unitOfWork.GamepadRepository;
+            var second = _unitOfWork.GamepadRepository;
 
             // Assert
             Assert.AreSame(first, second, "UnitOfWork returned different instances.");
         }
         
         [Test]
-        public async Task GoodsRepository_FirstCall_ReturnsNewInstance()
+        public void GoodsRepository_FirstCall_ReturnsNewInstance()
         {
             // Arrange
-            ApplicationContext context = await UnitTestHelper.GetApplicationContext();
-            IUnitOfWork unitOfWork = new UnitOfWork(context);
             
             // Act
-            var instance = unitOfWork.GoodsRepository;
+            var instance = _unitOfWork.GoodsRepository;
 
             // Assert
             Assert.IsInstanceOf<GoodsRepository>(instance, "UnitOfWork returned wrong implementation.");
         }
 
         [Test]
-        public async Task GoodsRepository_SecondCall_ReturnsSameInstance()
+        public void GoodsRepository_SecondCall_ReturnsSameInstance()
         {
             // Arrange
-            ApplicationContext context = await UnitTestHelper.GetApplicationContext();
-            IUnitOfWork unitOfWork = new UnitOfWork(context);
             
             // Act
-            var first = unitOfWork.GoodsRepository;
-            var second = unitOfWork.GoodsRepository;
+            var first = _unitOfWork.GoodsRepository;
+            var second = _unitOfWork.GoodsRepository;
 
             // Assert
             Assert.AreSame(first, second, "UnitOfWork returned different instances.");
         }
         
         [Test]
-        public async Task KeyboardRepository_FirstCall_ReturnsNewInstance()
+        public void KeyboardRepository_FirstCall_ReturnsNewInstance()
         {
             // Arrange
-            ApplicationContext context = await UnitTestHelper.GetApplicationContext();
-            IUnitOfWork unitOfWork = new UnitOfWork(context);
             
             // Act
-            var instance = unitOfWork.KeyboardRepository;
+            var instance = _unitOfWork.KeyboardRepository;
 
             // Assert
             Assert.IsInstanceOf<KeyboardRepository>(instance, "UnitOfWork returned wrong implementation.");
         }
 
         [Test]
-        public async Task KeyboardRepository_SecondCall_ReturnsSameInstance()
+        public void KeyboardRepository_SecondCall_ReturnsSameInstance()
         {
             // Arrange
-            ApplicationContext context = await UnitTestHelper.GetApplicationContext();
-            IUnitOfWork unitOfWork = new UnitOfWork(context);
             
             // Act
-            var first = unitOfWork.KeyboardRepository;
-            var second = unitOfWork.KeyboardRepository;
+            var first = _unitOfWork.KeyboardRepository;
+            var second = _unitOfWork.KeyboardRepository;
 
             // Assert
             Assert.AreSame(first, second, "UnitOfWork returned different instances.");
         }
         
         [Test]
-        public async Task MousepadRepository_FirstCall_ReturnsNewInstance()
+        public void MousepadRepository_FirstCall_ReturnsNewInstance()
         {
             // Arrange
-            ApplicationContext context = await UnitTestHelper.GetApplicationContext();
-            IUnitOfWork unitOfWork = new UnitOfWork(context);
             
             // Act
-            var instance = unitOfWork.MousepadRepository;
+            var instance = _unitOfWork.MousepadRepository;
 
             // Assert
             Assert.IsInstanceOf<MousepadRepository>(instance, "UnitOfWork returned wrong implementation.");
         }
 
         [Test]
-        public async Task MousepadRepository_SecondCall_ReturnsSameInstance()
+        public void MousepadRepository_SecondCall_ReturnsSameInstance()
         {
             // Arrange
-            ApplicationContext context = await UnitTestHelper.GetApplicationContext();
-            IUnitOfWork unitOfWork = new UnitOfWork(context);
             
             // Act
-            var first = unitOfWork.MousepadRepository;
-            var second = unitOfWork.MousepadRepository;
+            var first = _unitOfWork.MousepadRepository;
+            var second = _unitOfWork.MousepadRepository;
 
             // Assert
             Assert.AreSame(first, second, "UnitOfWork returned different instances.");
         }
         
         [Test]
-        public async Task MouseRepository_FirstCall_ReturnsNewInstance()
+        public void MouseRepository_FirstCall_ReturnsNewInstance()
         {
             // Arrange
-            ApplicationContext context = await UnitTestHelper.GetApplicationContext();
-            IUnitOfWork unitOfWork = new UnitOfWork(context);
             
             // Act
-            var instance = unitOfWork.MouseRepository;
+            var instance = _unitOfWork.MouseRepository;
 
             // Assert
             Assert.IsInstanceOf<MouseRepository>(instance, "UnitOfWork returned wrong implementation.");
         }
 
         [Test]
-        public async Task MouseRepository_SecondCall_ReturnsSameInstance()
+        public void MouseRepository_SecondCall_ReturnsSameInstance()
         {
             // Arrange
-            ApplicationContext context = await UnitTestHelper.GetApplicationContext();
-            IUnitOfWork unitOfWork = new UnitOfWork(context);
             
             // Act
-            var first = unitOfWork.MouseRepository;
-            var second = unitOfWork.MouseRepository;
+            var first = _unitOfWork.MouseRepository;
+            var second = _unitOfWork.MouseRepository;
 
             // Assert
             Assert.AreSame(first, second, "UnitOfWork returned different instances.");
         }
         
         [Test]
-        public async Task OrderItemRepository_FirstCall_ReturnsNewInstance()
+        public void OrderItemRepository_FirstCall_ReturnsNewInstance()
         {
             // Arrange
-            ApplicationContext context = await UnitTestHelper.GetApplicationContext();
-            IUnitOfWork unitOfWork = new UnitOfWork(context);
             
             // Act
-            var instance = unitOfWork.OrderItemRepository;
+            var instance = _unitOfWork.OrderItemRepository;
 
             // Assert
             Assert.IsInstanceOf<OrderItemRepository>(instance, "UnitOfWork returned wrong implementation.");
         }
 
         [Test]
-        public async Task OrderItemRepository_SecondCall_ReturnsSameInstance()
+        public void OrderItemRepository_SecondCall_ReturnsSameInstance()
         {
             // Arrange
-            ApplicationContext context = await UnitTestHelper.GetApplicationContext();
-            IUnitOfWork unitOfWork = new UnitOfWork(context);
             
             // Act
-            var first = unitOfWork.OrderItemRepository;
-            var second = unitOfWork.OrderItemRepository;
+            var first = _unitOfWork.OrderItemRepository;
+            var second = _unitOfWork.OrderItemRepository;
 
             // Assert
             Assert.AreSame(first, second, "UnitOfWork returned different instances.");
         }
         
         [Test]
-        public async Task OrderRepository_FirstCall_ReturnsNewInstance()
+        public void OrderRepository_FirstCall_ReturnsNewInstance()
         {
             // Arrange
-            ApplicationContext context = await UnitTestHelper.GetApplicationContext();
-            IUnitOfWork unitOfWork = new UnitOfWork(context);
             
             // Act
-            var instance = unitOfWork.OrderRepository;
+            var instance = _unitOfWork.OrderRepository;
 
             // Assert
             Assert.IsInstanceOf<OrderRepository>(instance, "UnitOfWork returned wrong implementation.");
         }
 
         [Test]
-        public async Task OrderRepository_SecondCall_ReturnsSameInstance()
+        public void OrderRepository_SecondCall_ReturnsSameInstance()
         {
             // Arrange
-            ApplicationContext context = await UnitTestHelper.GetApplicationContext();
-            IUnitOfWork unitOfWork = new UnitOfWork(context);
             
             // Act
-            var first = unitOfWork.OrderRepository;
-            var second = unitOfWork.OrderRepository;
+            var first = _unitOfWork.OrderRepository;
+            var second = _unitOfWork.OrderRepository;
 
             // Assert
             Assert.AreSame(first, second, "UnitOfWork returned different instances.");

@@ -12,6 +12,8 @@ namespace eStore.Infrastructure.Persistence.Configurations
             builder.HasOne(sc => sc.Customer)
                 .WithOne(c => c.ShoppingCart)
                 .HasForeignKey<ShoppingCart>(sc => sc.CustomerId);
+            builder.HasMany(sc => sc.Goods)
+                .WithMany(g => g.ShoppingCarts);
         }
     }
 }

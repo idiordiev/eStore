@@ -36,7 +36,7 @@ namespace eStore.Application.Services
                 throw new AccountDeactivatedException(
                     $"The account with the id {customerId} has already been deactivated.");
 
-            return customer.ShoppingCart.Goods.Select(g => g.Goods);
+            return customer.ShoppingCart.Goods;
         }
 
         public async Task<bool> CheckIfAddedToCartAsync(int customerId, int goodsId)
@@ -48,7 +48,7 @@ namespace eStore.Application.Services
                 throw new AccountDeactivatedException(
                     $"The account with the id {customerId} has already been deactivated.");
 
-            return customer.ShoppingCart.Goods.Any(g => g.GoodsId == goodsId);
+            return customer.ShoppingCart.Goods.Any(g => g.Id == goodsId);
         }
     }
 }

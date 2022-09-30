@@ -21,30 +21,18 @@ namespace eStore.Infrastructure.Persistence.Repositories
         public async Task<Mousepad> GetByIdAsync(int id)
         {
             return await _context.Mousepads
-                .Include(m => m.Manufacturer)
-                .Include(m => m.BottomMaterial)
-                .Include(m => m.TopMaterial)
-                .Include(m => m.Backlight)
                 .FirstOrDefaultAsync(m => m.Id == id);
         }
 
         public async Task<IEnumerable<Mousepad>> GetAllAsync()
         {
             return await _context.Mousepads
-                .Include(m => m.Manufacturer)
-                .Include(m => m.BottomMaterial)
-                .Include(m => m.TopMaterial)
-                .Include(m => m.Backlight)
                 .ToListAsync();
         }
 
         public IEnumerable<Mousepad> Query(Expression<Func<Mousepad, bool>> predicate)
         {
             return _context.Mousepads
-                .Include(m => m.Manufacturer)
-                .Include(m => m.BottomMaterial)
-                .Include(m => m.TopMaterial)
-                .Include(m => m.Backlight)
                 .Where(predicate.Compile())
                 .ToList();
         }

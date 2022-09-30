@@ -10,9 +10,9 @@ namespace eStore.Application.Interfaces.Services
         Task<IEnumerable<Gamepad>> GetPresentAsync();
         Task<IEnumerable<Gamepad>> GetPresentByFilterAsync(GamepadFilterModel filter);
         Task<Gamepad> GetByIdAsync(int gamepadId);
-        Task<IEnumerable<Manufacturer>> GetManufacturersAsync();
-        Task<IEnumerable<Feedback>> GetFeedbacksAsync();
-        Task<IEnumerable<ConnectionType>> GetConnectionTypesAsync();
-        Task<IEnumerable<CompatibleDevice>> GetCompatibleDevicesAsync();
+        Task<IEnumerable<string>> GetManufacturersAsync();
+        Task<IEnumerable<string>> GetFeedbacksAsync();
+        Task<IEnumerable<string>> GetConnectionTypesAsync();
+        Task<IEnumerable<string>> GetCompatibleDevicesAsync();
     }
 }

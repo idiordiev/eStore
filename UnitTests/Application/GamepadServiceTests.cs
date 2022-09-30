@@ -4,7 +4,6 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using eStore.Application.FilterModels;
-using eStore.Application.Interfaces;
 using eStore.Application.Interfaces.Data;
 using eStore.Application.Interfaces.Services;
 using eStore.Application.Services;
@@ -17,13 +16,15 @@ namespace eStore.UnitTests.Application
     [TestFixture]
     public class GamepadServiceTests
     {
+        private UnitTestHelper _helper;
+        private Mock<IUnitOfWork> _mockUnitOfWork;
+        
         [SetUp]
         public void Setup()
         {
+            _helper = new UnitTestHelper();
             _mockUnitOfWork = new Mock<IUnitOfWork>();
         }
-
-        private Mock<IUnitOfWork> _mockUnitOfWork;
 
         [Test]
         public async Task GetPresentAsync_NotEmptyDb_ReturnsCollectionOfGamepads()
@@ -31,10 +32,10 @@ namespace eStore.UnitTests.Application
             // Arrange
             _mockUnitOfWork.Setup(x => x.GamepadRepository.Query(It.IsAny<Expression<Func<Gamepad, bool>>>()))
                 .Returns((Expression<Func<Gamepad, bool>> predicate) =>
-                    UnitTestHelper.Gamepads.Where(predicate.Compile()));
+                    _helper.Gamepads.Where(predicate.Compile()));
             IGamepadService service = new GamepadService(_mockUnitOfWork.Object);
 
-            var expected = UnitTestHelper.Gamepads.Where(g => !g.IsDeleted);
+            var expected = _helper.Gamepads.Where(g => !g.IsDeleted);
 
             // Act
             var actual = await service.GetPresentAsync();
@@ -49,10 +50,10 @@ namespace eStore.UnitTests.Application
             // Arrange
             _mockUnitOfWork.Setup(x => x.GamepadRepository.Query(It.IsAny<Expression<Func<Gamepad, bool>>>()))
                 .Returns((Expression<Func<Gamepad, bool>> predicate) =>
-                    UnitTestHelper.Gamepads.Where(predicate.Compile()));
+                    _helper.Gamepads.Where(predicate.Compile()));
             IGamepadService service = new GamepadService(_mockUnitOfWork.Object);
 
-            var expected = UnitTestHelper.Gamepads.Where(g => !g.IsDeleted);
+            var expected = _helper.Gamepads.Where(g => !g.IsDeleted);
             var filterModel = new GamepadFilterModel();
 
             // Act
@@ -62,20 +63,20 @@ namespace eStore.UnitTests.Application
             CollectionAssert.AreEqual(expected, actual, "The actual collection is not equal to expected.");
         }
 
-        [Test]
-        public async Task GetPresentByFilterAsync_NotDeletedAndSingleCompatibleDevice_ReturnsCollection()
+        [TestCase("CompatibleDevice1")]
+        [TestCase("CompatibleDevice2")]
+        public async Task GetPresentByFilterAsync_NotDeletedAndSingleCompatibleDevice_ReturnsCollection(string paramValue)
         {
             // Arrange
             _mockUnitOfWork.Setup(x => x.GamepadRepository.Query(It.IsAny<Expression<Func<Gamepad, bool>>>()))
                 .Returns((Expression<Func<Gamepad, bool>> predicate) =>
-                    UnitTestHelper.Gamepads.Where(predicate.Compile()));
+                    _helper.Gamepads.Where(predicate.Compile()));
             IGamepadService service = new GamepadService(_mockUnitOfWork.Object);
 
-            var expected = UnitTestHelper.Gamepads.Where(g =>
-                !g.IsDeleted && g.CompatibleDevices.Select(d => d.CompatibleDeviceId).Contains(1));
+            var expected = _helper.Gamepads.Where(g => !g.IsDeleted && g.CompatibleDevices.Contains(paramValue));
             var filterModel = new GamepadFilterModel
             {
-                CompatibleDevicesIds = new List<int> { 1 }
+                CompatibleDevices = new List<string> { paramValue }
             };
 
             // Act
@@ -91,15 +92,15 @@ namespace eStore.UnitTests.Application
             // Arrange
             _mockUnitOfWork.Setup(x => x.GamepadRepository.Query(It.IsAny<Expression<Func<Gamepad, bool>>>()))
                 .Returns((Expression<Func<Gamepad, bool>> predicate) =>
-                    UnitTestHelper.Gamepads.Where(predicate.Compile()));
+                    _helper.Gamepads.Where(predicate.Compile()));
             IGamepadService service = new GamepadService(_mockUnitOfWork.Object);
 
-            var expected = UnitTestHelper.Gamepads.Where(g =>
-                !g.IsDeleted && (g.CompatibleDevices.Select(d => d.CompatibleDeviceId).Contains(1) ||
-                                 g.CompatibleDevices.Select(d => d.CompatibleDeviceId).Contains(2)));
+            var expected = _helper.Gamepads.Where(g =>
+                !g.IsDeleted && (g.CompatibleDevices.Contains("CompatibleDevice1") ||
+                                 g.CompatibleDevices.Contains("CompatibleDevice2")));
             var filterModel = new GamepadFilterModel
             {
-                CompatibleDevicesIds = new List<int> { 1, 2 }
+                CompatibleDevices = new List<string> { "CompatibleDevice1", "CompatibleDevice2" }
             };
 
             // Act
@@ -109,19 +110,23 @@ namespace eStore.UnitTests.Application
             CollectionAssert.AreEqual(expected, actual, "The actual collection is not equal to expected.");
         }
 
-        [Test]
-        public async Task GetPresentByFilterAsync_NotDeletedAndSingleConnectionType_ReturnsCollection()
+        [TestCase("ConnectionType1")]
+        [TestCase("ConneCtionType1")]
+        [TestCase("connectiontype1")]
+        [TestCase("ConnectionType1111")]
+        [TestCase("")]
+        public async Task GetPresentByFilterAsync_NotDeletedAndSingleConnectionType_ReturnsCollection(string paramValue)
         {
             // Arrange
             _mockUnitOfWork.Setup(x => x.GamepadRepository.Query(It.IsAny<Expression<Func<Gamepad, bool>>>()))
                 .Returns((Expression<Func<Gamepad, bool>> predicate) =>
-                    UnitTestHelper.Gamepads.Where(predicate.Compile()));
+                    _helper.Gamepads.Where(predicate.Compile()));
             IGamepadService service = new GamepadService(_mockUnitOfWork.Object);
 
-            var expected = UnitTestHelper.Gamepads.Where(g => !g.IsDeleted && g.ConnectionTypeId == 1);
+            var expected = _helper.Gamepads.Where(g => !g.IsDeleted && g.ConnectionType.Equals(paramValue, StringComparison.InvariantCultureIgnoreCase));
             var filterModel = new GamepadFilterModel
             {
-                ConnectionTypeIds = new List<int> { 1 }
+                ConnectionTypes = new List<string> { paramValue }
             };
 
             // Act
@@ -137,14 +142,13 @@ namespace eStore.UnitTests.Application
             // Arrange
             _mockUnitOfWork.Setup(x => x.GamepadRepository.Query(It.IsAny<Expression<Func<Gamepad, bool>>>()))
                 .Returns((Expression<Func<Gamepad, bool>> predicate) =>
-                    UnitTestHelper.Gamepads.Where(predicate.Compile()));
+                    _helper.Gamepads.Where(predicate.Compile()));
             IGamepadService service = new GamepadService(_mockUnitOfWork.Object);
 
-            var expected = UnitTestHelper.Gamepads.Where(g =>
-                !g.IsDeleted && (g.ConnectionTypeId == 1 || g.ConnectionTypeId == 2));
+            var expected = _helper.Gamepads.Where(g => !g.IsDeleted && (g.ConnectionType.Equals("ConnectionType1", StringComparison.InvariantCultureIgnoreCase) || g.ConnectionType.Equals("ConnectionType2", StringComparison.InvariantCultureIgnoreCase)));
             var filterModel = new GamepadFilterModel
             {
-                ConnectionTypeIds = new List<int> { 1, 2 }
+                ConnectionTypes = new List<string> { "ConnectionType1", "ConnectionType2" }
             };
 
             // Act
@@ -154,19 +158,24 @@ namespace eStore.UnitTests.Application
             CollectionAssert.AreEqual(expected, actual, "The actual collection is not equal to expected.");
         }
 
-        [Test]
-        public async Task GetPresentByFilterAsync_NotDeletedAndSingleFeedback_ReturnsCollection()
+        [TestCase("Feedback1")]
+        [TestCase("FeedBack1")]
+        [TestCase("FEedback1")]
+        [TestCase("feedback1")]
+        [TestCase("Feedback1111")]
+        [TestCase("")]
+        public async Task GetPresentByFilterAsync_NotDeletedAndSingleFeedback_ReturnsCollection(string paramValue)
         {
             // Arrange
             _mockUnitOfWork.Setup(x => x.GamepadRepository.Query(It.IsAny<Expression<Func<Gamepad, bool>>>()))
                 .Returns((Expression<Func<Gamepad, bool>> predicate) =>
-                    UnitTestHelper.Gamepads.Where(predicate.Compile()));
+                    _helper.Gamepads.Where(predicate.Compile()));
             IGamepadService service = new GamepadService(_mockUnitOfWork.Object);
 
-            var expected = UnitTestHelper.Gamepads.Where(g => !g.IsDeleted && g.FeedbackId == 1);
+            var expected = _helper.Gamepads.Where(g => !g.IsDeleted && g.Feedback.Equals(paramValue, StringComparison.InvariantCultureIgnoreCase));
             var filterModel = new GamepadFilterModel
             {
-                FeedbackIds = new List<int> { 1 }
+                Feedbacks = new List<string> { paramValue }
             };
 
             // Act
@@ -182,13 +191,13 @@ namespace eStore.UnitTests.Application
             // Arrange
             _mockUnitOfWork.Setup(x => x.GamepadRepository.Query(It.IsAny<Expression<Func<Gamepad, bool>>>()))
                 .Returns((Expression<Func<Gamepad, bool>> predicate) =>
-                    UnitTestHelper.Gamepads.Where(predicate.Compile()));
+                    _helper.Gamepads.Where(predicate.Compile()));
             IGamepadService service = new GamepadService(_mockUnitOfWork.Object);
 
-            var expected = UnitTestHelper.Gamepads.Where(g => !g.IsDeleted && (g.FeedbackId == 1 || g.FeedbackId == 2));
+            var expected = _helper.Gamepads.Where(g => !g.IsDeleted && (g.Feedback.Equals("Feedback1", StringComparison.InvariantCultureIgnoreCase) || g.Feedback.Equals("Feedback2", StringComparison.InvariantCultureIgnoreCase)));
             var filterModel = new GamepadFilterModel
             {
-                FeedbackIds = new List<int> { 1, 2 }
+                Feedbacks = new List<string> { "Feedback1", "Feedback2" }
             };
 
             // Act
@@ -198,19 +207,24 @@ namespace eStore.UnitTests.Application
             CollectionAssert.AreEqual(expected, actual, "The actual collection is not equal to expected.");
         }
 
-        [Test]
-        public async Task GetPresentByFilterAsync_NotDeletedAndSingleManufacturer_ReturnsCollection()
+        [TestCase("Manufacturer3")]
+        [TestCase("ManUfacturer3")]
+        [TestCase("mAnUfAcTuReR3")]
+        [TestCase("manufacturer3")]
+        [TestCase("Manufacturer333")]
+        [TestCase("")]
+        public async Task GetPresentByFilterAsync_NotDeletedAndSingleManufacturer_ReturnsCollection(string paramValue)
         {
             // Arrange
             _mockUnitOfWork.Setup(x => x.GamepadRepository.Query(It.IsAny<Expression<Func<Gamepad, bool>>>()))
                 .Returns((Expression<Func<Gamepad, bool>> predicate) =>
-                    UnitTestHelper.Gamepads.Where(predicate.Compile()));
+                    _helper.Gamepads.Where(predicate.Compile()));
             IGamepadService service = new GamepadService(_mockUnitOfWork.Object);
 
-            var expected = UnitTestHelper.Gamepads.Where(g => !g.IsDeleted && g.ManufacturerId == 3);
+            var expected = _helper.Gamepads.Where(g => !g.IsDeleted && g.Manufacturer.Equals(paramValue, StringComparison.InvariantCultureIgnoreCase));
             var filterModel = new GamepadFilterModel
             {
-                ManufacturerIds = new List<int> { 3 }
+                Manufacturers = new List<string> { paramValue }
             };
 
             // Act
@@ -226,14 +240,14 @@ namespace eStore.UnitTests.Application
             // Arrange
             _mockUnitOfWork.Setup(x => x.GamepadRepository.Query(It.IsAny<Expression<Func<Gamepad, bool>>>()))
                 .Returns((Expression<Func<Gamepad, bool>> predicate) =>
-                    UnitTestHelper.Gamepads.Where(predicate.Compile()));
+                    _helper.Gamepads.Where(predicate.Compile()));
             IGamepadService service = new GamepadService(_mockUnitOfWork.Object);
 
             var expected =
-                UnitTestHelper.Gamepads.Where(g => !g.IsDeleted && (g.ManufacturerId == 3 || g.ManufacturerId == 4));
+                _helper.Gamepads.Where(g => !g.IsDeleted && (g.Manufacturer.Equals("Manufacturer3", StringComparison.InvariantCultureIgnoreCase) || g.Manufacturer.Equals("Manufacturer4", StringComparison.InvariantCultureIgnoreCase)));
             var filterModel = new GamepadFilterModel
             {
-                ManufacturerIds = new List<int> { 3, 4 }
+                Manufacturers = new List<string> { "Manufacturer3", "Manufacturer4" }
             };
 
             // Act
@@ -249,10 +263,10 @@ namespace eStore.UnitTests.Application
             // Arrange
             _mockUnitOfWork.Setup(x => x.GamepadRepository.Query(It.IsAny<Expression<Func<Gamepad, bool>>>()))
                 .Returns((Expression<Func<Gamepad, bool>> predicate) =>
-                    UnitTestHelper.Gamepads.Where(predicate.Compile()));
+                    _helper.Gamepads.Where(predicate.Compile()));
             IGamepadService service = new GamepadService(_mockUnitOfWork.Object);
 
-            var expected = UnitTestHelper.Gamepads.Where(g => !g.IsDeleted && g.Price >= 34.99m);
+            var expected = _helper.Gamepads.Where(g => !g.IsDeleted && g.Price >= 34.99m);
             var filterModel = new GamepadFilterModel
             {
                 MinPrice = 34.99m
@@ -271,10 +285,10 @@ namespace eStore.UnitTests.Application
             // Arrange
             _mockUnitOfWork.Setup(x => x.GamepadRepository.Query(It.IsAny<Expression<Func<Gamepad, bool>>>()))
                 .Returns((Expression<Func<Gamepad, bool>> predicate) =>
-                    UnitTestHelper.Gamepads.Where(predicate.Compile()));
+                    _helper.Gamepads.Where(predicate.Compile()));
             IGamepadService service = new GamepadService(_mockUnitOfWork.Object);
 
-            var expected = UnitTestHelper.Gamepads.Where(g => !g.IsDeleted && g.Price <= 34.99m);
+            var expected = _helper.Gamepads.Where(g => !g.IsDeleted && g.Price <= 34.99m);
             var filterModel = new GamepadFilterModel
             {
                 MaxPrice = 34.99m
@@ -293,10 +307,10 @@ namespace eStore.UnitTests.Application
             // Arrange
             _mockUnitOfWork.Setup(x => x.GamepadRepository.Query(It.IsAny<Expression<Func<Gamepad, bool>>>()))
                 .Returns((Expression<Func<Gamepad, bool>> predicate) =>
-                    UnitTestHelper.Gamepads.Where(predicate.Compile()));
+                    _helper.Gamepads.Where(predicate.Compile()));
             IGamepadService service = new GamepadService(_mockUnitOfWork.Object);
 
-            var expected = UnitTestHelper.Gamepads.Where(g => !g.IsDeleted && g.Price >= 34.99m && g.Price <= 44.99m);
+            var expected = _helper.Gamepads.Where(g => !g.IsDeleted && g.Price >= 34.99m && g.Price <= 44.99m);
             var filterModel = new GamepadFilterModel
             {
                 MinPrice = 34.99m,
@@ -316,16 +330,17 @@ namespace eStore.UnitTests.Application
             // Arrange
             _mockUnitOfWork.Setup(x => x.GamepadRepository.Query(It.IsAny<Expression<Func<Gamepad, bool>>>()))
                 .Returns((Expression<Func<Gamepad, bool>> predicate) =>
-                    UnitTestHelper.Gamepads.Where(predicate.Compile()));
+                    _helper.Gamepads.Where(predicate.Compile()));
             IGamepadService service = new GamepadService(_mockUnitOfWork.Object);
 
-            var expected = UnitTestHelper.Gamepads.Where(g => !g.IsDeleted);
+            var expected = _helper.Gamepads.Where(g => !g.IsDeleted);
             var filterModel = new GamepadFilterModel
             {
-                ConnectionTypeIds = new List<int> { 1, 2, 3, 4 },
-                CompatibleDevicesIds = new List<int> { 1, 2, 3, 4 },
-                FeedbackIds = new List<int> { 1, 2, 3 },
-                ManufacturerIds = new List<int> { 1, 2, 3, 4, 5, 6, 7 },
+                ConnectionTypes = new List<string> { "ConnectionType1", "ConnectionType2", "ConnectionType3", "ConnectionType4" },
+                CompatibleDevices = new List<string> { "CompatibleDevice1", "CompatibleDevice2", "CompatibleDevice3", "CompatibleDevice4" },
+                Feedbacks = new List<string> { "Feedback1", "Feedback2", "Feedback3" },
+                Manufacturers = new List<string> { "Manufacturer1", "Manufacturer2", "Manufacturer3", "Manufacturer4", 
+                    "Manufacturer5", "Manufacturer6", "Manufacturer7" },
                 MinPrice = 4.99m,
                 MaxPrice = 444.99m
             };
@@ -341,7 +356,7 @@ namespace eStore.UnitTests.Application
         public async Task GetByIdAsync_ExistingGamepad_ReturnsGamepad()
         {
             // Arrange
-            var expected = UnitTestHelper.Gamepads.First(g => g.Id == 1);
+            var expected = _helper.Gamepads.First(g => g.Id == 1);
             _mockUnitOfWork.Setup(x => x.GamepadRepository.GetByIdAsync(1)).ReturnsAsync(expected);
             IGamepadService service = new GamepadService(_mockUnitOfWork.Object);
 
@@ -370,10 +385,7 @@ namespace eStore.UnitTests.Application
         public async Task GetManufacturersAsync_NotEmptyDb_ReturnsCollectionOfManufacturers()
         {
             // Arrange
-            var gamepads = UnitTestHelper.Gamepads.ToList();
-            foreach (var gamepad in gamepads)
-                gamepad.Manufacturer = UnitTestHelper.Manufacturers.First(m => m.Id == gamepad.ManufacturerId);
-
+            var gamepads = _helper.Gamepads.ToList();
             _mockUnitOfWork.Setup(x => x.GamepadRepository.GetAllAsync()).ReturnsAsync(gamepads);
             IGamepadService service = new GamepadService(_mockUnitOfWork.Object);
             var expected = gamepads.Select(g => g.Manufacturer).Distinct();
@@ -389,10 +401,7 @@ namespace eStore.UnitTests.Application
         public async Task GetFeedbacksAsync_NotEmptyDb_ReturnsCollectionOfFeedbacks()
         {
             // Arrange
-            var gamepads = UnitTestHelper.Gamepads.ToList();
-            foreach (var gamepad in gamepads)
-                gamepad.Feedback = UnitTestHelper.Feedbacks.First(f => f.Id == gamepad.FeedbackId);
-
+            var gamepads = _helper.Gamepads.ToList();
             _mockUnitOfWork.Setup(x => x.GamepadRepository.GetAllAsync()).ReturnsAsync(gamepads);
             IGamepadService service = new GamepadService(_mockUnitOfWork.Object);
             var expected = gamepads.Select(g => g.Feedback).Distinct();
@@ -408,10 +417,7 @@ namespace eStore.UnitTests.Application
         public async Task GetConnectionTypesAsync_NotEmptyDb_ReturnsCollectionOfConnectionTypes()
         {
             // Arrange
-            var gamepads = UnitTestHelper.Gamepads.ToList();
-            foreach (var gamepad in gamepads)
-                gamepad.ConnectionType = UnitTestHelper.ConnectionTypes.First(t => t.Id == gamepad.ConnectionTypeId);
-
+            var gamepads = _helper.Gamepads.ToList();
             _mockUnitOfWork.Setup(x => x.GamepadRepository.GetAllAsync()).ReturnsAsync(gamepads);
             IGamepadService service = new GamepadService(_mockUnitOfWork.Object);
             var expected = gamepads.Select(g => g.ConnectionType).Distinct();
@@ -427,13 +433,10 @@ namespace eStore.UnitTests.Application
         public async Task GetCompatibleDevicesAsync_NotEmptyDb_ReturnsCollectionOfCompatibleDevices()
         {
             // Arrange
-            var gamepads = UnitTestHelper.Gamepads.ToList();
-            foreach (var gamepadCompatibleDevice in gamepads.SelectMany(gamepad => gamepad.CompatibleDevices))
-                gamepadCompatibleDevice.CompatibleDevice =
-                    UnitTestHelper.CompatibleDevices.First(d => d.Id == gamepadCompatibleDevice.CompatibleDeviceId);
+            var gamepads = _helper.Gamepads.ToList();
             _mockUnitOfWork.Setup(x => x.GamepadRepository.GetAllAsync()).ReturnsAsync(gamepads);
             IGamepadService service = new GamepadService(_mockUnitOfWork.Object);
-            var expected = gamepads.SelectMany(g => g.CompatibleDevices).Select(d => d.CompatibleDevice).Distinct();
+            var expected = gamepads.SelectMany(g => g.CompatibleDevices).Distinct();
 
             // Act
             var actual = await service.GetCompatibleDevicesAsync();

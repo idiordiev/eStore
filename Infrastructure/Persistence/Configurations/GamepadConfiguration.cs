@@ -1,6 +1,9 @@
-﻿using eStore.Domain.Entities;
+﻿using System.Collections.Generic;
+using eStore.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Newtonsoft.Json;
 
 namespace eStore.Infrastructure.Persistence.Configurations
 {
@@ -9,12 +12,13 @@ namespace eStore.Infrastructure.Persistence.Configurations
         public void Configure(EntityTypeBuilder<Gamepad> builder)
         {
             builder.ToTable("Gamepads");
-            builder.HasOne(g => g.Feedback)
-                .WithMany(f => f.Gamepads)
-                .HasForeignKey(g => g.FeedbackId);
-            builder.HasOne(g => g.ConnectionType)
-                .WithMany()
-                .HasForeignKey(g => g.ConnectionTypeId);
+            builder.Property(g => g.Feedback)
+                .HasMaxLength(50);
+            builder.Property(g => g.ConnectionType)
+                .HasMaxLength(50);
+            builder.Property(g => g.CompatibleDevices)
+                .HasConversion(new ValueConverter<ICollection<string>, string>(v => JsonConvert.SerializeObject(v),
+                    v => JsonConvert.DeserializeObject<List<string>>(v)));
         }
     }
 }

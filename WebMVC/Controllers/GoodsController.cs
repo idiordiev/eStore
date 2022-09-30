@@ -57,7 +57,7 @@ namespace eStore.WebMVC.Controllers
 
         private async Task CheckIfInCartAsync(GoodsViewModel model)
         {
-            if (User.Identity != null && User.Identity.IsAuthenticated)
+            if (User.Identity?.IsAuthenticated == true)
             {
                 var user = await _userManager.GetUserAsync(HttpContext.User);
                 model.IsAddedToCart = await _goodsService.CheckIfAddedToCartAsync(user.CustomerId, model.Id);
@@ -66,7 +66,7 @@ namespace eStore.WebMVC.Controllers
 
         private async Task CheckIfInCartAsync(IEnumerable<GoodsViewModel> models)
         {
-            if (User.Identity != null && User.Identity.IsAuthenticated)
+            if (User.Identity?.IsAuthenticated == true)
             {
                 var user = await _userManager.GetUserAsync(HttpContext.User);
                 foreach (var model in models)

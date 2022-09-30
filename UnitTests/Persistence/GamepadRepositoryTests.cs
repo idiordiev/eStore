@@ -12,6 +12,18 @@ namespace eStore.UnitTests.Persistence
     [TestFixture]
     public class GamepadRepositoryTests
     {
+        private UnitTestHelper _helper;
+        private ApplicationContext _context;
+        private IRepository<Gamepad> _repository;
+
+        [SetUp]
+        public void Setup()
+        {
+            _helper = new UnitTestHelper();
+            _context = _helper.GetApplicationContext();
+            _repository = new GamepadRepository(_context);
+        }
+        
         [TestCase(1)]
         [TestCase(2)]
         [TestCase(3)]
@@ -19,12 +31,10 @@ namespace eStore.UnitTests.Persistence
         public async Task GetByIdAsync_ExistingGamepad_ReturnsGamepad(int id)
         {
             // Arrange
-            ApplicationContext context = await UnitTestHelper.GetApplicationContext();
-            IRepository<Gamepad> repo = new GamepadRepository(context);
-            var expected = UnitTestHelper.Gamepads.FirstOrDefault(c => c.Id == id);
+            var expected = _helper.Gamepads.FirstOrDefault(c => c.Id == id);
             
             // Act
-            var actual = await repo.GetByIdAsync(id);
+            var actual = await _repository.GetByIdAsync(id);
             
             // Assert
             Assert.AreEqual(expected, actual, "The actual gamepad is not equal to the expected.");
@@ -35,11 +45,9 @@ namespace eStore.UnitTests.Persistence
         public async Task GetByIdAsync_NotExistingGamepad_ReturnsNull(int id)
         {
             // Arrange
-            ApplicationContext context = await UnitTestHelper.GetApplicationContext();
-            IRepository<Gamepad> repo = new GamepadRepository(context);
 
             // Act
-            var actual = await repo.GetByIdAsync(id);
+            var actual = await _repository.GetByIdAsync(id);
 
             // Assert
             Assert.IsNull(actual, "The method returned not-null gamepad.");
@@ -49,12 +57,10 @@ namespace eStore.UnitTests.Persistence
         public async Task GetAllAsync_NotEmptyDb_ReturnsCollectionOfGamepads()
         {
             // Arrange
-            ApplicationContext context = await UnitTestHelper.GetApplicationContext();
-            IRepository<Gamepad> repo = new GamepadRepository(context);
-            var expected = UnitTestHelper.Gamepads;
+            var expected = _helper.Gamepads;
             
             // Act
-            var actual = await repo.GetAllAsync();
+            var actual = await _repository.GetAllAsync();
 
             // Assert
             Assert.AreEqual(expected, actual, "The actual collection of gamepads is not equal to the expected.");
@@ -64,12 +70,10 @@ namespace eStore.UnitTests.Persistence
         public async Task Query_WithPredicate_ReturnsSuitableGamepads()
         {
             // Arrange
-            ApplicationContext context = await UnitTestHelper.GetApplicationContext();
-            IRepository<Gamepad> repo = new GamepadRepository(context);
-            var expected = UnitTestHelper.Gamepads.Where(c => c.Id == 2);
+            var expected = _helper.Gamepads.Where(c => c.Id == 2);
 
             // Act
-            var actual = repo.Query(c => c.Id == 2);
+            var actual = _repository.Query(c => c.Id == 2);
 
             // Assert
             Assert.AreEqual(expected, actual, "The actual collection of gamepads is not equal to the expected.");
@@ -79,39 +83,35 @@ namespace eStore.UnitTests.Persistence
         public async Task AddAsync_NewGamepad_AddsGamepadAndSavesToDb()
         {
             // Arrange
-            ApplicationContext context = await UnitTestHelper.GetApplicationContext();
-            IRepository<Gamepad> repo = new GamepadRepository(context);
             var newGamepad = new Gamepad()
             {
                 IsDeleted = false, Name = "NewGamepad", Created = new DateTime(2022, 01, 26, 14, 36, 20),
-                Description = "Description", ManufacturerId = 3, Price = 44.99m,
+                Description = "Description", Manufacturer = "Manufacturer3", Price = 44.99m,
                 LastModified = new DateTime(2022, 01, 26, 14, 36, 20),
-                ConnectionTypeId = 1, Weight = 260, FeedbackId = 1, BigImageUrl = "big16.png",
+                ConnectionType = "ConnectionType1", Weight = 260, Feedback = "Feedback1", BigImageUrl = "big16.png",
                 ThumbnailImageUrl = "thumbnail16.png"
             };
             
             // Act
-            await repo.AddAsync(newGamepad);
+            await _repository.AddAsync(newGamepad);
 
             // Assert
-            Assert.AreEqual(5, context.Gamepads.Count(), "The new gamepad has not been added to the context.");
-            Assert.IsNotNull(await context.Gamepads.FindAsync(16), "The new gamepad has been added with the wrong ID.");
+            Assert.AreEqual(5, _context.Gamepads.Count(), "The new gamepad has not been added to the context.");
+            Assert.IsNotNull(await _context.Gamepads.FindAsync(16), "The new gamepad has been added with the wrong ID.");
         }
 
         [Test]
         public async Task UpdateAsync_ExistingGamepad_UpdatesGamepadAndSavesToDb()
         {
             // Arrange
-            ApplicationContext context = await UnitTestHelper.GetApplicationContext();
-            IRepository<Gamepad> repo = new GamepadRepository(context);
-            var gamepad = await context.Gamepads.FindAsync(1);
+            var gamepad = await _context.Gamepads.FindAsync(1);
             
             // Act
             gamepad.Name = "Name1";
-            await repo.UpdateAsync(gamepad);
+            await _repository.UpdateAsync(gamepad);
 
             // Assert
-            Assert.AreEqual("Name1", (await context.Gamepads.FindAsync(gamepad.Id)).Name, "The gamepad has not been updated.");
+            Assert.AreEqual("Name1", (await _context.Gamepads.FindAsync(gamepad.Id)).Name, "The gamepad has not been updated.");
         }
 
         [TestCase(1)]
@@ -121,15 +121,13 @@ namespace eStore.UnitTests.Persistence
         public async Task DeleteAsync_ExistingGamepad_DeletesGamepadAndSavesToDb(int id)
         {
             // Arrange
-            ApplicationContext context = await UnitTestHelper.GetApplicationContext();
-            IRepository<Gamepad> repo = new GamepadRepository(context);
             
             // Act
-            await repo.DeleteAsync(id);
+            await _repository.DeleteAsync(id);
 
             // Assert
-            Assert.AreEqual(3, context.Gamepads.Count(), "Any gamepads has not been deleted.");
-            Assert.IsNull(await context.Gamepads.FindAsync(id), "The selected gamepad has not been deleted.");
+            Assert.AreEqual(3, _context.Gamepads.Count(), "Any gamepads has not been deleted.");
+            Assert.IsNull(await _context.Gamepads.FindAsync(id), "The selected gamepad has not been deleted.");
         }
 
         [TestCase(12)]
@@ -137,11 +135,9 @@ namespace eStore.UnitTests.Persistence
         public async Task DeleteAsync_NotExistingGamepad_ThrowsArgumentNullException(int id)
         {
             // Arrange
-            ApplicationContext context = await UnitTestHelper.GetApplicationContext();
-            IRepository<Gamepad> repo = new GamepadRepository(context);
             
             // Act
-            var exception = Assert.CatchAsync<ArgumentNullException>(async () => await repo.DeleteAsync(id));
+            var exception = Assert.CatchAsync<ArgumentNullException>(async () => await _repository.DeleteAsync(id));
 
             // Assert
             Assert.IsNotNull(exception, "The method has not thrown the ArgumentNullException.");

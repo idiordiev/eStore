@@ -11,9 +11,8 @@ namespace eStore.Infrastructure.Persistence.Configurations
             builder.HasKey(s => s.Id);
             builder.Property(s => s.Name)
                 .HasMaxLength(100);
-            builder.HasOne(s => s.Manufacturer)
-                .WithMany()
-                .HasForeignKey(s => s.ManufacturerId);
+            builder.Property(s => s.Manufacturer)
+                .HasMaxLength(150);
         }
     }
 }

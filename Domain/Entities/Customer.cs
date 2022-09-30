@@ -4,11 +4,6 @@ namespace eStore.Domain.Entities
 {
     public class Customer : Entity
     {
-        public Customer()
-        {
-            Orders = new List<Order>();
-        }
-
         public string IdentityId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }

@@ -5,16 +5,12 @@ namespace eStore.Domain.Entities
     public class Mousepad : Goods
     {
         public bool IsStitched { get; set; }
-        public int TopMaterialId { get; set; }
-        public int BottomMaterialId { get; set; }
-        public int BacklightId { get; set; }
+        public string TopMaterial { get; set; }
+        public string BottomMaterial { get; set; }
+        public string Backlight { get; set; }
         public float Length { get; set; }
         public float Width { get; set; }
         public float Height { get; set; }
-
-        public Material TopMaterial { get; set; }
-        public Material BottomMaterial { get; set; }
-        public Backlight Backlight { get; set; }
 
         public override bool Equals(object obj)
         {
@@ -22,7 +18,7 @@ namespace eStore.Domain.Entities
                 return Id == other.Id
                        && IsDeleted == other.IsDeleted
                        && Name == other.Name
-                       && ManufacturerId == other.ManufacturerId
+                       && Manufacturer == other.Manufacturer
                        && Description == other.Description
                        && Price == other.Price
                        && ThumbnailImageUrl == other.ThumbnailImageUrl
@@ -30,9 +26,9 @@ namespace eStore.Domain.Entities
                        && Created == other.Created
                        && LastModified == other.LastModified
                        && IsStitched == other.IsStitched
-                       && TopMaterialId == other.TopMaterialId
-                       && BottomMaterialId == other.BottomMaterialId
-                       && BacklightId == other.BacklightId
+                       && TopMaterial == other.TopMaterial
+                       && BottomMaterial == other.BottomMaterial
+                       && Backlight == other.Backlight
                        && Math.Abs(Length - other.Length) < 0.01
                        && Math.Abs(Width - other.Width) < 0.01
                        && Math.Abs(Height - other.Height) < 0.01;
@@ -44,11 +40,11 @@ namespace eStore.Domain.Entities
         {
             unchecked
             {
-                return Id.GetHashCode() * IsDeleted.GetHashCode() * Name.GetHashCode() * ManufacturerId.GetHashCode()
+                return Id.GetHashCode() * IsDeleted.GetHashCode() * Name.GetHashCode() * Manufacturer.GetHashCode()
                        * Description.GetHashCode() * Price.GetHashCode() * ThumbnailImageUrl.GetHashCode()
                        * BigImageUrl.GetHashCode() * Created.GetHashCode() * LastModified.GetHashCode()
-                       * IsStitched.GetHashCode() * TopMaterialId.GetHashCode() * BottomMaterialId.GetHashCode()
-                       * BacklightId.GetHashCode() * Length.GetHashCode() * Width.GetHashCode() * Height.GetHashCode();
+                       * IsStitched.GetHashCode() * TopMaterial.GetHashCode() * BottomMaterial.GetHashCode()
+                       * Backlight.GetHashCode() * Length.GetHashCode() * Width.GetHashCode() * Height.GetHashCode();
             }
         }
     }

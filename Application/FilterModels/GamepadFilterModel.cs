@@ -5,8 +5,8 @@ namespace eStore.Application.FilterModels
 {
     public class GamepadFilterModel : GoodsFilterModel
     {
-        public ICollection<int> ConnectionTypeIds { get; set; }
-        public ICollection<int> FeedbackIds { get; set; }
-        public ICollection<int> CompatibleDevicesIds { get; set; }
+        public ICollection<string> ConnectionTypes { get; set; }
+        public ICollection<string> Feedbacks { get; set; }
+        public ICollection<string> CompatibleDevices { get; set; }
     }
 }

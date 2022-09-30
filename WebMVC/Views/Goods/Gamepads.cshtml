@@ -11,32 +11,32 @@
         @foreach (var manufacturer in ViewBag.Manufacturers)
         {
             <div class="filter-option-group">
-                <input type="checkbox" value="@manufacturer.Id" name="manufacturerIds" checked="@(Context.Request.Query["manufacturerIds"].Contains(((int)manufacturer.Id).ToString()))"/>
-                <div class="filter-option-label">@manufacturer.Name</div>
+                <input type="checkbox" value="@manufacturer" name="manufacturers" checked="@Context.Request.Query["manufacturers"].Contains((string)manufacturer)"/>
+                <div class="filter-option-label">@manufacturer</div>
             </div>
         }
         <label class="filter-category-name">CONNECTION TYPE</label>
         @foreach (var connectionType in ViewBag.ConnectionTypes)
         {
             <div class="filter-option-group">
-                <input type="checkbox" value="@connectionType.Id" name="connectionTypeIds" checked="@(Context.Request.Query["connectionTypeIds"].Contains(((int)connectionType.Id).ToString()))"/>
-                <div class="filter-option-label">@connectionType.Name</div>
+                <input type="checkbox" value="@connectionType" name="connectionTypes" checked="@Context.Request.Query["connectionTypes"].Contains((string)connectionType)"/>
+                <div class="filter-option-label">@connectionType</div>
             </div>
         }
         <label class="filter-category-name">FEEDBACK</label>
         @foreach (var feedback in ViewBag.Feedbacks)
         {
             <div class="filter-option-group">
-                <input type="checkbox" value="@feedback.Id" name="feedbackIds" checked="@(Context.Request.Query["feedbackIds"].Contains(((int)feedback.Id).ToString()))"/>
-                <div class="filter-option-label">@feedback.Name</div>
+                <input type="checkbox" value="@feedback" name="feedbacks" checked="@Context.Request.Query["feedbacks"].Contains((string)feedback)"/>
+                <div class="filter-option-label">@feedback</div>
             </div>
         }
         <label class="filter-category-name">COMPATIBLE WITH</label>
         @foreach (var cd in ViewBag.CompatibleDevices)
         {
             <div class="filter-option-group">
-                <input type="checkbox" value="@cd.Id" name="compatibleDeviceIds" checked="@(Context.Request.Query["compatibleDeviceIds"].Contains(((int)cd.Id).ToString()))"/>
-                <div class="filter-option-label">@cd.Name</div>
+                <input type="checkbox" value="@cd" name="compatibleDevices" checked="@Context.Request.Query["compatibleDevices"].Contains((string)cd)"/>
+                <div class="filter-option-label">@cd</div>
             </div>
         }
         <label class="filter-category-name">PRICE</label>

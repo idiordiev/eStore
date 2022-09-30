@@ -11,24 +11,24 @@
         @foreach (var manufacturer in ViewBag.Manufacturers)
         {
             <div class="filter-option-group">
-                <input type="checkbox" value="@manufacturer.Id" name="manufacturerIds" checked="@(Context.Request.Query["manufacturerIds"].Contains(((int)manufacturer.Id).ToString()))"/>
-                <div class="filter-option-label">@manufacturer.Name</div>
+                <input type="checkbox" value="@manufacturer" name="manufacturers" checked="@Context.Request.Query["manufacturers"].Contains((string)manufacturer)"/>
+                <div class="filter-option-label">@manufacturer</div>
             </div>
         }
         <label class="filter-category-name">TYPE</label>
         @foreach (var type in ViewBag.Types)
         {
             <div class="filter-option-group">
-                <input type="checkbox" value="@type.Id" name="keyboardTypeIds" checked="@(Context.Request.Query["keyboardTypeIds"].Contains(((int)type.Id).ToString()))"/>
-                <div class="filter-option-label">@type.Name</div>
+                <input type="checkbox" value="@type" name="keyboardTypes" checked="@Context.Request.Query["keyboardTypes"].Contains((string)type)"/>
+                <div class="filter-option-label">@type</div>
             </div>
         }
         <label class="filter-category-name">FORMAT</label>
         @foreach (var size in ViewBag.Sizes)
         {
             <div class="filter-option-group">
-                <input type="checkbox" value="@size.Id" name="keyboardSizeIds" checked="@(Context.Request.Query["keyboardSizeIds"].Contains(((int)size.Id).ToString()))"/>
-                <div class="filter-option-label">@size.Name</div>
+                <input type="checkbox" value="@size" name="keyboardSizes" checked="@Context.Request.Query["keyboardSizes"].Contains((string)size)"/>
+                <div class="filter-option-label">@size</div>
             </div>
         }
         <label class="filter-category-name">SWITCHES</label>
@@ -40,27 +40,27 @@
             </div>
         }
         <label class="filter-category-name">CONNECTION TYPE</label>
-        @foreach (var ct in ViewBag.ConnectionTypes)
+        @foreach (var connectionType in ViewBag.ConnectionTypes)
         {
             <div class="filter-option-group">
-                <input type="checkbox" value="@ct.Id" name="connectionTypeIds" checked="@(Context.Request.Query["connectionTypeIds"].Contains(((int)ct.Id).ToString()))"/>
-                <div class="filter-option-label">@ct.Name</div>
+                <input type="checkbox" value="@connectionType" name="connectionTypes" checked="@Context.Request.Query["connectionTypes"].Contains((string)connectionType)"/>
+                <div class="filter-option-label">@connectionType</div>
             </div>
         }
         <label class="filter-category-name">BACKLIGHT</label>
-        @foreach (var b in ViewBag.Backlights)
+        @foreach (var backlight in ViewBag.Backlights)
         {
             <div class="filter-option-group">
-                <input type="checkbox" value="@b.Id" name="backlightIds" checked="@(Context.Request.Query["backlightIds"].Contains(((int)b.Id).ToString()))"/>
-                <div class="filter-option-label">@b.Name</div>
+                <input type="checkbox" value="@backlight" name="backlights" checked="@Context.Request.Query["backlights"].Contains((string)backlight)"/>
+                <div class="filter-option-label">@backlight</div>
             </div>
         }
         <label class="filter-category-name">KEY ROLLOVER</label>
-        @foreach (var kr in ViewBag.KeyRollovers)
+        @foreach (var keyRollover in ViewBag.KeyRollovers)
         {
             <div class="filter-option-group">
-                <input type="checkbox" value="@kr.Id" name="keyRolloverIds" checked="@(Context.Request.Query["keyRolloverIds"].Contains(((int)kr.Id).ToString()))"/>
-                <div class="filter-option-label">@kr.Name</div>
+                <input type="checkbox" value="@keyRollover" name="keyRollovers" checked="@Context.Request.Query["keyRollovers"].Contains((string)keyRollover)"/>
+                <div class="filter-option-label">@keyRollover</div>
             </div>
         }
         <label class="filter-category-name">PRICE</label>

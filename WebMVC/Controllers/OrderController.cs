@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using eStore.Application.Interfaces.Services;
@@ -52,7 +51,7 @@ namespace eStore.WebMVC.Controllers
                 ShippingPostalCode = customer.PostalCode,
                 OrderItems = new List<OrderItemViewModel>()
             };
-            var goods = customer.ShoppingCart.Goods.Select(g => g.Goods);
+            var goods = customer.ShoppingCart.Goods;
             foreach (var good in goods)
             {
                 if (good is Keyboard keyboard)

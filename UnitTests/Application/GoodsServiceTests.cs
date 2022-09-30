@@ -14,19 +14,21 @@ namespace eStore.UnitTests.Application
     [TestFixture]
     public class GoodsServiceTests
     {
+        private UnitTestHelper _helper;
+        private Mock<IUnitOfWork> _mockUnitOfWork;
+        
         [SetUp]
         public void Setup()
         {
+            _helper = new UnitTestHelper();
             _mockUnitOfWork = new Mock<IUnitOfWork>();
         }
-
-        private Mock<IUnitOfWork> _mockUnitOfWork;
 
         [Test]
         public async Task GetAllAsync_NotEmptyContext_ReturnsCollectionOfGoods()
         {
             // Arrange
-            var expected = UnitTestHelper.Goods;
+            var expected = _helper.Goods;
             _mockUnitOfWork.Setup(x => x.GoodsRepository.GetAllAsync()).ReturnsAsync(expected);
             IGoodsService service = new GoodsService(_mockUnitOfWork.Object);
 
@@ -41,7 +43,7 @@ namespace eStore.UnitTests.Application
         public async Task GetByIdAsync_ExistingGoods_ReturnsGoods()
         {
             // Arrange
-            var expected = UnitTestHelper.Goods.First();
+            var expected = _helper.Goods.First();
             _mockUnitOfWork.Setup(x => x.GoodsRepository.GetByIdAsync(1)).ReturnsAsync(expected);
             IGoodsService service = new GoodsService(_mockUnitOfWork.Object);
 
@@ -69,9 +71,7 @@ namespace eStore.UnitTests.Application
         public async Task GetGoodsInCustomerCartAsync_ExistingCustomerWithGoods_ReturnsCollectionOfGoods()
         {
             // Arrange
-            var customer = UnitTestHelper.Customers.First(c => c.Id == 1);
-            foreach (var goodsInCart in customer.ShoppingCart.Goods)
-                goodsInCart.Goods = UnitTestHelper.Goods.FirstOrDefault(g => g.Id == goodsInCart.GoodsId);
+            var customer = _helper.Customers.First(c => c.Id == 1);
             _mockUnitOfWork.Setup(x => x.CustomerRepository.GetByIdAsync(1)).ReturnsAsync(customer);
             IGoodsService service = new GoodsService(_mockUnitOfWork.Object);
 
@@ -102,7 +102,7 @@ namespace eStore.UnitTests.Application
         {
             // Arrange
             _mockUnitOfWork.Setup(x => x.CustomerRepository.GetByIdAsync(1))
-                .ReturnsAsync(UnitTestHelper.Customers.First(c => c.Id == 2));
+                .ReturnsAsync(_helper.Customers.First(c => c.Id == 2));
             IGoodsService service = new GoodsService(_mockUnitOfWork.Object);
 
             // Act
@@ -119,7 +119,7 @@ namespace eStore.UnitTests.Application
         {
             // Arrange
             _mockUnitOfWork.Setup(x => x.CustomerRepository.GetByIdAsync(1))
-                .ReturnsAsync(UnitTestHelper.Customers.First(c => c.Id == 1));
+                .ReturnsAsync(_helper.Customers.First(c => c.Id == 1));
             IGoodsService service = new GoodsService(_mockUnitOfWork.Object);
 
             // Act
@@ -135,7 +135,7 @@ namespace eStore.UnitTests.Application
         {
             // Arrange
             _mockUnitOfWork.Setup(x => x.CustomerRepository.GetByIdAsync(1))
-                .ReturnsAsync(UnitTestHelper.Customers.First(c => c.Id == 1));
+                .ReturnsAsync(_helper.Customers.First(c => c.Id == 1));
             IGoodsService service = new GoodsService(_mockUnitOfWork.Object);
 
             // Act
@@ -165,7 +165,7 @@ namespace eStore.UnitTests.Application
         {
             // Arrange
             _mockUnitOfWork.Setup(x => x.CustomerRepository.GetByIdAsync(1))
-                .ReturnsAsync(UnitTestHelper.Customers.First(c => c.Id == 2));
+                .ReturnsAsync(_helper.Customers.First(c => c.Id == 2));
             IGoodsService service = new GoodsService(_mockUnitOfWork.Object);
 
             // Act

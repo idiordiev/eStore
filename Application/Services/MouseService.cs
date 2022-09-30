@@ -36,22 +36,22 @@ namespace eStore.Application.Services
             return await _unitOfWork.MouseRepository.GetByIdAsync(mouseId);
         }
 
-        public async Task<IEnumerable<Manufacturer>> GetManufacturersAsync()
+        public async Task<IEnumerable<string>> GetManufacturersAsync()
         {
             var mouses = await _unitOfWork.MouseRepository.GetAllAsync();
-            return mouses.Select(m => m.Manufacturer).Distinct().OrderBy(m => m.Name);
+            return mouses.Select(m => m.Manufacturer).Distinct().OrderBy(m => m);
         }
 
-        public async Task<IEnumerable<ConnectionType>> GetConnectionTypesAsync()
+        public async Task<IEnumerable<string>> GetConnectionTypesAsync()
         {
             var mouses = await _unitOfWork.MouseRepository.GetAllAsync();
-            return mouses.Select(m => m.ConnectionType).Distinct().OrderBy(c => c.Id);
+            return mouses.Select(m => m.ConnectionType).Distinct().OrderBy(c => c);
         }
 
-        public async Task<IEnumerable<Backlight>> GetBacklightsAsync()
+        public async Task<IEnumerable<string>> GetBacklightsAsync()
         {
             var mouses = await _unitOfWork.MouseRepository.GetAllAsync();
-            return mouses.Select(m => m.Backlight).Distinct().OrderBy(b => b.Id);
+            return mouses.Select(m => m.Backlight).Distinct().OrderBy(b => b);
         }
     }
 }

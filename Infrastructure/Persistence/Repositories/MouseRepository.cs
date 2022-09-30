@@ -21,27 +21,18 @@ namespace eStore.Infrastructure.Persistence.Repositories
         public async Task<Mouse> GetByIdAsync(int id)
         {
             return await _context.Mouses
-                .Include(m => m.Manufacturer)
-                .Include(m => m.ConnectionType)
-                .Include(m => m.Backlight)
                 .FirstOrDefaultAsync(m => m.Id == id);
         }
 
         public async Task<IEnumerable<Mouse>> GetAllAsync()
         {
             return await _context.Mouses
-                .Include(m => m.Manufacturer)
-                .Include(m => m.ConnectionType)
-                .Include(m => m.Backlight)
                 .ToListAsync();
         }
 
         public IEnumerable<Mouse> Query(Expression<Func<Mouse, bool>> predicate)
         {
             return _context.Mouses
-                .Include(m => m.Manufacturer)
-                .Include(m => m.ConnectionType)
-                .Include(m => m.Backlight)
                 .Where(predicate.Compile())
                 .ToList();
         }

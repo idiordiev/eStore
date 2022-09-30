@@ -6,11 +6,6 @@ namespace eStore.Domain.Entities
 {
     public class Order : Entity
     {
-        public Order()
-        {
-            OrderItems = new List<OrderItem>();
-        }
-
         public DateTime TimeStamp { get; set; }
         public int CustomerId { get; set; }
         public OrderStatus Status { get; set; }

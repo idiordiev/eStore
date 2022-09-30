@@ -36,28 +36,28 @@ namespace eStore.Application.Services
             return await _unitOfWork.MousepadRepository.GetByIdAsync(mousepadId);
         }
 
-        public async Task<IEnumerable<Manufacturer>> GetManufacturersAsync()
+        public async Task<IEnumerable<string>> GetManufacturersAsync()
         {
             var mousepads = await _unitOfWork.MousepadRepository.GetAllAsync();
-            return mousepads.Select(m => m.Manufacturer).Distinct().OrderBy(m => m.Name);
+            return mousepads.Select(m => m.Manufacturer).Distinct().OrderBy(m => m);
         }
 
-        public async Task<IEnumerable<Material>> GetTopMaterialsAsync()
+        public async Task<IEnumerable<string>> GetTopMaterialsAsync()
         {
             var mousepads = await _unitOfWork.MousepadRepository.GetAllAsync();
-            return mousepads.Select(m => m.TopMaterial).Distinct().OrderBy(m => m.Id);
+            return mousepads.Select(m => m.TopMaterial).Distinct().OrderBy(tm => tm);
         }
 
-        public async Task<IEnumerable<Material>> GetBottomMaterialsAsync()
+        public async Task<IEnumerable<string>> GetBottomMaterialsAsync()
         {
             var mousepads = await _unitOfWork.MousepadRepository.GetAllAsync();
-            return mousepads.Select(m => m.BottomMaterial).Distinct().OrderBy(m => m.Id);
+            return mousepads.Select(m => m.BottomMaterial).Distinct().OrderBy(tm => tm);
         }
 
-        public async Task<IEnumerable<Backlight>> GetBacklightsAsync()
+        public async Task<IEnumerable<string>> GetBacklightsAsync()
         {
             var mousepads = await _unitOfWork.MousepadRepository.GetAllAsync();
-            return mousepads.Select(m => m.Backlight).Distinct().OrderBy(b => b.Id);
+            return mousepads.Select(m => m.Backlight).Distinct().OrderBy(b => b);
         }
     }
 }

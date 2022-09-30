@@ -4,7 +4,6 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using eStore.Application.FilterModels;
-using eStore.Application.Interfaces;
 using eStore.Application.Interfaces.Data;
 using eStore.Application.Interfaces.Services;
 using eStore.Application.Services;
@@ -17,23 +16,25 @@ namespace eStore.UnitTests.Application
     [TestFixture]
     public class MouseServiceTests
     {
+        private UnitTestHelper _helper;
+        private Mock<IUnitOfWork> _mockUnitOfWork;
+        
         [SetUp]
         public void Setup()
         {
+            _helper = new UnitTestHelper();
             _mockUnitOfWork = new Mock<IUnitOfWork>();
         }
-
-        private Mock<IUnitOfWork> _mockUnitOfWork;
 
         [Test]
         public async Task GetPresentAsync_NotEmptyDb_ReturnsCollectionOfMouses()
         {
             // Arrange
             _mockUnitOfWork.Setup(x => x.MouseRepository.Query(It.IsAny<Expression<Func<Mouse, bool>>>()))
-                .Returns((Expression<Func<Mouse, bool>> predicate) => UnitTestHelper.Mouses.Where(predicate.Compile()));
+                .Returns((Expression<Func<Mouse, bool>> predicate) => _helper.Mouses.Where(predicate.Compile()));
             IMouseService service = new MouseService(_mockUnitOfWork.Object);
 
-            var expected = UnitTestHelper.Mouses.Where(m => !m.IsDeleted);
+            var expected = _helper.Mouses.Where(m => !m.IsDeleted);
 
             // Act
             var actual = await service.GetPresentAsync();
@@ -47,10 +48,10 @@ namespace eStore.UnitTests.Application
         {
             // Arrange
             _mockUnitOfWork.Setup(x => x.MouseRepository.Query(It.IsAny<Expression<Func<Mouse, bool>>>()))
-                .Returns((Expression<Func<Mouse, bool>> predicate) => UnitTestHelper.Mouses.Where(predicate.Compile()));
+                .Returns((Expression<Func<Mouse, bool>> predicate) => _helper.Mouses.Where(predicate.Compile()));
             IMouseService service = new MouseService(_mockUnitOfWork.Object);
 
-            var expected = UnitTestHelper.Mouses.Where(m => !m.IsDeleted);
+            var expected = _helper.Mouses.Where(m => !m.IsDeleted);
             var filterModel = new MouseFilterModel();
 
             // Act
@@ -60,18 +61,22 @@ namespace eStore.UnitTests.Application
             CollectionAssert.AreEqual(expected, actual, "The actual collection is not equal to expected.");
         }
 
-        [Test]
-        public async Task GetPresentByFilterAsync_NotDeletedAndSingleConnectionType_ReturnsCollection()
+        [TestCase("ConnectionType1")]
+        [TestCase("ConneCtionType1")]
+        [TestCase("connectiontype1")]
+        [TestCase("ConnectionType1111")]
+        [TestCase("")]
+        public async Task GetPresentByFilterAsync_NotDeletedAndSingleConnectionType_ReturnsCollection(string paramValue)
         {
             // Arrange
             _mockUnitOfWork.Setup(x => x.MouseRepository.Query(It.IsAny<Expression<Func<Mouse, bool>>>()))
-                .Returns((Expression<Func<Mouse, bool>> predicate) => UnitTestHelper.Mouses.Where(predicate.Compile()));
+                .Returns((Expression<Func<Mouse, bool>> predicate) => _helper.Mouses.Where(predicate.Compile()));
             IMouseService service = new MouseService(_mockUnitOfWork.Object);
 
-            var expected = UnitTestHelper.Mouses.Where(m => !m.IsDeleted && m.ConnectionTypeId == 1);
+            var expected = _helper.Mouses.Where(m => !m.IsDeleted && m.ConnectionType.Equals(paramValue, StringComparison.InvariantCultureIgnoreCase));
             var filterModel = new MouseFilterModel
             {
-                ConnectionTypeIds = new List<int> { 1 }
+                ConnectionTypes = new List<string> { paramValue }
             };
 
             // Act
@@ -86,14 +91,14 @@ namespace eStore.UnitTests.Application
         {
             // Arrange
             _mockUnitOfWork.Setup(x => x.MouseRepository.Query(It.IsAny<Expression<Func<Mouse, bool>>>()))
-                .Returns((Expression<Func<Mouse, bool>> predicate) => UnitTestHelper.Mouses.Where(predicate.Compile()));
+                .Returns((Expression<Func<Mouse, bool>> predicate) => _helper.Mouses.Where(predicate.Compile()));
             IMouseService service = new MouseService(_mockUnitOfWork.Object);
 
             var expected =
-                UnitTestHelper.Mouses.Where(m => !m.IsDeleted && (m.ConnectionTypeId == 1 || m.ConnectionTypeId == 2));
+                _helper.Mouses.Where(m => !m.IsDeleted && (m.ConnectionType.Equals("ConnectionType1", StringComparison.InvariantCultureIgnoreCase) || m.ConnectionType.Equals("ConnectionType2", StringComparison.InvariantCultureIgnoreCase)));
             var filterModel = new MouseFilterModel
             {
-                ConnectionTypeIds = new List<int> { 1, 2 }
+                ConnectionTypes = new List<string> { "ConnectionType1", "ConnectionType2" }
             };
 
             // Act
@@ -103,18 +108,23 @@ namespace eStore.UnitTests.Application
             CollectionAssert.AreEqual(expected, actual, "The actual collection is not equal to expected.");
         }
 
-        [Test]
-        public async Task GetPresentByFilterAsync_NotDeletedAndSingleBacklight_ReturnsCollection()
+        [TestCase("Backlight2")]
+        [TestCase("BAcklighT2")]
+        [TestCase("BackLiGhT2")]
+        [TestCase("backlight2")]
+        [TestCase("Backlight2222")]
+        [TestCase("")]
+        public async Task GetPresentByFilterAsync_NotDeletedAndSingleBacklight_ReturnsCollection(string paramValue)
         {
             // Arrange
             _mockUnitOfWork.Setup(x => x.MouseRepository.Query(It.IsAny<Expression<Func<Mouse, bool>>>()))
-                .Returns((Expression<Func<Mouse, bool>> predicate) => UnitTestHelper.Mouses.Where(predicate.Compile()));
+                .Returns((Expression<Func<Mouse, bool>> predicate) => _helper.Mouses.Where(predicate.Compile()));
             IMouseService service = new MouseService(_mockUnitOfWork.Object);
 
-            var expected = UnitTestHelper.Mouses.Where(m => !m.IsDeleted && m.BacklightId == 1);
+            var expected = _helper.Mouses.Where(m => !m.IsDeleted && m.Backlight.Equals(paramValue, StringComparison.InvariantCultureIgnoreCase));
             var filterModel = new MouseFilterModel
             {
-                BacklightIds = new List<int> { 1 }
+                Backlights = new List<string> { paramValue }
             };
 
             // Act
@@ -129,13 +139,13 @@ namespace eStore.UnitTests.Application
         {
             // Arrange
             _mockUnitOfWork.Setup(x => x.MouseRepository.Query(It.IsAny<Expression<Func<Mouse, bool>>>()))
-                .Returns((Expression<Func<Mouse, bool>> predicate) => UnitTestHelper.Mouses.Where(predicate.Compile()));
+                .Returns((Expression<Func<Mouse, bool>> predicate) => _helper.Mouses.Where(predicate.Compile()));
             IMouseService service = new MouseService(_mockUnitOfWork.Object);
 
-            var expected = UnitTestHelper.Mouses.Where(m => !m.IsDeleted && (m.BacklightId == 1 || m.BacklightId == 2));
+            var expected = _helper.Mouses.Where(m => !m.IsDeleted && (m.Backlight.Equals("Backlight1", StringComparison.InvariantCultureIgnoreCase) || m.Backlight.Equals("Backlight2", StringComparison.InvariantCultureIgnoreCase)));
             var filterModel = new MouseFilterModel
             {
-                BacklightIds = new List<int> { 1, 2 }
+                Backlights = new List<string> { "Backlight1", "Backlight2" }
             };
 
             // Act
@@ -144,20 +154,24 @@ namespace eStore.UnitTests.Application
             // Assert
             CollectionAssert.AreEqual(expected, actual, "The actual collection is not equal to expected.");
         }
-
-
-        [Test]
-        public async Task GetPresentByFilterAsync_NotDeletedAndSingleManufacturer_ReturnsCollection()
+        
+        [TestCase("Manufacturer3")]
+        [TestCase("ManUfacturer3")]
+        [TestCase("mAnUfAcTuReR3")]
+        [TestCase("manufacturer3")]
+        [TestCase("Manufacturer333")]
+        [TestCase("")]
+        public async Task GetPresentByFilterAsync_NotDeletedAndSingleManufacturer_ReturnsCollection(string paramValue)
         {
             // Arrange
             _mockUnitOfWork.Setup(x => x.MouseRepository.Query(It.IsAny<Expression<Func<Mouse, bool>>>()))
-                .Returns((Expression<Func<Mouse, bool>> predicate) => UnitTestHelper.Mouses.Where(predicate.Compile()));
+                .Returns((Expression<Func<Mouse, bool>> predicate) => _helper.Mouses.Where(predicate.Compile()));
             IMouseService service = new MouseService(_mockUnitOfWork.Object);
 
-            var expected = UnitTestHelper.Mouses.Where(m => !m.IsDeleted && m.ManufacturerId == 3);
+            var expected = _helper.Mouses.Where(m => !m.IsDeleted && m.Manufacturer.Equals(paramValue, StringComparison.InvariantCultureIgnoreCase));
             var filterModel = new MouseFilterModel
             {
-                ManufacturerIds = new List<int> { 3 }
+                Manufacturers = new List<string> { paramValue }
             };
 
             // Act
@@ -172,14 +186,14 @@ namespace eStore.UnitTests.Application
         {
             // Arrange
             _mockUnitOfWork.Setup(x => x.MouseRepository.Query(It.IsAny<Expression<Func<Mouse, bool>>>()))
-                .Returns((Expression<Func<Mouse, bool>> predicate) => UnitTestHelper.Mouses.Where(predicate.Compile()));
+                .Returns((Expression<Func<Mouse, bool>> predicate) => _helper.Mouses.Where(predicate.Compile()));
             IMouseService service = new MouseService(_mockUnitOfWork.Object);
 
             var expected =
-                UnitTestHelper.Mouses.Where(m => !m.IsDeleted && (m.ManufacturerId == 3 || m.ManufacturerId == 4));
+                _helper.Mouses.Where(m => !m.IsDeleted && (m.Manufacturer.Equals("Manufacturer3", StringComparison.InvariantCultureIgnoreCase) || m.Manufacturer.Equals("Manufacturer4", StringComparison.InvariantCultureIgnoreCase)));
             var filterModel = new MouseFilterModel
             {
-                ManufacturerIds = new List<int> { 3, 4 }
+                Manufacturers = new List<string> { "Manufacturer3", "Manufacturer4" }
             };
 
             // Act
@@ -194,10 +208,10 @@ namespace eStore.UnitTests.Application
         {
             // Arrange
             _mockUnitOfWork.Setup(x => x.MouseRepository.Query(It.IsAny<Expression<Func<Mouse, bool>>>()))
-                .Returns((Expression<Func<Mouse, bool>> predicate) => UnitTestHelper.Mouses.Where(predicate.Compile()));
+                .Returns((Expression<Func<Mouse, bool>> predicate) => _helper.Mouses.Where(predicate.Compile()));
             IMouseService service = new MouseService(_mockUnitOfWork.Object);
 
-            var expected = UnitTestHelper.Mouses.Where(m => !m.IsDeleted && m.Price >= 34.99m);
+            var expected = _helper.Mouses.Where(m => !m.IsDeleted && m.Price >= 34.99m);
             var filterModel = new MouseFilterModel
             {
                 MinPrice = 34.99m
@@ -215,10 +229,10 @@ namespace eStore.UnitTests.Application
         {
             // Arrange
             _mockUnitOfWork.Setup(x => x.MouseRepository.Query(It.IsAny<Expression<Func<Mouse, bool>>>()))
-                .Returns((Expression<Func<Mouse, bool>> predicate) => UnitTestHelper.Mouses.Where(predicate.Compile()));
+                .Returns((Expression<Func<Mouse, bool>> predicate) => _helper.Mouses.Where(predicate.Compile()));
             IMouseService service = new MouseService(_mockUnitOfWork.Object);
 
-            var expected = UnitTestHelper.Mouses.Where(m => !m.IsDeleted && m.Price <= 34.99m);
+            var expected = _helper.Mouses.Where(m => !m.IsDeleted && m.Price <= 34.99m);
             var filterModel = new MouseFilterModel
             {
                 MaxPrice = 34.99m
@@ -236,10 +250,10 @@ namespace eStore.UnitTests.Application
         {
             // Arrange
             _mockUnitOfWork.Setup(x => x.MouseRepository.Query(It.IsAny<Expression<Func<Mouse, bool>>>()))
-                .Returns((Expression<Func<Mouse, bool>> predicate) => UnitTestHelper.Mouses.Where(predicate.Compile()));
+                .Returns((Expression<Func<Mouse, bool>> predicate) => _helper.Mouses.Where(predicate.Compile()));
             IMouseService service = new MouseService(_mockUnitOfWork.Object);
 
-            var expected = UnitTestHelper.Mouses.Where(g => !g.IsDeleted && g.Price >= 34.99m && g.Price <= 44.99m);
+            var expected = _helper.Mouses.Where(g => !g.IsDeleted && g.Price >= 34.99m && g.Price <= 44.99m);
             var filterModel = new MouseFilterModel
             {
                 MinPrice = 34.99m,
@@ -258,10 +272,10 @@ namespace eStore.UnitTests.Application
         {
             // Arrange
             _mockUnitOfWork.Setup(x => x.MouseRepository.Query(It.IsAny<Expression<Func<Mouse, bool>>>()))
-                .Returns((Expression<Func<Mouse, bool>> predicate) => UnitTestHelper.Mouses.Where(predicate.Compile()));
+                .Returns((Expression<Func<Mouse, bool>> predicate) => _helper.Mouses.Where(predicate.Compile()));
             IMouseService service = new MouseService(_mockUnitOfWork.Object);
 
-            var expected = UnitTestHelper.Mouses.Where(m => !m.IsDeleted && m.Weight >= 70);
+            var expected = _helper.Mouses.Where(m => !m.IsDeleted && m.Weight >= 70);
             var filterModel = new MouseFilterModel
             {
                 MinWeight = 70
@@ -279,10 +293,10 @@ namespace eStore.UnitTests.Application
         {
             // Arrange
             _mockUnitOfWork.Setup(x => x.MouseRepository.Query(It.IsAny<Expression<Func<Mouse, bool>>>()))
-                .Returns((Expression<Func<Mouse, bool>> predicate) => UnitTestHelper.Mouses.Where(predicate.Compile()));
+                .Returns((Expression<Func<Mouse, bool>> predicate) => _helper.Mouses.Where(predicate.Compile()));
             IMouseService service = new MouseService(_mockUnitOfWork.Object);
 
-            var expected = UnitTestHelper.Mouses.Where(m => !m.IsDeleted && m.Weight <= 70);
+            var expected = _helper.Mouses.Where(m => !m.IsDeleted && m.Weight <= 70);
             var filterModel = new MouseFilterModel
             {
                 MaxWeight = 70
@@ -300,10 +314,10 @@ namespace eStore.UnitTests.Application
         {
             // Arrange
             _mockUnitOfWork.Setup(x => x.MouseRepository.Query(It.IsAny<Expression<Func<Mouse, bool>>>()))
-                .Returns((Expression<Func<Mouse, bool>> predicate) => UnitTestHelper.Mouses.Where(predicate.Compile()));
+                .Returns((Expression<Func<Mouse, bool>> predicate) => _helper.Mouses.Where(predicate.Compile()));
             IMouseService service = new MouseService(_mockUnitOfWork.Object);
 
-            var expected = UnitTestHelper.Mouses.Where(m => !m.IsDeleted && m.Weight >= 70 && m.Weight <= 83);
+            var expected = _helper.Mouses.Where(m => !m.IsDeleted && m.Weight >= 70 && m.Weight <= 83);
             var filterModel = new MouseFilterModel
             {
                 MinWeight = 70,
@@ -321,7 +335,7 @@ namespace eStore.UnitTests.Application
         public async Task GetByIdAsync_ExistingMouse_ReturnsMouse()
         {
             // Arrange
-            var expected = UnitTestHelper.Mouses.First(g => g.Id == 11);
+            var expected = _helper.Mouses.First(g => g.Id == 11);
             _mockUnitOfWork.Setup(x => x.MouseRepository.GetByIdAsync(11)).ReturnsAsync(expected);
             IMouseService service = new MouseService(_mockUnitOfWork.Object);
 
@@ -350,10 +364,7 @@ namespace eStore.UnitTests.Application
         public async Task GetManufacturersAsync_NotEmptyDb_ReturnsCollectionOfManufacturers()
         {
             // Arrange
-            var mouses = UnitTestHelper.Mouses.ToList();
-            foreach (var mouse in mouses)
-                mouse.Manufacturer = UnitTestHelper.Manufacturers.First(m => m.Id == mouse.ManufacturerId);
-
+            var mouses = _helper.Mouses.ToList();
             _mockUnitOfWork.Setup(x => x.MouseRepository.GetAllAsync()).ReturnsAsync(mouses);
             IMouseService service = new MouseService(_mockUnitOfWork.Object);
             var expected = mouses.Select(m => m.Manufacturer).Distinct();
@@ -369,10 +380,7 @@ namespace eStore.UnitTests.Application
         public async Task GetConnectionTypesAsync_NotEmptyDb_ReturnsCollectionOfConnectionTypes()
         {
             // Arrange
-            var mouses = UnitTestHelper.Mouses.ToList();
-            foreach (var mouse in mouses)
-                mouse.ConnectionType = UnitTestHelper.ConnectionTypes.First(t => t.Id == mouse.ConnectionTypeId);
-
+            var mouses = _helper.Mouses.ToList();
             _mockUnitOfWork.Setup(x => x.MouseRepository.GetAllAsync()).ReturnsAsync(mouses);
             IMouseService service = new MouseService(_mockUnitOfWork.Object);
             var expected = mouses.Select(m => m.ConnectionType).Distinct();
@@ -388,10 +396,7 @@ namespace eStore.UnitTests.Application
         public async Task GetBacklightsAsync_NotEmptyDb_ReturnsCollectionOfBacklights()
         {
             // Arrange
-            var mouses = UnitTestHelper.Mouses.ToList();
-            foreach (var mouse in mouses)
-                mouse.Backlight = UnitTestHelper.Backlights.First(b => b.Id == mouse.BacklightId);
-
+            var mouses = _helper.Mouses.ToList();
             _mockUnitOfWork.Setup(x => x.MouseRepository.GetAllAsync()).ReturnsAsync(mouses);
             IMouseService service = new MouseService(_mockUnitOfWork.Object);
             var expected = mouses.Select(m => m.Backlight).Distinct();

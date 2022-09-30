@@ -10,12 +10,12 @@ namespace eStore.Application.Interfaces.Services
         Task<IEnumerable<Keyboard>> GetPresentAsync();
         Task<IEnumerable<Keyboard>> GetPresentByFilterAsync(KeyboardFilterModel filter);
         Task<Keyboard> GetByIdAsync(int keyboardId);
-        Task<IEnumerable<Manufacturer>> GetManufacturersAsync();
+        Task<IEnumerable<string>> GetManufacturersAsync();
         Task<IEnumerable<KeyboardSwitch>> GetSwitchesAsync();
-        Task<IEnumerable<KeyboardSize>> GetSizesAsync();
-        Task<IEnumerable<KeyboardType>> GetTypesAsync();
-        Task<IEnumerable<ConnectionType>> GetConnectionTypesAsync();
-        Task<IEnumerable<Backlight>> GetBacklightsAsync();
-        Task<IEnumerable<KeyRollover>> GetKeyRolloverAsync();
+        Task<IEnumerable<string>> GetSizesAsync();
+        Task<IEnumerable<string>> GetTypesAsync();
+        Task<IEnumerable<string>> GetConnectionTypesAsync();
+        Task<IEnumerable<string>> GetBacklightsAsync();
+        Task<IEnumerable<string>> GetKeyRolloverAsync();
     }
 }

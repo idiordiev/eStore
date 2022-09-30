@@ -13,7 +13,7 @@
     <div class="goods-page-right-column" id="goods-page-right-column">
         <div class="goods-page-details-container">
             <div class="goods-page-details-column">
-                <p>Connection type: @string.Join("/", Model.ConnectionType)</p>
+                <p>Connection type: @Model.ConnectionType</p>
                 <p>Type: @Model.Type</p>
                 <p>Format: @Model.Size</p>
                 @if (string.IsNullOrEmpty(Model.SwitchName))

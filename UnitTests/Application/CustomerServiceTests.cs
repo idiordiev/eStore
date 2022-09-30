@@ -17,21 +17,23 @@ namespace eStore.UnitTests.Application
     [TestFixture]
     public class CustomerServiceTests
     {
+        private UnitTestHelper _helper;
+        private Mock<IEmailService> _mockEmailService;
+        private Mock<IUnitOfWork> _mockUnitOfWork;
+
         [SetUp]
         public void Setup()
         {
+            _helper = new UnitTestHelper();
             _mockEmailService = new Mock<IEmailService>();
             _mockUnitOfWork = new Mock<IUnitOfWork>();
         }
-
-        private Mock<IEmailService> _mockEmailService;
-        private Mock<IUnitOfWork> _mockUnitOfWork;
 
         [Test]
         public async Task GetCustomerByIdAsync_ExistingCustomer_ReturnsCustomer()
         {
             // Arrange
-            var expected = UnitTestHelper.Customers.First(c => c.Id == 1);
+            var expected = _helper.Customers.First(c => c.Id == 1);
             _mockUnitOfWork.Setup(x => x.CustomerRepository.GetByIdAsync(1))
                 .ReturnsAsync(expected);
             ICustomerService service = new CustomerService(_mockUnitOfWork.Object, _mockEmailService.Object);
@@ -90,7 +92,7 @@ namespace eStore.UnitTests.Application
             // Arrange
             _mockEmailService.Setup(x => x.SendRegisterEmailAsync(It.IsAny<Customer>()));
             _mockUnitOfWork.Setup(x => x.CustomerRepository.Query(It.IsAny<Expression<Func<Customer, bool>>>()))
-                .Returns(new List<Customer>(UnitTestHelper.Customers.Where(c => c.Email == "email1@mail.com")));
+                .Returns(new List<Customer>(_helper.Customers.Where(c => c.Email == "email1@mail.com")));
             ICustomerService service = new CustomerService(_mockUnitOfWork.Object, _mockEmailService.Object);
             var customer = new Customer
             {
@@ -112,7 +114,7 @@ namespace eStore.UnitTests.Application
             // Arrange
             _mockUnitOfWork.Setup(x => x.CustomerRepository.UpdateAsync(It.IsAny<Customer>()));
             ICustomerService service = new CustomerService(_mockUnitOfWork.Object, _mockEmailService.Object);
-            var customer = UnitTestHelper.Customers.First();
+            var customer = _helper.Customers.First();
             customer.FirstName = "NewName";
 
             // Act
@@ -129,7 +131,7 @@ namespace eStore.UnitTests.Application
             _mockEmailService.Setup(x => x.SendDeactivationEmailAsync(It.IsAny<string>()));
             _mockUnitOfWork.Setup(x => x.CustomerRepository.UpdateAsync(It.IsAny<Customer>()));
             _mockUnitOfWork.Setup(x => x.CustomerRepository.GetByIdAsync(1))
-                .ReturnsAsync(UnitTestHelper.Customers.First(c => c.Id == 1));
+                .ReturnsAsync(_helper.Customers.First(c => c.Id == 1));
             ICustomerService service = new CustomerService(_mockUnitOfWork.Object, _mockEmailService.Object);
 
             // Act
@@ -162,7 +164,7 @@ namespace eStore.UnitTests.Application
         {
             // Arrange
             _mockUnitOfWork.Setup(x => x.CustomerRepository.GetByIdAsync(2))
-                .ReturnsAsync(UnitTestHelper.Customers.First(c => c.Id == 2));
+                .ReturnsAsync(_helper.Customers.First(c => c.Id == 2));
             ICustomerService service = new CustomerService(_mockUnitOfWork.Object, _mockEmailService.Object);
 
             // Act
@@ -178,9 +180,9 @@ namespace eStore.UnitTests.Application
         {
             // Arrange
             _mockUnitOfWork.Setup(x => x.CustomerRepository.GetByIdAsync(1))
-                .ReturnsAsync(UnitTestHelper.Customers.First(c => c.Id == 1));
+                .ReturnsAsync(_helper.Customers.First(c => c.Id == 1));
             _mockUnitOfWork.Setup(x => x.GoodsRepository.GetByIdAsync(5))
-                .ReturnsAsync(UnitTestHelper.Goods.First(c => c.Id == 5));
+                .ReturnsAsync(_helper.Goods.First(c => c.Id == 5));
             _mockUnitOfWork.Setup(x => x.CustomerRepository.UpdateAsync(It.IsAny<Customer>()));
             ICustomerService service = new CustomerService(_mockUnitOfWork.Object, _mockEmailService.Object);
 
@@ -190,7 +192,7 @@ namespace eStore.UnitTests.Application
             // Assert
             _mockUnitOfWork.Verify(x =>
                 x.CustomerRepository.UpdateAsync(It.Is<Customer>(c =>
-                    c.ShoppingCart.Goods.Any(g => g.CartId == 1 && g.GoodsId == 1))));
+                    c.ShoppingCart.Goods.Any(g => g.Id == 1))));
         }
 
         [Test]
@@ -213,7 +215,7 @@ namespace eStore.UnitTests.Application
         {
             // Arrange
             _mockUnitOfWork.Setup(x => x.CustomerRepository.GetByIdAsync(It.IsAny<int>()))
-                .ReturnsAsync(UnitTestHelper.Customers.First(c => c.Id == 2));
+                .ReturnsAsync(_helper.Customers.First(c => c.Id == 2));
             ICustomerService service = new CustomerService(_mockUnitOfWork.Object, _mockEmailService.Object);
 
             // Act
@@ -229,7 +231,7 @@ namespace eStore.UnitTests.Application
         {
             // Arrange
             _mockUnitOfWork.Setup(x => x.CustomerRepository.GetByIdAsync(It.IsAny<int>()))
-                .ReturnsAsync(UnitTestHelper.Customers.First(c => c.Id == 1));
+                .ReturnsAsync(_helper.Customers.First(c => c.Id == 1));
             ICustomerService service = new CustomerService(_mockUnitOfWork.Object, _mockEmailService.Object);
 
             // Act
@@ -245,7 +247,7 @@ namespace eStore.UnitTests.Application
         {
             // Arrange
             _mockUnitOfWork.Setup(x => x.CustomerRepository.GetByIdAsync(1))
-                .ReturnsAsync(UnitTestHelper.Customers.First(c => c.Id == 1));
+                .ReturnsAsync(_helper.Customers.First(c => c.Id == 1));
             _mockUnitOfWork.Setup(x => x.GoodsRepository.GetByIdAsync(It.IsAny<int>())).ReturnsAsync((Goods)null);
             ICustomerService service = new CustomerService(_mockUnitOfWork.Object, _mockEmailService.Object);
 
@@ -262,9 +264,9 @@ namespace eStore.UnitTests.Application
         {
             // Arrange
             _mockUnitOfWork.Setup(x => x.CustomerRepository.GetByIdAsync(1))
-                .ReturnsAsync(UnitTestHelper.Customers.First(c => c.Id == 1));
+                .ReturnsAsync(_helper.Customers.First(c => c.Id == 1));
             _mockUnitOfWork.Setup(x => x.GoodsRepository.GetByIdAsync(It.IsAny<int>()))
-                .ReturnsAsync(UnitTestHelper.Goods.First(c => c.Id == 2));
+                .ReturnsAsync(_helper.Goods.First(c => c.Id == 2));
             ICustomerService service = new CustomerService(_mockUnitOfWork.Object, _mockEmailService.Object);
 
             // Act
@@ -280,7 +282,7 @@ namespace eStore.UnitTests.Application
         {
             // Arrange
             _mockUnitOfWork.Setup(x => x.CustomerRepository.GetByIdAsync(1))
-                .ReturnsAsync(UnitTestHelper.Customers.First(c => c.Id == 1));
+                .ReturnsAsync(_helper.Customers.First(c => c.Id == 1));
             ICustomerService service = new CustomerService(_mockUnitOfWork.Object, _mockEmailService.Object);
 
             // Act
@@ -288,8 +290,7 @@ namespace eStore.UnitTests.Application
 
             // Assert
             _mockUnitOfWork.Verify(
-                x => x.CustomerRepository.UpdateAsync(It.Is<Customer>(c =>
-                    !c.ShoppingCart.Goods.Any(g => g.CartId == 1 && g.GoodsId == 1))), Times.Once);
+                x => x.CustomerRepository.UpdateAsync(It.Is<Customer>(c => c.ShoppingCart.Goods.All(g => g.Id != 1))), Times.Once);
         }
 
         [Test]
@@ -312,7 +313,7 @@ namespace eStore.UnitTests.Application
         {
             // Arrange
             _mockUnitOfWork.Setup(x => x.CustomerRepository.GetByIdAsync(2))
-                .ReturnsAsync(UnitTestHelper.Customers.First(c => c.Id == 2));
+                .ReturnsAsync(_helper.Customers.First(c => c.Id == 2));
             ICustomerService service = new CustomerService(_mockUnitOfWork.Object, _mockEmailService.Object);
 
             // Act
@@ -329,7 +330,7 @@ namespace eStore.UnitTests.Application
         {
             // Arrange
             _mockUnitOfWork.Setup(x => x.CustomerRepository.GetByIdAsync(1))
-                .ReturnsAsync(UnitTestHelper.Customers.First(c => c.Id == 1));
+                .ReturnsAsync(_helper.Customers.First(c => c.Id == 1));
             ICustomerService service = new CustomerService(_mockUnitOfWork.Object, _mockEmailService.Object);
 
             // Act
@@ -345,7 +346,7 @@ namespace eStore.UnitTests.Application
         {
             // Arrange
             _mockUnitOfWork.Setup(x => x.CustomerRepository.GetByIdAsync(1))
-                .ReturnsAsync(UnitTestHelper.Customers.First(c => c.Id == 1));
+                .ReturnsAsync(_helper.Customers.First(c => c.Id == 1));
             _mockUnitOfWork.Setup(x => x.CustomerRepository.UpdateAsync(It.IsAny<Customer>()));
             ICustomerService service = new CustomerService(_mockUnitOfWork.Object, _mockEmailService.Object);
 
@@ -378,7 +379,7 @@ namespace eStore.UnitTests.Application
         {
             // Arrange
             _mockUnitOfWork.Setup(x => x.CustomerRepository.GetByIdAsync(2))
-                .ReturnsAsync(UnitTestHelper.Customers.First(c => c.Id == 2));
+                .ReturnsAsync(_helper.Customers.First(c => c.Id == 2));
             ICustomerService service = new CustomerService(_mockUnitOfWork.Object, _mockEmailService.Object);
 
             // Act

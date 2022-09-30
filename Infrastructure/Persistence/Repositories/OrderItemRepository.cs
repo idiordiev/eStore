@@ -22,7 +22,6 @@ namespace eStore.Infrastructure.Persistence.Repositories
         {
             return await _context.OrderItems
                 .Include(oi => oi.Goods)
-                .ThenInclude(g => g.Manufacturer)
                 .Include(oi => oi.Order)
                 .FirstOrDefaultAsync(oi => oi.Id == id);
         }
@@ -31,7 +30,6 @@ namespace eStore.Infrastructure.Persistence.Repositories
         {
             return await _context.OrderItems
                 .Include(oi => oi.Goods)
-                .ThenInclude(g => g.Manufacturer)
                 .Include(oi => oi.Order)
                 .ToListAsync();
         }
@@ -40,7 +38,6 @@ namespace eStore.Infrastructure.Persistence.Repositories
         {
             return _context.OrderItems
                 .Include(oi => oi.Goods)
-                .ThenInclude(g => g.Manufacturer)
                 .Include(oi => oi.Order)
                 .Where(predicate.Compile())
                 .ToList();

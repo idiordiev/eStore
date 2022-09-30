@@ -36,10 +36,10 @@ namespace eStore.Application.Services
             return await _unitOfWork.KeyboardRepository.GetByIdAsync(keyboardId);
         }
 
-        public async Task<IEnumerable<Manufacturer>> GetManufacturersAsync()
+        public async Task<IEnumerable<string>> GetManufacturersAsync()
         {
             var keyboards = await _unitOfWork.KeyboardRepository.GetAllAsync();
-            return keyboards.Select(k => k.Manufacturer).Distinct().OrderBy(m => m.Name);
+            return keyboards.Select(k => k.Manufacturer).Distinct().OrderBy(m => m);
         }
 
         public async Task<IEnumerable<KeyboardSwitch>> GetSwitchesAsync()
@@ -48,34 +48,34 @@ namespace eStore.Application.Services
             return keyboards.Select(k => k.Switch).Where(sw => sw != null).Distinct().OrderBy(s => s.Name);
         }
 
-        public async Task<IEnumerable<KeyboardSize>> GetSizesAsync()
+        public async Task<IEnumerable<string>> GetSizesAsync()
         {
             var keyboards = await _unitOfWork.KeyboardRepository.GetAllAsync();
-            return keyboards.Select(k => k.Size).Distinct().OrderBy(s => s.Id);
+            return keyboards.Select(k => k.Size).Distinct();
         }
 
-        public async Task<IEnumerable<KeyboardType>> GetTypesAsync()
+        public async Task<IEnumerable<string>> GetTypesAsync()
         {
             var keyboards = await _unitOfWork.KeyboardRepository.GetAllAsync();
-            return keyboards.Select(k => k.Type).Distinct().OrderBy(t => t.Id);
+            return keyboards.Select(k => k.Type).Distinct();
         }
 
-        public async Task<IEnumerable<ConnectionType>> GetConnectionTypesAsync()
+        public async Task<IEnumerable<string>> GetConnectionTypesAsync()
         {
             var keyboards = await _unitOfWork.KeyboardRepository.GetAllAsync();
-            return keyboards.Select(k => k.ConnectionType).Distinct().OrderBy(t => t.Id);
+            return keyboards.Select(k => k.ConnectionType).Distinct();
         }
 
-        public async Task<IEnumerable<Backlight>> GetBacklightsAsync()
+        public async Task<IEnumerable<string>> GetBacklightsAsync()
         {
             var keyboards = await _unitOfWork.KeyboardRepository.GetAllAsync();
-            return keyboards.Select(k => k.Backlight).Distinct().OrderBy(b => b.Id);
+            return keyboards.Select(k => k.Backlight).Distinct();
         }
 
-        public async Task<IEnumerable<KeyRollover>> GetKeyRolloverAsync()
+        public async Task<IEnumerable<string>> GetKeyRolloverAsync()
         {
             var keyboards = await _unitOfWork.KeyboardRepository.GetAllAsync();
-            return keyboards.Select(k => k.KeyRollover).Distinct().OrderBy(r => r.Id);
+            return keyboards.Select(k => k.KeyRollover).Distinct();
         }
     }
 }

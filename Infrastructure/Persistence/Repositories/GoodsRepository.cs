@@ -20,17 +20,21 @@ namespace eStore.Infrastructure.Persistence.Repositories
 
         public async Task<Goods> GetByIdAsync(int id)
         {
-            return await _context.Goods.FindAsync(id);
+            return await _context.Goods
+                .FirstOrDefaultAsync(g => g.Id == id);
         }
 
         public async Task<IEnumerable<Goods>> GetAllAsync()
         {
-            return await _context.Goods.ToListAsync();
+            return await _context.Goods
+                .ToListAsync();
         }
 
         public IEnumerable<Goods> Query(Expression<Func<Goods, bool>> predicate)
         {
-            return _context.Goods.Where(predicate.Compile()).ToList();
+            return _context.Goods
+                .Where(predicate.Compile())
+                .ToList();
         }
 
         public async Task AddAsync(Goods entity)
