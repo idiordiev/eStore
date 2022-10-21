@@ -472,6 +472,9 @@ footer {
 }
 
 .goods-title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     text-align-all: center;
     font-family: 'Roboto', sans-serif;
     font-weight: 500;
