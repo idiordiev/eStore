@@ -1,12 +1,12 @@
-﻿@model IEnumerable<GamepadViewModel>
+﻿@model IEnumerable<MouseViewModel>
 
 @{
-    ViewBag.Title = "Gamepads";
+    ViewBag.Title = "Mouses";
     Layout = "_Layout";
 }
 
 <aside id="filter-sidebar" class="filter-sidebar d-flex flex-row">
-    <form id="filter-form" class="filter-list d-flex flex-column align-items-center justify-content-start" asp-action="Gamepads" asp-controller="Goods" method="get">
+    <form id="filter-form" class="filter-list d-flex flex-column align-items-center justify-content-start" asp-action="Index" asp-controller="Mouses" method="get">
         <label class="filter-category-name">BRAND</label>
         @foreach (var manufacturer in ViewBag.Manufacturers)
         {
@@ -19,26 +19,28 @@
         @foreach (var connectionType in ViewBag.ConnectionTypes)
         {
             <div class="filter-option-group">
-                <input type="checkbox" value="@connectionType" name="connectionTypes" checked="@Context.Request.Query["connectionTypes"].Contains((string)connectionType)"/>
+                <input type="checkbox" value="@connectionType" name="connectionTypes" checked="@Context.Request.Query["connectionTypeIds"].Contains((string)connectionType)"/>
                 <div class="filter-option-label">@connectionType</div>
             </div>
         }
-        <label class="filter-category-name">FEEDBACK</label>
-        @foreach (var feedback in ViewBag.Feedbacks)
+        <label class="filter-category-name">BACKLIGHT</label>
+        @foreach (var backlight in ViewBag.Backlights)
         {
             <div class="filter-option-group">
-                <input type="checkbox" value="@feedback" name="feedbacks" checked="@Context.Request.Query["feedbacks"].Contains((string)feedback)"/>
-                <div class="filter-option-label">@feedback</div>
+                <input type="checkbox" value="@backlight" name="backlights" checked="@Context.Request.Query["backlights"].Contains((string)backlight)"/>
+                <div class="filter-option-label">@backlight</div>
             </div>
         }
-        <label class="filter-category-name">COMPATIBLE WITH</label>
-        @foreach (var cd in ViewBag.CompatibleDevices)
-        {
-            <div class="filter-option-group">
-                <input type="checkbox" value="@cd" name="compatibleDevices" checked="@Context.Request.Query["compatibleDevices"].Contains((string)cd)"/>
-                <div class="filter-option-label">@cd</div>
-            </div>
-        }
+        <label class="filter-category-name">WEIGHT</label>
+        <div class="filter-option-group">
+            <div class="filter-option-label">Min. (g) </div>
+            <input type="number" step="1" name="minWeight" min="0" max="1000" class="filter-option-price-input" value="@Context.Request.Query["minWeight"]"/>
+        </div>
+        <div class="filter-option-group">
+            <div class="filter-option-label">Max. (g)</div>
+            <input type="number" step="1" name="maxWeight" min="0" max="1000" class="filter-option-price-input" value="@Context.Request.Query["maxWeight"]"/>
+        </div>
+
         <label class="filter-category-name">PRICE</label>
         <div class="filter-option-group">
             <div class="filter-option-label">Min. </div>
@@ -48,16 +50,17 @@
             <div class="filter-option-label">Max.</div>
             <input type="number" step="0.01" name="maxPrice" min="0" max="1000" class="filter-option-price-input" value="@Context.Request.Query["maxPrice"]"/>
         </div>
+
         <input type="submit" value="APPLY" class="filter-submit d-flex align-items-center justify-content-center"/>
     </form>
     <button class="filter-button d-flex align-items-center justify-content-center" onclick="toggleFilter()">
         FILTER
     </button>
 </aside>
-<h1 class="goods-title">GAMEPADS</h1>
-<section class="goods-container d-flex flex-column align-items-center justify-content-center">
-    @foreach (var gamepad in Model)
+<h1 class="goods-title">MOUSES</h1>
+<section class="goods-container goods-container d-flex flex-column align-items-center justify-content-center">
+    @foreach (var mouse in Model)
     {
-        @await Html.PartialAsync("_Gamepad", gamepad)
+        @await Html.PartialAsync("_Mouse", mouse)
     }
 </section>

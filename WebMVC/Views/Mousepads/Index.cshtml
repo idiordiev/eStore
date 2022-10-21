@@ -6,7 +6,7 @@
 }
 
 <aside id="filter-sidebar" class="filter-sidebar d-flex flex-row">
-    <form id="filter-form" class="filter-list d-flex flex-column align-items-center justify-content-start" asp-action="Mousepads" asp-controller="Goods" method="get">
+    <form id="filter-form" class="filter-list d-flex flex-column align-items-center justify-content-start" asp-action="Index" asp-controller="Mousepads" method="get">
         <label class="filter-category-name">BRAND</label>
         @foreach (var manufacturer in ViewBag.Manufacturers)
         {

@@ -1,11 +1,11 @@
 ﻿@model MousepadViewModel
 
 <article class="goods-tile d-flex flex-row align-items-start justify-content-start">
-    <a class="goods-image-container d-flex flex-column align-items-center justify-content-center" asp-action="Mousepad" asp-controller="Goods" asp-route-id="@Model.Id">
+    <a class="goods-image-container d-flex flex-column align-items-center justify-content-center" asp-action="Mousepad" asp-controller="Mousepads" asp-route-id="@Model.Id">
         <img src="@Model.ThumbnailImageUrl" alt="@Model.Name"/>
     </a>
     <section class="goods-info d-flex flex-column align-items-center justify-content-center">
-        <a class="goods-info-title" asp-action="Mousepad" asp-controller="Goods" asp-route-id="@Model.Id">@Model.Name</a>
+        <a class="goods-info-title" asp-action="Mousepad" asp-controller="Mousepads" asp-route-id="@Model.Id">@Model.Name</a>
         <div class="goods-details d-flex flex-row align-items-start justify-content-between">
             <div class="goods-details-column">
                 <p>Base material: @Model.BottomMaterial</p>
