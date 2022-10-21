@@ -7,20 +7,20 @@
 
 @if (!Model.Any())
 {
-    <div class="orders-history-container">
+    <article class="orders-history-container">
         <h2>HISTORY</h2>
         <h2>You didn't make any orders.</h2>
-    </div>
+    </article>
 }
 else
 {
-    <div class="orders-history-container">
+    <article class="orders-history-container">
         <h2>HISTORY</h2>
-        <div class="orders-history-list">
+        <section class="orders-history-list">
             @foreach (var order in Model)
             {
-                <div class="order-tile">
-                    <div class="order-tile-items-column">
+                <article class="order-tile">
+                    <section class="order-tile-items-column">
                         @foreach (var item in order.OrderItems)
                         {
                             <div class="order-item-group">
@@ -28,8 +28,8 @@ else
                                 <div class="order-item-price">$@item.UnitPrice</div>
                             </div>
                         }
-                    </div>
-                    <div class="order-tile-info-column">
+                    </section>
+                    <section class="order-tile-info-column">
                         <div class="order-item-group">
                             <div class="order-item-name">Date:</div>
                             <div class="order-item-name">@order.TimeStamp.ToShortDateString()</div>
@@ -42,10 +42,10 @@ else
                             <div class="order-item-name">Status: </div>
                             <div class="order-item-name">@order.Status</div>
                         </div>
-                    </div>
+                    </section>
                     <div class="order-tile-total">$@order.Total</div>
-                </div>
+                </article>
             }
-        </div>
-    </div>
+        </section>
+    </article>
 }

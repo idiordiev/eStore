@@ -6,8 +6,8 @@
     Layout = "_Layout";
 }
 
-<div class="account-container">
-    <div class="account-left-column">
+<section class="d-flex flex-row align-items-start justify-content-center position-relative mt-3">
+    <section class="account-left-column">
         <div class="account-info-container" id="account-info-container">
             <h3>@Model.FirstName @Model.LastName</h3>
             <p>Tel: @Model.PhoneNumber</p>
@@ -32,26 +32,26 @@
                 <input asp-for="LastName" class="account-edit-form-name-input" autocomplete="off"/>
             </div>
             <div class="account-edit-form-group">
-                <p class="account-edit-form-label">Tel:</p>
+                <label class="account-edit-form-label">Tel:</label>
                 <input asp-for="PhoneNumber" class="account-edit-form-input" type="tel" pattern="[0-9]{12}" placeholder="380123456789" autocomplete="off"/>
             </div>
             <div class="account-edit-form-group">
-                <p class="account-edit-form-label">Email: @Model.Email</p>
+                <label class="account-edit-form-label">Email: @Model.Email</label>
             </div>
             <div class="account-edit-form-group">
-                <p class="account-edit-form-label">Country:</p>
+                <label class="account-edit-form-label">Country:</label>
                 <input asp-for="Country" class="account-edit-form-input" autocomplete="off"/>
             </div>
             <div class="account-edit-form-group">
-                <p class="account-edit-form-label">City:</p>
+                <label class="account-edit-form-label">City:</label>
                 <input asp-for="City" class="account-edit-form-input" autocomplete="off"/>
             </div>
             <div class="account-edit-form-group">
-                <p class="account-edit-form-label">Address:</p>
+                <label class="account-edit-form-label">Address:</label>
                 <input asp-for="Address" class="account-edit-form-input" autocomplete="off"/>
             </div>
             <div class="account-edit-form-group">
-                <p class="account-edit-form-label">Postal code:</p>
+                <label class="account-edit-form-label">Postal code:</label>
                 <input asp-for="PostalCode" class="account-edit-form-input" autocomplete="off"/>
             </div>
             <div class="account-edit-form-group">
@@ -71,10 +71,10 @@
             <div>PASSWORD</div>
         </a>
         <button class="deactivate-account" onclick="showDeactivationWindow()">DEACTIVATE</button>
-    </div>
-    <div class="account-right-column">
+    </section>
+    <section class="account-right-column">
         <h3>CART</h3>
-        <div class="account-cart-container">
+        <section class="account-cart-container">
             @if (Model.GoodsInCart.Any())
             {
                 @foreach (var goods in Model.GoodsInCart)
@@ -109,19 +109,19 @@
             {
                 <div class="account-cart-no-items">There are no goods in your cart.</div>
             }
-        </div>
+        </section>
         <div class="account-buttons-container">
             <a class="account-order-button" asp-action="New" asp-controller="Order">ORDER</a>
             <a class="account-history-button" asp-action="Index" asp-controller="Order">HISTORY</a>
         </div>
-    </div>
-</div>
+    </section>
+</section>
 <div class="account-deactivation-container" id="account-deactivation-window">
     <div class="account-deactivation-window">
         <h3>ARE YOU SURE YOU WANT TO DEACTIVATE YOUR ACCOUNT?</h3>
         <div class="account-deactivation-button-container">
-            <a class="account-deactivation-yes-button" asp-action="DeactivateAccount" asp-controller="Account">YES</a>
-            <button class="account-deactivation-no-button" onclick="closeDeactivationWindow()">NO</button>
+            <a class="account-deactivation-button" asp-action="DeactivateAccount" asp-controller="Account">YES</a>
+            <button class="account-deactivation-button" onclick="closeDeactivationWindow()">NO</button>
         </div>
     </div>
 </div>

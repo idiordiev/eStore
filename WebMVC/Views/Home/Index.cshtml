@@ -2,11 +2,11 @@
     ViewData["Title"] = "Home";
 }
 
-<div class="landing-container">
-    <div class="landing-text-container">
+<section class="landing-container d-flex flex-row align-items-end justify-content-center">
+    <article class="landing-text-container d-flex flex-column align-items-start justify-content-center">
         <h2 class="landing-title">Your table is the best!</h2>
         <p class="landing-text">Apparently you are tired of your gray workplace. We'll help you fix it. We have a huge range of devices and decorations for every taste.</p>
-        <a class="landing-want-button" asp-action="Index" asp-controller="Goods">I WANT</a>
-    </div>
+        <a class="landing-want-button d-flex align-items-center justify-content-center" asp-action="Index" asp-controller="Goods">I WANT</a>
+    </article>
     <img src="img/landing.png" alt="" class="landing-image"/>
-</div>
+</section>

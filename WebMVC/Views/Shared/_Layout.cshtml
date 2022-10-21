@@ -7,20 +7,20 @@
     <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="/css/site.css"/>
 </head>
-<body>
+<body class="d-flex flex-column">
 <header>
-    <nav class="navigation">
+    <nav class="navigation d-flex flex-row align-items-center justify-content-between">
         <a class="navigation-title" asp-action="Index" asp-controller="Goods">eStore</a>
-        <div class="navigation-item-container">
-            <a class="navigation-link" asp-action="Services" asp-controller="Home">Services</a>
-            <a class="navigation-link" asp-action="Faq" asp-controller="Home">FAQ</a>
+        <div class="navigation-item-container d-flex flex-row align-items-center justify-content-center">
+            <a class="navigation-link d-flex align-items-center justify-content-center" asp-action="Services" asp-controller="Home">Services</a>
+            <a class="navigation-link d-flex align-items-center justify-content-center" asp-action="Faq" asp-controller="Home">FAQ</a>
 
             @if (User.Identity?.IsAuthenticated == true)
             {
-                <div class="navigation-item-container">
-                    <a class="navigation-ellipse-button" asp-action="Index" asp-controller="Account">@User.Identity.Name</a>
+                <div class="navigation-item-container d-flex flex-row align-items-center justify-content-center">
+                    <a class="navigation-ellipse-button d-flex align-items-center justify-content-center" asp-action="Index" asp-controller="Account">@User.Identity.Name</a>
                     <form asp-action="Logout" asp-controller="Account">
-                        <label class="navigation-logout-button">
+                        <label class="navigation-logout-button d-flex align-items-center justify-content-center">
                             <input type="submit" style="display: none"/>
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M7 22H3C2.46957 22 1.96086 21.7893 1.58579 21.4142C1.21071 21.0391 1 20.5304 1 20V6C1 5.46957 1.21071 4.96086 1.58579 4.58579C1.96086 4.21071 2.46957 4 3 4H7" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -33,21 +33,18 @@
             }
             else
             {
-                <div class="navigation-item-container">
-                    <a class="navigation-ellipse-button" asp-action="Register" asp-controller="Account">Sign Up</a>
-                    <a class="navigation-ellipse-button" asp-action="Login" asp-controller="Account">Login</a>
+                <div class="navigation-item-container d-flex flex-row align-items-center justify-content-center">
+                    <a class="navigation-ellipse-button d-flex align-items-center justify-content-center" asp-action="Register" asp-controller="Account">Sign Up</a>
+                    <a class="navigation-ellipse-button d-flex align-items-center justify-content-center" asp-action="Login" asp-controller="Account">Login</a>
                 </div>
             }
         </div>
     </nav>
 </header>
-<div>
-    <main role="main" class="main">
-        @RenderBody()
-    </main>
-</div>
-
-<footer>
+<main role="main" class="main">
+    @RenderBody()
+</main>
+<footer class="d-flex align-items-center justify-content-end">
     <div>2022</div>
 </footer>
 <script src="~/lib/jquery/dist/jquery.min.js"></script>

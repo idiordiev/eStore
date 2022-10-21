@@ -8,16 +8,14 @@
 }
 
 body {
-    display: flex;
-    flex-direction: column;
     min-height: calc(100vh);
     background-color: #1C1C1C;
     -ms-overflow-style: none;
     -webkit-transition: filter .25s;
-    -moz-transition:    filter .25s;
-    -ms-transition:     filter .25s;
-    -o-transition:      filter .25s;
-    transition:         filter .25s;
+    -moz-transition: filter .25s;
+    -ms-transition: filter .25s;
+    -o-transition: filter .25s;
+    transition: filter .25s;
 }
 
 body::-webkit-scrollbar {
@@ -49,10 +47,7 @@ button:focus {
 }
 
 footer {
-    display: flex;
     height: 60px;
-    align-items: center;
-    justify-content: flex-end;
     padding-right: 35px;
     color: #6A6A6A;
     font-family: 'Roboto', sans-serif;
@@ -63,19 +58,15 @@ footer {
 
 .navigation {
     background-color: #1C1C1C;
-    display: flex;
     height: 50px;
     margin-top: 20px;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
 }
 
 .navigation-title,
 .navigation-title:active,
 .navigation-title:visited,
 .navigation-title:link,
-.navigation-title:hover{
+.navigation-title:hover {
     display: inline-block;
     font-family: 'Roboto', sans-serif;
     font-weight: 600;
@@ -85,10 +76,6 @@ footer {
 }
 
 .navigation-item-container {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
     gap: 45px;
     margin-right: 20px;
 }
@@ -98,13 +85,10 @@ footer {
 .navigation-link:visited,
 .navigation-link:link,
 .navigation-link:hover {
-    display: flex;
     font-family: 'Inter', sans-serif;
     font-weight: 400;
     font-size: 16px;
     color: #FFFFFF;
-    align-items: center;
-    justify-content: center;
 }
 
 .navigation-ellipse-button,
@@ -112,7 +96,6 @@ footer {
 .navigation-ellipse-button:visited,
 .navigation-ellipse-button:link,
 .navigation-ellipse-button:hover {
-    display: flex;
     height: 40px;
     min-width: 110px;
     font-family: 'Inter', sans-serif;
@@ -120,8 +103,6 @@ footer {
     font-size: 16px;
     border: 1px solid #FFFFFF;
     border-radius: 20px;
-    align-items: center;
-    justify-content: center;
     background-color: #1C1C1C;
     color: #FFFFFF;
     padding-left: 10px;
@@ -129,21 +110,14 @@ footer {
 }
 
 .navigation-logout-button {
-    display: flex;
     height: 24px;
     width: 24px;
     border: 0;
-    align-items: center;
-    justify-content: center;
     background-color: #1C1C1C;
     cursor: pointer;
 }
 
 .landing-container {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-end;
-    justify-content: center;
     gap: 120px;
     margin-top: 200px;
 }
@@ -154,11 +128,7 @@ footer {
 }
 
 .landing-text-container {
-    display: flex;
     width: 560px;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: center;
 }
 
 .landing-title {
@@ -181,9 +151,6 @@ footer {
 }
 
 .landing-want-button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
     height: 40px;
     width: 135px;
     border-radius: 20px;
@@ -194,10 +161,10 @@ footer {
     background-color: #FFFFFF;
     border: 1px solid #FFFFFF;
     -webkit-transition: color .25s, background-color .25s, border .25s;
-    -moz-transition:    color .25s, background-color .25s, border .25s;
-    -ms-transition:     color .25s, background-color .25s, border .25s;
-    -o-transition:      color .25s, background-color .25s, border .25s;
-    transition:         color .25s, background-color .25s, border .25s;
+    -moz-transition: color .25s, background-color .25s, border .25s;
+    -ms-transition: color .25s, background-color .25s, border .25s;
+    -o-transition: color .25s, background-color .25s, border .25s;
+    transition: color .25s, background-color .25s, border .25s;
     align-self: center;
     margin-top: 125px;
 }
@@ -209,22 +176,15 @@ footer {
 }
 
 .goods-category-container {
-    display: flex;
-    flex-direction: row;
     gap: 20px;
-    align-items: center;
-    justify-content: center;
     margin-top: 40px;
 }
 
 .goods-category-tile {
-    display: flex;
     height: 800px;
     width: 330px;
     border: 1px solid #C5C5C5;
     border-radius: 20px;
-    align-items: flex-end;
-    justify-content: flex-start;
     background-repeat: no-repeat;
     color: #E0DFDF;
     font-family: 'Roboto', sans-serif;
@@ -233,10 +193,10 @@ footer {
     padding-left: 30px;
     padding-bottom: 30px;
     -webkit-transition: background-image .5s;
-    -moz-transition:    background-image .5s;
-    -ms-transition:     background-image .5s;
-    -o-transition:      background-image .5s;
-    transition:         background-image .5s;
+    -moz-transition: background-image .5s;
+    -ms-transition: background-image .5s;
+    -o-transition: background-image .5s;
+    transition: background-image .5s;
 }
 
 .goods-category-tile:hover,
@@ -256,7 +216,6 @@ footer {
 }
 
 .goods-mouses {
-    
     background-image: url("../img/mouse1.png");
 }
 
@@ -281,19 +240,12 @@ footer {
 }
 
 .faq-container {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
     justify-content: space-evenly;
     margin-top: 20px;
 }
 
 .faq-block {
-    display: flex;
     width: 410px;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
     gap: 10px;
     border-radius: 16px;
     border: 0;
@@ -335,10 +287,6 @@ footer {
 }
 
 .services-container {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
     margin-top: 50px;
     margin-left: 100px;
 }
@@ -363,11 +311,8 @@ footer {
 }
 
 .services-get-contacts-button {
-    display: flex;
     height: 44px;
     width: 190px;
-    align-items: center;
-    justify-content: center;
     font-family: 'Roboto', sans-serif;
     font-weight: 500;
     font-size: 24px;
@@ -377,10 +322,10 @@ footer {
     background-color: #FFFFFF;
     margin-top: 100px;
     -webkit-transition: color .25s, background-color .25s, border .25s, visibility .5s, opacity .5s, margin-left .5s;
-    -moz-transition:    color .25s, background-color .25s, border .25s, visibility .5s, opacity .5s, margin-left .5s;
-    -ms-transition:     color .25s, background-color .25s, border .25s, visibility .5s, opacity .5s, margin-left .5s;
-    -o-transition:      color .25s, background-color .25s, border .25s, visibility .5s, opacity .5s, margin-left .5s;
-    transition:         color .25s, background-color .25s, border .25s, visibility .5s, opacity .5s, margin-left .5s;
+    -moz-transition: color .25s, background-color .25s, border .25s, visibility .5s, opacity .5s, margin-left .5s;
+    -ms-transition: color .25s, background-color .25s, border .25s, visibility .5s, opacity .5s, margin-left .5s;
+    -o-transition: color .25s, background-color .25s, border .25s, visibility .5s, opacity .5s, margin-left .5s;
+    transition: color .25s, background-color .25s, border .25s, visibility .5s, opacity .5s, margin-left .5s;
 }
 
 .services-get-contacts-button:hover {
@@ -392,25 +337,17 @@ footer {
 .services-contacts {
     visibility: hidden;
     opacity: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
     gap: 5px;
     margin-top: 120px;
     margin-left: 0;
     -webkit-transition: visibility .5s, opacity .5s, margin-left .5s;
-    -moz-transition:    visibility .5s, opacity .5s, margin-left .5s;
-    -ms-transition:     visibility .5s, opacity .5s, margin-left .5s;
-    -o-transition:      visibility .5s, opacity .5s, margin-left .5s;
-    transition:         visibility .5s, opacity .5s, margin-left .5s;
+    -moz-transition: visibility .5s, opacity .5s, margin-left .5s;
+    -ms-transition: visibility .5s, opacity .5s, margin-left .5s;
+    -o-transition: visibility .5s, opacity .5s, margin-left .5s;
+    transition: visibility .5s, opacity .5s, margin-left .5s;
 }
 
 .services-contacts-line {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: flex-start;
     gap: 10px;
 }
 
@@ -423,24 +360,18 @@ footer {
 }
 
 .filter-sidebar {
-    display: flex;
-    flex-direction: row;
     position: absolute;
     top: 90px;
     left: -180px;
     -webkit-transition: left .3s;
-    -moz-transition:    left .3s;
-    -ms-transition:     left .3s;
-    -o-transition:      left .3s;
-    transition:         left .3s;
+    -moz-transition: left .3s;
+    -ms-transition: left .3s;
+    -o-transition: left .3s;
+    transition: left .3s;
 }
 
 .filter-list {
-    display: flex;
-    flex-direction: column;
     width: 180px;
-    align-items: center;
-    justify-content: flex-start;
     background-color: #EEEEEE;
     border: 0;
     border-bottom-right-radius: 20px;
@@ -492,9 +423,6 @@ footer {
 }
 
 .filter-submit {
-    display: flex;
-    align-items: center;
-    justify-content: center;
     align-self: center;
     padding: 0;
     width: 80px;
@@ -508,10 +436,10 @@ footer {
     color: #EEEEEE;
     text-align-all: center;
     -webkit-transition: color .25s, background-color .25s, border .25s;
-    -moz-transition:    color .25s, background-color .25s, border .25s;
-    -ms-transition:     color .25s, background-color .25s, border .25s;
-    -o-transition:      color .25s, background-color .25s, border .25s;
-    transition:         color .25s, background-color .25s, border .25s;
+    -moz-transition: color .25s, background-color .25s, border .25s;
+    -ms-transition: color .25s, background-color .25s, border .25s;
+    -o-transition: color .25s, background-color .25s, border .25s;
+    transition: color .25s, background-color .25s, border .25s;
     margin-top: 20px;
 }
 
@@ -522,9 +450,6 @@ footer {
 }
 
 .filter-button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
     height: 20px;
     width: 80px;
     background-color: #EEEEEE;
@@ -542,18 +467,12 @@ footer {
 }
 
 .goods-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
     gap: 20px;
     margin-top: 40px;
 }
 
 .goods-title {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    text-align-all: center;
     font-family: 'Roboto', sans-serif;
     font-weight: 500;
     font-size: 48px;
@@ -562,26 +481,18 @@ footer {
 }
 
 .goods-tile {
-    display: flex;
     min-height: 225px;
     width: 980px;
-    flex-direction: row;
     border: 1px solid #FFFFFF;
-    align-items: flex-start;
-    justify-content: flex-start;
     border-radius: 20px;
     position: relative;
 }
 
 .goods-image-container {
-    display: flex;
     min-height: 223px;
     height: 100%;
     width: 360px;
-    flex-direction: column;
-    align-items: center;
     align-self: center;
-    justify-content: center;
     border-radius: 20px;
 }
 
@@ -591,10 +502,6 @@ footer {
 }
 
 .goods-info {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
     gap: 5px;
     margin: 20px auto 70px;
 }
@@ -622,11 +529,7 @@ footer {
 }
 
 .goods-details {
-    display: flex;
     min-width: 430px;
-    flex-direction: row;
-    align-items: flex-start;
-    justify-content: space-between;
     gap: 20px;
 }
 
@@ -740,10 +643,10 @@ footer {
     border: 0;
     border-radius: 11px;
     -webkit-transition: color .25s, background-color .25s, border .25s;
-    -moz-transition:    color .25s, background-color .25s, border .25s;
-    -ms-transition:     color .25s, background-color .25s, border .25s;
-    -o-transition:      color .25s, background-color .25s, border .25s;
-    transition:         color .25s, background-color .25s, border .25s;
+    -moz-transition: color .25s, background-color .25s, border .25s;
+    -ms-transition: color .25s, background-color .25s, border .25s;
+    -o-transition: color .25s, background-color .25s, border .25s;
+    transition: color .25s, background-color .25s, border .25s;
 }
 
 .register-submit-button:hover {
@@ -767,10 +670,10 @@ footer {
     align-items: center;
     justify-content: flex-start;
     -webkit-transition: margin-left .5s, opacity 1s;
-    -moz-transition:    margin-left .5s, opacity 1s;
-    -ms-transition:     margin-left .5s, opacity 1s;
-    -o-transition:      margin-left .5s, opacity 1s;
-    transition:         margin-left .5s, opacity 1s;
+    -moz-transition: margin-left .5s, opacity 1s;
+    -ms-transition: margin-left .5s, opacity 1s;
+    -o-transition: margin-left .5s, opacity 1s;
+    transition: margin-left .5s, opacity 1s;
     opacity: 0;
     margin-left: -200px;
 }
@@ -797,10 +700,10 @@ footer {
     background-color: #E4E4E4;
     opacity: 0;
     -webkit-transition: padding 1s, opacity 1s;
-    -moz-transition:    padding 1s, opacity 1s;
-    -ms-transition:     padding 1s, opacity 1s;
-    -o-transition:      padding 1s, opacity 1s;
-    transition:         padding 1s, opacity 1s;
+    -moz-transition: padding 1s, opacity 1s;
+    -ms-transition: padding 1s, opacity 1s;
+    -o-transition: padding 1s, opacity 1s;
+    transition: padding 1s, opacity 1s;
     padding: 40px 80px 40px 0;
 }
 
@@ -879,10 +782,10 @@ footer {
     background-color: #131313;
     margin-top: 20px;
     -webkit-transition: color .25s, background-color .25s, border .25s;
-    -moz-transition:    color .25s, background-color .25s, border .25s;
-    -ms-transition:     color .25s, background-color .25s, border .25s;
-    -o-transition:      color .25s, background-color .25s, border .25s;
-    transition:         color .25s, background-color .25s, border .25s;
+    -moz-transition: color .25s, background-color .25s, border .25s;
+    -ms-transition: color .25s, background-color .25s, border .25s;
+    -o-transition: color .25s, background-color .25s, border .25s;
+    transition: color .25s, background-color .25s, border .25s;
 }
 
 .goods-page-cart-button:hover {
@@ -905,15 +808,6 @@ footer {
     border: 1px solid #000000;
     background-color: #000000;
     color: #E4E4E4;
-}
-
-.account-container {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    justify-content: center;
-    position: relative;
-    margin-top: 20px;
 }
 
 .account-left-column {
@@ -1059,10 +953,10 @@ footer {
     color: #131313;
     text-align-all: center;
     -webkit-transition: color .25s, background-color .25s, border .25s;
-    -moz-transition:    color .25s, background-color .25s, border .25s;
-    -ms-transition:     color .25s, background-color .25s, border .25s;
-    -o-transition:      color .25s, background-color .25s, border .25s;
-    transition:         color .25s, background-color .25s, border .25s;
+    -moz-transition: color .25s, background-color .25s, border .25s;
+    -ms-transition: color .25s, background-color .25s, border .25s;
+    -o-transition: color .25s, background-color .25s, border .25s;
+    transition: color .25s, background-color .25s, border .25s;
     margin-top: 20px;
 }
 
@@ -1088,10 +982,10 @@ footer {
     border: 1px solid #FFFFFF;
     border-radius: 12px;
     -webkit-transition: color .25s, background-color .25s, border .25s;
-    -moz-transition:    color .25s, background-color .25s, border .25s;
-    -ms-transition:     color .25s, background-color .25s, border .25s;
-    -o-transition:      color .25s, background-color .25s, border .25s;
-    transition:         color .25s, background-color .25s, border .25s;
+    -moz-transition: color .25s, background-color .25s, border .25s;
+    -ms-transition: color .25s, background-color .25s, border .25s;
+    -o-transition: color .25s, background-color .25s, border .25s;
+    transition: color .25s, background-color .25s, border .25s;
     background-color: #FFFFFF;
     color: #131313;
     font-family: 'Roboto', sans-serif;
@@ -1116,10 +1010,10 @@ footer {
     border: 0;
     border-radius: 20px;
     -webkit-transition: color .25s;
-    -moz-transition:    color .25s;
-    -ms-transition:     color .25s;
-    -o-transition:      color .25s;
-    transition:         color .25s;
+    -moz-transition: color .25s;
+    -ms-transition: color .25s;
+    -o-transition: color .25s;
+    transition: color .25s;
     background-color: #F66A6A;
     color: #131313;
     filter: none;
@@ -1133,11 +1027,11 @@ footer {
 }
 
 .account-deactivation-container {
-    position: absolute; 
-    top: 0; 
-    left: 0; 
-    width: 100%; 
-    height: 100%; 
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     background-color: transparent;
     display: none;
     z-index: 5;
@@ -1180,32 +1074,7 @@ footer {
     gap: 10px;
 }
 
-.account-deactivation-yes-button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 40px;
-    width: 135px;
-    border-radius: 20px;
-    border: 1px solid #000000;
-    font-family: 'Roboto', sans-serif;
-    font-weight: 500;
-    font-size: 26px;
-    background-color: #FFFFFF;
-    color: #131313;
-    -webkit-transition: color .25s, background-color .25s, border .25s;
-    -moz-transition:    color .25s, background-color .25s, border .25s;
-    -ms-transition:     color .25s, background-color .25s, border .25s;
-    -o-transition:      color .25s, background-color .25s, border .25s;
-    transition:         color .25s, background-color .25s, border .25s;
-}
-
-.account-deactivation-yes-button:hover {
-    background-color: #131313;
-    color: #FFFFFF;
-}
-
-.account-deactivation-no-button {
+.account-deactivation-button {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1219,13 +1088,13 @@ footer {
     background-color: #131313;
     color: #FFFFFF;
     -webkit-transition: color .25s, background-color .25s, border .25s;
-    -moz-transition:    color .25s, background-color .25s, border .25s;
-    -ms-transition:     color .25s, background-color .25s, border .25s;
-    -o-transition:      color .25s, background-color .25s, border .25s;
-    transition:         color .25s, background-color .25s, border .25s;
+    -moz-transition: color .25s, background-color .25s, border .25s;
+    -ms-transition: color .25s, background-color .25s, border .25s;
+    -o-transition: color .25s, background-color .25s, border .25s;
+    transition: color .25s, background-color .25s, border .25s;
 }
 
-.account-deactivation-no-button:hover {
+.account-deactivation-button:hover {
     background-color: #FFFFFF;
     color: #131313;
 }
@@ -1297,10 +1166,10 @@ footer {
     font-weight: 500;
     font-size: 26px;
     -webkit-transition: color .25s, background-color .25s, border .25s;
-    -moz-transition:    color .25s, background-color .25s, border .25s;
-    -ms-transition:     color .25s, background-color .25s, border .25s;
-    -o-transition:      color .25s, background-color .25s, border .25s;
-    transition:         color .25s, background-color .25s, border .25s;
+    -moz-transition: color .25s, background-color .25s, border .25s;
+    -ms-transition: color .25s, background-color .25s, border .25s;
+    -o-transition: color .25s, background-color .25s, border .25s;
+    transition: color .25s, background-color .25s, border .25s;
 }
 
 .account-order-button:hover {
@@ -1324,10 +1193,10 @@ footer {
     font-weight: 500;
     font-size: 26px;
     -webkit-transition: color .25s, background-color .25s, border .25s;
-    -moz-transition:    color .25s, background-color .25s, border .25s;
-    -ms-transition:     color .25s, background-color .25s, border .25s;
-    -o-transition:      color .25s, background-color .25s, border .25s;
-    transition:         color .25s, background-color .25s, border .25s;
+    -moz-transition: color .25s, background-color .25s, border .25s;
+    -ms-transition: color .25s, background-color .25s, border .25s;
+    -o-transition: color .25s, background-color .25s, border .25s;
+    transition: color .25s, background-color .25s, border .25s;
 }
 
 .account-history-button:hover {
@@ -1583,10 +1452,10 @@ footer {
     font-weight: 500;
     font-size: 26px;
     -webkit-transition: color .25s, background-color .25s, border .25s;
-    -moz-transition:    color .25s, background-color .25s, border .25s;
-    -ms-transition:     color .25s, background-color .25s, border .25s;
-    -o-transition:      color .25s, background-color .25s, border .25s;
-    transition:         color .25s, background-color .25s, border .25s;
+    -moz-transition: color .25s, background-color .25s, border .25s;
+    -ms-transition: color .25s, background-color .25s, border .25s;
+    -o-transition: color .25s, background-color .25s, border .25s;
+    transition: color .25s, background-color .25s, border .25s;
     margin-top: 30px;
 }
 
@@ -1630,10 +1499,10 @@ footer {
     border-radius: 20px;
     border: 0;
     -webkit-transition: color .25s, background-color .25s, border .25s;
-    -moz-transition:    color .25s, background-color .25s, border .25s;
-    -ms-transition:     color .25s, background-color .25s, border .25s;
-    -o-transition:      color .25s, background-color .25s, border .25s;
-    transition:         color .25s, background-color .25s, border .25s;
+    -moz-transition: color .25s, background-color .25s, border .25s;
+    -ms-transition: color .25s, background-color .25s, border .25s;
+    -o-transition: color .25s, background-color .25s, border .25s;
+    transition: color .25s, background-color .25s, border .25s;
     background-color: #FFFFFF;
     color: #131313;
     font-family: 'Roboto', sans-serif;
@@ -1680,10 +1549,10 @@ footer {
     border-radius: 20px;
     border: 0;
     -webkit-transition: color .25s, background-color .25s, border .25s;
-    -moz-transition:    color .25s, background-color .25s, border .25s;
-    -ms-transition:     color .25s, background-color .25s, border .25s;
-    -o-transition:      color .25s, background-color .25s, border .25s;
-    transition:         color .25s, background-color .25s, border .25s;
+    -moz-transition: color .25s, background-color .25s, border .25s;
+    -ms-transition: color .25s, background-color .25s, border .25s;
+    -o-transition: color .25s, background-color .25s, border .25s;
+    transition: color .25s, background-color .25s, border .25s;
     background-color: #FFFFFF;
     color: #131313;
     font-family: 'Roboto', sans-serif;

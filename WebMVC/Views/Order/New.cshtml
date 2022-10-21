@@ -6,17 +6,17 @@
 }
 @if (!Model.OrderItems.Any())
 {
-    <div class="info-page-container">
+    <article class="info-page-container">
         <h2>Your cart is empty!</h2>
         <h3>Please, go back to store and pick up something.</h3>
         <a asp-action="Index" asp-controller="Home">BACK TO STORE</a>
-    </div>
+    </article>
 }
 else
 {
-    <div class="new-order-container">
+    <article class="new-order-container">
         <form asp-action="New" asp-controller="Order" class="new-order-form">
-            <div class="new-order-column" style="margin-top: 60px">
+            <section class="new-order-column" style="margin-top: 60px">
                 @for (var i = 0; i < Model.OrderItems.Count; i++)
                 {
                     <div class="new-order-item">
@@ -41,8 +41,8 @@ else
                         </div>
                     </div>
                 }
-            </div>
-            <div class="new-order-column">
+            </section>
+            <section class="new-order-column">
                 <h2>ORDER</h2>
                 <div class="new-order-info">
                     <div class="new-order-info-group">
@@ -67,9 +67,9 @@ else
                     <div class="new-order-total-price" id="total-price">Total: $@Model.OrderItems.Sum(oi => oi.UnitPrice * oi.Quantity)</div>
                 </div>
                 <input type="submit" class="new-order-submit-button" value="CONFIRM"/>
-            </div>
+            </section>
         </form>
-    </div>
+    </article>
 }
 
 

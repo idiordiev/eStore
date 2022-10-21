@@ -5,8 +5,8 @@
     Layout = "_Layout";
 }
 
-<aside id="filter-sidebar" class="filter-sidebar">
-    <form id="filter-form" class="filter-list" asp-action="Gamepads" asp-controller="Goods" method="get">
+<aside id="filter-sidebar" class="filter-sidebar d-flex flex-row">
+    <form id="filter-form" class="filter-list d-flex flex-column align-items-center justify-content-start" asp-action="Gamepads" asp-controller="Goods" method="get">
         <label class="filter-category-name">BRAND</label>
         @foreach (var manufacturer in ViewBag.Manufacturers)
         {
@@ -48,36 +48,16 @@
             <div class="filter-option-label">Max.</div>
             <input type="number" step="0.01" name="maxPrice" min="0" max="1000" class="filter-option-price-input" value="@Context.Request.Query["maxPrice"]"/>
         </div>
-        <input type="submit" value="APPLY" class="filter-submit"/>
+        <input type="submit" value="APPLY" class="filter-submit d-flex align-items-center justify-content-center"/>
     </form>
-    <button class="filter-button" onclick="toggleFilter()">
+    <button class="filter-button d-flex align-items-center justify-content-center" onclick="toggleFilter()">
         FILTER
     </button>
 </aside>
-<div class="goods-title">GAMEPADS</div>
-<div class="goods-container">
+<h1 class="goods-title">GAMEPADS</h1>
+<section class="goods-container d-flex flex-column align-items-center justify-content-center">
     @foreach (var gamepad in Model)
     {
         @await Html.PartialAsync("_Gamepad", gamepad)
     }
-</div>'
-<script>
-    function toggleFilter() {
-        let sidebar = document.getElementById("filter-sidebar");
-        if (sidebar.style.left === "0px")
-            sidebar.style.left = "-180px";
-        else
-            sidebar.style.left = "0px";
-    }
-    
-    let myForm = document.getElementById('filter-form');
-        myForm.addEventListener('submit', function () {
-            let allInputs = myForm.getElementsByTagName('input');
-            for (let i = 0; i < allInputs.length; i++) {
-                let input = allInputs[i];
-                if (input.name && !input.value) {
-                    input.name = '';
-                }
-            }
-        });
-</script>
+</section>

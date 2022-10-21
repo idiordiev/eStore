@@ -1,14 +1,14 @@
 ﻿@model KeyboardViewModel
 
-<div class="goods-tile">
-    <a class="goods-image-container" asp-action="Keyboard" asp-controller="Goods" asp-route-id="@Model.Id">
+<article class="goods-tile d-flex flex-row align-items-start justify-content-start">
+    <a class="goods-image-container d-flex flex-column align-items-center justify-content-center" asp-action="Keyboard" asp-controller="Goods" asp-route-id="@Model.Id">
         <img src="@Model.ThumbnailImageUrl" alt="@Model.Name"/>
     </a>
-    <div class="goods-info">
+    <section class="goods-info d-flex flex-column align-items-center justify-content-center">
         <a class="goods-info-title" asp-action="Keyboard" asp-controller="Goods" asp-route-id="@Model.Id">@Model.Name</a>
-        <div class="goods-details">
+        <div class="goods-details d-flex flex-row align-items-start justify-content-between">
             <div class="goods-details-column">
-                <p>Connection type: @string.Join("/", Model.ConnectionType)</p>
+                <p>Connection type: @Model.ConnectionType</p>
                 <p>Type: @Model.Type</p>
                 <p>Format: @Model.Size</p>
                 @if (!string.IsNullOrEmpty(Model.SwitchName))
@@ -17,15 +17,15 @@
                 }
                 <p>#KRO: @Model.KeyRollover</p>
             </div>
-            <div class="goods-details-column">
+            <section class="goods-details-column">
                 <p>Material (keycap): @Model.KeycapMaterial</p>
                 <p>Material (frame): @Model.FrameMaterial</p>
                 <p>Backlight: @Model.Backlight</p>
                 <p>Weight: @Model.Weight g</p>
                 <p>Size: @Model.Length x @Model.Width x @Model.Height mm</p>
-            </div>
+            </section>
         </div>
-    </div>
+    </section>
     <div class="goods-price-cart-container">
         @if (Model.IsAddedToCart)
         {
@@ -58,4 +58,4 @@
         }
         <div class="goods-details-price">$@Model.Price</div>
     </div>
-</div>
+</article>

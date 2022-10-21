@@ -5,13 +5,13 @@
     Layout = "_Layout";
 }
 
-<div class="goods-page-container">
-    <div class="goods-page-left-column" id="goods-page-left-column">
+<article class="goods-page-container">
+    <section class="goods-page-left-column" id="goods-page-left-column">
         <h2>@Model.Name</h2>
         <img src="@Model.BigImageUrl" alt="@Model.Name"/>
-    </div>
-    <div class="goods-page-right-column" id="goods-page-right-column">
-        <div class="goods-page-details-container">
+    </section>
+    <section class="goods-page-right-column" id="goods-page-right-column">
+        <section class="goods-page-details-container">
             <div class="goods-page-details-column">
                 <p>Base material: @Model.BottomMaterial</p>
                 <p>Surface material: @Model.TopMaterial</p>
@@ -21,15 +21,15 @@
                 <p>Backlight: @Model.Backlight</p>
                 <p>Size: @Model.Length x @Model.Width x @Model.Height mm</p>
             </div>
-        </div>
-        <div class="goods-page-description">
+        </section>
+        <article class="goods-page-description">
             @Model.Description
-        </div>
-        <div class="goods-page-price">
+        </article>
+        <article class="goods-page-price">
             <div class="goods-page-price-int">@Math.Truncate(Model.Price)</div>
             <div class="goods-page-price-float">@Math.Truncate((Model.Price - Math.Truncate(Model.Price)) * 100)</div>
             <div class="goods-page-price-int">$</div>
-        </div>
+        </article>
         @if (!Model.IsAddedToCart)
         {
             <form asp-action="AddGoodsToCart" asp-controller="Account" asp-route-goodsId="@Model.Id" asp-route-returnUrl="@Context.Request.Path">
@@ -44,8 +44,8 @@
                 </svg>
             </button>
         }
-    </div>
-</div>
+    </section>
+</article>
 <script>
     let leftColumn = document.getElementById("goods-page-left-column");
     leftColumn.style.marginLeft = "0";
