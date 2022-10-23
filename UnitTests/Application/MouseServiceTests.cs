@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using eStore.Application.FilterModels;
+using eStore.Application.Filtering.Models;
 using eStore.Application.Interfaces.Data;
 using eStore.Application.Interfaces.Services;
 using eStore.Application.Services;
@@ -61,22 +61,18 @@ namespace eStore.UnitTests.Application
             CollectionAssert.AreEqual(expected, actual, "The actual collection is not equal to expected.");
         }
 
-        [TestCase("ConnectionType1")]
-        [TestCase("ConneCtionType1")]
-        [TestCase("connectiontype1")]
-        [TestCase("ConnectionType1111")]
-        [TestCase("")]
-        public async Task GetPresentByFilterAsync_NotDeletedAndSingleConnectionType_ReturnsCollection(string paramValue)
+        [Test]
+        public async Task GetPresentByFilterAsync_NotDeletedAndSingleConnectionType_ReturnsCollection()
         {
             // Arrange
             _mockUnitOfWork.Setup(x => x.MouseRepository.Query(It.IsAny<Expression<Func<Mouse, bool>>>()))
                 .Returns((Expression<Func<Mouse, bool>> predicate) => _helper.Mouses.Where(predicate.Compile()));
             IMouseService service = new MouseService(_mockUnitOfWork.Object);
 
-            var expected = _helper.Mouses.Where(m => !m.IsDeleted && m.ConnectionType.Equals(paramValue, StringComparison.InvariantCultureIgnoreCase));
+            var expected = _helper.Mouses.Where(m => !m.IsDeleted && m.ConnectionType == "ConnectionType1");
             var filterModel = new MouseFilterModel
             {
-                ConnectionTypes = new List<string> { paramValue }
+                ConnectionTypes = new List<string> { "ConnectionType1" }
             };
 
             // Act
@@ -95,7 +91,7 @@ namespace eStore.UnitTests.Application
             IMouseService service = new MouseService(_mockUnitOfWork.Object);
 
             var expected =
-                _helper.Mouses.Where(m => !m.IsDeleted && (m.ConnectionType.Equals("ConnectionType1", StringComparison.InvariantCultureIgnoreCase) || m.ConnectionType.Equals("ConnectionType2", StringComparison.InvariantCultureIgnoreCase)));
+                _helper.Mouses.Where(m => !m.IsDeleted && (m.ConnectionType == "ConnectionType1" || m.ConnectionType == "ConnectionType2"));
             var filterModel = new MouseFilterModel
             {
                 ConnectionTypes = new List<string> { "ConnectionType1", "ConnectionType2" }
@@ -108,23 +104,18 @@ namespace eStore.UnitTests.Application
             CollectionAssert.AreEqual(expected, actual, "The actual collection is not equal to expected.");
         }
 
-        [TestCase("Backlight2")]
-        [TestCase("BAcklighT2")]
-        [TestCase("BackLiGhT2")]
-        [TestCase("backlight2")]
-        [TestCase("Backlight2222")]
-        [TestCase("")]
-        public async Task GetPresentByFilterAsync_NotDeletedAndSingleBacklight_ReturnsCollection(string paramValue)
+        [Test]
+        public async Task GetPresentByFilterAsync_NotDeletedAndSingleBacklight_ReturnsCollection()
         {
             // Arrange
             _mockUnitOfWork.Setup(x => x.MouseRepository.Query(It.IsAny<Expression<Func<Mouse, bool>>>()))
                 .Returns((Expression<Func<Mouse, bool>> predicate) => _helper.Mouses.Where(predicate.Compile()));
             IMouseService service = new MouseService(_mockUnitOfWork.Object);
 
-            var expected = _helper.Mouses.Where(m => !m.IsDeleted && m.Backlight.Equals(paramValue, StringComparison.InvariantCultureIgnoreCase));
+            var expected = _helper.Mouses.Where(m => !m.IsDeleted && m.Backlight == "Backlight2");
             var filterModel = new MouseFilterModel
             {
-                Backlights = new List<string> { paramValue }
+                Backlights = new List<string> { "Backlight2" }
             };
 
             // Act
@@ -142,7 +133,7 @@ namespace eStore.UnitTests.Application
                 .Returns((Expression<Func<Mouse, bool>> predicate) => _helper.Mouses.Where(predicate.Compile()));
             IMouseService service = new MouseService(_mockUnitOfWork.Object);
 
-            var expected = _helper.Mouses.Where(m => !m.IsDeleted && (m.Backlight.Equals("Backlight1", StringComparison.InvariantCultureIgnoreCase) || m.Backlight.Equals("Backlight2", StringComparison.InvariantCultureIgnoreCase)));
+            var expected = _helper.Mouses.Where(m => !m.IsDeleted && (m.Backlight == "Backlight1" || m.Backlight == "Backlight2"));
             var filterModel = new MouseFilterModel
             {
                 Backlights = new List<string> { "Backlight1", "Backlight2" }
@@ -155,23 +146,18 @@ namespace eStore.UnitTests.Application
             CollectionAssert.AreEqual(expected, actual, "The actual collection is not equal to expected.");
         }
         
-        [TestCase("Manufacturer3")]
-        [TestCase("ManUfacturer3")]
-        [TestCase("mAnUfAcTuReR3")]
-        [TestCase("manufacturer3")]
-        [TestCase("Manufacturer333")]
-        [TestCase("")]
-        public async Task GetPresentByFilterAsync_NotDeletedAndSingleManufacturer_ReturnsCollection(string paramValue)
+        [Test]
+        public async Task GetPresentByFilterAsync_NotDeletedAndSingleManufacturer_ReturnsCollection()
         {
             // Arrange
             _mockUnitOfWork.Setup(x => x.MouseRepository.Query(It.IsAny<Expression<Func<Mouse, bool>>>()))
                 .Returns((Expression<Func<Mouse, bool>> predicate) => _helper.Mouses.Where(predicate.Compile()));
             IMouseService service = new MouseService(_mockUnitOfWork.Object);
 
-            var expected = _helper.Mouses.Where(m => !m.IsDeleted && m.Manufacturer.Equals(paramValue, StringComparison.InvariantCultureIgnoreCase));
+            var expected = _helper.Mouses.Where(m => !m.IsDeleted && m.Manufacturer == "Manufacturer3");
             var filterModel = new MouseFilterModel
             {
-                Manufacturers = new List<string> { paramValue }
+                Manufacturers = new List<string> { "Manufacturer3" }
             };
 
             // Act
@@ -190,7 +176,7 @@ namespace eStore.UnitTests.Application
             IMouseService service = new MouseService(_mockUnitOfWork.Object);
 
             var expected =
-                _helper.Mouses.Where(m => !m.IsDeleted && (m.Manufacturer.Equals("Manufacturer3", StringComparison.InvariantCultureIgnoreCase) || m.Manufacturer.Equals("Manufacturer4", StringComparison.InvariantCultureIgnoreCase)));
+                _helper.Mouses.Where(m => !m.IsDeleted && (m.Manufacturer == "Manufacturer3" || m.Manufacturer == "Manufacturer4"));
             var filterModel = new MouseFilterModel
             {
                 Manufacturers = new List<string> { "Manufacturer3", "Manufacturer4" }

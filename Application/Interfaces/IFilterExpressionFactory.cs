@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Linq.Expressions;
-using eStore.Application.FilterModels.Shared;
+using eStore.Application.Filtering.Models.Shared;
 using eStore.Domain.Entities;
 
 namespace eStore.Application.Interfaces
 {
-    public interface IFilterExpressionFactory<T> where T : Goods
+    public interface IFilterExpressionFactory<TGoods, TFilterModel> where TGoods : Goods
+        where TFilterModel : GoodsFilterModel
     {
-        Expression<Func<T, bool>> CreateExpression(GoodsFilterModel filterModel);
+        Expression<Func<TGoods, bool>> GetExpression(TFilterModel filterModel);
     }
 }

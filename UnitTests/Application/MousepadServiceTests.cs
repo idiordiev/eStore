@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using eStore.Application.FilterModels;
+using eStore.Application.Filtering.Models;
 using eStore.Application.Interfaces.Data;
 using eStore.Application.Interfaces.Services;
 using eStore.Application.Services;
@@ -63,11 +63,8 @@ namespace eStore.UnitTests.Application
             CollectionAssert.AreEqual(expected, actual, "The actual collection is not equal to expected.");
         }
 
-        [TestCase("Material4")]
-        [TestCase("MaterIal4")]
-        [TestCase("material4")]
-        [TestCase("")]
-        public async Task GetPresentByFilterAsync_NotDeletedAndSingleBottomMaterial_ReturnsCollection(string paramValue)
+        [Test]
+        public async Task GetPresentByFilterAsync_NotDeletedAndSingleBottomMaterial_ReturnsCollection()
         {
             // Arrange
             _mockUnitOfWork.Setup(x => x.MousepadRepository.Query(It.IsAny<Expression<Func<Mousepad, bool>>>()))
@@ -75,10 +72,10 @@ namespace eStore.UnitTests.Application
                     _helper.Mousepads.Where(predicate.Compile()));
             IMousepadService service = new MousepadService(_mockUnitOfWork.Object);
 
-            var expected = _helper.Mousepads.Where(m => !m.IsDeleted && m.BottomMaterial.Equals(paramValue, StringComparison.InvariantCultureIgnoreCase));
+            var expected = _helper.Mousepads.Where(m => !m.IsDeleted && m.BottomMaterial == "Material4");
             var filterModel = new MousepadFilterModel
             {
-                BottomMaterials = new List<string> { paramValue }
+                BottomMaterials = new List<string> { "Material4" }
             };
 
             // Act
@@ -97,8 +94,7 @@ namespace eStore.UnitTests.Application
                     _helper.Mousepads.Where(predicate.Compile()));
             IMousepadService service = new MousepadService(_mockUnitOfWork.Object);
 
-            var expected = _helper.Mousepads.Where(m =>
-                !m.IsDeleted && (m.BottomMaterial.Equals("Material1", StringComparison.InvariantCultureIgnoreCase) || m.BottomMaterial.Equals("Material2", StringComparison.InvariantCultureIgnoreCase)));
+            var expected = _helper.Mousepads.Where(m => !m.IsDeleted && (m.BottomMaterial == "Material1" || m.BottomMaterial == "Material2"));
             var filterModel = new MousepadFilterModel
             {
                 BottomMaterials = new List<string> { "Material1", "Material2" }
@@ -111,11 +107,8 @@ namespace eStore.UnitTests.Application
             CollectionAssert.AreEqual(expected, actual, "The actual collection is not equal to expected.");
         }
 
-        [TestCase("Material5")]
-        [TestCase("MaterIal5")]
-        [TestCase("material5")]
-        [TestCase("")]
-        public async Task GetPresentByFilterAsync_NotDeletedAndSingleTopMaterial_ReturnsCollection(string paramValue)
+        [Test]
+        public async Task GetPresentByFilterAsync_NotDeletedAndSingleTopMaterial_ReturnsCollection()
         {
             // Arrange
             _mockUnitOfWork.Setup(x => x.MousepadRepository.Query(It.IsAny<Expression<Func<Mousepad, bool>>>()))
@@ -123,10 +116,10 @@ namespace eStore.UnitTests.Application
                     _helper.Mousepads.Where(predicate.Compile()));
             IMousepadService service = new MousepadService(_mockUnitOfWork.Object);
 
-            var expected = _helper.Mousepads.Where(m => !m.IsDeleted && m.TopMaterial.Equals(paramValue, StringComparison.InvariantCultureIgnoreCase));
+            var expected = _helper.Mousepads.Where(m => !m.IsDeleted && m.TopMaterial == "Material5");
             var filterModel = new MousepadFilterModel
             {
-                TopMaterials = new List<string> { paramValue }
+                TopMaterials = new List<string> { "Material5" }
             };
 
             // Act
@@ -146,7 +139,7 @@ namespace eStore.UnitTests.Application
             IMousepadService service = new MousepadService(_mockUnitOfWork.Object);
 
             var expected =
-                _helper.Mousepads.Where(m => !m.IsDeleted && (m.TopMaterial.Equals("Material1", StringComparison.InvariantCultureIgnoreCase) || m.TopMaterial.Equals("Material2", StringComparison.InvariantCultureIgnoreCase)));
+                _helper.Mousepads.Where(m => !m.IsDeleted && (m.TopMaterial == "Material1" || m.TopMaterial == "Material2"));
             var filterModel = new MousepadFilterModel
             {
                 TopMaterials = new List<string> { "Material1", "Material2" }
@@ -159,13 +152,8 @@ namespace eStore.UnitTests.Application
             CollectionAssert.AreEqual(expected, actual, "The actual collection is not equal to expected.");
         }
 
-        [TestCase("Backlight1")]
-        [TestCase("BAcklighT1")]
-        [TestCase("BackLiGhT1")]
-        [TestCase("backlight1")]
-        [TestCase("Backlight1111")]
-        [TestCase("")]
-        public async Task GetPresentByFilterAsync_NotDeletedAndSingleBacklight_ReturnsCollection(string paramValue)
+        [Test]
+        public async Task GetPresentByFilterAsync_NotDeletedAndSingleBacklight_ReturnsCollection()
         {
             // Arrange
             _mockUnitOfWork.Setup(x => x.MousepadRepository.Query(It.IsAny<Expression<Func<Mousepad, bool>>>()))
@@ -173,10 +161,10 @@ namespace eStore.UnitTests.Application
                     _helper.Mousepads.Where(predicate.Compile()));
             IMousepadService service = new MousepadService(_mockUnitOfWork.Object);
 
-            var expected = _helper.Mousepads.Where(m => !m.IsDeleted && m.Backlight.Equals(paramValue, StringComparison.InvariantCultureIgnoreCase));
+            var expected = _helper.Mousepads.Where(m => !m.IsDeleted && m.Backlight == "Backlight1");
             var filterModel = new MousepadFilterModel
             {
-                Backlights = new List<string> { paramValue }
+                Backlights = new List<string> { "Backlight1" }
             };
 
             // Act
@@ -196,7 +184,7 @@ namespace eStore.UnitTests.Application
             IMousepadService service = new MousepadService(_mockUnitOfWork.Object);
 
             var expected =
-                _helper.Mousepads.Where(m => !m.IsDeleted && (m.Backlight.Equals("Backlight1", StringComparison.InvariantCultureIgnoreCase) || m.Backlight.Equals("Backlight2", StringComparison.InvariantCultureIgnoreCase)));
+                _helper.Mousepads.Where(m => !m.IsDeleted && (m.Backlight == "Backlight1" || m.Backlight == "Backlight2"));
             var filterModel = new MousepadFilterModel
             {
                 Backlights = new List<string> { "Backlight1", "Backlight1" }
@@ -275,13 +263,8 @@ namespace eStore.UnitTests.Application
             CollectionAssert.AreEqual(expected, actual, "The actual collection is not equal to expected.");
         }
 
-        [TestCase("Manufacturer4")]
-        [TestCase("ManUfacturer4")]
-        [TestCase("mAnUfAcTuReR4")]
-        [TestCase("manufacturer4")]
-        [TestCase("Manufacturer444")]
-        [TestCase("")]
-        public async Task GetPresentByFilterAsync_NotDeletedAndSingleManufacturer_ReturnsCollection(string paramValue)
+        [Test]
+        public async Task GetPresentByFilterAsync_NotDeletedAndSingleManufacturer_ReturnsCollection()
         {
             // Arrange
             _mockUnitOfWork.Setup(x => x.MousepadRepository.Query(It.IsAny<Expression<Func<Mousepad, bool>>>()))
@@ -289,10 +272,10 @@ namespace eStore.UnitTests.Application
                     _helper.Mousepads.Where(predicate.Compile()));
             IMousepadService service = new MousepadService(_mockUnitOfWork.Object);
 
-            var expected = _helper.Mousepads.Where(m => !m.IsDeleted && m.Manufacturer.Equals(paramValue, StringComparison.InvariantCultureIgnoreCase));
+            var expected = _helper.Mousepads.Where(m => !m.IsDeleted && m.Manufacturer == "Manufacturer4");
             var filterModel = new MousepadFilterModel
             {
-                Manufacturers = new List<string> { paramValue }
+                Manufacturers = new List<string> { "Manufacturer4" }
             };
 
             // Act
@@ -311,7 +294,7 @@ namespace eStore.UnitTests.Application
                     _helper.Mousepads.Where(predicate.Compile()));
             IMousepadService service = new MousepadService(_mockUnitOfWork.Object);
 
-            var expected = _helper.Mousepads.Where(m => !m.IsDeleted && (m.Manufacturer.Equals("Manufacturer4", StringComparison.InvariantCultureIgnoreCase) || m.Manufacturer.Equals("Manufacturer5", StringComparison.InvariantCultureIgnoreCase)));
+            var expected = _helper.Mousepads.Where(m => !m.IsDeleted && (m.Manufacturer == "Manufacturer4" || m.Manufacturer == "Manufacturer5"));
             var filterModel = new MousepadFilterModel
             {
                 Manufacturers = new List<string> { "Manufacturer4", "Manufacturer5" }

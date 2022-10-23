@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using eStore.Application.Factories;
-using eStore.Application.FilterModels;
+using eStore.Application.Filtering.Factories;
+using eStore.Application.Filtering.Models;
 using eStore.Application.Interfaces;
 using eStore.Application.Interfaces.Data;
 using eStore.Application.Interfaces.Services;
@@ -26,8 +26,8 @@ namespace eStore.Application.Services
 
         public async Task<IEnumerable<Mousepad>> GetPresentByFilterAsync(MousepadFilterModel filter)
         {
-            IFilterExpressionFactory<Mousepad> filterExpressionFactory = new MousepadFilterExpressionFactory();
-            var queryExpression = filterExpressionFactory.CreateExpression(filter);
+            IFilterExpressionFactory<Mousepad, MousepadFilterModel> filterExpressionFactory = new MousepadFilterExpressionFactory();
+            var queryExpression = filterExpressionFactory.GetExpression(filter);
             return await Task.FromResult(_unitOfWork.MousepadRepository.Query(queryExpression));
         }
 

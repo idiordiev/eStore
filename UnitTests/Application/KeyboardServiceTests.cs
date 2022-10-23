@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using eStore.Application.FilterModels;
+using eStore.Application.Filtering.Models;
 using eStore.Application.Interfaces.Data;
 using eStore.Application.Interfaces.Services;
 using eStore.Application.Services;
@@ -63,12 +63,8 @@ namespace eStore.UnitTests.Application
             CollectionAssert.AreEqual(expected, actual, "The actual collection is not equal to expected.");
         }
 
-        [TestCase("ConnectionType1")]
-        [TestCase("ConneCtionType1")]
-        [TestCase("connectiontype1")]
-        [TestCase("ConnectionType1111")]
-        [TestCase("")]
-        public async Task GetPresentByFilterAsync_NotDeletedAndSingleConnectionType_ReturnsCollection(string paramValue)
+        [Test]
+        public async Task GetPresentByFilterAsync_NotDeletedAndSingleConnectionType_ReturnsCollection()
         {
             // Arrange
             _mockUnitOfWork.Setup(x => x.KeyboardRepository.Query(It.IsAny<Expression<Func<Keyboard, bool>>>()))
@@ -76,10 +72,10 @@ namespace eStore.UnitTests.Application
                     _helper.Keyboards.Where(predicate.Compile()));
             IKeyboardService service = new KeyboardService(_mockUnitOfWork.Object);
 
-            var expected = _helper.Keyboards.Where(k => !k.IsDeleted && k.ConnectionType.Equals(paramValue, StringComparison.InvariantCultureIgnoreCase));
+            var expected = _helper.Keyboards.Where(k => !k.IsDeleted && k.ConnectionType == "ConnectionType1");
             var filterModel = new KeyboardFilterModel
             {
-                ConnectionTypes = new List<string> { paramValue }
+                ConnectionTypes = new List<string> { "ConnectionType1" }
             };
 
             // Act
@@ -156,12 +152,8 @@ namespace eStore.UnitTests.Application
             CollectionAssert.AreEqual(expected, actual, "The actual collection is not equal to expected.");
         }
 
-        [TestCase("Type1")]
-        [TestCase("TypE1")]
-        [TestCase("type1")]
-        [TestCase("Type1111")]
-        [TestCase("")]
-        public async Task GetPresentByFilterAsync_NotDeletedAndSingleType_ReturnsCollection(string paramValue)
+        [Test]
+        public async Task GetPresentByFilterAsync_NotDeletedAndSingleType_ReturnsCollection()
         {
             // Arrange
             _mockUnitOfWork.Setup(x => x.KeyboardRepository.Query(It.IsAny<Expression<Func<Keyboard, bool>>>()))
@@ -169,10 +161,10 @@ namespace eStore.UnitTests.Application
                     _helper.Keyboards.Where(predicate.Compile()));
             IKeyboardService service = new KeyboardService(_mockUnitOfWork.Object);
 
-            var expected = _helper.Keyboards.Where(k => !k.IsDeleted && k.Type.Equals(paramValue, StringComparison.InvariantCultureIgnoreCase));
+            var expected = _helper.Keyboards.Where(k => !k.IsDeleted && k.Type == "Type1");
             var filterModel = new KeyboardFilterModel
             {
-                KeyboardTypes = new List<string> { paramValue }
+                KeyboardTypes = new List<string> { "Type1" }
             };
 
             // Act
@@ -191,7 +183,7 @@ namespace eStore.UnitTests.Application
                     _helper.Keyboards.Where(predicate.Compile()));
             IKeyboardService service = new KeyboardService(_mockUnitOfWork.Object);
 
-            var expected = _helper.Keyboards.Where(k => !k.IsDeleted && (k.Type.Equals("Type1", StringComparison.InvariantCultureIgnoreCase) || k.Type.Equals("Type2", StringComparison.InvariantCultureIgnoreCase)));
+            var expected = _helper.Keyboards.Where(k => !k.IsDeleted && (k.Type == "Type1" || k.Type == "Type2"));
             var filterModel = new KeyboardFilterModel
             {
                 KeyboardTypes = new List<string> { "Type1", "Type2" }
@@ -204,12 +196,8 @@ namespace eStore.UnitTests.Application
             CollectionAssert.AreEqual(expected, actual, "The actual collection is not equal to expected.");
         }
 
-        [TestCase("Size1")]
-        [TestCase("SizE1")]
-        [TestCase("size1")]
-        [TestCase("Size1111")]
-        [TestCase("")]
-        public async Task GetPresentByFilterAsync_NotDeletedAndSingleSize_ReturnsCollection(string paramValue)
+        [Test]
+        public async Task GetPresentByFilterAsync_NotDeletedAndSingleSize_ReturnsCollection()
         {
             // Arrange
             _mockUnitOfWork.Setup(x => x.KeyboardRepository.Query(It.IsAny<Expression<Func<Keyboard, bool>>>()))
@@ -217,10 +205,10 @@ namespace eStore.UnitTests.Application
                     _helper.Keyboards.Where(predicate.Compile()));
             IKeyboardService service = new KeyboardService(_mockUnitOfWork.Object);
 
-            var expected = _helper.Keyboards.Where(k => !k.IsDeleted && k.Size.Equals(paramValue, StringComparison.InvariantCultureIgnoreCase));
+            var expected = _helper.Keyboards.Where(k => !k.IsDeleted && k.Size == "Size1");
             var filterModel = new KeyboardFilterModel
             {
-                KeyboardSizes = new List<string> { paramValue }
+                KeyboardSizes = new List<string> { "Size1" }
             };
 
             // Act
@@ -239,7 +227,7 @@ namespace eStore.UnitTests.Application
                     _helper.Keyboards.Where(predicate.Compile()));
             IKeyboardService service = new KeyboardService(_mockUnitOfWork.Object);
 
-            var expected = _helper.Keyboards.Where(k => !k.IsDeleted && (k.Size.Equals("Size1", StringComparison.InvariantCultureIgnoreCase) || k.Size.Equals("Size2", StringComparison.InvariantCultureIgnoreCase)));
+            var expected = _helper.Keyboards.Where(k => !k.IsDeleted && (k.Size == "Size1" || k.Size == "Size2"));
             var filterModel = new KeyboardFilterModel
             {
                 KeyboardSizes = new List<string> { "Size1", "Size2" }
@@ -252,13 +240,8 @@ namespace eStore.UnitTests.Application
             CollectionAssert.AreEqual(expected, actual, "The actual collection is not equal to expected.");
         }
 
-        [TestCase("Backlight1")]
-        [TestCase("BAcklighT1")]
-        [TestCase("BackLiGhT1")]
-        [TestCase("backlight1")]
-        [TestCase("Backlight1111")]
-        [TestCase("")]
-        public async Task GetPresentByFilterAsync_NotDeletedAndSingleBacklight_ReturnsCollection(string paramValue)
+        [Test]
+        public async Task GetPresentByFilterAsync_NotDeletedAndSingleBacklight_ReturnsCollection()
         {
             // Arrange
             _mockUnitOfWork.Setup(x => x.KeyboardRepository.Query(It.IsAny<Expression<Func<Keyboard, bool>>>()))
@@ -266,10 +249,10 @@ namespace eStore.UnitTests.Application
                     _helper.Keyboards.Where(predicate.Compile()));
             IKeyboardService service = new KeyboardService(_mockUnitOfWork.Object);
 
-            var expected = _helper.Keyboards.Where(k => !k.IsDeleted && k.Backlight.Equals(paramValue, StringComparison.InvariantCultureIgnoreCase));
+            var expected = _helper.Keyboards.Where(k => !k.IsDeleted && k.Backlight == "Backlight1");
             var filterModel = new KeyboardFilterModel
             {
-                Backlights = new List<string> { paramValue }
+                Backlights = new List<string> { "Backlight1" }
             };
 
             // Act
@@ -289,7 +272,7 @@ namespace eStore.UnitTests.Application
             IKeyboardService service = new KeyboardService(_mockUnitOfWork.Object);
 
             var expected =
-                _helper.Keyboards.Where(k => !k.IsDeleted && (k.Backlight.Equals("Backlight1", StringComparison.InvariantCultureIgnoreCase) || k.Backlight.Equals("Backlight2", StringComparison.InvariantCultureIgnoreCase)));
+                _helper.Keyboards.Where(k => !k.IsDeleted && (k.Backlight == "Backlight1" || k.Backlight == "Backlight2"));
             var filterModel = new KeyboardFilterModel
             {
                 Backlights = new List<string> { "Backlight1", "Backlight2" }
@@ -302,12 +285,8 @@ namespace eStore.UnitTests.Application
             CollectionAssert.AreEqual(expected, actual, "The actual collection is not equal to expected.");
         }
 
-        [TestCase("Rollover1")]
-        [TestCase("RollOver1")]
-        [TestCase("RoLlOvEr1")]
-        [TestCase("rollover1")]
-        [TestCase("")]
-        public async Task GetPresentByFilterAsync_NotDeletedAndSingleKeyRollover_ReturnsCollection(string paramValue)
+        [Test]
+        public async Task GetPresentByFilterAsync_NotDeletedAndSingleKeyRollover_ReturnsCollection()
         {
             // Arrange
             _mockUnitOfWork.Setup(x => x.KeyboardRepository.Query(It.IsAny<Expression<Func<Keyboard, bool>>>()))
@@ -315,10 +294,10 @@ namespace eStore.UnitTests.Application
                     _helper.Keyboards.Where(predicate.Compile()));
             IKeyboardService service = new KeyboardService(_mockUnitOfWork.Object);
 
-            var expected = _helper.Keyboards.Where(k => !k.IsDeleted && k.KeyRollover.Equals(paramValue, StringComparison.InvariantCultureIgnoreCase));
+            var expected = _helper.Keyboards.Where(k => !k.IsDeleted && k.KeyRollover == "Rollover1");
             var filterModel = new KeyboardFilterModel
             {
-                KeyRollovers = new List<string> { paramValue }
+                KeyRollovers = new List<string> { "Rollover1" }
             };
 
             // Act
@@ -338,7 +317,7 @@ namespace eStore.UnitTests.Application
             IKeyboardService service = new KeyboardService(_mockUnitOfWork.Object);
 
             var expected =
-                _helper.Keyboards.Where(k => !k.IsDeleted && (k.KeyRollover.Equals("Rollover1", StringComparison.InvariantCultureIgnoreCase) || k.KeyRollover.Equals("Rollover2", StringComparison.InvariantCultureIgnoreCase)));
+                _helper.Keyboards.Where(k => !k.IsDeleted && (k.KeyRollover == "Rollover1" || k.KeyRollover == "Rollover2"));
             var filterModel = new KeyboardFilterModel
             {
                 KeyRollovers = new List<string> { "Rollover1", "Rollover2" }
@@ -351,13 +330,8 @@ namespace eStore.UnitTests.Application
             CollectionAssert.AreEqual(expected, actual, "The actual collection is not equal to expected.");
         }
 
-        [TestCase("Manufacturer4")]
-        [TestCase("ManUfacturer4")]
-        [TestCase("mAnUfAcTuReR4")]
-        [TestCase("manufacturer4")]
-        [TestCase("Manufacturer444")]
-        [TestCase("")]
-        public async Task GetPresentByFilterAsync_NotDeletedAndSingleManufacturer_ReturnsCollection(string paramValue)
+        [Test]
+        public async Task GetPresentByFilterAsync_NotDeletedAndSingleManufacturer_ReturnsCollection()
         {
             // Arrange
             _mockUnitOfWork.Setup(x => x.KeyboardRepository.Query(It.IsAny<Expression<Func<Keyboard, bool>>>()))
@@ -365,10 +339,10 @@ namespace eStore.UnitTests.Application
                     _helper.Keyboards.Where(predicate.Compile()));
             IKeyboardService service = new KeyboardService(_mockUnitOfWork.Object);
 
-            var expected = _helper.Keyboards.Where(k => !k.IsDeleted && k.Manufacturer.Equals(paramValue, StringComparison.InvariantCultureIgnoreCase));
+            var expected = _helper.Keyboards.Where(k => !k.IsDeleted && k.Manufacturer == "Manufacturer4");
             var filterModel = new KeyboardFilterModel
             {
-                Manufacturers = new List<string> { paramValue }
+                Manufacturers = new List<string> { "Manufacturer4" }
             };
 
             // Act
@@ -388,7 +362,7 @@ namespace eStore.UnitTests.Application
             IKeyboardService service = new KeyboardService(_mockUnitOfWork.Object);
 
             var expected =
-                _helper.Keyboards.Where(k => !k.IsDeleted && (k.Manufacturer.Equals("Manufacturer4", StringComparison.InvariantCultureIgnoreCase) || k.Manufacturer.Equals("Manufacturer5", StringComparison.InvariantCultureIgnoreCase)));
+                _helper.Keyboards.Where(k => !k.IsDeleted && (k.Manufacturer == "Manufacturer4" || k.Manufacturer == "Manufacturer5"));
             var filterModel = new KeyboardFilterModel
             {
                 Manufacturers = new List<string> { "Manufacturer4", "Manufacturer5" }

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using eStore.Application.FilterModels.Shared;
+using eStore.Application.Filtering.Models.Shared;
 
-namespace eStore.Application.FilterModels
+namespace eStore.Application.Filtering.Models
 {
     public class GamepadFilterModel : GoodsFilterModel
     {

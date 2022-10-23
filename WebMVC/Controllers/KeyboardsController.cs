@@ -1,9 +1,7 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using eStore.Application.FilterModels;
+using eStore.Application.Filtering.Models;
 using eStore.Application.Interfaces.Services;
 using eStore.Infrastructure.Identity;
 using eStore.WebMVC.Models;

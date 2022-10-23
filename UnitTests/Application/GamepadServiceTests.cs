@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using eStore.Application.FilterModels;
+using eStore.Application.Filtering.Models;
 using eStore.Application.Interfaces.Data;
 using eStore.Application.Interfaces.Services;
 using eStore.Application.Services;
@@ -63,9 +63,8 @@ namespace eStore.UnitTests.Application
             CollectionAssert.AreEqual(expected, actual, "The actual collection is not equal to expected.");
         }
 
-        [TestCase("CompatibleDevice1")]
-        [TestCase("CompatibleDevice2")]
-        public async Task GetPresentByFilterAsync_NotDeletedAndSingleCompatibleDevice_ReturnsCollection(string paramValue)
+        [Test]
+        public async Task GetPresentByFilterAsync_NotDeletedAndSingleCompatibleDevice_ReturnsCollection()
         {
             // Arrange
             _mockUnitOfWork.Setup(x => x.GamepadRepository.Query(It.IsAny<Expression<Func<Gamepad, bool>>>()))
@@ -73,10 +72,10 @@ namespace eStore.UnitTests.Application
                     _helper.Gamepads.Where(predicate.Compile()));
             IGamepadService service = new GamepadService(_mockUnitOfWork.Object);
 
-            var expected = _helper.Gamepads.Where(g => !g.IsDeleted && g.CompatibleDevices.Contains(paramValue));
+            var expected = _helper.Gamepads.Where(g => !g.IsDeleted && g.CompatibleDevices.Contains("CompatibleDevice1"));
             var filterModel = new GamepadFilterModel
             {
-                CompatibleDevices = new List<string> { paramValue }
+                CompatibleDevices = new List<string> { "CompatibleDevice1" }
             };
 
             // Act
@@ -110,23 +109,18 @@ namespace eStore.UnitTests.Application
             CollectionAssert.AreEqual(expected, actual, "The actual collection is not equal to expected.");
         }
 
-        [TestCase("ConnectionType1")]
-        [TestCase("ConneCtionType1")]
-        [TestCase("connectiontype1")]
-        [TestCase("ConnectionType1111")]
-        [TestCase("")]
-        public async Task GetPresentByFilterAsync_NotDeletedAndSingleConnectionType_ReturnsCollection(string paramValue)
+        [Test]
+        public async Task GetPresentByFilterAsync_NotDeletedAndSingleConnectionType_ReturnsCollection()
         {
             // Arrange
             _mockUnitOfWork.Setup(x => x.GamepadRepository.Query(It.IsAny<Expression<Func<Gamepad, bool>>>()))
-                .Returns((Expression<Func<Gamepad, bool>> predicate) =>
-                    _helper.Gamepads.Where(predicate.Compile()));
+                .Returns((Expression<Func<Gamepad, bool>> predicate) =>  _helper.Gamepads.Where(predicate.Compile()));
             IGamepadService service = new GamepadService(_mockUnitOfWork.Object);
 
-            var expected = _helper.Gamepads.Where(g => !g.IsDeleted && g.ConnectionType.Equals(paramValue, StringComparison.InvariantCultureIgnoreCase));
+            var expected = _helper.Gamepads.Where(g => !g.IsDeleted && g.ConnectionType == "ConnectionType1");
             var filterModel = new GamepadFilterModel
             {
-                ConnectionTypes = new List<string> { paramValue }
+                ConnectionTypes = new List<string> { "ConnectionType1" }
             };
 
             // Act
@@ -145,7 +139,7 @@ namespace eStore.UnitTests.Application
                     _helper.Gamepads.Where(predicate.Compile()));
             IGamepadService service = new GamepadService(_mockUnitOfWork.Object);
 
-            var expected = _helper.Gamepads.Where(g => !g.IsDeleted && (g.ConnectionType.Equals("ConnectionType1", StringComparison.InvariantCultureIgnoreCase) || g.ConnectionType.Equals("ConnectionType2", StringComparison.InvariantCultureIgnoreCase)));
+            var expected = _helper.Gamepads.Where(g => !g.IsDeleted && (g.ConnectionType == "ConnectionType1" || g.ConnectionType == "ConnectionType2"));
             var filterModel = new GamepadFilterModel
             {
                 ConnectionTypes = new List<string> { "ConnectionType1", "ConnectionType2" }
@@ -158,13 +152,8 @@ namespace eStore.UnitTests.Application
             CollectionAssert.AreEqual(expected, actual, "The actual collection is not equal to expected.");
         }
 
-        [TestCase("Feedback1")]
-        [TestCase("FeedBack1")]
-        [TestCase("FEedback1")]
-        [TestCase("feedback1")]
-        [TestCase("Feedback1111")]
-        [TestCase("")]
-        public async Task GetPresentByFilterAsync_NotDeletedAndSingleFeedback_ReturnsCollection(string paramValue)
+        [Test]
+        public async Task GetPresentByFilterAsync_NotDeletedAndSingleFeedback_ReturnsCollection()
         {
             // Arrange
             _mockUnitOfWork.Setup(x => x.GamepadRepository.Query(It.IsAny<Expression<Func<Gamepad, bool>>>()))
@@ -172,10 +161,10 @@ namespace eStore.UnitTests.Application
                     _helper.Gamepads.Where(predicate.Compile()));
             IGamepadService service = new GamepadService(_mockUnitOfWork.Object);
 
-            var expected = _helper.Gamepads.Where(g => !g.IsDeleted && g.Feedback.Equals(paramValue, StringComparison.InvariantCultureIgnoreCase));
+            var expected = _helper.Gamepads.Where(g => !g.IsDeleted && g.Feedback == "Feedback1");
             var filterModel = new GamepadFilterModel
             {
-                Feedbacks = new List<string> { paramValue }
+                Feedbacks = new List<string> { "Feedback1" }
             };
 
             // Act
@@ -194,7 +183,7 @@ namespace eStore.UnitTests.Application
                     _helper.Gamepads.Where(predicate.Compile()));
             IGamepadService service = new GamepadService(_mockUnitOfWork.Object);
 
-            var expected = _helper.Gamepads.Where(g => !g.IsDeleted && (g.Feedback.Equals("Feedback1", StringComparison.InvariantCultureIgnoreCase) || g.Feedback.Equals("Feedback2", StringComparison.InvariantCultureIgnoreCase)));
+            var expected = _helper.Gamepads.Where(g => !g.IsDeleted && (g.Feedback == "Feedback1" || g.Feedback == "Feedback2"));
             var filterModel = new GamepadFilterModel
             {
                 Feedbacks = new List<string> { "Feedback1", "Feedback2" }
@@ -207,13 +196,8 @@ namespace eStore.UnitTests.Application
             CollectionAssert.AreEqual(expected, actual, "The actual collection is not equal to expected.");
         }
 
-        [TestCase("Manufacturer3")]
-        [TestCase("ManUfacturer3")]
-        [TestCase("mAnUfAcTuReR3")]
-        [TestCase("manufacturer3")]
-        [TestCase("Manufacturer333")]
-        [TestCase("")]
-        public async Task GetPresentByFilterAsync_NotDeletedAndSingleManufacturer_ReturnsCollection(string paramValue)
+        [Test]
+        public async Task GetPresentByFilterAsync_NotDeletedAndSingleManufacturer_ReturnsCollection()
         {
             // Arrange
             _mockUnitOfWork.Setup(x => x.GamepadRepository.Query(It.IsAny<Expression<Func<Gamepad, bool>>>()))
@@ -221,10 +205,10 @@ namespace eStore.UnitTests.Application
                     _helper.Gamepads.Where(predicate.Compile()));
             IGamepadService service = new GamepadService(_mockUnitOfWork.Object);
 
-            var expected = _helper.Gamepads.Where(g => !g.IsDeleted && g.Manufacturer.Equals(paramValue, StringComparison.InvariantCultureIgnoreCase));
+            var expected = _helper.Gamepads.Where(g => !g.IsDeleted && g.Manufacturer.Equals("Manufacturer3"));
             var filterModel = new GamepadFilterModel
             {
-                Manufacturers = new List<string> { paramValue }
+                Manufacturers = new List<string> { "Manufacturer3" }
             };
 
             // Act
@@ -244,7 +228,7 @@ namespace eStore.UnitTests.Application
             IGamepadService service = new GamepadService(_mockUnitOfWork.Object);
 
             var expected =
-                _helper.Gamepads.Where(g => !g.IsDeleted && (g.Manufacturer.Equals("Manufacturer3", StringComparison.InvariantCultureIgnoreCase) || g.Manufacturer.Equals("Manufacturer4", StringComparison.InvariantCultureIgnoreCase)));
+                _helper.Gamepads.Where(g => !g.IsDeleted && (g.Manufacturer == "Manufacturer3" || g.Manufacturer == "Manufacturer4"));
             var filterModel = new GamepadFilterModel
             {
                 Manufacturers = new List<string> { "Manufacturer3", "Manufacturer4" }
