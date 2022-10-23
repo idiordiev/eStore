@@ -478,7 +478,7 @@ namespace eStore.Application.Tests.Services
             var mousepads = _helper.Mousepads.ToList();
             _mockUnitOfWork.Setup(x => x.MousepadRepository.GetAllAsync()).ReturnsAsync(mousepads);
             IMousepadService service = new MousepadService(_mockUnitOfWork.Object);
-            var expected = mousepads.Select(m => m.BottomMaterial).Distinct();
+            var expected = mousepads.Select(m => m.BottomMaterial).Distinct().OrderBy(m => m);
 
             // Act
             var actual = await service.GetBottomMaterialsAsync();
