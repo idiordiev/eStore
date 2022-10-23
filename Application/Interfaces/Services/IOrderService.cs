@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using eStore.Application.Interfaces.DTO;
+using eStore.Application.DTOs;
 using eStore.Domain.Entities;
 
 namespace eStore.Application.Interfaces.Services
@@ -9,7 +9,7 @@ namespace eStore.Application.Interfaces.Services
     {
         Task<IEnumerable<Order>> GetOrdersByCustomerIdAsync(int customerId);
         Task<Order> GetOrderByIdAsync(int orderId);
-        Task<Order> CreateOrderAsync(int customerId, IEnumerable<IOrderItem> items, IOrderAddress address);
+        Task<Order> CreateOrderAsync(int customerId, IEnumerable<OrderItemDto> items, OrderAddressDto address);
         Task PayOrderAsync(int orderId);
         Task CancelOrderAsync(int orderId);
     }

@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using eStore.Application.DTOs;
 using eStore.Application.Exceptions;
 using eStore.Application.Interfaces;
 using eStore.Application.Interfaces.Data;
 using eStore.Application.Interfaces.Services;
-using eStore.Application.Interfaces.DTO;
 using eStore.Domain.Entities;
 using eStore.Domain.Enums;
 
@@ -34,7 +34,7 @@ namespace eStore.Application.Services
             return await _unitOfWork.OrderRepository.GetByIdAsync(orderId);
         }
 
-        public async Task<Order> CreateOrderAsync(int customerId, IEnumerable<IOrderItem> items, IOrderAddress address)
+        public async Task<Order> CreateOrderAsync(int customerId, IEnumerable<OrderItemDto> items, OrderAddressDto address)
         {
             var customer = await _unitOfWork.CustomerRepository.GetByIdAsync(customerId);
             CheckIfCustomerIsPresent(customer);
@@ -102,8 +102,7 @@ namespace eStore.Application.Services
                 throw new CustomerNotFoundException("The customer has not been found.");
 
             if (customer.IsDeleted)
-                throw new AccountDeactivatedException(
-                    $"The account with the id {customer.Id} has already been deactivated.");
+                throw new AccountDeactivatedException($"The account with the id {customer.Id} has already been deactivated.");
         }
 
         private static void CheckIfGoodsIsPresent(Goods goods)

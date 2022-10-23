@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
+using eStore.Application.DTOs;
 using eStore.Application.Interfaces.Services;
 using eStore.Domain.Entities;
 using eStore.Infrastructure.Identity;
-using eStore.WebMVC.DTO;
 using eStore.WebMVC.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;

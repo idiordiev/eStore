@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using eStore.Application.DTOs;
 using eStore.Application.Exceptions;
 using eStore.Application.Interfaces;
 using eStore.Application.Interfaces.Data;
-using eStore.Application.Interfaces.DTO;
 using eStore.Application.Interfaces.Services;
 using eStore.Application.Services;
 using eStore.Domain.Entities;
@@ -28,20 +28,6 @@ namespace eStore.Application.Tests.Services
             _mockUnitOfWork = new Mock<IUnitOfWork>();
             _mockEmailService = new Mock<IEmailService>();
             _mockAttachmentService = new Mock<IAttachmentService>();
-        }
-
-        internal class OrderAddress : IOrderAddress
-        {
-            public string ShippingCountry { get; set; }
-            public string ShippingCity { get; set; }
-            public string ShippingAddress { get; set; }
-            public string ShippingPostalCode { get; set; }
-        }
-
-        internal class OrderItem : IOrderItem
-        {
-            public int GoodsId { get; set; }
-            public int Quantity { get; set; }
         }
 
         private UnitTestHelper _helper;
@@ -107,8 +93,9 @@ namespace eStore.Application.Tests.Services
             IOrderService service = new OrderService(_mockUnitOfWork.Object, _mockEmailService.Object, _mockAttachmentService.Object);
 
             // Act
-            await service.CreateOrderAsync(1,
-                new List<IOrderItem> { new OrderItem { GoodsId = 1, Quantity = 1 } }, new OrderAddress
+            await service.CreateOrderAsync(1, new List<OrderItemDto> { 
+                    new OrderItemDto { GoodsId = 1, Quantity = 1 } },
+                new OrderAddressDto
                 {
                     ShippingCountry = "Country1",
                     ShippingAddress = "Address1",
@@ -140,7 +127,8 @@ namespace eStore.Application.Tests.Services
 
             // Act
             var exception = Assert.ThrowsAsync<CustomerNotFoundException>(async () => await service.CreateOrderAsync(1,
-                new List<IOrderItem> { new OrderItem { GoodsId = 1, Quantity = 1 } }, new OrderAddress
+                new List<OrderItemDto> { new OrderItemDto { GoodsId = 1, Quantity = 1 } },
+                new OrderAddressDto
                 {
                     ShippingCountry = "Country1",
                     ShippingAddress = "Address1",
@@ -168,7 +156,8 @@ namespace eStore.Application.Tests.Services
             // Act
             var exception = Assert.ThrowsAsync<AccountDeactivatedException>(async () => await service.CreateOrderAsync(
                 1,
-                new List<IOrderItem> { new OrderItem { GoodsId = 1, Quantity = 1 } }, new OrderAddress
+                new List<OrderItemDto> { new OrderItemDto { GoodsId = 1, Quantity = 1 } }, 
+                new OrderAddressDto
                 {
                     ShippingCountry = "Country1",
                     ShippingAddress = "Address1",
@@ -194,7 +183,8 @@ namespace eStore.Application.Tests.Services
 
             // Act
             var exception = Assert.ThrowsAsync<GoodsNotFoundException>(async () => await service.CreateOrderAsync(1,
-                new List<IOrderItem> { new OrderItem { GoodsId = 1, Quantity = 1 } }, new OrderAddress
+                new List<OrderItemDto> { new OrderItemDto() { GoodsId = 1, Quantity = 1 } }, 
+                new OrderAddressDto
                 {
                     ShippingCountry = "Country1",
                     ShippingAddress = "Address1",
@@ -221,7 +211,8 @@ namespace eStore.Application.Tests.Services
 
             // Act
             var exception = Assert.ThrowsAsync<EntityDeletedException>(async () => await service.CreateOrderAsync(1,
-                new List<IOrderItem> { new OrderItem { GoodsId = 1, Quantity = 1 } }, new OrderAddress
+                new List<OrderItemDto> { new OrderItemDto() { GoodsId = 1, Quantity = 1 } }, 
+                new OrderAddressDto
                 {
                     ShippingCountry = "Country1",
                     ShippingAddress = "Address1",
@@ -248,7 +239,8 @@ namespace eStore.Application.Tests.Services
 
             // Act
             var exception = Assert.ThrowsAsync<InvalidQuantityException>(async () => await service.CreateOrderAsync(1,
-                new List<IOrderItem> { new OrderItem { GoodsId = 1, Quantity = 0 } }, new OrderAddress
+                new List<OrderItemDto> { new OrderItemDto() { GoodsId = 1, Quantity = 0 } }, 
+                new OrderAddressDto
                 {
                     ShippingCountry = "Country1",
                     ShippingAddress = "Address1",

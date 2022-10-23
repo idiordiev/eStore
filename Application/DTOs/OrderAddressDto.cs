@@ -1,8 +1,6 @@
-﻿using eStore.Application.Interfaces.DTO;
-
-namespace eStore.WebMVC.DTO
+﻿namespace eStore.Application.DTOs
 {
-    public class OrderAddressDto : IOrderAddress
+    public class OrderAddressDto
     {
         public string ShippingCountry { get; set; }
         public string ShippingCity { get; set; }
