@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
+using eStore.Application.DTOs;
 using eStore.Domain.Entities;
-using eStore.WebMVC.DTO;
 using eStore.WebMVC.Models;
 
 namespace eStore.WebMVC.Mapping
