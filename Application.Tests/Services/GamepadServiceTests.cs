@@ -8,17 +8,15 @@ using eStore.Application.Interfaces.Data;
 using eStore.Application.Interfaces.Services;
 using eStore.Application.Services;
 using eStore.Domain.Entities;
+using eStore.Tests.Common;
 using Moq;
 using NUnit.Framework;
 
-namespace eStore.UnitTests.Application
+namespace eStore.Application.Tests.Services
 {
     [TestFixture]
     public class GamepadServiceTests
     {
-        private UnitTestHelper _helper;
-        private Mock<IUnitOfWork> _mockUnitOfWork;
-        
         [SetUp]
         public void Setup()
         {
@@ -26,13 +24,15 @@ namespace eStore.UnitTests.Application
             _mockUnitOfWork = new Mock<IUnitOfWork>();
         }
 
+        private UnitTestHelper _helper;
+        private Mock<IUnitOfWork> _mockUnitOfWork;
+
         [Test]
         public async Task GetPresentAsync_NotEmptyDb_ReturnsCollectionOfGamepads()
         {
             // Arrange
             _mockUnitOfWork.Setup(x => x.GamepadRepository.Query(It.IsAny<Expression<Func<Gamepad, bool>>>()))
-                .Returns((Expression<Func<Gamepad, bool>> predicate) =>
-                    _helper.Gamepads.Where(predicate.Compile()));
+                .Returns((Expression<Func<Gamepad, bool>> predicate) => _helper.Gamepads.Where(predicate.Compile()));
             IGamepadService service = new GamepadService(_mockUnitOfWork.Object);
 
             var expected = _helper.Gamepads.Where(g => !g.IsDeleted);
@@ -49,8 +49,7 @@ namespace eStore.UnitTests.Application
         {
             // Arrange
             _mockUnitOfWork.Setup(x => x.GamepadRepository.Query(It.IsAny<Expression<Func<Gamepad, bool>>>()))
-                .Returns((Expression<Func<Gamepad, bool>> predicate) =>
-                    _helper.Gamepads.Where(predicate.Compile()));
+                .Returns((Expression<Func<Gamepad, bool>> predicate) => _helper.Gamepads.Where(predicate.Compile()));
             IGamepadService service = new GamepadService(_mockUnitOfWork.Object);
 
             var expected = _helper.Gamepads.Where(g => !g.IsDeleted);
@@ -68,8 +67,7 @@ namespace eStore.UnitTests.Application
         {
             // Arrange
             _mockUnitOfWork.Setup(x => x.GamepadRepository.Query(It.IsAny<Expression<Func<Gamepad, bool>>>()))
-                .Returns((Expression<Func<Gamepad, bool>> predicate) =>
-                    _helper.Gamepads.Where(predicate.Compile()));
+                .Returns((Expression<Func<Gamepad, bool>> predicate) => _helper.Gamepads.Where(predicate.Compile()));
             IGamepadService service = new GamepadService(_mockUnitOfWork.Object);
 
             var expected = _helper.Gamepads.Where(g => !g.IsDeleted && g.CompatibleDevices.Contains("CompatibleDevice1"));
@@ -90,8 +88,7 @@ namespace eStore.UnitTests.Application
         {
             // Arrange
             _mockUnitOfWork.Setup(x => x.GamepadRepository.Query(It.IsAny<Expression<Func<Gamepad, bool>>>()))
-                .Returns((Expression<Func<Gamepad, bool>> predicate) =>
-                    _helper.Gamepads.Where(predicate.Compile()));
+                .Returns((Expression<Func<Gamepad, bool>> predicate) => _helper.Gamepads.Where(predicate.Compile()));
             IGamepadService service = new GamepadService(_mockUnitOfWork.Object);
 
             var expected = _helper.Gamepads.Where(g =>
@@ -114,7 +111,7 @@ namespace eStore.UnitTests.Application
         {
             // Arrange
             _mockUnitOfWork.Setup(x => x.GamepadRepository.Query(It.IsAny<Expression<Func<Gamepad, bool>>>()))
-                .Returns((Expression<Func<Gamepad, bool>> predicate) =>  _helper.Gamepads.Where(predicate.Compile()));
+                .Returns((Expression<Func<Gamepad, bool>> predicate) => _helper.Gamepads.Where(predicate.Compile()));
             IGamepadService service = new GamepadService(_mockUnitOfWork.Object);
 
             var expected = _helper.Gamepads.Where(g => !g.IsDeleted && g.ConnectionType == "ConnectionType1");
@@ -135,11 +132,11 @@ namespace eStore.UnitTests.Application
         {
             // Arrange
             _mockUnitOfWork.Setup(x => x.GamepadRepository.Query(It.IsAny<Expression<Func<Gamepad, bool>>>()))
-                .Returns((Expression<Func<Gamepad, bool>> predicate) =>
-                    _helper.Gamepads.Where(predicate.Compile()));
+                .Returns((Expression<Func<Gamepad, bool>> predicate) => _helper.Gamepads.Where(predicate.Compile()));
             IGamepadService service = new GamepadService(_mockUnitOfWork.Object);
 
-            var expected = _helper.Gamepads.Where(g => !g.IsDeleted && (g.ConnectionType == "ConnectionType1" || g.ConnectionType == "ConnectionType2"));
+            var expected = _helper.Gamepads.Where(g =>
+                !g.IsDeleted && (g.ConnectionType == "ConnectionType1" || g.ConnectionType == "ConnectionType2"));
             var filterModel = new GamepadFilterModel
             {
                 ConnectionTypes = new List<string> { "ConnectionType1", "ConnectionType2" }
@@ -157,8 +154,7 @@ namespace eStore.UnitTests.Application
         {
             // Arrange
             _mockUnitOfWork.Setup(x => x.GamepadRepository.Query(It.IsAny<Expression<Func<Gamepad, bool>>>()))
-                .Returns((Expression<Func<Gamepad, bool>> predicate) =>
-                    _helper.Gamepads.Where(predicate.Compile()));
+                .Returns((Expression<Func<Gamepad, bool>> predicate) => _helper.Gamepads.Where(predicate.Compile()));
             IGamepadService service = new GamepadService(_mockUnitOfWork.Object);
 
             var expected = _helper.Gamepads.Where(g => !g.IsDeleted && g.Feedback == "Feedback1");
@@ -179,8 +175,7 @@ namespace eStore.UnitTests.Application
         {
             // Arrange
             _mockUnitOfWork.Setup(x => x.GamepadRepository.Query(It.IsAny<Expression<Func<Gamepad, bool>>>()))
-                .Returns((Expression<Func<Gamepad, bool>> predicate) =>
-                    _helper.Gamepads.Where(predicate.Compile()));
+                .Returns((Expression<Func<Gamepad, bool>> predicate) => _helper.Gamepads.Where(predicate.Compile()));
             IGamepadService service = new GamepadService(_mockUnitOfWork.Object);
 
             var expected = _helper.Gamepads.Where(g => !g.IsDeleted && (g.Feedback == "Feedback1" || g.Feedback == "Feedback2"));
@@ -201,8 +196,7 @@ namespace eStore.UnitTests.Application
         {
             // Arrange
             _mockUnitOfWork.Setup(x => x.GamepadRepository.Query(It.IsAny<Expression<Func<Gamepad, bool>>>()))
-                .Returns((Expression<Func<Gamepad, bool>> predicate) =>
-                    _helper.Gamepads.Where(predicate.Compile()));
+                .Returns((Expression<Func<Gamepad, bool>> predicate) => _helper.Gamepads.Where(predicate.Compile()));
             IGamepadService service = new GamepadService(_mockUnitOfWork.Object);
 
             var expected = _helper.Gamepads.Where(g => !g.IsDeleted && g.Manufacturer.Equals("Manufacturer3"));
@@ -223,8 +217,7 @@ namespace eStore.UnitTests.Application
         {
             // Arrange
             _mockUnitOfWork.Setup(x => x.GamepadRepository.Query(It.IsAny<Expression<Func<Gamepad, bool>>>()))
-                .Returns((Expression<Func<Gamepad, bool>> predicate) =>
-                    _helper.Gamepads.Where(predicate.Compile()));
+                .Returns((Expression<Func<Gamepad, bool>> predicate) => _helper.Gamepads.Where(predicate.Compile()));
             IGamepadService service = new GamepadService(_mockUnitOfWork.Object);
 
             var expected =
@@ -246,8 +239,7 @@ namespace eStore.UnitTests.Application
         {
             // Arrange
             _mockUnitOfWork.Setup(x => x.GamepadRepository.Query(It.IsAny<Expression<Func<Gamepad, bool>>>()))
-                .Returns((Expression<Func<Gamepad, bool>> predicate) =>
-                    _helper.Gamepads.Where(predicate.Compile()));
+                .Returns((Expression<Func<Gamepad, bool>> predicate) => _helper.Gamepads.Where(predicate.Compile()));
             IGamepadService service = new GamepadService(_mockUnitOfWork.Object);
 
             var expected = _helper.Gamepads.Where(g => !g.IsDeleted && g.Price >= 34.99m);
@@ -268,8 +260,7 @@ namespace eStore.UnitTests.Application
         {
             // Arrange
             _mockUnitOfWork.Setup(x => x.GamepadRepository.Query(It.IsAny<Expression<Func<Gamepad, bool>>>()))
-                .Returns((Expression<Func<Gamepad, bool>> predicate) =>
-                    _helper.Gamepads.Where(predicate.Compile()));
+                .Returns((Expression<Func<Gamepad, bool>> predicate) => _helper.Gamepads.Where(predicate.Compile()));
             IGamepadService service = new GamepadService(_mockUnitOfWork.Object);
 
             var expected = _helper.Gamepads.Where(g => !g.IsDeleted && g.Price <= 34.99m);
@@ -290,8 +281,7 @@ namespace eStore.UnitTests.Application
         {
             // Arrange
             _mockUnitOfWork.Setup(x => x.GamepadRepository.Query(It.IsAny<Expression<Func<Gamepad, bool>>>()))
-                .Returns((Expression<Func<Gamepad, bool>> predicate) =>
-                    _helper.Gamepads.Where(predicate.Compile()));
+                .Returns((Expression<Func<Gamepad, bool>> predicate) => _helper.Gamepads.Where(predicate.Compile()));
             IGamepadService service = new GamepadService(_mockUnitOfWork.Object);
 
             var expected = _helper.Gamepads.Where(g => !g.IsDeleted && g.Price >= 34.99m && g.Price <= 44.99m);
@@ -313,8 +303,7 @@ namespace eStore.UnitTests.Application
         {
             // Arrange
             _mockUnitOfWork.Setup(x => x.GamepadRepository.Query(It.IsAny<Expression<Func<Gamepad, bool>>>()))
-                .Returns((Expression<Func<Gamepad, bool>> predicate) =>
-                    _helper.Gamepads.Where(predicate.Compile()));
+                .Returns((Expression<Func<Gamepad, bool>> predicate) => _helper.Gamepads.Where(predicate.Compile()));
             IGamepadService service = new GamepadService(_mockUnitOfWork.Object);
 
             var expected = _helper.Gamepads.Where(g => !g.IsDeleted);
@@ -323,8 +312,10 @@ namespace eStore.UnitTests.Application
                 ConnectionTypes = new List<string> { "ConnectionType1", "ConnectionType2", "ConnectionType3", "ConnectionType4" },
                 CompatibleDevices = new List<string> { "CompatibleDevice1", "CompatibleDevice2", "CompatibleDevice3", "CompatibleDevice4" },
                 Feedbacks = new List<string> { "Feedback1", "Feedback2", "Feedback3" },
-                Manufacturers = new List<string> { "Manufacturer1", "Manufacturer2", "Manufacturer3", "Manufacturer4", 
-                    "Manufacturer5", "Manufacturer6", "Manufacturer7" },
+                Manufacturers = new List<string>
+                {
+                    "Manufacturer1", "Manufacturer2", "Manufacturer3", "Manufacturer4", "Manufacturer5", "Manufacturer6", "Manufacturer7"
+                },
                 MinPrice = 4.99m,
                 MaxPrice = 444.99m
             };
@@ -348,7 +339,7 @@ namespace eStore.UnitTests.Application
             var actual = await service.GetByIdAsync(1);
 
             // Assert
-            Assert.AreEqual(expected, actual, "The actual gamepad is not equal to expected.");
+            Assert.That(actual, Is.EqualTo(expected), "The actual gamepad is not equal to expected.");
         }
 
         [Test]
@@ -362,7 +353,7 @@ namespace eStore.UnitTests.Application
             var actual = await service.GetByIdAsync(1);
 
             // Assert
-            Assert.IsNull(actual, "The method returned not-null object.");
+            Assert.That(actual, Is.Null, "The method returned not-null object.");
         }
 
         [Test]

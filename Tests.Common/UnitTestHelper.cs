@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using eStore.Domain.Entities;
 using eStore.Domain.Enums;
 using eStore.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 
-namespace eStore.UnitTests
+namespace eStore.Tests.Common
 {
-    internal class UnitTestHelper
+    public class UnitTestHelper
     {
         private readonly List<KeyboardSwitch> _keyboardSwitches;
         private readonly List<Gamepad> _gamepads;

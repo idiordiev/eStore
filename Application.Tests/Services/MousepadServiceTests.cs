@@ -8,17 +8,15 @@ using eStore.Application.Interfaces.Data;
 using eStore.Application.Interfaces.Services;
 using eStore.Application.Services;
 using eStore.Domain.Entities;
+using eStore.Tests.Common;
 using Moq;
 using NUnit.Framework;
 
-namespace eStore.UnitTests.Application
+namespace eStore.Application.Tests.Services
 {
     [TestFixture]
     public class MousepadServiceTests
     {
-        private UnitTestHelper _helper;
-        private Mock<IUnitOfWork> _mockUnitOfWork;
-        
         [SetUp]
         public void Setup()
         {
@@ -26,13 +24,15 @@ namespace eStore.UnitTests.Application
             _mockUnitOfWork = new Mock<IUnitOfWork>();
         }
 
+        private UnitTestHelper _helper;
+        private Mock<IUnitOfWork> _mockUnitOfWork;
+
         [Test]
         public async Task GetPresentAsync_NotEmptyDb_ReturnsCollectionOfMousepads()
         {
             // Arrange
             _mockUnitOfWork.Setup(x => x.MousepadRepository.Query(It.IsAny<Expression<Func<Mousepad, bool>>>()))
-                .Returns((Expression<Func<Mousepad, bool>> predicate) =>
-                    _helper.Mousepads.Where(predicate.Compile()));
+                .Returns((Expression<Func<Mousepad, bool>> predicate) => _helper.Mousepads.Where(predicate.Compile()));
             IMousepadService service = new MousepadService(_mockUnitOfWork.Object);
 
             var expected = _helper.Mousepads.Where(m => !m.IsDeleted);
@@ -49,8 +49,7 @@ namespace eStore.UnitTests.Application
         {
             // Arrange
             _mockUnitOfWork.Setup(x => x.MousepadRepository.Query(It.IsAny<Expression<Func<Mousepad, bool>>>()))
-                .Returns((Expression<Func<Mousepad, bool>> predicate) =>
-                    _helper.Mousepads.Where(predicate.Compile()));
+                .Returns((Expression<Func<Mousepad, bool>> predicate) => _helper.Mousepads.Where(predicate.Compile()));
             IMousepadService service = new MousepadService(_mockUnitOfWork.Object);
 
             var expected = _helper.Mousepads.Where(m => !m.IsDeleted);
@@ -68,8 +67,7 @@ namespace eStore.UnitTests.Application
         {
             // Arrange
             _mockUnitOfWork.Setup(x => x.MousepadRepository.Query(It.IsAny<Expression<Func<Mousepad, bool>>>()))
-                .Returns((Expression<Func<Mousepad, bool>> predicate) =>
-                    _helper.Mousepads.Where(predicate.Compile()));
+                .Returns((Expression<Func<Mousepad, bool>> predicate) => _helper.Mousepads.Where(predicate.Compile()));
             IMousepadService service = new MousepadService(_mockUnitOfWork.Object);
 
             var expected = _helper.Mousepads.Where(m => !m.IsDeleted && m.BottomMaterial == "Material4");
@@ -90,11 +88,11 @@ namespace eStore.UnitTests.Application
         {
             // Arrange
             _mockUnitOfWork.Setup(x => x.MousepadRepository.Query(It.IsAny<Expression<Func<Mousepad, bool>>>()))
-                .Returns((Expression<Func<Mousepad, bool>> predicate) =>
-                    _helper.Mousepads.Where(predicate.Compile()));
+                .Returns((Expression<Func<Mousepad, bool>> predicate) => _helper.Mousepads.Where(predicate.Compile()));
             IMousepadService service = new MousepadService(_mockUnitOfWork.Object);
 
-            var expected = _helper.Mousepads.Where(m => !m.IsDeleted && (m.BottomMaterial == "Material1" || m.BottomMaterial == "Material2"));
+            var expected =
+                _helper.Mousepads.Where(m => !m.IsDeleted && (m.BottomMaterial == "Material1" || m.BottomMaterial == "Material2"));
             var filterModel = new MousepadFilterModel
             {
                 BottomMaterials = new List<string> { "Material1", "Material2" }
@@ -112,8 +110,7 @@ namespace eStore.UnitTests.Application
         {
             // Arrange
             _mockUnitOfWork.Setup(x => x.MousepadRepository.Query(It.IsAny<Expression<Func<Mousepad, bool>>>()))
-                .Returns((Expression<Func<Mousepad, bool>> predicate) =>
-                    _helper.Mousepads.Where(predicate.Compile()));
+                .Returns((Expression<Func<Mousepad, bool>> predicate) => _helper.Mousepads.Where(predicate.Compile()));
             IMousepadService service = new MousepadService(_mockUnitOfWork.Object);
 
             var expected = _helper.Mousepads.Where(m => !m.IsDeleted && m.TopMaterial == "Material5");
@@ -134,8 +131,7 @@ namespace eStore.UnitTests.Application
         {
             // Arrange
             _mockUnitOfWork.Setup(x => x.MousepadRepository.Query(It.IsAny<Expression<Func<Mousepad, bool>>>()))
-                .Returns((Expression<Func<Mousepad, bool>> predicate) =>
-                    _helper.Mousepads.Where(predicate.Compile()));
+                .Returns((Expression<Func<Mousepad, bool>> predicate) => _helper.Mousepads.Where(predicate.Compile()));
             IMousepadService service = new MousepadService(_mockUnitOfWork.Object);
 
             var expected =
@@ -157,8 +153,7 @@ namespace eStore.UnitTests.Application
         {
             // Arrange
             _mockUnitOfWork.Setup(x => x.MousepadRepository.Query(It.IsAny<Expression<Func<Mousepad, bool>>>()))
-                .Returns((Expression<Func<Mousepad, bool>> predicate) =>
-                    _helper.Mousepads.Where(predicate.Compile()));
+                .Returns((Expression<Func<Mousepad, bool>> predicate) => _helper.Mousepads.Where(predicate.Compile()));
             IMousepadService service = new MousepadService(_mockUnitOfWork.Object);
 
             var expected = _helper.Mousepads.Where(m => !m.IsDeleted && m.Backlight == "Backlight1");
@@ -179,8 +174,7 @@ namespace eStore.UnitTests.Application
         {
             // Arrange
             _mockUnitOfWork.Setup(x => x.MousepadRepository.Query(It.IsAny<Expression<Func<Mousepad, bool>>>()))
-                .Returns((Expression<Func<Mousepad, bool>> predicate) =>
-                    _helper.Mousepads.Where(predicate.Compile()));
+                .Returns((Expression<Func<Mousepad, bool>> predicate) => _helper.Mousepads.Where(predicate.Compile()));
             IMousepadService service = new MousepadService(_mockUnitOfWork.Object);
 
             var expected =
@@ -202,8 +196,7 @@ namespace eStore.UnitTests.Application
         {
             // Arrange
             _mockUnitOfWork.Setup(x => x.MousepadRepository.Query(It.IsAny<Expression<Func<Mousepad, bool>>>()))
-                .Returns((Expression<Func<Mousepad, bool>> predicate) =>
-                    _helper.Mousepads.Where(predicate.Compile()));
+                .Returns((Expression<Func<Mousepad, bool>> predicate) => _helper.Mousepads.Where(predicate.Compile()));
             IMousepadService service = new MousepadService(_mockUnitOfWork.Object);
 
             var expected = _helper.Mousepads.Where(m => !m.IsDeleted && !m.IsStitched);
@@ -224,8 +217,7 @@ namespace eStore.UnitTests.Application
         {
             // Arrange
             _mockUnitOfWork.Setup(x => x.MousepadRepository.Query(It.IsAny<Expression<Func<Mousepad, bool>>>()))
-                .Returns((Expression<Func<Mousepad, bool>> predicate) =>
-                    _helper.Mousepads.Where(predicate.Compile()));
+                .Returns((Expression<Func<Mousepad, bool>> predicate) => _helper.Mousepads.Where(predicate.Compile()));
             IMousepadService service = new MousepadService(_mockUnitOfWork.Object);
 
             var expected = _helper.Mousepads.Where(m => !m.IsDeleted && m.IsStitched);
@@ -246,8 +238,7 @@ namespace eStore.UnitTests.Application
         {
             // Arrange
             _mockUnitOfWork.Setup(x => x.MousepadRepository.Query(It.IsAny<Expression<Func<Mousepad, bool>>>()))
-                .Returns((Expression<Func<Mousepad, bool>> predicate) =>
-                    _helper.Mousepads.Where(predicate.Compile()));
+                .Returns((Expression<Func<Mousepad, bool>> predicate) => _helper.Mousepads.Where(predicate.Compile()));
             IMousepadService service = new MousepadService(_mockUnitOfWork.Object);
 
             var expected = _helper.Mousepads.Where(m => !m.IsDeleted && (m.IsStitched || !m.IsStitched));
@@ -268,8 +259,7 @@ namespace eStore.UnitTests.Application
         {
             // Arrange
             _mockUnitOfWork.Setup(x => x.MousepadRepository.Query(It.IsAny<Expression<Func<Mousepad, bool>>>()))
-                .Returns((Expression<Func<Mousepad, bool>> predicate) =>
-                    _helper.Mousepads.Where(predicate.Compile()));
+                .Returns((Expression<Func<Mousepad, bool>> predicate) => _helper.Mousepads.Where(predicate.Compile()));
             IMousepadService service = new MousepadService(_mockUnitOfWork.Object);
 
             var expected = _helper.Mousepads.Where(m => !m.IsDeleted && m.Manufacturer == "Manufacturer4");
@@ -290,11 +280,11 @@ namespace eStore.UnitTests.Application
         {
             // Arrange
             _mockUnitOfWork.Setup(x => x.MousepadRepository.Query(It.IsAny<Expression<Func<Mousepad, bool>>>()))
-                .Returns((Expression<Func<Mousepad, bool>> predicate) =>
-                    _helper.Mousepads.Where(predicate.Compile()));
+                .Returns((Expression<Func<Mousepad, bool>> predicate) => _helper.Mousepads.Where(predicate.Compile()));
             IMousepadService service = new MousepadService(_mockUnitOfWork.Object);
 
-            var expected = _helper.Mousepads.Where(m => !m.IsDeleted && (m.Manufacturer == "Manufacturer4" || m.Manufacturer == "Manufacturer5"));
+            var expected = _helper.Mousepads.Where(m =>
+                !m.IsDeleted && (m.Manufacturer == "Manufacturer4" || m.Manufacturer == "Manufacturer5"));
             var filterModel = new MousepadFilterModel
             {
                 Manufacturers = new List<string> { "Manufacturer4", "Manufacturer5" }
@@ -312,8 +302,7 @@ namespace eStore.UnitTests.Application
         {
             // Arrange
             _mockUnitOfWork.Setup(x => x.MousepadRepository.Query(It.IsAny<Expression<Func<Mousepad, bool>>>()))
-                .Returns((Expression<Func<Mousepad, bool>> predicate) =>
-                    _helper.Mousepads.Where(predicate.Compile()));
+                .Returns((Expression<Func<Mousepad, bool>> predicate) => _helper.Mousepads.Where(predicate.Compile()));
             IMousepadService service = new MousepadService(_mockUnitOfWork.Object);
 
             var expected = _helper.Mousepads.Where(m => !m.IsDeleted && m.Price >= 45.99m);
@@ -334,8 +323,7 @@ namespace eStore.UnitTests.Application
         {
             // Arrange
             _mockUnitOfWork.Setup(x => x.MousepadRepository.Query(It.IsAny<Expression<Func<Mousepad, bool>>>()))
-                .Returns((Expression<Func<Mousepad, bool>> predicate) =>
-                    _helper.Mousepads.Where(predicate.Compile()));
+                .Returns((Expression<Func<Mousepad, bool>> predicate) => _helper.Mousepads.Where(predicate.Compile()));
             IMousepadService service = new MousepadService(_mockUnitOfWork.Object);
 
             var expected = _helper.Mousepads.Where(m => !m.IsDeleted && m.Price <= 45.99m);
@@ -356,8 +344,7 @@ namespace eStore.UnitTests.Application
         {
             // Arrange
             _mockUnitOfWork.Setup(x => x.MousepadRepository.Query(It.IsAny<Expression<Func<Mousepad, bool>>>()))
-                .Returns((Expression<Func<Mousepad, bool>> predicate) =>
-                    _helper.Mousepads.Where(predicate.Compile()));
+                .Returns((Expression<Func<Mousepad, bool>> predicate) => _helper.Mousepads.Where(predicate.Compile()));
             IMousepadService service = new MousepadService(_mockUnitOfWork.Object);
 
             var expected = _helper.Mousepads.Where(m => !m.IsDeleted && m.Price >= 45.99m && m.Price <= 48.99m);
@@ -379,8 +366,7 @@ namespace eStore.UnitTests.Application
         {
             // Arrange
             _mockUnitOfWork.Setup(x => x.MousepadRepository.Query(It.IsAny<Expression<Func<Mousepad, bool>>>()))
-                .Returns((Expression<Func<Mousepad, bool>> predicate) =>
-                    _helper.Mousepads.Where(predicate.Compile()));
+                .Returns((Expression<Func<Mousepad, bool>> predicate) => _helper.Mousepads.Where(predicate.Compile()));
             IMousepadService service = new MousepadService(_mockUnitOfWork.Object);
 
             var expected = _helper.Mousepads.Where(m => !m.IsDeleted);
@@ -389,8 +375,11 @@ namespace eStore.UnitTests.Application
                 IsStitchedValues = new List<bool> { true, false },
                 BottomMaterials = new List<string> { "Material1", "Material2", "Material3", "Material4", "Material5" },
                 TopMaterials = new List<string> { "Material1", "Material2", "Material3", "Material4", "Material5" },
-                Manufacturers = new List<string> { "Manufacturer1", "Manufacturer2", "Manufacturer3", "Manufacturer4", 
-                    "Manufacturer5", "Manufacturer6", "Manufacturer7" },
+                Manufacturers = new List<string>
+                {
+                    "Manufacturer1", "Manufacturer2", "Manufacturer3", "Manufacturer4",
+                    "Manufacturer5", "Manufacturer6", "Manufacturer7"
+                },
                 MinPrice = 5.99m,
                 MaxPrice = 448.99m
             };
@@ -414,7 +403,7 @@ namespace eStore.UnitTests.Application
             var actual = await service.GetByIdAsync(14);
 
             // Assert
-            Assert.AreEqual(expected, actual, "The actual mousepad is not equal to expected.");
+            Assert.That(actual, Is.EqualTo(expected), "The actual mousepad is not equal to expected.");
         }
 
         [Test]
@@ -428,7 +417,7 @@ namespace eStore.UnitTests.Application
             var actual = await service.GetByIdAsync(14);
 
             // Assert
-            Assert.IsNull(actual, "THe method returned not-null object.");
+            Assert.That(actual, Is.Null, "THe method returned not-null object.");
         }
 
         [Test]

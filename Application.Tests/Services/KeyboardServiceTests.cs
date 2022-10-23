@@ -8,17 +8,15 @@ using eStore.Application.Interfaces.Data;
 using eStore.Application.Interfaces.Services;
 using eStore.Application.Services;
 using eStore.Domain.Entities;
+using eStore.Tests.Common;
 using Moq;
 using NUnit.Framework;
 
-namespace eStore.UnitTests.Application
+namespace eStore.Application.Tests.Services
 {
     [TestFixture]
     public class KeyboardServiceTests
     {
-        private UnitTestHelper _helper;
-        private Mock<IUnitOfWork> _mockUnitOfWork;
-        
         [SetUp]
         public void Setup()
         {
@@ -26,13 +24,15 @@ namespace eStore.UnitTests.Application
             _mockUnitOfWork = new Mock<IUnitOfWork>();
         }
 
+        private UnitTestHelper _helper;
+        private Mock<IUnitOfWork> _mockUnitOfWork;
+
         [Test]
         public async Task GetPresentAsync_NotEmptyDb_ReturnsCollectionOfKeyboards()
         {
             // Arrange
             _mockUnitOfWork.Setup(x => x.KeyboardRepository.Query(It.IsAny<Expression<Func<Keyboard, bool>>>()))
-                .Returns((Expression<Func<Keyboard, bool>> predicate) =>
-                    _helper.Keyboards.Where(predicate.Compile()));
+                .Returns((Expression<Func<Keyboard, bool>> predicate) => _helper.Keyboards.Where(predicate.Compile()));
             IKeyboardService service = new KeyboardService(_mockUnitOfWork.Object);
 
             var expected = _helper.Keyboards.Where(k => !k.IsDeleted);
@@ -49,8 +49,7 @@ namespace eStore.UnitTests.Application
         {
             // Arrange
             _mockUnitOfWork.Setup(x => x.KeyboardRepository.Query(It.IsAny<Expression<Func<Keyboard, bool>>>()))
-                .Returns((Expression<Func<Keyboard, bool>> predicate) =>
-                    _helper.Keyboards.Where(predicate.Compile()));
+                .Returns((Expression<Func<Keyboard, bool>> predicate) => _helper.Keyboards.Where(predicate.Compile()));
             IKeyboardService service = new KeyboardService(_mockUnitOfWork.Object);
 
             var expected = _helper.Keyboards.Where(k => !k.IsDeleted);
@@ -68,8 +67,7 @@ namespace eStore.UnitTests.Application
         {
             // Arrange
             _mockUnitOfWork.Setup(x => x.KeyboardRepository.Query(It.IsAny<Expression<Func<Keyboard, bool>>>()))
-                .Returns((Expression<Func<Keyboard, bool>> predicate) =>
-                    _helper.Keyboards.Where(predicate.Compile()));
+                .Returns((Expression<Func<Keyboard, bool>> predicate) => _helper.Keyboards.Where(predicate.Compile()));
             IKeyboardService service = new KeyboardService(_mockUnitOfWork.Object);
 
             var expected = _helper.Keyboards.Where(k => !k.IsDeleted && k.ConnectionType == "ConnectionType1");
@@ -90,12 +88,12 @@ namespace eStore.UnitTests.Application
         {
             // Arrange
             _mockUnitOfWork.Setup(x => x.KeyboardRepository.Query(It.IsAny<Expression<Func<Keyboard, bool>>>()))
-                .Returns((Expression<Func<Keyboard, bool>> predicate) =>
-                    _helper.Keyboards.Where(predicate.Compile()));
+                .Returns((Expression<Func<Keyboard, bool>> predicate) => _helper.Keyboards.Where(predicate.Compile()));
             IKeyboardService service = new KeyboardService(_mockUnitOfWork.Object);
 
             var expected = _helper.Keyboards.Where(k =>
-                !k.IsDeleted && (k.ConnectionType.Equals("ConnectionType1", StringComparison.InvariantCultureIgnoreCase) || k.ConnectionType.Equals("ConnectionType2", StringComparison.InvariantCultureIgnoreCase)));
+                !k.IsDeleted && (k.ConnectionType.Equals("ConnectionType1", StringComparison.InvariantCultureIgnoreCase) ||
+                                 k.ConnectionType.Equals("ConnectionType2", StringComparison.InvariantCultureIgnoreCase)));
             var filterModel = new KeyboardFilterModel
             {
                 ConnectionTypes = new List<string> { "ConnectionType1", "ConnectionType2" }
@@ -113,8 +111,7 @@ namespace eStore.UnitTests.Application
         {
             // Arrange
             _mockUnitOfWork.Setup(x => x.KeyboardRepository.Query(It.IsAny<Expression<Func<Keyboard, bool>>>()))
-                .Returns((Expression<Func<Keyboard, bool>> predicate) =>
-                    _helper.Keyboards.Where(predicate.Compile()));
+                .Returns((Expression<Func<Keyboard, bool>> predicate) => _helper.Keyboards.Where(predicate.Compile()));
             IKeyboardService service = new KeyboardService(_mockUnitOfWork.Object);
 
             var expected = _helper.Keyboards.Where(k => !k.IsDeleted && k.SwitchId == 1);
@@ -135,8 +132,7 @@ namespace eStore.UnitTests.Application
         {
             // Arrange
             _mockUnitOfWork.Setup(x => x.KeyboardRepository.Query(It.IsAny<Expression<Func<Keyboard, bool>>>()))
-                .Returns((Expression<Func<Keyboard, bool>> predicate) =>
-                    _helper.Keyboards.Where(predicate.Compile()));
+                .Returns((Expression<Func<Keyboard, bool>> predicate) => _helper.Keyboards.Where(predicate.Compile()));
             IKeyboardService service = new KeyboardService(_mockUnitOfWork.Object);
 
             var expected = _helper.Keyboards.Where(k => !k.IsDeleted && (k.SwitchId == 1 || k.SwitchId == 2));
@@ -157,8 +153,7 @@ namespace eStore.UnitTests.Application
         {
             // Arrange
             _mockUnitOfWork.Setup(x => x.KeyboardRepository.Query(It.IsAny<Expression<Func<Keyboard, bool>>>()))
-                .Returns((Expression<Func<Keyboard, bool>> predicate) =>
-                    _helper.Keyboards.Where(predicate.Compile()));
+                .Returns((Expression<Func<Keyboard, bool>> predicate) => _helper.Keyboards.Where(predicate.Compile()));
             IKeyboardService service = new KeyboardService(_mockUnitOfWork.Object);
 
             var expected = _helper.Keyboards.Where(k => !k.IsDeleted && k.Type == "Type1");
@@ -179,8 +174,7 @@ namespace eStore.UnitTests.Application
         {
             // Arrange
             _mockUnitOfWork.Setup(x => x.KeyboardRepository.Query(It.IsAny<Expression<Func<Keyboard, bool>>>()))
-                .Returns((Expression<Func<Keyboard, bool>> predicate) =>
-                    _helper.Keyboards.Where(predicate.Compile()));
+                .Returns((Expression<Func<Keyboard, bool>> predicate) => _helper.Keyboards.Where(predicate.Compile()));
             IKeyboardService service = new KeyboardService(_mockUnitOfWork.Object);
 
             var expected = _helper.Keyboards.Where(k => !k.IsDeleted && (k.Type == "Type1" || k.Type == "Type2"));
@@ -201,8 +195,7 @@ namespace eStore.UnitTests.Application
         {
             // Arrange
             _mockUnitOfWork.Setup(x => x.KeyboardRepository.Query(It.IsAny<Expression<Func<Keyboard, bool>>>()))
-                .Returns((Expression<Func<Keyboard, bool>> predicate) =>
-                    _helper.Keyboards.Where(predicate.Compile()));
+                .Returns((Expression<Func<Keyboard, bool>> predicate) => _helper.Keyboards.Where(predicate.Compile()));
             IKeyboardService service = new KeyboardService(_mockUnitOfWork.Object);
 
             var expected = _helper.Keyboards.Where(k => !k.IsDeleted && k.Size == "Size1");
@@ -223,8 +216,7 @@ namespace eStore.UnitTests.Application
         {
             // Arrange
             _mockUnitOfWork.Setup(x => x.KeyboardRepository.Query(It.IsAny<Expression<Func<Keyboard, bool>>>()))
-                .Returns((Expression<Func<Keyboard, bool>> predicate) =>
-                    _helper.Keyboards.Where(predicate.Compile()));
+                .Returns((Expression<Func<Keyboard, bool>> predicate) => _helper.Keyboards.Where(predicate.Compile()));
             IKeyboardService service = new KeyboardService(_mockUnitOfWork.Object);
 
             var expected = _helper.Keyboards.Where(k => !k.IsDeleted && (k.Size == "Size1" || k.Size == "Size2"));
@@ -245,8 +237,7 @@ namespace eStore.UnitTests.Application
         {
             // Arrange
             _mockUnitOfWork.Setup(x => x.KeyboardRepository.Query(It.IsAny<Expression<Func<Keyboard, bool>>>()))
-                .Returns((Expression<Func<Keyboard, bool>> predicate) =>
-                    _helper.Keyboards.Where(predicate.Compile()));
+                .Returns((Expression<Func<Keyboard, bool>> predicate) => _helper.Keyboards.Where(predicate.Compile()));
             IKeyboardService service = new KeyboardService(_mockUnitOfWork.Object);
 
             var expected = _helper.Keyboards.Where(k => !k.IsDeleted && k.Backlight == "Backlight1");
@@ -267,8 +258,7 @@ namespace eStore.UnitTests.Application
         {
             // Arrange
             _mockUnitOfWork.Setup(x => x.KeyboardRepository.Query(It.IsAny<Expression<Func<Keyboard, bool>>>()))
-                .Returns((Expression<Func<Keyboard, bool>> predicate) =>
-                    _helper.Keyboards.Where(predicate.Compile()));
+                .Returns((Expression<Func<Keyboard, bool>> predicate) => _helper.Keyboards.Where(predicate.Compile()));
             IKeyboardService service = new KeyboardService(_mockUnitOfWork.Object);
 
             var expected =
@@ -290,8 +280,7 @@ namespace eStore.UnitTests.Application
         {
             // Arrange
             _mockUnitOfWork.Setup(x => x.KeyboardRepository.Query(It.IsAny<Expression<Func<Keyboard, bool>>>()))
-                .Returns((Expression<Func<Keyboard, bool>> predicate) =>
-                    _helper.Keyboards.Where(predicate.Compile()));
+                .Returns((Expression<Func<Keyboard, bool>> predicate) => _helper.Keyboards.Where(predicate.Compile()));
             IKeyboardService service = new KeyboardService(_mockUnitOfWork.Object);
 
             var expected = _helper.Keyboards.Where(k => !k.IsDeleted && k.KeyRollover == "Rollover1");
@@ -312,8 +301,7 @@ namespace eStore.UnitTests.Application
         {
             // Arrange
             _mockUnitOfWork.Setup(x => x.KeyboardRepository.Query(It.IsAny<Expression<Func<Keyboard, bool>>>()))
-                .Returns((Expression<Func<Keyboard, bool>> predicate) =>
-                    _helper.Keyboards.Where(predicate.Compile()));
+                .Returns((Expression<Func<Keyboard, bool>> predicate) => _helper.Keyboards.Where(predicate.Compile()));
             IKeyboardService service = new KeyboardService(_mockUnitOfWork.Object);
 
             var expected =
@@ -335,8 +323,7 @@ namespace eStore.UnitTests.Application
         {
             // Arrange
             _mockUnitOfWork.Setup(x => x.KeyboardRepository.Query(It.IsAny<Expression<Func<Keyboard, bool>>>()))
-                .Returns((Expression<Func<Keyboard, bool>> predicate) =>
-                    _helper.Keyboards.Where(predicate.Compile()));
+                .Returns((Expression<Func<Keyboard, bool>> predicate) => _helper.Keyboards.Where(predicate.Compile()));
             IKeyboardService service = new KeyboardService(_mockUnitOfWork.Object);
 
             var expected = _helper.Keyboards.Where(k => !k.IsDeleted && k.Manufacturer == "Manufacturer4");
@@ -357,8 +344,7 @@ namespace eStore.UnitTests.Application
         {
             // Arrange
             _mockUnitOfWork.Setup(x => x.KeyboardRepository.Query(It.IsAny<Expression<Func<Keyboard, bool>>>()))
-                .Returns((Expression<Func<Keyboard, bool>> predicate) =>
-                    _helper.Keyboards.Where(predicate.Compile()));
+                .Returns((Expression<Func<Keyboard, bool>> predicate) => _helper.Keyboards.Where(predicate.Compile()));
             IKeyboardService service = new KeyboardService(_mockUnitOfWork.Object);
 
             var expected =
@@ -380,8 +366,7 @@ namespace eStore.UnitTests.Application
         {
             // Arrange
             _mockUnitOfWork.Setup(x => x.KeyboardRepository.Query(It.IsAny<Expression<Func<Keyboard, bool>>>()))
-                .Returns((Expression<Func<Keyboard, bool>> predicate) =>
-                    _helper.Keyboards.Where(predicate.Compile()));
+                .Returns((Expression<Func<Keyboard, bool>> predicate) => _helper.Keyboards.Where(predicate.Compile()));
             IKeyboardService service = new KeyboardService(_mockUnitOfWork.Object);
 
             var expected = _helper.Keyboards.Where(k => !k.IsDeleted && k.Price >= 47.99m);
@@ -402,8 +387,7 @@ namespace eStore.UnitTests.Application
         {
             // Arrange
             _mockUnitOfWork.Setup(x => x.KeyboardRepository.Query(It.IsAny<Expression<Func<Keyboard, bool>>>()))
-                .Returns((Expression<Func<Keyboard, bool>> predicate) =>
-                    _helper.Keyboards.Where(predicate.Compile()));
+                .Returns((Expression<Func<Keyboard, bool>> predicate) => _helper.Keyboards.Where(predicate.Compile()));
             IKeyboardService service = new KeyboardService(_mockUnitOfWork.Object);
 
             var expected = _helper.Keyboards.Where(k => !k.IsDeleted && k.Price <= 47.99m);
@@ -424,8 +408,7 @@ namespace eStore.UnitTests.Application
         {
             // Arrange
             _mockUnitOfWork.Setup(x => x.KeyboardRepository.Query(It.IsAny<Expression<Func<Keyboard, bool>>>()))
-                .Returns((Expression<Func<Keyboard, bool>> predicate) =>
-                    _helper.Keyboards.Where(predicate.Compile()));
+                .Returns((Expression<Func<Keyboard, bool>> predicate) => _helper.Keyboards.Where(predicate.Compile()));
             IKeyboardService service = new KeyboardService(_mockUnitOfWork.Object);
 
             var expected = _helper.Keyboards.Where(k => !k.IsDeleted && k.Price <= 57.99m && k.Price >= 47.99m);
@@ -447,8 +430,7 @@ namespace eStore.UnitTests.Application
         {
             // Arrange
             _mockUnitOfWork.Setup(x => x.KeyboardRepository.Query(It.IsAny<Expression<Func<Keyboard, bool>>>()))
-                .Returns((Expression<Func<Keyboard, bool>> predicate) =>
-                    _helper.Keyboards.Where(predicate.Compile()));
+                .Returns((Expression<Func<Keyboard, bool>> predicate) => _helper.Keyboards.Where(predicate.Compile()));
             IKeyboardService service = new KeyboardService(_mockUnitOfWork.Object);
 
             var expected = _helper.Keyboards.Where(k => !k.IsDeleted);
@@ -456,13 +438,19 @@ namespace eStore.UnitTests.Application
             {
                 KeyboardTypes = new List<string> { "Type1", "Type2", "Type3" },
                 KeyboardSizes = new List<string> { "Size1", "Size2", "Size3" },
-                ConnectionTypes = new List<string> { "ConnectionType1", "ConnectionType2", "ConnectionType3", 
-                    "ConnectionType4" },
+                ConnectionTypes = new List<string>
+                {
+                    "ConnectionType1", "ConnectionType2", "ConnectionType3",
+                    "ConnectionType4"
+                },
                 SwitchIds = new List<int?> { 1, 2, 3, 4, 5, null },
                 Backlights = new List<string> { "Backlight1", "Backlight2", "Backlight3", "Backlight4" },
                 KeyRollovers = new List<string> { "Rollover1", "Rollover2", "Rollover3" },
-                Manufacturers = new List<string> { "Manufacturer1", "Manufacturer2", "Manufacturer3", "Manufacturer4", 
-                    "Manufacturer5", "Manufacturer6", "Manufacturer7" },
+                Manufacturers = new List<string>
+                {
+                    "Manufacturer1", "Manufacturer2", "Manufacturer3", "Manufacturer4",
+                    "Manufacturer5", "Manufacturer6", "Manufacturer7"
+                },
                 MinPrice = 17.99m,
                 MaxPrice = 97.99m
             };
@@ -486,7 +474,7 @@ namespace eStore.UnitTests.Application
             var actual = await service.GetByIdAsync(5);
 
             // Assert
-            Assert.AreEqual(expected, actual, "The actual keyboard is not equal to expected.");
+            Assert.That(actual, Is.EqualTo(expected), "The actual keyboard is not equal to expected.");
         }
 
         [Test]
@@ -500,7 +488,7 @@ namespace eStore.UnitTests.Application
             var actual = await service.GetByIdAsync(1);
 
             // Assert
-            Assert.IsNull(actual, "The method returned not-null object.");
+            Assert.That(actual, Is.Null, "The method returned not-null object.");
         }
 
         [Test]
@@ -524,8 +512,7 @@ namespace eStore.UnitTests.Application
         {
             // Arrange
             var keyboards = _helper.Keyboards.ToList();
-            foreach (var keyboard in keyboards)
-                keyboard.Switch = _helper.KeyboardSwitches.FirstOrDefault(sw => sw.Id == keyboard.SwitchId);
+            foreach (var keyboard in keyboards) keyboard.Switch = _helper.KeyboardSwitches.FirstOrDefault(sw => sw.Id == keyboard.SwitchId);
 
             _mockUnitOfWork.Setup(x => x.KeyboardRepository.GetAllAsync()).ReturnsAsync(keyboards);
             IKeyboardService service = new KeyboardService(_mockUnitOfWork.Object);

@@ -7,17 +7,14 @@ using eStore.Domain.Entities;
 using eStore.Domain.Enums;
 using eStore.Infrastructure.Persistence;
 using eStore.Infrastructure.Persistence.Repositories;
+using eStore.Tests.Common;
 using NUnit.Framework;
 
-namespace eStore.UnitTests.Persistence
+namespace eStore.Infrastructure.Tests.Persistence
 {
     [TestFixture]
     public class OrderRepositoryTests
     {
-        private UnitTestHelper _helper;
-        private ApplicationContext _context;
-        private IRepository<Order> _repository;
-
         [SetUp]
         public void Setup()
         {
@@ -25,7 +22,11 @@ namespace eStore.UnitTests.Persistence
             _context = _helper.GetApplicationContext();
             _repository = new OrderRepository(_context);
         }
-        
+
+        private UnitTestHelper _helper;
+        private ApplicationContext _context;
+        private IRepository<Order> _repository;
+
         [TestCase(1)]
         [TestCase(2)]
         [TestCase(3)]
@@ -34,12 +35,12 @@ namespace eStore.UnitTests.Persistence
         {
             // Arrange
             var expected = _helper.Orders.FirstOrDefault(c => c.Id == id);
-            
+
             // Act
             var actual = await _repository.GetByIdAsync(id);
-            
+
             // Assert
-            Assert.AreEqual(expected, actual, "The actual order is not equal to the expected.");
+            Assert.That(actual, Is.EqualTo(expected), "The actual order is not equal to the expected.");
         }
 
         [TestCase(12)]
@@ -52,7 +53,7 @@ namespace eStore.UnitTests.Persistence
             var actual = await _repository.GetByIdAsync(id);
 
             // Assert
-            Assert.IsNull(actual, "The method returned not-null order.");
+            Assert.That(actual, Is.Null, "The method returned not-null order.");
         }
 
         [Test]
@@ -60,16 +61,16 @@ namespace eStore.UnitTests.Persistence
         {
             // Arrange
             var expected = _helper.Orders;
-            
+
             // Act
             var actual = await _repository.GetAllAsync();
 
             // Assert
-            Assert.AreEqual(expected, actual, "The actual collection of orders is not equal to the expected.");
+            Assert.That(actual, Is.EqualTo(expected), "The actual collection of orders is not equal to the expected.");
         }
 
         [Test]
-        public async Task Query_WithPredicate_ReturnsSuitableOrders()
+        public Task Query_WithPredicate_ReturnsSuitableOrders()
         {
             // Arrange
             var expected = _helper.Orders.Where(c => c.Id == 2);
@@ -78,19 +79,20 @@ namespace eStore.UnitTests.Persistence
             var actual = _repository.Query(c => c.Id == 2);
 
             // Assert
-            Assert.AreEqual(expected, actual, "The actual collection of orders is not equal to the expected.");
+            Assert.That(actual, Is.EqualTo(expected), "The actual collection of orders is not equal to the expected.");
+            return Task.CompletedTask;
         }
 
         [Test]
         public async Task AddAsync_NewOrder_AddsOrderAndSavesToDb()
         {
             // Arrange
-            var newOrder = new Order()
+            var newOrder = new Order
             {
                 IsDeleted = false, CustomerId = 1, Status = OrderStatus.New,
                 TimeStamp = new DateTime(2022, 02, 11, 13, 45, 23),
                 ShippingAddress = "Address1", ShippingCity = "City1", ShippingPostalCode = "02000", Total = 98.97m,
-                OrderItems = new List<OrderItem>()
+                OrderItems = new List<OrderItem>
                 {
                     new()
                     {
@@ -102,14 +104,14 @@ namespace eStore.UnitTests.Persistence
                     }
                 }
             };
-            
+
             // Act
             await _repository.AddAsync(newOrder);
 
             // Assert
-            Assert.AreEqual(7, _context.Orders.Count(), "The new order has not been added to the context.");
-            Assert.IsNotNull(await _context.Orders.FindAsync(7), "The new order has been added with the wrong ID.");
-            Assert.AreEqual(20, _context.OrderItems.Count(), "The items of the new order has not been added to the context.");
+            Assert.That(_context.Orders.Count(), Is.EqualTo(7), "The new order has not been added to the context.");
+            Assert.That(await _context.Orders.FindAsync(7), Is.Not.Null, "The new order has been added with the wrong ID.");
+            Assert.That(_context.OrderItems.Count(), Is.EqualTo(20), "The items of the new order has not been added to the context.");
         }
 
         [Test]
@@ -117,13 +119,13 @@ namespace eStore.UnitTests.Persistence
         {
             // Arrange
             var order = await _context.Orders.FindAsync(1);
-            
+
             // Act
             order.ShippingCity = "NewCity";
             await _repository.UpdateAsync(order);
 
             // Assert
-            Assert.AreEqual("NewCity", (await _context.Orders.FindAsync(order.Id)).ShippingCity, "The order has not been updated.");
+            Assert.That((await _context.Orders.FindAsync(order.Id)).ShippingCity, Is.EqualTo("NewCity"), "The order has not been updated.");
         }
 
         [TestCase(1)]
@@ -133,26 +135,27 @@ namespace eStore.UnitTests.Persistence
         public async Task DeleteAsync_ExistingOrder_DeletesOrderAndSavesToDb(int id)
         {
             // Arrange
-            
+
             // Act
             await _repository.DeleteAsync(id);
 
             // Assert
-            Assert.AreEqual(5, _context.Orders.Count(), "Any orders has not been deleted.");
-            Assert.IsNull(await _context.Orders.FindAsync(id), "The selected order has not been deleted.");
+            Assert.That(_context.Orders.Count(), Is.EqualTo(5), "Any orders has not been deleted.");
+            Assert.That(await _context.Orders.FindAsync(id), Is.Null, "The selected order has not been deleted.");
         }
 
         [TestCase(12)]
         [TestCase(-1)]
-        public async Task DeleteAsync_NotExistingOrder_ThrowsArgumentNullException(int id)
+        public Task DeleteAsync_NotExistingOrder_ThrowsArgumentNullException(int id)
         {
             // Arrange
-            
+
             // Act
-            var exception = Assert.CatchAsync<ArgumentNullException>(async () => await _repository.DeleteAsync(id));
+            var exception = Assert.ThrowsAsync<ArgumentNullException>(async () => await _repository.DeleteAsync(id));
 
             // Assert
-            Assert.IsNotNull(exception, "The method has not thrown the ArgumentNullException.");
+            Assert.That(exception, Is.Not.Null, "The method has not thrown the ArgumentNullException.");
+            return Task.CompletedTask;
         }
     }
 }

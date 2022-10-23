@@ -3,17 +3,15 @@ using System.Linq;
 using System.Threading.Tasks;
 using eStore.Application.Interfaces;
 using eStore.Infrastructure.Services.Email;
+using eStore.Tests.Common;
 using Moq;
 using NUnit.Framework;
 
-namespace eStore.UnitTests.Email
+namespace eStore.Infrastructure.Tests
 {
     [TestFixture]
     public class EmailServiceTests
     {
-        private UnitTestHelper _helper;
-        private Mock<IHtmlEmailSender> _mockHtmlEmailSender;
-
         [SetUp]
         public void Setup()
         {
@@ -21,12 +19,14 @@ namespace eStore.UnitTests.Email
             _mockHtmlEmailSender = new Mock<IHtmlEmailSender>();
         }
 
+        private UnitTestHelper _helper;
+        private Mock<IHtmlEmailSender> _mockHtmlEmailSender;
+
         [Test]
         public async Task SendRegisterEmailAsync_ExistingCustomer_SendsEmailToCustomerEmail()
         {
             // Arrange
-            _mockHtmlEmailSender.Setup(
-                x => x.SendEmailAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()));
+            _mockHtmlEmailSender.Setup(x => x.SendEmailAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()));
             IEmailService service = new EmailService(_mockHtmlEmailSender.Object);
             var customer = _helper.Customers.First();
 
@@ -44,18 +44,17 @@ namespace eStore.UnitTests.Email
             IEmailService service = new EmailService(_mockHtmlEmailSender.Object);
 
             // Act
-            var exception = Assert.ThrowsAsync<ArgumentNullException>(async() => await service.SendRegisterEmailAsync(null));
-            
+            var exception = Assert.ThrowsAsync<ArgumentNullException>(async () => await service.SendRegisterEmailAsync(null));
+
             // Assert
-            Assert.IsNotNull(exception, "The method didn't throw ArgumentNullException.");
+            Assert.That(exception, Is.Not.Null, "The method didn't throw ArgumentNullException.");
         }
 
         [Test]
         public async Task SendDeactivationEmailAsync_ExistingEmail_SendsEmail()
         {
             // Arrange
-            _mockHtmlEmailSender.Setup(
-                x => x.SendEmailAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()));
+            _mockHtmlEmailSender.Setup(x => x.SendEmailAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()));
             IEmailService service = new EmailService(_mockHtmlEmailSender.Object);
 
             // Act
@@ -69,8 +68,7 @@ namespace eStore.UnitTests.Email
         public async Task SendChangePasswordEmailAsync_ExistingEmail_SendsEmail()
         {
             // Arrange
-            _mockHtmlEmailSender.Setup(
-                x => x.SendEmailAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()));
+            _mockHtmlEmailSender.Setup(x => x.SendEmailAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()));
             IEmailService service = new EmailService(_mockHtmlEmailSender.Object);
 
             // Act
@@ -78,13 +76,13 @@ namespace eStore.UnitTests.Email
 
             // Assert
             _mockHtmlEmailSender.Verify(x => x.SendEmailAsync("email1@mail.com", It.IsAny<string>(), It.IsAny<string>()));
-
         }
 
         [Test]
         public async Task SendPurchaseEmailAsync_ExistingOrder_SendsEmail()
         {
-            _mockHtmlEmailSender.Setup(x => x.SendEmailAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()));
+            _mockHtmlEmailSender.Setup(
+                x => x.SendEmailAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()));
             IEmailService service = new EmailService(_mockHtmlEmailSender.Object);
             var order = _helper.Orders.First();
             order.Customer = _helper.Customers.First(c => c.Id == order.CustomerId);
@@ -101,13 +99,12 @@ namespace eStore.UnitTests.Email
         {
             // Arrange
             IEmailService service = new EmailService(_mockHtmlEmailSender.Object);
-            
-            // Act
-            var exception = Assert.ThrowsAsync<ArgumentNullException>(async() => await service.SendPurchaseEmailAsyncAsync(null, "test"));
-            
-            // Assert
-            Assert.IsNotNull(exception, "The method didn't throw ArgumentNullException.");
-        }
 
+            // Act
+            var exception = Assert.ThrowsAsync<ArgumentNullException>(async () => await service.SendPurchaseEmailAsyncAsync(null, "test"));
+
+            // Assert
+            Assert.That(exception, Is.Not.Null, "The method didn't throw ArgumentNullException.");
+        }
     }
 }

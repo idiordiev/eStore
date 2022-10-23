@@ -8,23 +8,24 @@ using eStore.Application.Interfaces.Data;
 using eStore.Application.Interfaces.Services;
 using eStore.Application.Services;
 using eStore.Domain.Entities;
+using eStore.Tests.Common;
 using Moq;
 using NUnit.Framework;
 
-namespace eStore.UnitTests.Application
+namespace eStore.Application.Tests.Services
 {
     [TestFixture]
     public class MouseServiceTests
     {
-        private UnitTestHelper _helper;
-        private Mock<IUnitOfWork> _mockUnitOfWork;
-        
         [SetUp]
         public void Setup()
         {
             _helper = new UnitTestHelper();
             _mockUnitOfWork = new Mock<IUnitOfWork>();
         }
+
+        private UnitTestHelper _helper;
+        private Mock<IUnitOfWork> _mockUnitOfWork;
 
         [Test]
         public async Task GetPresentAsync_NotEmptyDb_ReturnsCollectionOfMouses()
@@ -145,7 +146,7 @@ namespace eStore.UnitTests.Application
             // Assert
             CollectionAssert.AreEqual(expected, actual, "The actual collection is not equal to expected.");
         }
-        
+
         [Test]
         public async Task GetPresentByFilterAsync_NotDeletedAndSingleManufacturer_ReturnsCollection()
         {
@@ -329,7 +330,7 @@ namespace eStore.UnitTests.Application
             var actual = await service.GetByIdAsync(11);
 
             // Assert
-            Assert.AreEqual(expected, actual, "The actual mouse is not equal to expected.");
+            Assert.That(actual, Is.EqualTo(expected), "The actual mouse is not equal to expected.");
         }
 
         [Test]
@@ -343,7 +344,7 @@ namespace eStore.UnitTests.Application
             var actual = await service.GetByIdAsync(1);
 
             // Assert
-            Assert.IsNull(actual, "The method returned not-null object.");
+            Assert.That(actual, Is.Null, "The method returned not-null object.");
         }
 
         [Test]
