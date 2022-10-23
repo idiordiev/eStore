@@ -9,6 +9,7 @@ using eStore.Application.Interfaces.Services;
 using eStore.Application.Services;
 using eStore.Domain.Entities;
 using eStore.Tests.Common;
+using eStore.Tests.Common.EqualityComparers;
 using Moq;
 using NUnit.Framework;
 
@@ -41,7 +42,8 @@ namespace eStore.Application.Tests.Services
             var actual = await service.GetPresentAsync();
 
             // Assert
-            CollectionAssert.AreEqual(expected, actual, "The actual collection is not equal to expected.");
+            Assert.That(actual, Is.EqualTo(expected).Using(new KeyboardEqualityComparer()),
+                "The actual collection is not equal to expected.");
         }
 
         [Test]
@@ -59,7 +61,8 @@ namespace eStore.Application.Tests.Services
             var actual = await service.GetPresentByFilterAsync(filterModel);
 
             // Assert
-            CollectionAssert.AreEqual(expected, actual, "The actual collection is not equal to expected.");
+            Assert.That(actual, Is.EqualTo(expected).Using(new KeyboardEqualityComparer()),
+                "The actual collection is not equal to expected.");
         }
 
         [Test]
@@ -80,7 +83,8 @@ namespace eStore.Application.Tests.Services
             var actual = await service.GetPresentByFilterAsync(filterModel);
 
             // Assert
-            CollectionAssert.AreEqual(expected, actual, "The actual collection is not equal to expected.");
+            Assert.That(actual, Is.EqualTo(expected).Using(new KeyboardEqualityComparer()),
+                "The actual collection is not equal to expected.");
         }
 
         [Test]
@@ -103,7 +107,8 @@ namespace eStore.Application.Tests.Services
             var actual = await service.GetPresentByFilterAsync(filterModel);
 
             // Assert
-            CollectionAssert.AreEqual(expected, actual, "The actual collection is not equal to expected.");
+            Assert.That(actual, Is.EqualTo(expected).Using(new KeyboardEqualityComparer()),
+                "The actual collection is not equal to expected.");
         }
 
         [Test]
@@ -124,7 +129,8 @@ namespace eStore.Application.Tests.Services
             var actual = await service.GetPresentByFilterAsync(filterModel);
 
             // Assert
-            CollectionAssert.AreEqual(expected, actual, "The actual collection is not equal to expected.");
+            Assert.That(actual, Is.EqualTo(expected).Using(new KeyboardEqualityComparer()),
+                "The actual collection is not equal to expected.");
         }
 
         [Test]
@@ -145,7 +151,8 @@ namespace eStore.Application.Tests.Services
             var actual = await service.GetPresentByFilterAsync(filterModel);
 
             // Assert
-            CollectionAssert.AreEqual(expected, actual, "The actual collection is not equal to expected.");
+            Assert.That(actual, Is.EqualTo(expected).Using(new KeyboardEqualityComparer()),
+                "The actual collection is not equal to expected.");
         }
 
         [Test]
@@ -166,7 +173,8 @@ namespace eStore.Application.Tests.Services
             var actual = await service.GetPresentByFilterAsync(filterModel);
 
             // Assert
-            CollectionAssert.AreEqual(expected, actual, "The actual collection is not equal to expected.");
+            Assert.That(actual, Is.EqualTo(expected).Using(new KeyboardEqualityComparer()),
+                "The actual collection is not equal to expected.");
         }
 
         [Test]
@@ -187,7 +195,8 @@ namespace eStore.Application.Tests.Services
             var actual = await service.GetPresentByFilterAsync(filterModel);
 
             // Assert
-            CollectionAssert.AreEqual(expected, actual, "The actual collection is not equal to expected.");
+            Assert.That(actual, Is.EqualTo(expected).Using(new KeyboardEqualityComparer()),
+                "The actual collection is not equal to expected.");
         }
 
         [Test]
@@ -208,7 +217,8 @@ namespace eStore.Application.Tests.Services
             var actual = await service.GetPresentByFilterAsync(filterModel);
 
             // Assert
-            CollectionAssert.AreEqual(expected, actual, "The actual collection is not equal to expected.");
+            Assert.That(actual, Is.EqualTo(expected).Using(new KeyboardEqualityComparer()),
+                "The actual collection is not equal to expected.");
         }
 
         [Test]
@@ -229,7 +239,8 @@ namespace eStore.Application.Tests.Services
             var actual = await service.GetPresentByFilterAsync(filterModel);
 
             // Assert
-            CollectionAssert.AreEqual(expected, actual, "The actual collection is not equal to expected.");
+            Assert.That(actual, Is.EqualTo(expected).Using(new KeyboardEqualityComparer()),
+                "The actual collection is not equal to expected.");
         }
 
         [Test]
@@ -250,7 +261,8 @@ namespace eStore.Application.Tests.Services
             var actual = await service.GetPresentByFilterAsync(filterModel);
 
             // Assert
-            CollectionAssert.AreEqual(expected, actual, "The actual collection is not equal to expected.");
+            Assert.That(actual, Is.EqualTo(expected).Using(new KeyboardEqualityComparer()),
+                "The actual collection is not equal to expected.");
         }
 
         [Test]
@@ -272,7 +284,8 @@ namespace eStore.Application.Tests.Services
             var actual = await service.GetPresentByFilterAsync(filterModel);
 
             // Assert
-            CollectionAssert.AreEqual(expected, actual, "The actual collection is not equal to expected.");
+            Assert.That(actual, Is.EqualTo(expected).Using(new KeyboardEqualityComparer()),
+                "The actual collection is not equal to expected.");
         }
 
         [Test]
@@ -293,7 +306,8 @@ namespace eStore.Application.Tests.Services
             var actual = await service.GetPresentByFilterAsync(filterModel);
 
             // Assert
-            CollectionAssert.AreEqual(expected, actual, "The actual collection is not equal to expected.");
+            Assert.That(actual, Is.EqualTo(expected).Using(new KeyboardEqualityComparer()),
+                "The actual collection is not equal to expected.");
         }
 
         [Test]
@@ -315,7 +329,8 @@ namespace eStore.Application.Tests.Services
             var actual = await service.GetPresentByFilterAsync(filterModel);
 
             // Assert
-            CollectionAssert.AreEqual(expected, actual, "The actual collection is not equal to expected.");
+            Assert.That(actual, Is.EqualTo(expected).Using(new KeyboardEqualityComparer()),
+                "The actual collection is not equal to expected.");
         }
 
         [Test]
@@ -336,7 +351,8 @@ namespace eStore.Application.Tests.Services
             var actual = await service.GetPresentByFilterAsync(filterModel);
 
             // Assert
-            CollectionAssert.AreEqual(expected, actual, "The actual collection is not equal to expected.");
+            Assert.That(actual, Is.EqualTo(expected).Using(new KeyboardEqualityComparer()),
+                "The actual collection is not equal to expected.");
         }
 
         [Test]
@@ -358,7 +374,8 @@ namespace eStore.Application.Tests.Services
             var actual = await service.GetPresentByFilterAsync(filterModel);
 
             // Assert
-            CollectionAssert.AreEqual(expected, actual, "The actual collection is not equal to expected.");
+            Assert.That(actual, Is.EqualTo(expected).Using(new KeyboardEqualityComparer()),
+                "The actual collection is not equal to expected.");
         }
 
         [Test]
@@ -379,7 +396,8 @@ namespace eStore.Application.Tests.Services
             var actual = await service.GetPresentByFilterAsync(filterModel);
 
             // Assert
-            CollectionAssert.AreEqual(expected, actual, "The actual collection is not equal to expected.");
+            Assert.That(actual, Is.EqualTo(expected).Using(new KeyboardEqualityComparer()),
+                "The actual collection is not equal to expected.");
         }
 
         [Test]
@@ -400,7 +418,8 @@ namespace eStore.Application.Tests.Services
             var actual = await service.GetPresentByFilterAsync(filterModel);
 
             // Assert
-            CollectionAssert.AreEqual(expected, actual, "The actual collection is not equal to expected.");
+            Assert.That(actual, Is.EqualTo(expected).Using(new KeyboardEqualityComparer()),
+                "The actual collection is not equal to expected.");
         }
 
         [Test]
@@ -422,7 +441,8 @@ namespace eStore.Application.Tests.Services
             var actual = await service.GetPresentByFilterAsync(filterModel);
 
             // Assert
-            CollectionAssert.AreEqual(expected, actual, "The actual collection is not equal to expected.");
+            Assert.That(actual, Is.EqualTo(expected).Using(new KeyboardEqualityComparer()),
+                "The actual collection is not equal to expected.");
         }
 
         [Test]
@@ -459,7 +479,8 @@ namespace eStore.Application.Tests.Services
             var actual = await service.GetPresentByFilterAsync(filterModel);
 
             // Assert
-            CollectionAssert.AreEqual(expected, actual, "The actual collection is not equal to expected.");
+            Assert.That(actual, Is.EqualTo(expected).Using(new KeyboardEqualityComparer()),
+                "The actual collection is not equal to expected.");
         }
 
         [Test]
@@ -504,7 +525,7 @@ namespace eStore.Application.Tests.Services
             var actual = await service.GetManufacturersAsync();
 
             // Assert
-            CollectionAssert.AreEquivalent(expected, actual, "The actual collection is not equal to expected.");
+            Assert.That(actual, Is.EqualTo(expected), "The actual collection is not equal to expected.");
         }
 
         [Test]
@@ -512,7 +533,8 @@ namespace eStore.Application.Tests.Services
         {
             // Arrange
             var keyboards = _helper.Keyboards.ToList();
-            foreach (var keyboard in keyboards) keyboard.Switch = _helper.KeyboardSwitches.FirstOrDefault(sw => sw.Id == keyboard.SwitchId);
+            foreach (var keyboard in keyboards)
+                keyboard.Switch = _helper.KeyboardSwitches.FirstOrDefault(sw => sw.Id == keyboard.SwitchId);
 
             _mockUnitOfWork.Setup(x => x.KeyboardRepository.GetAllAsync()).ReturnsAsync(keyboards);
             IKeyboardService service = new KeyboardService(_mockUnitOfWork.Object);
@@ -522,7 +544,7 @@ namespace eStore.Application.Tests.Services
             var actual = await service.GetSwitchesAsync();
 
             // Assert
-            CollectionAssert.AreEquivalent(expected, actual, "The actual collection is not equal to expected.");
+            Assert.That(actual, Is.EqualTo(expected), "The actual collection is not equal to expected.");
         }
 
         [Test]
@@ -538,7 +560,7 @@ namespace eStore.Application.Tests.Services
             var actual = await service.GetSizesAsync();
 
             // Assert
-            CollectionAssert.AreEquivalent(expected, actual, "The actual collection is not equal to expected.");
+            Assert.That(actual, Is.EqualTo(expected), "The actual collection is not equal to expected.");
         }
 
         [Test]
@@ -554,7 +576,7 @@ namespace eStore.Application.Tests.Services
             var actual = await service.GetTypesAsync();
 
             // Assert
-            CollectionAssert.AreEquivalent(expected, actual, "The actual collection is not equal to expected.");
+            Assert.That(actual, Is.EqualTo(expected), "The actual collection is not equal to expected.");
         }
 
         [Test]
@@ -570,7 +592,7 @@ namespace eStore.Application.Tests.Services
             var actual = await service.GetConnectionTypesAsync();
 
             // Assert
-            CollectionAssert.AreEquivalent(expected, actual, "The actual collection is not equal to expected.");
+            Assert.That(actual, Is.EqualTo(expected), "The actual collection is not equal to expected.");
         }
 
         [Test]
@@ -586,7 +608,7 @@ namespace eStore.Application.Tests.Services
             var actual = await service.GetBacklightsAsync();
 
             // Assert
-            CollectionAssert.AreEquivalent(expected, actual, "The actual collection is not equal to expected.");
+            Assert.That(actual, Is.EqualTo(expected), "The actual collection is not equal to expected.");
         }
 
         [Test]
@@ -602,7 +624,7 @@ namespace eStore.Application.Tests.Services
             var actual = await service.GetKeyRolloverAsync();
 
             // Assert
-            CollectionAssert.AreEquivalent(expected, actual, "The actual collection is not equal to expected.");
+            Assert.That(actual, Is.EqualTo(expected), "The actual collection is not equal to expected.");
         }
     }
 }

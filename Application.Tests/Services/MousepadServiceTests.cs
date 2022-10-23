@@ -9,6 +9,7 @@ using eStore.Application.Interfaces.Services;
 using eStore.Application.Services;
 using eStore.Domain.Entities;
 using eStore.Tests.Common;
+using eStore.Tests.Common.EqualityComparers;
 using Moq;
 using NUnit.Framework;
 
@@ -41,7 +42,8 @@ namespace eStore.Application.Tests.Services
             var actual = await service.GetPresentAsync();
 
             // Assert
-            CollectionAssert.AreEqual(expected, actual, "The actual collection is not equal to expected.");
+            Assert.That(actual, Is.EqualTo(expected).Using(new MousepadEqualityComparer()),
+                "The actual collection is not equal to expected.");
         }
 
         [Test]
@@ -59,7 +61,8 @@ namespace eStore.Application.Tests.Services
             var actual = await service.GetPresentByFilterAsync(filterModel);
 
             // Assert
-            CollectionAssert.AreEqual(expected, actual, "The actual collection is not equal to expected.");
+            Assert.That(actual, Is.EqualTo(expected).Using(new MousepadEqualityComparer()),
+                "The actual collection is not equal to expected.");
         }
 
         [Test]
@@ -80,7 +83,8 @@ namespace eStore.Application.Tests.Services
             var actual = await service.GetPresentByFilterAsync(filterModel);
 
             // Assert
-            CollectionAssert.AreEqual(expected, actual, "The actual collection is not equal to expected.");
+            Assert.That(actual, Is.EqualTo(expected).Using(new MousepadEqualityComparer()),
+                "The actual collection is not equal to expected.");
         }
 
         [Test]
@@ -102,7 +106,8 @@ namespace eStore.Application.Tests.Services
             var actual = await service.GetPresentByFilterAsync(filterModel);
 
             // Assert
-            CollectionAssert.AreEqual(expected, actual, "The actual collection is not equal to expected.");
+            Assert.That(actual, Is.EqualTo(expected).Using(new MousepadEqualityComparer()),
+                "The actual collection is not equal to expected.");
         }
 
         [Test]
@@ -123,7 +128,8 @@ namespace eStore.Application.Tests.Services
             var actual = await service.GetPresentByFilterAsync(filterModel);
 
             // Assert
-            CollectionAssert.AreEqual(expected, actual, "The actual collection is not equal to expected.");
+            Assert.That(actual, Is.EqualTo(expected).Using(new MousepadEqualityComparer()),
+                "The actual collection is not equal to expected.");
         }
 
         [Test]
@@ -145,7 +151,8 @@ namespace eStore.Application.Tests.Services
             var actual = await service.GetPresentByFilterAsync(filterModel);
 
             // Assert
-            CollectionAssert.AreEqual(expected, actual, "The actual collection is not equal to expected.");
+            Assert.That(actual, Is.EqualTo(expected).Using(new MousepadEqualityComparer()),
+                "The actual collection is not equal to expected.");
         }
 
         [Test]
@@ -166,7 +173,8 @@ namespace eStore.Application.Tests.Services
             var actual = await service.GetPresentByFilterAsync(filterModel);
 
             // Assert
-            CollectionAssert.AreEqual(expected, actual, "The actual collection is not equal to expected.");
+            Assert.That(actual, Is.EqualTo(expected).Using(new MousepadEqualityComparer()),
+                "The actual collection is not equal to expected.");
         }
 
         [Test]
@@ -188,7 +196,8 @@ namespace eStore.Application.Tests.Services
             var actual = await service.GetPresentByFilterAsync(filterModel);
 
             // Assert
-            CollectionAssert.AreEqual(expected, actual, "The actual collection is not equal to expected.");
+            Assert.That(actual, Is.EqualTo(expected).Using(new MousepadEqualityComparer()),
+                "The actual collection is not equal to expected.");
         }
 
         [Test]
@@ -209,7 +218,8 @@ namespace eStore.Application.Tests.Services
             var actual = await service.GetPresentByFilterAsync(filterModel);
 
             // Assert
-            CollectionAssert.AreEqual(expected, actual, "The actual collection is not equal to expected.");
+            Assert.That(actual, Is.EqualTo(expected).Using(new MousepadEqualityComparer()),
+                "The actual collection is not equal to expected.");
         }
 
         [Test]
@@ -230,7 +240,8 @@ namespace eStore.Application.Tests.Services
             var actual = await service.GetPresentByFilterAsync(filterModel);
 
             // Assert
-            CollectionAssert.AreEqual(expected, actual, "The actual collection is not equal to expected.");
+            Assert.That(actual, Is.EqualTo(expected).Using(new MousepadEqualityComparer()),
+                "The actual collection is not equal to expected.");
         }
 
         [Test]
@@ -251,7 +262,8 @@ namespace eStore.Application.Tests.Services
             var actual = await service.GetPresentByFilterAsync(filterModel);
 
             // Assert
-            CollectionAssert.AreEqual(expected, actual, "The actual collection is not equal to expected.");
+            Assert.That(actual, Is.EqualTo(expected).Using(new MousepadEqualityComparer()),
+                "The actual collection is not equal to expected.");
         }
 
         [Test]
@@ -272,7 +284,8 @@ namespace eStore.Application.Tests.Services
             var actual = await service.GetPresentByFilterAsync(filterModel);
 
             // Assert
-            CollectionAssert.AreEqual(expected, actual, "The actual collection is not equal to expected.");
+            Assert.That(actual, Is.EqualTo(expected).Using(new MousepadEqualityComparer()),
+                "The actual collection is not equal to expected.");
         }
 
         [Test]
@@ -294,7 +307,8 @@ namespace eStore.Application.Tests.Services
             var actual = await service.GetPresentByFilterAsync(filterModel);
 
             // Assert
-            CollectionAssert.AreEqual(expected, actual, "The actual collection is not equal to expected.");
+            Assert.That(actual, Is.EqualTo(expected).Using(new MousepadEqualityComparer()),
+                "The actual collection is not equal to expected.");
         }
 
         [Test]
@@ -315,7 +329,8 @@ namespace eStore.Application.Tests.Services
             var actual = await service.GetPresentByFilterAsync(filterModel);
 
             // Assert
-            CollectionAssert.AreEqual(expected, actual, "The actual collection is not equal to expected.");
+            Assert.That(actual, Is.EqualTo(expected).Using(new MousepadEqualityComparer()),
+                "The actual collection is not equal to expected.");
         }
 
         [Test]
@@ -336,7 +351,8 @@ namespace eStore.Application.Tests.Services
             var actual = await service.GetPresentByFilterAsync(filterModel);
 
             // Assert
-            CollectionAssert.AreEqual(expected, actual, "The actual collection is not equal to expected.");
+            Assert.That(actual, Is.EqualTo(expected).Using(new MousepadEqualityComparer()),
+                "The actual collection is not equal to expected.");
         }
 
         [Test]
@@ -358,7 +374,8 @@ namespace eStore.Application.Tests.Services
             var actual = await service.GetPresentByFilterAsync(filterModel);
 
             // Assert
-            CollectionAssert.AreEqual(expected, actual, "The actual collection is not equal to expected.");
+            Assert.That(actual, Is.EqualTo(expected).Using(new MousepadEqualityComparer()),
+                "The actual collection is not equal to expected.");
         }
 
         [Test]
@@ -388,7 +405,8 @@ namespace eStore.Application.Tests.Services
             var actual = await service.GetPresentByFilterAsync(filterModel);
 
             // Assert
-            CollectionAssert.AreEqual(expected, actual, "The actual collection is not equal to expected.");
+            Assert.That(actual, Is.EqualTo(expected).Using(new MousepadEqualityComparer()),
+                "The actual collection is not equal to expected.");
         }
 
         [Test]
@@ -403,7 +421,8 @@ namespace eStore.Application.Tests.Services
             var actual = await service.GetByIdAsync(14);
 
             // Assert
-            Assert.That(actual, Is.EqualTo(expected), "The actual mousepad is not equal to expected.");
+            Assert.That(actual, Is.EqualTo(expected).Using(new MousepadEqualityComparer()),
+                "The actual mousepad is not equal to expected.");
         }
 
         [Test]
@@ -433,7 +452,7 @@ namespace eStore.Application.Tests.Services
             var actual = await service.GetManufacturersAsync();
 
             // Assert
-            CollectionAssert.AreEquivalent(expected, actual, "The actual collection is not equal to expected.");
+            Assert.That(actual, Is.EqualTo(expected), "The actual collection is not equal to expected.");
         }
 
         [Test]
@@ -449,7 +468,7 @@ namespace eStore.Application.Tests.Services
             var actual = await service.GetTopMaterialsAsync();
 
             // Assert
-            CollectionAssert.AreEquivalent(expected, actual, "The actual collection is not equal to expected.");
+            Assert.That(actual, Is.EqualTo(expected), "The actual collection is not equal to expected.");
         }
 
         [Test]
@@ -465,7 +484,7 @@ namespace eStore.Application.Tests.Services
             var actual = await service.GetBottomMaterialsAsync();
 
             // Assert
-            CollectionAssert.AreEquivalent(expected, actual, "The actual collection is not equal to expected.");
+            Assert.That(actual, Is.EqualTo(expected), "The actual collection is not equal to expected.");
         }
 
         [Test]
@@ -481,7 +500,7 @@ namespace eStore.Application.Tests.Services
             var actual = await service.GetBacklightsAsync();
 
             // Assert
-            CollectionAssert.AreEquivalent(expected, actual, "The actual collection is not equal to expected.");
+            Assert.That(actual, Is.EqualTo(expected), "The actual collection is not equal to expected.");
         }
     }
 }

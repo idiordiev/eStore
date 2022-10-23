@@ -10,6 +10,7 @@ using eStore.Application.Interfaces.Services;
 using eStore.Application.Services;
 using eStore.Domain.Entities;
 using eStore.Tests.Common;
+using eStore.Tests.Common.EqualityComparers;
 using Moq;
 using NUnit.Framework;
 
@@ -42,7 +43,8 @@ namespace eStore.Application.Tests.Services
             var actual = await service.GetCustomerByIdAsync(1);
 
             // Assert
-            Assert.That(actual, Is.EqualTo(expected), "The actual customer is not equal to expected.");
+            Assert.That(actual, Is.EqualTo(expected).Using(new CustomerEqualityComparer()),
+                "The actual customer is not equal to expected.");
         }
 
         [Test]

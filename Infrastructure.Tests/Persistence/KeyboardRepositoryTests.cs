@@ -6,6 +6,7 @@ using eStore.Domain.Entities;
 using eStore.Infrastructure.Persistence;
 using eStore.Infrastructure.Persistence.Repositories;
 using eStore.Tests.Common;
+using eStore.Tests.Common.EqualityComparers;
 using NUnit.Framework;
 
 namespace eStore.Infrastructure.Tests.Persistence
@@ -39,7 +40,8 @@ namespace eStore.Infrastructure.Tests.Persistence
             var actual = await _repository.GetByIdAsync(id);
 
             // Assert
-            Assert.That(actual, Is.EqualTo(expected), "The actual keyboard is not equal to the expected.");
+            Assert.That(actual, Is.EqualTo(expected).Using(new KeyboardEqualityComparer()),
+                "The actual keyboard is not equal to the expected.");
         }
 
         [TestCase(12)]
@@ -66,7 +68,8 @@ namespace eStore.Infrastructure.Tests.Persistence
             var actual = await _repository.GetAllAsync();
 
             // Assert
-            Assert.That(actual, Is.EqualTo(expected), "The actual collection of keyboards is not equal to the expected.");
+            Assert.That(actual, Is.EqualTo(expected).Using(new KeyboardEqualityComparer()),
+                "The actual collection of keyboards is not equal to the expected.");
         }
 
         [Test]
@@ -79,7 +82,8 @@ namespace eStore.Infrastructure.Tests.Persistence
             var actual = _repository.Query(c => c.Id == 5);
 
             // Assert
-            Assert.That(actual, Is.EqualTo(expected), "The actual collection of keyboards is not equal to the expected.");
+            Assert.That(actual, Is.EqualTo(expected).Using(new KeyboardEqualityComparer()),
+                "The actual collection of keyboards is not equal to the expected.");
             return Task.CompletedTask;
         }
 

@@ -6,6 +6,7 @@ using eStore.Application.Interfaces.Services;
 using eStore.Application.Services;
 using eStore.Domain.Entities;
 using eStore.Tests.Common;
+using eStore.Tests.Common.EqualityComparers;
 using Moq;
 using NUnit.Framework;
 
@@ -36,7 +37,7 @@ namespace eStore.Application.Tests.Services
             var actual = await service.GetAllAsync();
 
             // Assert
-            Assert.That(actual, Is.EqualTo(expected), "The actual collection is not equal to expected.");
+            Assert.That(actual, Is.EqualTo(expected).Using(new GoodsEqualityComparer()), "The actual collection is not equal to expected.");
         }
 
         [Test]
@@ -51,7 +52,7 @@ namespace eStore.Application.Tests.Services
             var actual = await service.GetByIdAsync(1);
 
             // Assert
-            Assert.That(actual, Is.EqualTo(expected), "the actual goods is not equal to expected.");
+            Assert.That(actual, Is.EqualTo(expected).Using(new GoodsEqualityComparer()), "the actual goods is not equal to expected.");
         }
 
         [Test]
