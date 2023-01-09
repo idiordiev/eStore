@@ -28,37 +28,54 @@ namespace eStore.Application.Filtering.Factories
         private void AddMinPriceConstraint(ref Expression<Func<Gamepad, bool>> expression, decimal? price)
         {
             if (price != null)
+            {
                 expression = expression.And(g => g.Price >= price);
+            }
         }
 
         private void AddMaxPriceConstraint(ref Expression<Func<Gamepad, bool>> expression, decimal? price)
         {
             if (price != null)
+            {
                 expression = expression.And(g => g.Price <= price);
+            }
         }
 
-        private void AddManufacturerConstraint(ref Expression<Func<Gamepad, bool>> expression, ICollection<string> manufacturers)
+        private void AddManufacturerConstraint(ref Expression<Func<Gamepad, bool>> expression,
+            ICollection<string> manufacturers)
         {
             if (manufacturers != null && manufacturers.Any())
+            {
                 expression = expression.And(g => manufacturers.Any(m => m.Contains(g.Manufacturer)));
+            }
         }
 
-        private void AddConnectionTypeConstraint(ref Expression<Func<Gamepad, bool>> expression, ICollection<string> connectionTypes)
+        private void AddConnectionTypeConstraint(ref Expression<Func<Gamepad, bool>> expression,
+            ICollection<string> connectionTypes)
         {
             if (connectionTypes != null && connectionTypes.Any())
+            {
                 expression = expression.And(g => connectionTypes.Contains(g.ConnectionType));
+            }
         }
 
-        private void AddFeedbackConstraint(ref Expression<Func<Gamepad, bool>> expression, ICollection<string> feedbacks)
+        private void AddFeedbackConstraint(ref Expression<Func<Gamepad, bool>> expression,
+            ICollection<string> feedbacks)
         {
             if (feedbacks != null && feedbacks.Any())
+            {
                 expression = expression.And(g => feedbacks.Contains(g.Feedback));
+            }
         }
 
-        private void AddCompatibleDevicesConstraint(ref Expression<Func<Gamepad, bool>> expression, ICollection<string> devices)
+        private void AddCompatibleDevicesConstraint(ref Expression<Func<Gamepad, bool>> expression,
+            ICollection<string> devices)
         {
             if (devices != null && devices.Any())
-                expression = expression.And(g => g.CompatibleDevices.Select(d => d).Distinct().Intersect(devices).Any());
+            {
+                expression = expression.And(g =>
+                    g.CompatibleDevices.Select(d => d).Distinct().Intersect(devices).Any());
+            }
         }
     }
 }

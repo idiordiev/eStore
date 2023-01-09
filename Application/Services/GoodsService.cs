@@ -29,24 +29,34 @@ namespace eStore.Application.Services
 
         public async Task<IEnumerable<Goods>> GetGoodsInCustomerCartAsync(int customerId)
         {
-            var customer = await _unitOfWork.CustomerRepository.GetByIdAsync(customerId);
+            Customer customer = await _unitOfWork.CustomerRepository.GetByIdAsync(customerId);
             if (customer == null)
+            {
                 throw new CustomerNotFoundException($"The customer with the id {customerId} has not been found.");
+            }
+
             if (customer.IsDeleted)
+            {
                 throw new AccountDeactivatedException(
                     $"The account with the id {customerId} has already been deactivated.");
+            }
 
             return customer.ShoppingCart.Goods;
         }
 
         public async Task<bool> CheckIfAddedToCartAsync(int customerId, int goodsId)
         {
-            var customer = await _unitOfWork.CustomerRepository.GetByIdAsync(customerId);
+            Customer customer = await _unitOfWork.CustomerRepository.GetByIdAsync(customerId);
             if (customer == null)
+            {
                 throw new CustomerNotFoundException($"The customer with the id {customerId} has not been found.");
+            }
+
             if (customer.IsDeleted)
+            {
                 throw new AccountDeactivatedException(
                     $"The account with the id {customerId} has already been deactivated.");
+            }
 
             return customer.ShoppingCart.Goods.Any(g => g.Id == goodsId);
         }

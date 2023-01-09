@@ -8,26 +8,34 @@ namespace eStore.Tests.Common.EqualityComparers
     {
         public bool Equals(Mousepad x, Mousepad y)
         {
-            if (ReferenceEquals(x, y)) 
+            if (ReferenceEquals(x, y))
+            {
                 return true;
-            
-            if (ReferenceEquals(x, null)) 
+            }
+
+            if (ReferenceEquals(x, null))
+            {
                 return false;
-            
-            if (ReferenceEquals(y, null)) 
+            }
+
+            if (ReferenceEquals(y, null))
+            {
                 return false;
-            
-            if (x.GetType() != y.GetType()) 
+            }
+
+            if (x.GetType() != y.GetType())
+            {
                 return false;
-            
-            return x.Id == y.Id 
-                   && x.IsDeleted == y.IsDeleted 
-                   && x.IsStitched == y.IsStitched 
-                   && x.TopMaterial == y.TopMaterial 
-                   && x.BottomMaterial == y.BottomMaterial 
-                   && x.Backlight == y.Backlight 
-                   && x.Length.Equals(y.Length) 
-                   && x.Width.Equals(y.Width) 
+            }
+
+            return x.Id == y.Id
+                   && x.IsDeleted == y.IsDeleted
+                   && x.IsStitched == y.IsStitched
+                   && x.TopMaterial == y.TopMaterial
+                   && x.BottomMaterial == y.BottomMaterial
+                   && x.Backlight == y.Backlight
+                   && x.Length.Equals(y.Length)
+                   && x.Width.Equals(y.Width)
                    && x.Height.Equals(y.Height);
         }
 
@@ -43,7 +51,7 @@ namespace eStore.Tests.Common.EqualityComparers
             hashCode.Add(obj.Length);
             hashCode.Add(obj.Width);
             hashCode.Add(obj.Height);
-            
+
             return hashCode.ToHashCode();
         }
     }

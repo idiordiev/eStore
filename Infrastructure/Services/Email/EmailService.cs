@@ -19,12 +19,14 @@ namespace eStore.Infrastructure.Services.Email
 
         public async Task SendRegisterEmailAsync(Customer customer)
         {
-            if (customer == null) 
+            if (customer == null)
+            {
                 throw new ArgumentNullException(nameof(customer), "The order is null.");
+            }
 
-            var bodyPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) +
-                           "/Services/Email/Templates/RegisterEmailTemplate.html";
-            var body = await File.ReadAllTextAsync(bodyPath);
+            string bodyPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) +
+                              "/Services/Email/Templates/RegisterEmailTemplate.html";
+            string body = await File.ReadAllTextAsync(bodyPath);
             body = body.Replace("FIRST_NAME", customer.FirstName);
             body = body.Replace("LAST_NAME", customer.LastName);
             body = body.Replace("PHONE_NUMBER", customer.PhoneNumber);
@@ -35,9 +37,9 @@ namespace eStore.Infrastructure.Services.Email
 
         public async Task SendDeactivationEmailAsync(string email)
         {
-            var bodyPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) +
-                           "/Services/Email/Templates/DeactivateAccountEmailTemplate.html";
-            var body = await File.ReadAllTextAsync(bodyPath);
+            string bodyPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) +
+                              "/Services/Email/Templates/DeactivateAccountEmailTemplate.html";
+            string body = await File.ReadAllTextAsync(bodyPath);
             body = body.Replace("DEACTIVATION_DATE", DateTime.Now.ToShortDateString());
             body = body.Replace("DEACTIVATION_TIME", DateTime.Now.ToShortTimeString());
             await _htmlEmailSender.SendEmailAsync(email, "Your account has been deactivated", body);
@@ -45,9 +47,9 @@ namespace eStore.Infrastructure.Services.Email
 
         public async Task SendChangePasswordEmailAsync(string email)
         {
-            var bodyPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) +
-                           "/Services/Email/Templates/ChangePasswordEmailTemplate.html";
-            var body = await File.ReadAllTextAsync(bodyPath);
+            string bodyPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) +
+                              "/Services/Email/Templates/ChangePasswordEmailTemplate.html";
+            string body = await File.ReadAllTextAsync(bodyPath);
             body = body.Replace("CHANGING_DATE", DateTime.Now.ToShortDateString());
             body = body.Replace("CHANGING_TIME", DateTime.Now.ToShortTimeString());
             await _htmlEmailSender.SendEmailAsync(email, "You have changed password", body);
@@ -55,12 +57,14 @@ namespace eStore.Infrastructure.Services.Email
 
         public async Task SendPurchaseEmailAsyncAsync(Order order, string attachmentFilePath)
         {
-            if (order == null) 
+            if (order == null)
+            {
                 throw new ArgumentNullException(nameof(order), "The order is null.");
+            }
 
-            var bodyPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) +
-                           "/Services/Email/Templates/OrderEmailTemplate.html";
-            var body = await File.ReadAllTextAsync(bodyPath);
+            string bodyPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) +
+                              "/Services/Email/Templates/OrderEmailTemplate.html";
+            string body = await File.ReadAllTextAsync(bodyPath);
             body = body.Replace("FIRST_NAME", order.Customer.FirstName);
             body = body.Replace("LAST_NAME", order.Customer.LastName);
             body = body.Replace("PHONE_NUMBER", order.Customer.PhoneNumber);

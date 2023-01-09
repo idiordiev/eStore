@@ -31,55 +31,79 @@ namespace eStore.Application.Filtering.Factories
         private void AddMinPriceConstraint(ref Expression<Func<Keyboard, bool>> expression, decimal? price)
         {
             if (price != null)
+            {
                 expression = expression.And(k => k.Price >= price);
+            }
         }
 
         private void AddMaxPriceConstraint(ref Expression<Func<Keyboard, bool>> expression, decimal? price)
         {
             if (price != null)
+            {
                 expression = expression.And(k => k.Price <= price);
+            }
         }
 
-        private void AddManufacturerConstraint(ref Expression<Func<Keyboard, bool>> expression, ICollection<string> manufacturers)
+        private void AddManufacturerConstraint(ref Expression<Func<Keyboard, bool>> expression,
+            ICollection<string> manufacturers)
         {
             if (manufacturers != null && manufacturers.Any())
+            {
                 expression = expression.And(k => manufacturers.Contains(k.Manufacturer));
+            }
         }
 
-        private void AddConnectionTypeConstraint(ref Expression<Func<Keyboard, bool>> expression, ICollection<string> connectionTypes)
+        private void AddConnectionTypeConstraint(ref Expression<Func<Keyboard, bool>> expression,
+            ICollection<string> connectionTypes)
         {
             if (connectionTypes != null && connectionTypes.Any())
+            {
                 expression = expression.And(k => connectionTypes.Contains(k.ConnectionType));
+            }
         }
 
         private void AddSwitchConstraint(ref Expression<Func<Keyboard, bool>> expression, ICollection<int?> switchIds)
         {
             if (switchIds != null && switchIds.Any())
+            {
                 expression = expression.And(k => switchIds.Contains(k.SwitchId));
+            }
         }
 
-        private void AddKeyboardSizeConstraint(ref Expression<Func<Keyboard, bool>> expression, ICollection<string> sizes)
+        private void AddKeyboardSizeConstraint(ref Expression<Func<Keyboard, bool>> expression,
+            ICollection<string> sizes)
         {
             if (sizes != null && sizes.Any())
+            {
                 expression = expression.And(k => sizes.Contains(k.Size));
+            }
         }
 
-        private void AddKeyboardTypeConstraint(ref Expression<Func<Keyboard, bool>> expression, ICollection<string> types)
+        private void AddKeyboardTypeConstraint(ref Expression<Func<Keyboard, bool>> expression,
+            ICollection<string> types)
         {
             if (types != null && types.Any())
+            {
                 expression = expression.And(k => types.Contains(k.Type));
+            }
         }
 
-        private void AddKeyRolloverConstraint(ref Expression<Func<Keyboard, bool>> expression, ICollection<string> rollovers)
+        private void AddKeyRolloverConstraint(ref Expression<Func<Keyboard, bool>> expression,
+            ICollection<string> rollovers)
         {
             if (rollovers != null && rollovers.Any())
+            {
                 expression = expression.And(k => rollovers.Contains(k.KeyRollover));
+            }
         }
 
-        private void AddBacklightConstraint(ref Expression<Func<Keyboard, bool>> expression, ICollection<string> backlights)
+        private void AddBacklightConstraint(ref Expression<Func<Keyboard, bool>> expression,
+            ICollection<string> backlights)
         {
             if (backlights != null && backlights.Any())
+            {
                 expression = expression.And(k => backlights.Contains(k.Backlight));
+            }
         }
     }
 }

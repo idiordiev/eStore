@@ -35,13 +35,14 @@ namespace eStore.Infrastructure.Tests.Persistence
         public async Task GetByIdAsync_ExistingOrder_ReturnsOrder(int id)
         {
             // Arrange
-            var expected = _helper.Orders.FirstOrDefault(c => c.Id == id);
+            Order expected = _helper.Orders.FirstOrDefault(c => c.Id == id);
 
             // Act
-            var actual = await _repository.GetByIdAsync(id);
+            Order actual = await _repository.GetByIdAsync(id);
 
             // Assert
-            Assert.That(actual, Is.EqualTo(expected).Using(new OrderEqualityComparer()), "The actual order is not equal to the expected.");
+            Assert.That(actual, Is.EqualTo(expected).Using(new OrderEqualityComparer()),
+                "The actual order is not equal to the expected.");
         }
 
         [TestCase(12)]
@@ -51,7 +52,7 @@ namespace eStore.Infrastructure.Tests.Persistence
             // Arrange
 
             // Act
-            var actual = await _repository.GetByIdAsync(id);
+            Order actual = await _repository.GetByIdAsync(id);
 
             // Assert
             Assert.That(actual, Is.Null, "The method returned not-null order.");
@@ -97,11 +98,11 @@ namespace eStore.Infrastructure.Tests.Persistence
                 ShippingAddress = "Address1", ShippingCity = "City1", ShippingPostalCode = "02000", Total = 98.97m,
                 OrderItems = new List<OrderItem>
                 {
-                    new()
+                    new OrderItem
                     {
                         IsDeleted = false, OrderId = 4, GoodsId = 15, Quantity = 1, UnitPrice = 48.99m
                     },
-                    new()
+                    new OrderItem
                     {
                         IsDeleted = false, OrderId = 4, GoodsId = 2, Quantity = 2, UnitPrice = 24.99m
                     }
@@ -113,22 +114,25 @@ namespace eStore.Infrastructure.Tests.Persistence
 
             // Assert
             Assert.That(_context.Orders.Count(), Is.EqualTo(7), "The new order has not been added to the context.");
-            Assert.That(await _context.Orders.FindAsync(7), Is.Not.Null, "The new order has been added with the wrong ID.");
-            Assert.That(_context.OrderItems.Count(), Is.EqualTo(20), "The items of the new order has not been added to the context.");
+            Assert.That(await _context.Orders.FindAsync(7), Is.Not.Null,
+                "The new order has been added with the wrong ID.");
+            Assert.That(_context.OrderItems.Count(), Is.EqualTo(20),
+                "The items of the new order has not been added to the context.");
         }
 
         [Test]
         public async Task UpdateAsync_ExistingOrder_UpdatesOrderAndSavesToDb()
         {
             // Arrange
-            var order = await _context.Orders.FindAsync(1);
+            Order order = await _context.Orders.FindAsync(1);
 
             // Act
             order.ShippingCity = "NewCity";
             await _repository.UpdateAsync(order);
 
             // Assert
-            Assert.That((await _context.Orders.FindAsync(order.Id)).ShippingCity, Is.EqualTo("NewCity"), "The order has not been updated.");
+            Assert.That((await _context.Orders.FindAsync(order.Id)).ShippingCity, Is.EqualTo("NewCity"),
+                "The order has not been updated.");
         }
 
         [TestCase(1)]

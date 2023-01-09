@@ -29,43 +29,60 @@ namespace eStore.Application.Filtering.Factories
         private void AddMinPriceConstraint(ref Expression<Func<Mouse, bool>> expression, decimal? price)
         {
             if (price != null)
+            {
                 expression = expression.And(m => m.Price >= price);
+            }
         }
 
         private void AddMaxPriceConstraint(ref Expression<Func<Mouse, bool>> expression, decimal? price)
         {
             if (price != null)
+            {
                 expression = expression.And(m => m.Price <= price);
+            }
         }
 
-        private void AddManufacturerConstraint(ref Expression<Func<Mouse, bool>> expression, ICollection<string> manufacturers)
+        private void AddManufacturerConstraint(ref Expression<Func<Mouse, bool>> expression,
+            ICollection<string> manufacturers)
         {
             if (manufacturers != null && manufacturers.Any())
+            {
                 expression = expression.And(m => manufacturers.Contains(m.Manufacturer));
+            }
         }
 
         private void AddMinWeightConstraint(ref Expression<Func<Mouse, bool>> expression, float? weight)
         {
             if (weight != null)
+            {
                 expression = expression.And(m => m.Weight >= weight);
+            }
         }
 
         private void AddMaxWeightConstraint(ref Expression<Func<Mouse, bool>> expression, float? weight)
         {
             if (weight != null)
+            {
                 expression = expression.And(m => m.Weight <= weight);
+            }
         }
 
-        private void AddConnectionTypeConstraint(ref Expression<Func<Mouse, bool>> expression, ICollection<string> connectionTypes)
+        private void AddConnectionTypeConstraint(ref Expression<Func<Mouse, bool>> expression,
+            ICollection<string> connectionTypes)
         {
             if (connectionTypes != null && connectionTypes.Any())
+            {
                 expression = expression.And(m => connectionTypes.Contains(m.ConnectionType));
+            }
         }
 
-        private void AddBacklightConstraint(ref Expression<Func<Mouse, bool>> expression, ICollection<string> backlights)
+        private void AddBacklightConstraint(ref Expression<Func<Mouse, bool>> expression,
+            ICollection<string> backlights)
         {
             if (backlights != null && backlights.Any())
+            {
                 expression = expression.And(m => backlights.Contains(m.Backlight));
+            }
         }
     }
 }

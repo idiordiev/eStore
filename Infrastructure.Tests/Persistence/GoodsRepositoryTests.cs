@@ -44,13 +44,14 @@ namespace eStore.Infrastructure.Tests.Persistence
         public async Task GetByIdAsync_ExistingGoods_ReturnsGoods(int id)
         {
             // Arrange
-            var expected = _helper.Goods.FirstOrDefault(c => c.Id == id);
+            Goods expected = _helper.Goods.FirstOrDefault(c => c.Id == id);
 
             // Act
-            var actual = await _repository.GetByIdAsync(id);
+            Goods actual = await _repository.GetByIdAsync(id);
 
             // Assert
-            Assert.That(actual, Is.EqualTo(expected).Using(new GoodsEqualityComparer()), "The actual goods is not equal to the expected.");
+            Assert.That(actual, Is.EqualTo(expected).Using(new GoodsEqualityComparer()),
+                "The actual goods is not equal to the expected.");
         }
 
         [TestCase(16)]
@@ -61,7 +62,7 @@ namespace eStore.Infrastructure.Tests.Persistence
             // Arrange
 
             // Act
-            var actual = await _repository.GetByIdAsync(id);
+            Goods actual = await _repository.GetByIdAsync(id);
 
             // Assert
             Assert.That(actual, Is.Null, "The method returned not-null goods.");
@@ -116,21 +117,23 @@ namespace eStore.Infrastructure.Tests.Persistence
 
             // Assert
             Assert.That(_context.Goods.Count(), Is.EqualTo(16), "The new goods has not been added to the context.");
-            Assert.That(await _context.Goods.FindAsync(16), Is.Not.Null, "The new goods has been added with the wrong ID.");
+            Assert.That(await _context.Goods.FindAsync(16), Is.Not.Null,
+                "The new goods has been added with the wrong ID.");
         }
 
         [Test]
         public async Task UpdateAsync_ExistingGoods_UpdatesGoodsAndSavesToDb()
         {
             // Arrange
-            var goods = await _context.Goods.FindAsync(13);
+            Goods goods = await _context.Goods.FindAsync(13);
 
             // Act
             goods.Name = "NewName";
             await _repository.UpdateAsync(goods);
 
             // Assert
-            Assert.That((await _context.Goods.FindAsync(goods.Id)).Name, Is.EqualTo("NewName"), "The goods has not been updated.");
+            Assert.That((await _context.Goods.FindAsync(goods.Id)).Name, Is.EqualTo("NewName"),
+                "The goods has not been updated.");
         }
 
         [TestCase(1)]

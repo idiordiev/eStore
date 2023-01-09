@@ -8,27 +8,35 @@ namespace eStore.Tests.Common.EqualityComparers
     {
         public bool Equals(Order x, Order y)
         {
-            if (ReferenceEquals(x, y)) 
+            if (ReferenceEquals(x, y))
+            {
                 return true;
-            
-            if (ReferenceEquals(x, null)) 
+            }
+
+            if (ReferenceEquals(x, null))
+            {
                 return false;
-            
-            if (ReferenceEquals(y, null)) 
+            }
+
+            if (ReferenceEquals(y, null))
+            {
                 return false;
-            
-            if (x.GetType() != y.GetType()) 
+            }
+
+            if (x.GetType() != y.GetType())
+            {
                 return false;
-            
-            return x.Id == y.Id 
-                   && x.IsDeleted == y.IsDeleted 
-                   && x.TimeStamp.Equals(y.TimeStamp) 
-                   && x.CustomerId == y.CustomerId 
-                   && x.Status == y.Status 
-                   && x.Total == y.Total 
-                   && x.ShippingCountry == y.ShippingCountry 
-                   && x.ShippingCity == y.ShippingCity 
-                   && x.ShippingAddress == y.ShippingAddress 
+            }
+
+            return x.Id == y.Id
+                   && x.IsDeleted == y.IsDeleted
+                   && x.TimeStamp.Equals(y.TimeStamp)
+                   && x.CustomerId == y.CustomerId
+                   && x.Status == y.Status
+                   && x.Total == y.Total
+                   && x.ShippingCountry == y.ShippingCountry
+                   && x.ShippingCity == y.ShippingCity
+                   && x.ShippingAddress == y.ShippingAddress
                    && x.ShippingPostalCode == y.ShippingPostalCode;
         }
 
@@ -45,7 +53,7 @@ namespace eStore.Tests.Common.EqualityComparers
             hashCode.Add(obj.ShippingCity);
             hashCode.Add(obj.ShippingAddress);
             hashCode.Add(obj.ShippingPostalCode);
-            
+
             return hashCode.ToHashCode();
         }
     }

@@ -45,7 +45,7 @@ namespace eStore.Infrastructure.Persistence.Repositories
 
         public async Task DeleteAsync(int id)
         {
-            var mousepad = await GetByIdAsync(id);
+            Mousepad mousepad = await GetByIdAsync(id);
             _context.Mousepads.Remove(mousepad);
             await _context.SaveChangesAsync();
         }

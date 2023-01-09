@@ -8,29 +8,37 @@ namespace eStore.Tests.Common.EqualityComparers
     {
         public bool Equals(Mouse x, Mouse y)
         {
-            if (ReferenceEquals(x, y)) 
+            if (ReferenceEquals(x, y))
+            {
                 return true;
-            
-            if (ReferenceEquals(x, null)) 
+            }
+
+            if (ReferenceEquals(x, null))
+            {
                 return false;
-            
-            if (ReferenceEquals(y, null)) 
+            }
+
+            if (ReferenceEquals(y, null))
+            {
                 return false;
-            
-            if (x.GetType() != y.GetType()) 
+            }
+
+            if (x.GetType() != y.GetType())
+            {
                 return false;
-            
-            return x.Id == y.Id 
-                   && x.IsDeleted == y.IsDeleted 
-                   && x.ButtonsQuantity == y.ButtonsQuantity 
-                   && x.SensorName == y.SensorName 
-                   && x.MinSensorDPI == y.MinSensorDPI 
-                   && x.MaxSensorDPI == y.MaxSensorDPI 
-                   && x.ConnectionType == y.ConnectionType 
-                   && x.Backlight == y.Backlight 
-                   && x.Length.Equals(y.Length) 
-                   && x.Width.Equals(y.Width) 
-                   && x.Height.Equals(y.Height) 
+            }
+
+            return x.Id == y.Id
+                   && x.IsDeleted == y.IsDeleted
+                   && x.ButtonsQuantity == y.ButtonsQuantity
+                   && x.SensorName == y.SensorName
+                   && x.MinSensorDPI == y.MinSensorDPI
+                   && x.MaxSensorDPI == y.MaxSensorDPI
+                   && x.ConnectionType == y.ConnectionType
+                   && x.Backlight == y.Backlight
+                   && x.Length.Equals(y.Length)
+                   && x.Width.Equals(y.Width)
+                   && x.Height.Equals(y.Height)
                    && x.Weight.Equals(y.Weight);
         }
 
@@ -49,7 +57,7 @@ namespace eStore.Tests.Common.EqualityComparers
             hashCode.Add(obj.Width);
             hashCode.Add(obj.Height);
             hashCode.Add(obj.Weight);
-            
+
             return hashCode.ToHashCode();
         }
     }

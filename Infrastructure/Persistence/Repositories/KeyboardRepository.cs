@@ -48,7 +48,7 @@ namespace eStore.Infrastructure.Persistence.Repositories
 
         public async Task DeleteAsync(int id)
         {
-            var keyboard = await GetByIdAsync(id);
+            Keyboard keyboard = await GetByIdAsync(id);
             _context.Keyboards.Remove(keyboard);
             await _context.SaveChangesAsync();
         }

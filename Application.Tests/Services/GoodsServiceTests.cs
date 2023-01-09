@@ -37,22 +37,24 @@ namespace eStore.Application.Tests.Services
             var actual = await service.GetAllAsync();
 
             // Assert
-            Assert.That(actual, Is.EqualTo(expected).Using(new GoodsEqualityComparer()), "The actual collection is not equal to expected.");
+            Assert.That(actual, Is.EqualTo(expected).Using(new GoodsEqualityComparer()),
+                "The actual collection is not equal to expected.");
         }
 
         [Test]
         public async Task GetByIdAsync_ExistingGoods_ReturnsGoods()
         {
             // Arrange
-            var expected = _helper.Goods.First();
+            Goods expected = _helper.Goods.First();
             _mockUnitOfWork.Setup(x => x.GoodsRepository.GetByIdAsync(1)).ReturnsAsync(expected);
             IGoodsService service = new GoodsService(_mockUnitOfWork.Object);
 
             // Act
-            var actual = await service.GetByIdAsync(1);
+            Goods actual = await service.GetByIdAsync(1);
 
             // Assert
-            Assert.That(actual, Is.EqualTo(expected).Using(new GoodsEqualityComparer()), "the actual goods is not equal to expected.");
+            Assert.That(actual, Is.EqualTo(expected).Using(new GoodsEqualityComparer()),
+                "the actual goods is not equal to expected.");
         }
 
         [Test]
@@ -63,7 +65,7 @@ namespace eStore.Application.Tests.Services
             IGoodsService service = new GoodsService(_mockUnitOfWork.Object);
 
             // Act
-            var actual = await service.GetByIdAsync(1);
+            Goods actual = await service.GetByIdAsync(1);
 
             // Assert
             Assert.That(actual, Is.Null, "the method returned not-null object.");
@@ -73,7 +75,7 @@ namespace eStore.Application.Tests.Services
         public async Task GetGoodsInCustomerCartAsync_ExistingCustomerWithGoods_ReturnsCollectionOfGoods()
         {
             // Arrange
-            var customer = _helper.Customers.First(c => c.Id == 1);
+            Customer customer = _helper.Customers.First(c => c.Id == 1);
             _mockUnitOfWork.Setup(x => x.CustomerRepository.GetByIdAsync(1)).ReturnsAsync(customer);
             IGoodsService service = new GoodsService(_mockUnitOfWork.Object);
 
@@ -92,7 +94,8 @@ namespace eStore.Application.Tests.Services
             IGoodsService service = new GoodsService(_mockUnitOfWork.Object);
 
             // Act
-            var exception = Assert.ThrowsAsync<CustomerNotFoundException>(async () => await service.GetGoodsInCustomerCartAsync(1));
+            var exception =
+                Assert.ThrowsAsync<CustomerNotFoundException>(async () => await service.GetGoodsInCustomerCartAsync(1));
 
             // Assert
             Assert.That(exception, Is.Not.Null, "The method didn't throw CustomerNotFoundException.");
@@ -102,11 +105,14 @@ namespace eStore.Application.Tests.Services
         public void GetGoodsInCustomerCartAsync_DeactivatedCustomer_ThrowsAccountDeactivatedException()
         {
             // Arrange
-            _mockUnitOfWork.Setup(x => x.CustomerRepository.GetByIdAsync(1)).ReturnsAsync(_helper.Customers.First(c => c.Id == 2));
+            _mockUnitOfWork.Setup(x => x.CustomerRepository.GetByIdAsync(1))
+                .ReturnsAsync(_helper.Customers.First(c => c.Id == 2));
             IGoodsService service = new GoodsService(_mockUnitOfWork.Object);
 
             // Act
-            var exception = Assert.ThrowsAsync<AccountDeactivatedException>(async () => await service.GetGoodsInCustomerCartAsync(1));
+            var exception =
+                Assert.ThrowsAsync<AccountDeactivatedException>(
+                    async () => await service.GetGoodsInCustomerCartAsync(1));
 
             // Assert
             Assert.That(exception, Is.Not.Null, "The method didn't throw AccountDeactivatedException.");
@@ -116,11 +122,12 @@ namespace eStore.Application.Tests.Services
         public async Task CheckIfAddedToCartAsync_ExistingCustomerWithSpecifiedGoods_ReturnsTrue()
         {
             // Arrange
-            _mockUnitOfWork.Setup(x => x.CustomerRepository.GetByIdAsync(1)).ReturnsAsync(_helper.Customers.First(c => c.Id == 1));
+            _mockUnitOfWork.Setup(x => x.CustomerRepository.GetByIdAsync(1))
+                .ReturnsAsync(_helper.Customers.First(c => c.Id == 1));
             IGoodsService service = new GoodsService(_mockUnitOfWork.Object);
 
             // Act
-            var result = await service.CheckIfAddedToCartAsync(1, 1);
+            bool result = await service.CheckIfAddedToCartAsync(1, 1);
 
             // Assert
             Assert.That(result, Is.True, "The method returned wrong result.");
@@ -131,11 +138,12 @@ namespace eStore.Application.Tests.Services
         public async Task CheckIfAddedToCartAsync_ExistingCustomerWithoutSpecifiedGoods_ReturnsFalse()
         {
             // Arrange
-            _mockUnitOfWork.Setup(x => x.CustomerRepository.GetByIdAsync(1)).ReturnsAsync(_helper.Customers.First(c => c.Id == 1));
+            _mockUnitOfWork.Setup(x => x.CustomerRepository.GetByIdAsync(1))
+                .ReturnsAsync(_helper.Customers.First(c => c.Id == 1));
             IGoodsService service = new GoodsService(_mockUnitOfWork.Object);
 
             // Act
-            var result = await service.CheckIfAddedToCartAsync(1, 5);
+            bool result = await service.CheckIfAddedToCartAsync(1, 5);
 
             // Assert
             Assert.That(result, Is.False, "The method returned wrong result.");
@@ -149,7 +157,8 @@ namespace eStore.Application.Tests.Services
             IGoodsService service = new GoodsService(_mockUnitOfWork.Object);
 
             // Act
-            var exception = Assert.ThrowsAsync<CustomerNotFoundException>(async () => await service.CheckIfAddedToCartAsync(1, 1));
+            var exception =
+                Assert.ThrowsAsync<CustomerNotFoundException>(async () => await service.CheckIfAddedToCartAsync(1, 1));
 
             // Assert
             Assert.That(exception, Is.Not.Null, "The method didn't throw CustomerNotFoundException.");
@@ -164,7 +173,9 @@ namespace eStore.Application.Tests.Services
             IGoodsService service = new GoodsService(_mockUnitOfWork.Object);
 
             // Act
-            var exception = Assert.ThrowsAsync<AccountDeactivatedException>(async () => await service.CheckIfAddedToCartAsync(1, 1));
+            var exception =
+                Assert.ThrowsAsync<AccountDeactivatedException>(async () =>
+                    await service.CheckIfAddedToCartAsync(1, 1));
 
             // Assert
             Assert.That(exception, Is.Not.Null, "The method didn't throw AccountDeactivatedException.");

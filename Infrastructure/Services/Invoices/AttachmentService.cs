@@ -38,18 +38,26 @@ namespace eStore.Infrastructure.Services.Invoices
         public string CreateInvoice(Order order)
         {
             if (order == null)
+            {
                 throw new ArgumentNullException(nameof(order), "The order is null.");
+            }
+
             if (order.Customer == null)
+            {
                 throw new ArgumentNullException(nameof(order.Customer), "The order customer is null");
+            }
+
             if (order.OrderItems == null)
+            {
                 throw new ArgumentNullException(nameof(order.OrderItems), "The collection of the order items is null.");
+            }
 
             SpreadsheetInfo.SetLicense("FREE-LIMITED-KEY");
-            var templatePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) +
-                               "/Services/Invoices/Template.xlsx";
-            var excel = ExcelFile.Load(templatePath);
+            string templatePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) +
+                                  "/Services/Invoices/Template.xlsx";
+            ExcelFile excel = ExcelFile.Load(templatePath);
 
-            var worksheet = excel.Worksheets.First();
+            ExcelWorksheet worksheet = excel.Worksheets.First();
             worksheet.Cells[InvoiceNumberCell].Value = 121;
             worksheet.Cells[InvoiceDateCell].Value = DateTime.Now.ToShortDateString();
 
@@ -68,8 +76,8 @@ namespace eStore.Infrastructure.Services.Invoices
             worksheet.Cells[ShippingAddressCell].Value = GetFullShippingAddress(order);
             worksheet.Cells[ShippingPhoneCell].Value = order.Customer.PhoneNumber;
 
-            var rowIndex = FirstItemRowIndex;
-            foreach (var orderItem in order.OrderItems)
+            int rowIndex = FirstItemRowIndex;
+            foreach (OrderItem orderItem in order.OrderItems)
             {
                 worksheet.Cells[rowIndex, ItemDescriptionColumnIndex].Value = orderItem.Goods.Name;
                 worksheet.Cells[rowIndex, ItemQuantityColumnIndex].Value = orderItem.Quantity;
@@ -79,8 +87,8 @@ namespace eStore.Infrastructure.Services.Invoices
 
             // there are formulas in the template to calculate total
             worksheet.Calculate();
-            var invoiceFileName = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) +
-                                  $"/Invoices/{order.TimeStamp:yyyyMMdd}-{order.Customer.FirstName}-{order.Customer.LastName}-{order.Id}.pdf";
+            string invoiceFileName = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) +
+                                     $"/Invoices/{order.TimeStamp:yyyyMMdd}-{order.Customer.FirstName}-{order.Customer.LastName}-{order.Id}.pdf";
             excel.Save(invoiceFileName);
             return invoiceFileName;
         }

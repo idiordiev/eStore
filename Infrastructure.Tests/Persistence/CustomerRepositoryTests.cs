@@ -31,10 +31,10 @@ namespace eStore.Infrastructure.Tests.Persistence
         public async Task GetByIdAsync_ExistingCustomer_ReturnsCustomer(int id)
         {
             // Arrange
-            var expected = _helper.Customers.FirstOrDefault(c => c.Id == id);
+            Customer expected = _helper.Customers.FirstOrDefault(c => c.Id == id);
 
             // Act
-            var actual = await _repository.GetByIdAsync(id);
+            Customer actual = await _repository.GetByIdAsync(id);
 
             // Assert
             Assert.That(actual, Is.EqualTo(expected).Using(new CustomerEqualityComparer()),
@@ -49,7 +49,7 @@ namespace eStore.Infrastructure.Tests.Persistence
             // Arrange
 
             // Act
-            var actual = await _repository.GetByIdAsync(id);
+            Customer actual = await _repository.GetByIdAsync(id);
 
             // Assert
             Assert.That(actual, Is.Null, "The method returned not-null customer.");
@@ -100,15 +100,17 @@ namespace eStore.Infrastructure.Tests.Persistence
             await _repository.AddAsync(newCustomer);
 
             // Assert
-            Assert.That(_context.Customers.Count(), Is.EqualTo(3), "The new customer has not been added to the context.");
-            Assert.That(await _context.Customers.FindAsync(3), Is.Not.Null, "The new customer has been added with the wrong ID.");
+            Assert.That(_context.Customers.Count(), Is.EqualTo(3),
+                "The new customer has not been added to the context.");
+            Assert.That(await _context.Customers.FindAsync(3), Is.Not.Null,
+                "The new customer has been added with the wrong ID.");
         }
 
         [Test]
         public async Task UpdateAsync_ExistingCustomer_UpdatesCustomerAndSavesToDb()
         {
             // Arrange
-            var customer = await _context.Customers.FindAsync(1);
+            Customer customer = await _context.Customers.FindAsync(1);
 
             // Act
             customer.FirstName = "Name1";

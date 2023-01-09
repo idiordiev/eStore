@@ -34,10 +34,10 @@ namespace eStore.Infrastructure.Tests.Persistence
         public async Task GetByIdAsync_ExistingKeyboard_ReturnsKeyboard(int id)
         {
             // Arrange
-            var expected = _helper.Keyboards.FirstOrDefault(c => c.Id == id);
+            Keyboard expected = _helper.Keyboards.FirstOrDefault(c => c.Id == id);
 
             // Act
-            var actual = await _repository.GetByIdAsync(id);
+            Keyboard actual = await _repository.GetByIdAsync(id);
 
             // Assert
             Assert.That(actual, Is.EqualTo(expected).Using(new KeyboardEqualityComparer()),
@@ -52,7 +52,7 @@ namespace eStore.Infrastructure.Tests.Persistence
             // Arrange
 
             // Act
-            var actual = await _repository.GetByIdAsync(id);
+            Keyboard actual = await _repository.GetByIdAsync(id);
 
             // Assert
             Assert.That(actual, Is.Null, "The method returned not-null keyboard.");
@@ -97,8 +97,10 @@ namespace eStore.Infrastructure.Tests.Persistence
                 LastModified = new DateTime(2022, 01, 27, 14, 56, 20),
                 Description = "Description", Manufacturer = "Manufacturer5", Price = 67.99m, BigImageUrl = "big16.png",
                 ThumbnailImageUrl = "thumbnail16.png",
-                Length = 450, Width = 140, Height = 35, Weight = 800, Backlight = "Backlight2", Size = "Size2", Type = "Type2",
-                ConnectionType = "ConnectionType2", SwitchId = 1, FrameMaterial = "Material3", KeycapMaterial = "Material2",
+                Length = 450, Width = 140, Height = 35, Weight = 800, Backlight = "Backlight2", Size = "Size2",
+                Type = "Type2",
+                ConnectionType = "ConnectionType2", SwitchId = 1, FrameMaterial = "Material3",
+                KeycapMaterial = "Material2",
                 KeyRollover = "Rollover2"
             };
 
@@ -106,15 +108,17 @@ namespace eStore.Infrastructure.Tests.Persistence
             await _repository.AddAsync(newKeyboard);
 
             // Assert
-            Assert.That(_context.Keyboards.Count(), Is.EqualTo(6), "The new keyboard has not been added to the context.");
-            Assert.That(await _context.Keyboards.FindAsync(16), Is.Not.Null, "The new keyboard has been added with the wrong ID.");
+            Assert.That(_context.Keyboards.Count(), Is.EqualTo(6),
+                "The new keyboard has not been added to the context.");
+            Assert.That(await _context.Keyboards.FindAsync(16), Is.Not.Null,
+                "The new keyboard has been added with the wrong ID.");
         }
 
         [Test]
         public async Task UpdateAsync_ExistingKeyboard_UpdatesKeyboardAndSavesToDb()
         {
             // Arrange
-            var keyboard = await _context.Keyboards.FindAsync(5);
+            Keyboard keyboard = await _context.Keyboards.FindAsync(5);
 
             // Act
             keyboard.Name = "NewName";

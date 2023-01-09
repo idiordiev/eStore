@@ -43,10 +43,10 @@ namespace eStore.Infrastructure.Tests.Persistence
         public async Task GetByIdAsync_ExistingOrderItem_ReturnsOrderItem(int id)
         {
             // Arrange
-            var expected = _helper.OrderItems.FirstOrDefault(c => c.Id == id);
+            OrderItem expected = _helper.OrderItems.FirstOrDefault(c => c.Id == id);
 
             // Act
-            var actual = await _repository.GetByIdAsync(id);
+            OrderItem actual = await _repository.GetByIdAsync(id);
 
             // Assert
             Assert.That(actual, Is.EqualTo(expected).Using(new OrderItemEqualityComparer()),
@@ -60,7 +60,7 @@ namespace eStore.Infrastructure.Tests.Persistence
             // Arrange
 
             // Act
-            var actual = await _repository.GetByIdAsync(id);
+            OrderItem actual = await _repository.GetByIdAsync(id);
 
             // Assert
             Assert.That(actual, Is.Null, "The method returned not-null order item.");
@@ -108,22 +108,25 @@ namespace eStore.Infrastructure.Tests.Persistence
             await _repository.AddAsync(newOrderItem);
 
             // Assert
-            Assert.That(_context.OrderItems.Count(), Is.EqualTo(19), "The new order item has not been added to the context.");
-            Assert.That(await _context.OrderItems.FindAsync(19), Is.Not.Null, "The new order item has been added with the wrong ID.");
+            Assert.That(_context.OrderItems.Count(), Is.EqualTo(19),
+                "The new order item has not been added to the context.");
+            Assert.That(await _context.OrderItems.FindAsync(19), Is.Not.Null,
+                "The new order item has been added with the wrong ID.");
         }
 
         [Test]
         public async Task UpdateAsync_ExistingOrderItem_UpdatesOrderItemAndSavesToDb()
         {
             // Arrange
-            var orderItem = await _context.OrderItems.FindAsync(12);
+            OrderItem orderItem = await _context.OrderItems.FindAsync(12);
 
             // Act
             orderItem.OrderId = 4;
             await _repository.UpdateAsync(orderItem);
 
             // Assert
-            Assert.That((await _context.OrderItems.FindAsync(orderItem.Id)).OrderId, Is.EqualTo(4), "The order item has not been updated.");
+            Assert.That((await _context.OrderItems.FindAsync(orderItem.Id)).OrderId, Is.EqualTo(4),
+                "The order item has not been updated.");
         }
 
         [TestCase(1)]
@@ -149,7 +152,8 @@ namespace eStore.Infrastructure.Tests.Persistence
 
             // Assert
             Assert.That(_context.OrderItems.Count(), Is.EqualTo(17), "Any order items has not been deleted.");
-            Assert.That(await _context.OrderItems.FindAsync(id), Is.Null, "The selected order item has not been deleted.");
+            Assert.That(await _context.OrderItems.FindAsync(id), Is.Null,
+                "The selected order item has not been deleted.");
         }
 
         [TestCase(19)]

@@ -42,7 +42,8 @@ namespace eStore.Application.Tests.Services
             var actual = await service.GetPresentAsync();
 
             // Assert
-            Assert.That(actual, Is.EqualTo(expected).Using(new MouseEqualityComparer()), "The actual collection is not equal to expected.");
+            Assert.That(actual, Is.EqualTo(expected).Using(new MouseEqualityComparer()),
+                "The actual collection is not equal to expected.");
         }
 
         [Test]
@@ -60,7 +61,8 @@ namespace eStore.Application.Tests.Services
             var actual = await service.GetPresentByFilterAsync(filterModel);
 
             // Assert
-            Assert.That(actual, Is.EqualTo(expected).Using(new MouseEqualityComparer()), "The actual collection is not equal to expected.");
+            Assert.That(actual, Is.EqualTo(expected).Using(new MouseEqualityComparer()),
+                "The actual collection is not equal to expected.");
         }
 
         [Test]
@@ -81,7 +83,8 @@ namespace eStore.Application.Tests.Services
             var actual = await service.GetPresentByFilterAsync(filterModel);
 
             // Assert
-            Assert.That(actual, Is.EqualTo(expected).Using(new MouseEqualityComparer()), "The actual collection is not equal to expected.");
+            Assert.That(actual, Is.EqualTo(expected).Using(new MouseEqualityComparer()),
+                "The actual collection is not equal to expected.");
         }
 
         [Test]
@@ -93,7 +96,8 @@ namespace eStore.Application.Tests.Services
             IMouseService service = new MouseService(_mockUnitOfWork.Object);
 
             var expected =
-                _helper.Mouses.Where(m => !m.IsDeleted && (m.ConnectionType == "ConnectionType1" || m.ConnectionType == "ConnectionType2"));
+                _helper.Mouses.Where(m =>
+                    !m.IsDeleted && (m.ConnectionType == "ConnectionType1" || m.ConnectionType == "ConnectionType2"));
             var filterModel = new MouseFilterModel
             {
                 ConnectionTypes = new List<string> { "ConnectionType1", "ConnectionType2" }
@@ -103,7 +107,8 @@ namespace eStore.Application.Tests.Services
             var actual = await service.GetPresentByFilterAsync(filterModel);
 
             // Assert
-            Assert.That(actual, Is.EqualTo(expected).Using(new MouseEqualityComparer()), "The actual collection is not equal to expected.");
+            Assert.That(actual, Is.EqualTo(expected).Using(new MouseEqualityComparer()),
+                "The actual collection is not equal to expected.");
         }
 
         [Test]
@@ -124,7 +129,8 @@ namespace eStore.Application.Tests.Services
             var actual = await service.GetPresentByFilterAsync(filterModel);
 
             // Assert
-            Assert.That(actual, Is.EqualTo(expected).Using(new MouseEqualityComparer()), "The actual collection is not equal to expected.");
+            Assert.That(actual, Is.EqualTo(expected).Using(new MouseEqualityComparer()),
+                "The actual collection is not equal to expected.");
         }
 
         [Test]
@@ -135,7 +141,8 @@ namespace eStore.Application.Tests.Services
                 .Returns((Expression<Func<Mouse, bool>> predicate) => _helper.Mouses.Where(predicate.Compile()));
             IMouseService service = new MouseService(_mockUnitOfWork.Object);
 
-            var expected = _helper.Mouses.Where(m => !m.IsDeleted && (m.Backlight == "Backlight1" || m.Backlight == "Backlight2"));
+            var expected = _helper.Mouses.Where(m =>
+                !m.IsDeleted && (m.Backlight == "Backlight1" || m.Backlight == "Backlight2"));
             var filterModel = new MouseFilterModel
             {
                 Backlights = new List<string> { "Backlight1", "Backlight2" }
@@ -145,7 +152,8 @@ namespace eStore.Application.Tests.Services
             var actual = await service.GetPresentByFilterAsync(filterModel);
 
             // Assert
-            Assert.That(actual, Is.EqualTo(expected).Using(new MouseEqualityComparer()), "The actual collection is not equal to expected.");
+            Assert.That(actual, Is.EqualTo(expected).Using(new MouseEqualityComparer()),
+                "The actual collection is not equal to expected.");
         }
 
         [Test]
@@ -166,7 +174,8 @@ namespace eStore.Application.Tests.Services
             var actual = await service.GetPresentByFilterAsync(filterModel);
 
             // Assert
-            Assert.That(actual, Is.EqualTo(expected).Using(new MouseEqualityComparer()), "The actual collection is not equal to expected.");
+            Assert.That(actual, Is.EqualTo(expected).Using(new MouseEqualityComparer()),
+                "The actual collection is not equal to expected.");
         }
 
         [Test]
@@ -178,7 +187,8 @@ namespace eStore.Application.Tests.Services
             IMouseService service = new MouseService(_mockUnitOfWork.Object);
 
             var expected =
-                _helper.Mouses.Where(m => !m.IsDeleted && (m.Manufacturer == "Manufacturer3" || m.Manufacturer == "Manufacturer4"));
+                _helper.Mouses.Where(m =>
+                    !m.IsDeleted && (m.Manufacturer == "Manufacturer3" || m.Manufacturer == "Manufacturer4"));
             var filterModel = new MouseFilterModel
             {
                 Manufacturers = new List<string> { "Manufacturer3", "Manufacturer4" }
@@ -188,7 +198,8 @@ namespace eStore.Application.Tests.Services
             var actual = await service.GetPresentByFilterAsync(filterModel);
 
             // Assert
-            Assert.That(actual, Is.EqualTo(expected).Using(new MouseEqualityComparer()), "The actual collection is not equal to expected.");
+            Assert.That(actual, Is.EqualTo(expected).Using(new MouseEqualityComparer()),
+                "The actual collection is not equal to expected.");
         }
 
         [Test]
@@ -209,7 +220,8 @@ namespace eStore.Application.Tests.Services
             var actual = await service.GetPresentByFilterAsync(filterModel);
 
             // Assert
-            Assert.That(actual, Is.EqualTo(expected).Using(new MouseEqualityComparer()), "The actual collection is not equal to expected.");
+            Assert.That(actual, Is.EqualTo(expected).Using(new MouseEqualityComparer()),
+                "The actual collection is not equal to expected.");
         }
 
         [Test]
@@ -230,7 +242,8 @@ namespace eStore.Application.Tests.Services
             var actual = await service.GetPresentByFilterAsync(filterModel);
 
             // Assert
-            Assert.That(actual, Is.EqualTo(expected).Using(new MouseEqualityComparer()), "The actual collection is not equal to expected.");
+            Assert.That(actual, Is.EqualTo(expected).Using(new MouseEqualityComparer()),
+                "The actual collection is not equal to expected.");
         }
 
         [Test]
@@ -252,7 +265,8 @@ namespace eStore.Application.Tests.Services
             var actual = await service.GetPresentByFilterAsync(filterModel);
 
             // Assert
-            Assert.That(actual, Is.EqualTo(expected).Using(new MouseEqualityComparer()), "The actual collection is not equal to expected.");
+            Assert.That(actual, Is.EqualTo(expected).Using(new MouseEqualityComparer()),
+                "The actual collection is not equal to expected.");
         }
 
         [Test]
@@ -273,7 +287,8 @@ namespace eStore.Application.Tests.Services
             var actual = await service.GetPresentByFilterAsync(filterModel);
 
             // Assert
-            Assert.That(actual, Is.EqualTo(expected).Using(new MouseEqualityComparer()), "The actual collection is not equal to expected.");
+            Assert.That(actual, Is.EqualTo(expected).Using(new MouseEqualityComparer()),
+                "The actual collection is not equal to expected.");
         }
 
         [Test]
@@ -294,7 +309,8 @@ namespace eStore.Application.Tests.Services
             var actual = await service.GetPresentByFilterAsync(filterModel);
 
             // Assert
-            Assert.That(actual, Is.EqualTo(expected).Using(new MouseEqualityComparer()), "The actual collection is not equal to expected.");
+            Assert.That(actual, Is.EqualTo(expected).Using(new MouseEqualityComparer()),
+                "The actual collection is not equal to expected.");
         }
 
         [Test]
@@ -316,22 +332,24 @@ namespace eStore.Application.Tests.Services
             var actual = await service.GetPresentByFilterAsync(filterModel);
 
             // Assert
-            Assert.That(actual, Is.EqualTo(expected).Using(new MouseEqualityComparer()), "The actual collection is not equal to expected.");
+            Assert.That(actual, Is.EqualTo(expected).Using(new MouseEqualityComparer()),
+                "The actual collection is not equal to expected.");
         }
 
         [Test]
         public async Task GetByIdAsync_ExistingMouse_ReturnsMouse()
         {
             // Arrange
-            var expected = _helper.Mouses.First(g => g.Id == 11);
+            Mouse expected = _helper.Mouses.First(g => g.Id == 11);
             _mockUnitOfWork.Setup(x => x.MouseRepository.GetByIdAsync(11)).ReturnsAsync(expected);
             IMouseService service = new MouseService(_mockUnitOfWork.Object);
 
             // Act
-            var actual = await service.GetByIdAsync(11);
+            Mouse actual = await service.GetByIdAsync(11);
 
             // Assert
-            Assert.That(actual, Is.EqualTo(expected).Using(new MouseEqualityComparer()), "The actual mouse is not equal to expected.");
+            Assert.That(actual, Is.EqualTo(expected).Using(new MouseEqualityComparer()),
+                "The actual mouse is not equal to expected.");
         }
 
         [Test]
@@ -342,7 +360,7 @@ namespace eStore.Application.Tests.Services
             IMouseService service = new MouseService(_mockUnitOfWork.Object);
 
             // Act
-            var actual = await service.GetByIdAsync(1);
+            Mouse actual = await service.GetByIdAsync(1);
 
             // Assert
             Assert.That(actual, Is.Null, "The method returned not-null object.");

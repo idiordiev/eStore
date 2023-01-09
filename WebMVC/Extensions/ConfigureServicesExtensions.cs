@@ -72,8 +72,8 @@ namespace eStore.WebMVC.Extensions
         {
             services.AddScoped(sp =>
             {
-                var options = sp.GetRequiredService<IOptions<SmtpClientOptions>>().Value;
-                var password = Environment.GetEnvironmentVariable("SENDGRID_API_KEY");
+                SmtpClientOptions options = sp.GetRequiredService<IOptions<SmtpClientOptions>>().Value;
+                string password = Environment.GetEnvironmentVariable("SENDGRID_API_KEY");
                 var smtpClient = new SmtpClient(options.Address, options.Port);
                 smtpClient.Credentials = new NetworkCredential(options.UserName, password);
                 return smtpClient;

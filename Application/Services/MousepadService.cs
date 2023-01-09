@@ -26,7 +26,8 @@ namespace eStore.Application.Services
 
         public async Task<IEnumerable<Mousepad>> GetPresentByFilterAsync(MousepadFilterModel filter)
         {
-            IFilterExpressionFactory<Mousepad, MousepadFilterModel> filterExpressionFactory = new MousepadFilterExpressionFactory();
+            IFilterExpressionFactory<Mousepad, MousepadFilterModel> filterExpressionFactory =
+                new MousepadFilterExpressionFactory();
             var queryExpression = filterExpressionFactory.GetExpression(filter);
             return await Task.FromResult(_unitOfWork.MousepadRepository.Query(queryExpression));
         }

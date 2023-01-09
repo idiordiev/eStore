@@ -27,7 +27,10 @@ namespace eStore.Infrastructure.Persistence
             get
             {
                 if (_customerRepository == null)
+                {
                     _customerRepository = new CustomerRepository(_context);
+                }
+
                 return _customerRepository;
             }
         }
@@ -37,7 +40,10 @@ namespace eStore.Infrastructure.Persistence
             get
             {
                 if (_goodsRepository == null)
+                {
                     _goodsRepository = new GoodsRepository(_context);
+                }
+
                 return _goodsRepository;
             }
         }
@@ -47,7 +53,10 @@ namespace eStore.Infrastructure.Persistence
             get
             {
                 if (_gamepadRepository == null)
+                {
                     _gamepadRepository = new GamepadRepository(_context);
+                }
+
                 return _gamepadRepository;
             }
         }
@@ -57,7 +66,10 @@ namespace eStore.Infrastructure.Persistence
             get
             {
                 if (_keyboardRepository == null)
+                {
                     _keyboardRepository = new KeyboardRepository(_context);
+                }
+
                 return _keyboardRepository;
             }
         }
@@ -67,7 +79,10 @@ namespace eStore.Infrastructure.Persistence
             get
             {
                 if (_mouseRepository == null)
+                {
                     _mouseRepository = new MouseRepository(_context);
+                }
+
                 return _mouseRepository;
             }
         }
@@ -77,7 +92,10 @@ namespace eStore.Infrastructure.Persistence
             get
             {
                 if (_mousepadRepository == null)
+                {
                     _mousepadRepository = new MousepadRepository(_context);
+                }
+
                 return _mousepadRepository;
             }
         }
@@ -87,7 +105,10 @@ namespace eStore.Infrastructure.Persistence
             get
             {
                 if (_orderRepository == null)
+                {
                     _orderRepository = new OrderRepository(_context);
+                }
+
                 return _orderRepository;
             }
         }
@@ -97,11 +118,14 @@ namespace eStore.Infrastructure.Persistence
             get
             {
                 if (_orderItemRepository == null)
+                {
                     _orderItemRepository = new OrderItemRepository(_context);
+                }
+
                 return _orderItemRepository;
             }
         }
-        
+
         private bool _disposed;
 
         public void Dispose()
@@ -113,7 +137,10 @@ namespace eStore.Infrastructure.Persistence
         {
             if (!_disposed)
             {
-                if (disposing) _context.Dispose();
+                if (disposing)
+                {
+                    _context.Dispose();
+                }
 
                 _disposed = true;
             }

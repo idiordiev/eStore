@@ -33,10 +33,10 @@ namespace eStore.Infrastructure.Tests.Persistence
         public async Task GetByIdAsync_ExistingGamepad_ReturnsGamepad(int id)
         {
             // Arrange
-            var expected = _helper.Gamepads.FirstOrDefault(c => c.Id == id);
+            Gamepad expected = _helper.Gamepads.FirstOrDefault(c => c.Id == id);
 
             // Act
-            var actual = await _repository.GetByIdAsync(id);
+            Gamepad actual = await _repository.GetByIdAsync(id);
 
             // Assert
             Assert.That(actual, Is.EqualTo(expected).Using(new GamepadEqualityComparer()),
@@ -50,7 +50,7 @@ namespace eStore.Infrastructure.Tests.Persistence
             // Arrange
 
             // Act
-            var actual = await _repository.GetByIdAsync(id);
+            Gamepad actual = await _repository.GetByIdAsync(id);
 
             // Assert
             Assert.That(actual, Is.Null, "The method returned not-null gamepad.");
@@ -103,21 +103,23 @@ namespace eStore.Infrastructure.Tests.Persistence
 
             // Assert
             Assert.That(_context.Gamepads.Count(), Is.EqualTo(5), "The new gamepad has not been added to the context.");
-            Assert.That(await _context.Gamepads.FindAsync(16), Is.Not.Null, "The new gamepad has been added with the wrong ID.");
+            Assert.That(await _context.Gamepads.FindAsync(16), Is.Not.Null,
+                "The new gamepad has been added with the wrong ID.");
         }
 
         [Test]
         public async Task UpdateAsync_ExistingGamepad_UpdatesGamepadAndSavesToDb()
         {
             // Arrange
-            var gamepad = await _context.Gamepads.FindAsync(1);
+            Gamepad gamepad = await _context.Gamepads.FindAsync(1);
 
             // Act
             gamepad.Name = "Name1";
             await _repository.UpdateAsync(gamepad);
 
             // Assert
-            Assert.That((await _context.Gamepads.FindAsync(gamepad.Id)).Name, Is.EqualTo("Name1"), "The gamepad has not been updated.");
+            Assert.That((await _context.Gamepads.FindAsync(gamepad.Id)).Name, Is.EqualTo("Name1"),
+                "The gamepad has not been updated.");
         }
 
         [TestCase(1)]

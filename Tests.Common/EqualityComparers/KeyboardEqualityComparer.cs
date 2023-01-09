@@ -8,20 +8,28 @@ namespace eStore.Tests.Common.EqualityComparers
     {
         public bool Equals(Keyboard x, Keyboard y)
         {
-            if (ReferenceEquals(x, y)) 
+            if (ReferenceEquals(x, y))
+            {
                 return true;
-            
-            if (ReferenceEquals(x, null)) 
-                return false;
-            
-            if (ReferenceEquals(y, null)) 
-                return false;
-            
-            if (x.GetType() != y.GetType()) 
-                return false;
+            }
 
-            return x.Id == y.Id 
-                   && x.IsDeleted == y.IsDeleted 
+            if (ReferenceEquals(x, null))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(y, null))
+            {
+                return false;
+            }
+
+            if (x.GetType() != y.GetType())
+            {
+                return false;
+            }
+
+            return x.Id == y.Id
+                   && x.IsDeleted == y.IsDeleted
                    && x.Type == y.Type
                    && x.Size == y.Size
                    && x.KeycapMaterial == y.KeycapMaterial
@@ -53,7 +61,7 @@ namespace eStore.Tests.Common.EqualityComparers
             hashCode.Add(obj.Width);
             hashCode.Add(obj.Height);
             hashCode.Add(obj.Weight);
-            
+
             return hashCode.ToHashCode();
         }
     }

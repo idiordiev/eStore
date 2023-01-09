@@ -17,11 +17,11 @@ else
     <article class="orders-history-container">
         <h2>HISTORY</h2>
         <section class="orders-history-list">
-            @foreach (var order in Model)
+            @foreach (OrderViewModel order in Model)
             {
                 <article class="order-tile">
                     <section class="order-tile-items-column">
-                        @foreach (var item in order.OrderItems)
+                        @foreach (OrderItemViewModel item in order.OrderItems)
                         {
                             <div class="order-item-group">
                                 <div class="order-item-name">@item.Goods.Name</div>

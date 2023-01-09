@@ -32,10 +32,10 @@ namespace eStore.Infrastructure.Tests.Persistence
         public async Task GetByIdAsync_ExistingMousepad_ReturnsMousepad(int id)
         {
             // Arrange
-            var expected = _helper.Mousepads.FirstOrDefault(c => c.Id == id);
+            Mousepad expected = _helper.Mousepads.FirstOrDefault(c => c.Id == id);
 
             // Act
-            var actual = await _repository.GetByIdAsync(id);
+            Mousepad actual = await _repository.GetByIdAsync(id);
 
             // Assert
             Assert.That(actual, Is.EqualTo(expected).Using(new MousepadEqualityComparer()),
@@ -50,7 +50,7 @@ namespace eStore.Infrastructure.Tests.Persistence
             // Arrange
 
             // Act
-            var actual = await _repository.GetByIdAsync(id);
+            Mousepad actual = await _repository.GetByIdAsync(id);
 
             // Assert
             Assert.That(actual, Is.Null, "The method returned not-null mousepad.");
@@ -102,15 +102,17 @@ namespace eStore.Infrastructure.Tests.Persistence
             await _repository.AddAsync(newMousepad);
 
             // Assert
-            Assert.That(_context.Mousepads.Count(), Is.EqualTo(4), "The new mousepad has not been added to the context.");
-            Assert.That(await _context.Mousepads.FindAsync(16), Is.Not.Null, "The new mousepad has been added with the wrong ID.");
+            Assert.That(_context.Mousepads.Count(), Is.EqualTo(4),
+                "The new mousepad has not been added to the context.");
+            Assert.That(await _context.Mousepads.FindAsync(16), Is.Not.Null,
+                "The new mousepad has been added with the wrong ID.");
         }
 
         [Test]
         public async Task UpdateAsync_ExistingMousepad_UpdatesMousepadAndSavesToDb()
         {
             // Arrange
-            var mousepad = await _context.Mousepads.FindAsync(13);
+            Mousepad mousepad = await _context.Mousepads.FindAsync(13);
 
             // Act
             mousepad.Name = "NewName";

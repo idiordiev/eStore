@@ -11,6 +11,7 @@ using eStore.WebMVC.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
 
 namespace eStore.WebMVC.Controllers
 {
@@ -39,21 +40,33 @@ namespace eStore.WebMVC.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var user = await _userManager.GetUserAsync(HttpContext.User);
-            var customer = await _customerService.GetCustomerByIdAsync(user.CustomerId);
+            ApplicationUser user = await _userManager.GetUserAsync(HttpContext.User);
+            Customer customer = await _customerService.GetCustomerByIdAsync(user.CustomerId);
             var model = _mapper.Map<CustomerViewModel>(customer);
-            foreach (var goods in customer.ShoppingCart.Goods)
+            foreach (Goods goods in customer.ShoppingCart.Goods)
+            {
                 if (goods is Keyboard keyboard)
+                {
                     model.GoodsInCart.Add(_mapper.Map<KeyboardViewModel>(keyboard));
+                }
                 else if (goods is Mouse mouse)
+                {
                     model.GoodsInCart.Add(_mapper.Map<MouseViewModel>(mouse));
+                }
                 else if (goods is Mousepad mousepad)
+                {
                     model.GoodsInCart.Add(_mapper.Map<MousepadViewModel>(mousepad));
-                else if (goods is Gamepad gamepad) 
+                }
+                else if (goods is Gamepad gamepad)
+                {
                     model.GoodsInCart.Add(_mapper.Map<GamepadViewModel>(gamepad));
+                }
+            }
 
-            foreach (var goods in model.GoodsInCart)
+            foreach (GoodsViewModel goods in model.GoodsInCart)
+            {
                 goods.IsAddedToCart = await _goodsService.CheckIfAddedToCartAsync(user.CustomerId, goods.Id);
+            }
 
             return View(model);
         }
@@ -74,7 +87,7 @@ namespace eStore.WebMVC.Controllers
                     ModelState.AddModelError("", e.Message);
                 }
             }
-            
+
             return RedirectToAction("Index", "Account");
         }
 
@@ -88,8 +101,10 @@ namespace eStore.WebMVC.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
-            if (!ModelState.IsValid) 
+            if (!ModelState.IsValid)
+            {
                 return View(model);
+            }
 
             try
             {
@@ -113,9 +128,11 @@ namespace eStore.WebMVC.Controllers
                 };
                 await _customerService.AddCustomerAsync(customer);
                 identityUser.CustomerId = customer.Id;
-                var registerResult = await _userManager.CreateAsync(identityUser, model.Password);
-                if (registerResult.Succeeded) 
+                IdentityResult registerResult = await _userManager.CreateAsync(identityUser, model.Password);
+                if (registerResult.Succeeded)
+                {
                     await _signInManager.SignInAsync(identityUser, true);
+                }
             }
             catch (Exception e)
             {
@@ -136,14 +153,19 @@ namespace eStore.WebMVC.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
-            if (!ModelState.IsValid) 
+            if (!ModelState.IsValid)
+            {
                 return View(model);
+            }
 
-            var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
+            SignInResult result =
+                await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
             if (result.Succeeded)
             {
-                if (string.IsNullOrWhiteSpace(model.ReturnUrl)) 
+                if (string.IsNullOrWhiteSpace(model.ReturnUrl))
+                {
                     return RedirectToAction("Index", "Home");
+                }
 
                 return Redirect(model.ReturnUrl);
             }
@@ -163,11 +185,13 @@ namespace eStore.WebMVC.Controllers
         [HttpPost]
         public async Task<IActionResult> AddGoodsToCart(int goodsId, string returnUrl = null)
         {
-            var identityUser = await _userManager.GetUserAsync(HttpContext.User);
-            var customer = await _customerService.GetCustomerByIdAsync(identityUser.CustomerId);
+            ApplicationUser identityUser = await _userManager.GetUserAsync(HttpContext.User);
+            Customer customer = await _customerService.GetCustomerByIdAsync(identityUser.CustomerId);
             await _customerService.AddGoodsToCartAsync(customer.Id, goodsId);
-            if (string.IsNullOrWhiteSpace(returnUrl)) 
+            if (string.IsNullOrWhiteSpace(returnUrl))
+            {
                 return RedirectToAction("Index", "Goods");
+            }
 
             return Redirect(returnUrl);
         }
@@ -176,11 +200,13 @@ namespace eStore.WebMVC.Controllers
         [HttpPost]
         public async Task<IActionResult> RemoveGoodsFromCart(int goodsId, string returnUrl = null)
         {
-            var identityUser = await _userManager.GetUserAsync(HttpContext.User);
-            var customer = await _customerService.GetCustomerByIdAsync(identityUser.CustomerId);
+            ApplicationUser identityUser = await _userManager.GetUserAsync(HttpContext.User);
+            Customer customer = await _customerService.GetCustomerByIdAsync(identityUser.CustomerId);
             await _customerService.RemoveGoodsFromCartAsync(customer.Id, goodsId);
-            if (string.IsNullOrWhiteSpace(returnUrl)) 
+            if (string.IsNullOrWhiteSpace(returnUrl))
+            {
                 return RedirectToAction("Index", "Goods");
+            }
 
             return Redirect(returnUrl);
         }
@@ -199,7 +225,7 @@ namespace eStore.WebMVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = await _userManager.GetUserAsync(HttpContext.User);
+                ApplicationUser user = await _userManager.GetUserAsync(HttpContext.User);
                 if (!await _userManager.CheckPasswordAsync(user, model.CurrentPassword))
                 {
                     ModelState.AddModelError("", "The current password is not correct.");
@@ -218,8 +244,8 @@ namespace eStore.WebMVC.Controllers
         [Authorize]
         public async Task<IActionResult> DeactivateAccount()
         {
-            var user = await _userManager.GetUserAsync(HttpContext.User);
-            var customer = await _customerService.GetCustomerByIdAsync(user.CustomerId);
+            ApplicationUser user = await _userManager.GetUserAsync(HttpContext.User);
+            Customer customer = await _customerService.GetCustomerByIdAsync(user.CustomerId);
             await _customerService.DeactivateAccountAsync(customer.Id);
             await _userManager.DeleteAsync(user);
             await _signInManager.SignOutAsync();

@@ -19,7 +19,7 @@ namespace eStore.WebMVC.Controllers
         {
             return await Task.FromResult(View());
         }
-        
+
         public async Task<IActionResult> Error()
         {
             return await Task.FromResult(View());

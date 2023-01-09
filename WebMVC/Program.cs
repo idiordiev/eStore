@@ -15,7 +15,8 @@ namespace eStore.WebMVC
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Warning()
                 .Enrich.FromLogContext()
-                .WriteTo.File(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + @"\logs\log.txt", rollingInterval: RollingInterval.Day)
+                .WriteTo.File(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + @"\logs\log.txt",
+                    rollingInterval: RollingInterval.Day)
                 .CreateLogger();
 
             try
@@ -35,12 +36,11 @@ namespace eStore.WebMVC
             }
         }
 
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
+        public static IHostBuilder CreateHostBuilder(string[] args)
+        {
+            return Host.CreateDefaultBuilder(args)
                 .UseSerilog()
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                });
+                .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); });
+        }
     }
 }

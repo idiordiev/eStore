@@ -34,9 +34,10 @@ namespace eStore.Application.Services
             return await _unitOfWork.OrderRepository.GetByIdAsync(orderId);
         }
 
-        public async Task<Order> CreateOrderAsync(int customerId, IEnumerable<OrderItemDto> items, OrderAddressDto address)
+        public async Task<Order> CreateOrderAsync(int customerId, IEnumerable<OrderItemDto> items,
+            OrderAddressDto address)
         {
-            var customer = await _unitOfWork.CustomerRepository.GetByIdAsync(customerId);
+            Customer customer = await _unitOfWork.CustomerRepository.GetByIdAsync(customerId);
             CheckIfCustomerIsPresent(customer);
 
             var order = new Order
@@ -51,13 +52,15 @@ namespace eStore.Application.Services
                 ShippingCity = address.ShippingCity,
                 ShippingPostalCode = address.ShippingPostalCode
             };
-            foreach (var orderItem in items)
+            foreach (OrderItemDto orderItem in items)
             {
-                var goods = await _unitOfWork.GoodsRepository.GetByIdAsync(orderItem.GoodsId);
+                Goods goods = await _unitOfWork.GoodsRepository.GetByIdAsync(orderItem.GoodsId);
 
                 CheckIfGoodsIsPresent(goods);
                 if (orderItem.Quantity < 1)
+                {
                     throw new InvalidQuantityException("The quantity must be greater or equal 1.");
+                }
 
                 order.OrderItems.Add(new OrderItem
                     { Order = order, Goods = goods, Quantity = orderItem.Quantity, UnitPrice = goods.Price });
@@ -65,19 +68,24 @@ namespace eStore.Application.Services
             }
 
             await _unitOfWork.OrderRepository.AddAsync(order);
-            var emailAttachment = _attachmentService.CreateInvoice(order);
+            string emailAttachment = _attachmentService.CreateInvoice(order);
             await _emailService.SendPurchaseEmailAsyncAsync(order, emailAttachment);
             return order;
         }
 
         public async Task PayOrderAsync(int orderId)
         {
-            var order = await _unitOfWork.OrderRepository.GetByIdAsync(orderId);
+            Order order = await _unitOfWork.OrderRepository.GetByIdAsync(orderId);
 
             if (order == null)
+            {
                 throw new OrderNotFoundException($"The order with the id {orderId} has not been found.");
+            }
+
             if (order.Status >= OrderStatus.Paid)
+            {
                 throw new StatusUnchangeableException($"Status cannot be changed. Current status {order.Status}");
+            }
 
             order.Status = OrderStatus.Paid;
             await _unitOfWork.OrderRepository.UpdateAsync(order);
@@ -85,12 +93,17 @@ namespace eStore.Application.Services
 
         public async Task CancelOrderAsync(int orderId)
         {
-            var order = await _unitOfWork.OrderRepository.GetByIdAsync(orderId);
+            Order order = await _unitOfWork.OrderRepository.GetByIdAsync(orderId);
 
             if (order == null)
+            {
                 throw new OrderNotFoundException($"The order with the id {orderId} has not been found.");
+            }
+
             if (order.Status >= OrderStatus.Received)
+            {
                 throw new StatusUnchangeableException($"Status cannot be changed. Current status {order.Status}");
+            }
 
             order.Status = OrderStatus.Cancelled;
             await _unitOfWork.OrderRepository.UpdateAsync(order);
@@ -98,20 +111,29 @@ namespace eStore.Application.Services
 
         private static void CheckIfCustomerIsPresent(Customer customer)
         {
-            if (customer == null) 
+            if (customer == null)
+            {
                 throw new CustomerNotFoundException("The customer has not been found.");
+            }
 
             if (customer.IsDeleted)
-                throw new AccountDeactivatedException($"The account with the id {customer.Id} has already been deactivated.");
+            {
+                throw new AccountDeactivatedException(
+                    $"The account with the id {customer.Id} has already been deactivated.");
+            }
         }
 
         private static void CheckIfGoodsIsPresent(Goods goods)
         {
-            if (goods == null) 
+            if (goods == null)
+            {
                 throw new GoodsNotFoundException("The goods has not been found.");
+            }
 
             if (goods.IsDeleted)
+            {
                 throw new EntityDeletedException($"The goods with the id {goods.Id} has been deleted.");
+            }
         }
     }
 }

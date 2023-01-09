@@ -26,7 +26,8 @@ namespace eStore.Application.Services
 
         public async Task<IEnumerable<Keyboard>> GetPresentByFilterAsync(KeyboardFilterModel filter)
         {
-            IFilterExpressionFactory<Keyboard, KeyboardFilterModel> filterExpressionFactory = new KeyboardFilterExpressionFactory();
+            IFilterExpressionFactory<Keyboard, KeyboardFilterModel> filterExpressionFactory =
+                new KeyboardFilterExpressionFactory();
             var queryExpression = filterExpressionFactory.GetExpression(filter);
             return await Task.FromResult(_unitOfWork.KeyboardRepository.Query(queryExpression));
         }

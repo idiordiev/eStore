@@ -96,7 +96,8 @@ namespace eStore.Application.Tests.Services
             IMousepadService service = new MousepadService(_mockUnitOfWork.Object);
 
             var expected =
-                _helper.Mousepads.Where(m => !m.IsDeleted && (m.BottomMaterial == "Material1" || m.BottomMaterial == "Material2"));
+                _helper.Mousepads.Where(m =>
+                    !m.IsDeleted && (m.BottomMaterial == "Material1" || m.BottomMaterial == "Material2"));
             var filterModel = new MousepadFilterModel
             {
                 BottomMaterials = new List<string> { "Material1", "Material2" }
@@ -141,7 +142,8 @@ namespace eStore.Application.Tests.Services
             IMousepadService service = new MousepadService(_mockUnitOfWork.Object);
 
             var expected =
-                _helper.Mousepads.Where(m => !m.IsDeleted && (m.TopMaterial == "Material1" || m.TopMaterial == "Material2"));
+                _helper.Mousepads.Where(m =>
+                    !m.IsDeleted && (m.TopMaterial == "Material1" || m.TopMaterial == "Material2"));
             var filterModel = new MousepadFilterModel
             {
                 TopMaterials = new List<string> { "Material1", "Material2" }
@@ -186,7 +188,8 @@ namespace eStore.Application.Tests.Services
             IMousepadService service = new MousepadService(_mockUnitOfWork.Object);
 
             var expected =
-                _helper.Mousepads.Where(m => !m.IsDeleted && (m.Backlight == "Backlight1" || m.Backlight == "Backlight2"));
+                _helper.Mousepads.Where(m =>
+                    !m.IsDeleted && (m.Backlight == "Backlight1" || m.Backlight == "Backlight2"));
             var filterModel = new MousepadFilterModel
             {
                 Backlights = new List<string> { "Backlight1", "Backlight1" }
@@ -413,12 +416,12 @@ namespace eStore.Application.Tests.Services
         public async Task GetByIdAsync_ExistingMousepad_ReturnsMousepad()
         {
             // Arrange
-            var expected = _helper.Mousepads.First(m => m.Id == 14);
+            Mousepad expected = _helper.Mousepads.First(m => m.Id == 14);
             _mockUnitOfWork.Setup(x => x.MousepadRepository.GetByIdAsync(14)).ReturnsAsync(expected);
             IMousepadService service = new MousepadService(_mockUnitOfWork.Object);
 
             // Act
-            var actual = await service.GetByIdAsync(14);
+            Mousepad actual = await service.GetByIdAsync(14);
 
             // Assert
             Assert.That(actual, Is.EqualTo(expected).Using(new MousepadEqualityComparer()),
@@ -433,7 +436,7 @@ namespace eStore.Application.Tests.Services
             IMousepadService service = new MousepadService(_mockUnitOfWork.Object);
 
             // Act
-            var actual = await service.GetByIdAsync(14);
+            Mousepad actual = await service.GetByIdAsync(14);
 
             // Assert
             Assert.That(actual, Is.Null, "THe method returned not-null object.");

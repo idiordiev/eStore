@@ -32,7 +32,7 @@ namespace eStore.WebMVC.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var user = await _userManager.GetUserAsync(HttpContext.User);
+            ApplicationUser user = await _userManager.GetUserAsync(HttpContext.User);
             var orders = await _orderService.GetOrdersByCustomerIdAsync(user.CustomerId);
             var model = _mapper.Map<IEnumerable<OrderViewModel>>(orders);
             return View(model);
@@ -41,8 +41,8 @@ namespace eStore.WebMVC.Controllers
         [HttpGet]
         public async Task<IActionResult> New()
         {
-            var user = await _userManager.GetUserAsync(HttpContext.User);
-            var customer = await _customerService.GetCustomerByIdAsync(user.CustomerId);
+            ApplicationUser user = await _userManager.GetUserAsync(HttpContext.User);
+            Customer customer = await _customerService.GetCustomerByIdAsync(user.CustomerId);
             var model = new OrderViewModel
             {
                 ShippingCountry = customer.Country,
@@ -52,9 +52,10 @@ namespace eStore.WebMVC.Controllers
                 OrderItems = new List<OrderItemViewModel>()
             };
             var goods = customer.ShoppingCart.Goods;
-            foreach (var good in goods)
+            foreach (Goods good in goods)
             {
                 if (good is Keyboard keyboard)
+                {
                     model.OrderItems.Add(new OrderItemViewModel
                     {
                         Goods = _mapper.Map<KeyboardViewModel>(keyboard),
@@ -62,7 +63,9 @@ namespace eStore.WebMVC.Controllers
                         UnitPrice = keyboard.Price,
                         GoodsId = keyboard.Id
                     });
+                }
                 else if (good is Mouse mouse)
+                {
                     model.OrderItems.Add(new OrderItemViewModel
                     {
                         Goods = _mapper.Map<MouseViewModel>(mouse),
@@ -70,7 +73,9 @@ namespace eStore.WebMVC.Controllers
                         UnitPrice = mouse.Price,
                         GoodsId = mouse.Id
                     });
+                }
                 else if (good is Mousepad mousepad)
+                {
                     model.OrderItems.Add(new OrderItemViewModel
                     {
                         Goods = _mapper.Map<MousepadViewModel>(mousepad),
@@ -78,7 +83,9 @@ namespace eStore.WebMVC.Controllers
                         UnitPrice = mousepad.Price,
                         GoodsId = mousepad.Id
                     });
+                }
                 else if (good is Gamepad gamepad)
+                {
                     model.OrderItems.Add(new OrderItemViewModel
                     {
                         Goods = _mapper.Map<GamepadViewModel>(gamepad),
@@ -86,19 +93,23 @@ namespace eStore.WebMVC.Controllers
                         UnitPrice = gamepad.Price,
                         GoodsId = gamepad.Id
                     });
+                }
             }
+
             return View(model);
         }
 
         [HttpPost]
         public async Task<IActionResult> New(OrderViewModel model)
         {
-            if (!ModelState.IsValid) 
+            if (!ModelState.IsValid)
+            {
                 return View(model);
+            }
 
             var orderItems = _mapper.Map<IEnumerable<OrderItemDto>>(model.OrderItems);
             var shippingAddress = _mapper.Map<OrderAddressDto>(model);
-            var user = await _userManager.GetUserAsync(HttpContext.User);
+            ApplicationUser user = await _userManager.GetUserAsync(HttpContext.User);
             await _orderService.CreateOrderAsync(user.CustomerId, orderItems, shippingAddress);
             await _customerService.ClearCustomerCartAsync(user.CustomerId);
 
@@ -109,8 +120,10 @@ namespace eStore.WebMVC.Controllers
         [HttpGet]
         public async Task<IActionResult> Success()
         {
-            if (TempData.ContainsKey("IsSuccess") && (bool)TempData["IsSuccess"]) 
+            if (TempData.ContainsKey("IsSuccess") && (bool)TempData["IsSuccess"])
+            {
                 return await Task.FromResult(View());
+            }
 
             return Forbid();
         }

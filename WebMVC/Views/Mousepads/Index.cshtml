@@ -8,7 +8,7 @@
 <aside id="filter-sidebar" class="filter-sidebar d-flex flex-row">
     <form id="filter-form" class="filter-list d-flex flex-column align-items-center justify-content-start" asp-action="Index" asp-controller="Mousepads" method="get">
         <label class="filter-category-name">BRAND</label>
-        @foreach (var manufacturer in ViewBag.Manufacturers)
+        @foreach (dynamic manufacturer in ViewBag.Manufacturers)
         {
             <div class="filter-option-group">
                 <input type="checkbox" value="@manufacturer" name="manufacturers" checked="@Context.Request.Query["manufacturers"].Contains((string)manufacturer)"/>
@@ -16,7 +16,7 @@
             </div>
         }
         <label class="filter-category-name">TOP MATERIAL</label>
-        @foreach (var topMaterial in ViewBag.TopMaterials)
+        @foreach (dynamic topMaterial in ViewBag.TopMaterials)
         {
             <div class="filter-option-group">
                 <input type="checkbox" value="@topMaterial" name="topMaterials" checked="@Context.Request.Query["topMaterials"].Contains((string)topMaterial)"/>
@@ -24,7 +24,7 @@
             </div>
         }
         <label class="filter-category-name">BOTTOM MATERIAL</label>
-        @foreach (var bottomMaterial in ViewBag.BottomMaterials)
+        @foreach (dynamic bottomMaterial in ViewBag.BottomMaterials)
         {
             <div class="filter-option-group">
                 <input type="checkbox" value="@bottomMaterial" name="bottomMaterials" checked="@Context.Request.Query["bottomMaterials"].Contains((string)bottomMaterial)"/>
@@ -32,7 +32,7 @@
             </div>
         }
         <label class="filter-category-name">BACKLIGHT</label>
-        @foreach (var backlight in ViewBag.Backlights)
+        @foreach (dynamic backlight in ViewBag.Backlights)
         {
             <div class="filter-option-group">
                 <input type="checkbox" value="@backlight" name="backlights" checked="@Context.Request.Query["backlights"].Contains((string)backlight)"/>
@@ -66,7 +66,7 @@
 </aside>
 <h1 class="goods-title">MOUSEPADS</h1>
 <section class="goods-container goods-container d-flex flex-column align-items-center justify-content-center">
-    @foreach (var mousepad in Model)
+    @foreach (MousepadViewModel mousepad in Model)
     {
         @await Html.PartialAsync("_Mousepad", mousepad)
     }

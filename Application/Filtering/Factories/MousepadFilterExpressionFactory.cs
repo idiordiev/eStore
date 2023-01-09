@@ -29,43 +29,62 @@ namespace eStore.Application.Filtering.Factories
         private void AddMinPriceConstraint(ref Expression<Func<Mousepad, bool>> expression, decimal? price)
         {
             if (price != null)
+            {
                 expression = expression.And(m => m.Price >= price);
+            }
         }
 
         private void AddMaxPriceConstraint(ref Expression<Func<Mousepad, bool>> expression, decimal? price)
         {
             if (price != null)
+            {
                 expression = expression.And(m => m.Price <= price);
+            }
         }
 
-        private void AddManufacturerConstraint(ref Expression<Func<Mousepad, bool>> expression, ICollection<string> manufacturers)
+        private void AddManufacturerConstraint(ref Expression<Func<Mousepad, bool>> expression,
+            ICollection<string> manufacturers)
         {
             if (manufacturers != null && manufacturers.Any())
+            {
                 expression = expression.And(m => manufacturers.Contains(m.Manufacturer));
+            }
         }
 
-        private void AddBacklightConstraint(ref Expression<Func<Mousepad, bool>> expression, ICollection<string> backlights)
+        private void AddBacklightConstraint(ref Expression<Func<Mousepad, bool>> expression,
+            ICollection<string> backlights)
         {
             if (backlights != null && backlights.Any())
+            {
                 expression = expression.And(m => backlights.Contains(m.Backlight));
+            }
         }
 
-        private void AddIsStitchedConstraint(ref Expression<Func<Mousepad, bool>> expression, ICollection<bool> isStitchedValues)
+        private void AddIsStitchedConstraint(ref Expression<Func<Mousepad, bool>> expression,
+            ICollection<bool> isStitchedValues)
         {
             if (isStitchedValues != null && isStitchedValues.Any())
+            {
                 expression = expression.And(m => isStitchedValues.Contains(m.IsStitched));
+            }
         }
 
-        private void AddBottomMaterialConstraint(ref Expression<Func<Mousepad, bool>> expression, ICollection<string> materials)
+        private void AddBottomMaterialConstraint(ref Expression<Func<Mousepad, bool>> expression,
+            ICollection<string> materials)
         {
             if (materials != null && materials.Any())
+            {
                 expression = expression.And(m => materials.Contains(m.BottomMaterial));
+            }
         }
 
-        private void AddTopMaterialConstraint(ref Expression<Func<Mousepad, bool>> expression, ICollection<string> materials)
+        private void AddTopMaterialConstraint(ref Expression<Func<Mousepad, bool>> expression,
+            ICollection<string> materials)
         {
             if (materials != null && materials.Any())
+            {
                 expression = expression.And(m => materials.Contains(m.TopMaterial));
+            }
         }
     }
 }

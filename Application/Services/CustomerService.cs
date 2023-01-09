@@ -28,7 +28,9 @@ namespace eStore.Application.Services
         {
             var existingCustomers = _unitOfWork.CustomerRepository.Query(c => c.Email == customer.Email);
             if (existingCustomers.Any())
+            {
                 throw new EmailNotUniqueException($"The email {customer.Email} is already used.");
+            }
 
             customer.ShoppingCart = new ShoppingCart();
             await _unitOfWork.CustomerRepository.AddAsync(customer);
@@ -42,11 +44,11 @@ namespace eStore.Application.Services
 
         public async Task DeactivateAccountAsync(int customerId)
         {
-            var customer = await _unitOfWork.CustomerRepository.GetByIdAsync(customerId);
+            Customer customer = await _unitOfWork.CustomerRepository.GetByIdAsync(customerId);
             CheckIfCustomerIsPresent(customer);
 
             customer.IsDeleted = true;
-            var email = customer.Email;
+            string email = customer.Email;
             customer.Email = null;
             await _unitOfWork.CustomerRepository.UpdateAsync(customer);
             await _emailService.SendDeactivationEmailAsync(email);
@@ -54,14 +56,16 @@ namespace eStore.Application.Services
 
         public async Task AddGoodsToCartAsync(int customerId, int goodsId)
         {
-            var customer = await _unitOfWork.CustomerRepository.GetByIdAsync(customerId);
+            Customer customer = await _unitOfWork.CustomerRepository.GetByIdAsync(customerId);
             CheckIfCustomerIsPresent(customer);
 
             if (customer.ShoppingCart.Goods.Any(g => g.Id == goodsId))
+            {
                 throw new GoodsAlreadyAddedException(
                     $"The goods with id {goodsId} is already added to the cart of the customer {customerId}.");
+            }
 
-            var goods = await _unitOfWork.GoodsRepository.GetByIdAsync(goodsId);
+            Goods goods = await _unitOfWork.GoodsRepository.GetByIdAsync(goodsId);
             CheckIfGoodsIsPresent(goods);
 
             customer.ShoppingCart.Goods.Add(goods);
@@ -70,13 +74,15 @@ namespace eStore.Application.Services
 
         public async Task RemoveGoodsFromCartAsync(int customerId, int goodsId)
         {
-            var customer = await _unitOfWork.CustomerRepository.GetByIdAsync(customerId);
+            Customer customer = await _unitOfWork.CustomerRepository.GetByIdAsync(customerId);
             CheckIfCustomerIsPresent(customer);
 
-            var goodsInCart = customer.ShoppingCart.Goods.FirstOrDefault(g => g.Id == goodsId);
+            Goods goodsInCart = customer.ShoppingCart.Goods.FirstOrDefault(g => g.Id == goodsId);
             if (goodsInCart == null)
+            {
                 throw new GoodsNotFoundException(
                     $"The goods with the id {goodsId} has not been found in the cart of the customer {customerId}.");
+            }
 
             customer.ShoppingCart.Goods.Remove(goodsInCart);
             await _unitOfWork.CustomerRepository.UpdateAsync(customer);
@@ -84,7 +90,7 @@ namespace eStore.Application.Services
 
         public async Task ClearCustomerCartAsync(int customerId)
         {
-            var customer = await _unitOfWork.CustomerRepository.GetByIdAsync(customerId);
+            Customer customer = await _unitOfWork.CustomerRepository.GetByIdAsync(customerId);
             CheckIfCustomerIsPresent(customer);
 
             customer.ShoppingCart.Goods.Clear();
@@ -93,20 +99,29 @@ namespace eStore.Application.Services
 
         private static void CheckIfCustomerIsPresent(Customer customer)
         {
-            if (customer == null) throw new CustomerNotFoundException("The customer has not been found.");
+            if (customer == null)
+            {
+                throw new CustomerNotFoundException("The customer has not been found.");
+            }
 
             if (customer.IsDeleted)
+            {
                 throw new AccountDeactivatedException(
                     $"The account with the id {customer.Id} has already been deactivated.");
+            }
         }
 
         private static void CheckIfGoodsIsPresent(Goods goods)
         {
-            if (goods == null) 
+            if (goods == null)
+            {
                 throw new GoodsNotFoundException("The goods has not been found.");
+            }
 
             if (goods.IsDeleted)
+            {
                 throw new EntityDeletedException($"The goods with the id {goods.Id} has been deleted.");
+            }
         }
     }
 }

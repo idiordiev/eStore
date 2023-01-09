@@ -8,29 +8,37 @@ namespace eStore.Tests.Common.EqualityComparers
     {
         public bool Equals(Customer x, Customer y)
         {
-            if (ReferenceEquals(x, y)) 
+            if (ReferenceEquals(x, y))
+            {
                 return true;
-            
-            if (ReferenceEquals(x, null)) 
+            }
+
+            if (ReferenceEquals(x, null))
+            {
                 return false;
-            
-            if (ReferenceEquals(y, null)) 
+            }
+
+            if (ReferenceEquals(y, null))
+            {
                 return false;
-            
-            if (x.GetType() != y.GetType()) 
+            }
+
+            if (x.GetType() != y.GetType())
+            {
                 return false;
-            
-            return x.Id == y.Id 
-                   && x.IsDeleted == y.IsDeleted 
-                   && x.IdentityId == y.IdentityId 
-                   && x.FirstName == y.FirstName 
-                   && x.LastName == y.LastName 
-                   && x.Email == y.Email 
-                   && x.PhoneNumber == y.PhoneNumber 
-                   && x.Country == y.Country 
-                   && x.City == y.City 
-                   && x.Address == y.Address 
-                   && x.PostalCode == y.PostalCode 
+            }
+
+            return x.Id == y.Id
+                   && x.IsDeleted == y.IsDeleted
+                   && x.IdentityId == y.IdentityId
+                   && x.FirstName == y.FirstName
+                   && x.LastName == y.LastName
+                   && x.Email == y.Email
+                   && x.PhoneNumber == y.PhoneNumber
+                   && x.Country == y.Country
+                   && x.City == y.City
+                   && x.Address == y.Address
+                   && x.PostalCode == y.PostalCode
                    && x.ShoppingCartId == y.ShoppingCartId;
         }
 
@@ -49,7 +57,7 @@ namespace eStore.Tests.Common.EqualityComparers
             hashCode.Add(obj.Address);
             hashCode.Add(obj.PostalCode);
             hashCode.Add(obj.ShoppingCartId);
-            
+
             return hashCode.ToHashCode();
         }
     }

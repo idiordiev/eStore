@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using eStore.Application.Filtering.Models;
 using eStore.Application.Interfaces.Services;
+using eStore.Domain.Entities;
 using eStore.Infrastructure.Identity;
 using eStore.WebMVC.Models;
 using Microsoft.AspNetCore.Identity;
@@ -18,8 +19,8 @@ namespace eStore.WebMVC.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
 
         public KeyboardsController(IGoodsService goodsService,
-            IKeyboardService keyboardService, 
-            IMapper mapper, 
+            IKeyboardService keyboardService,
+            IMapper mapper,
             UserManager<ApplicationUser> userManager)
         {
             _goodsService = goodsService;
@@ -27,7 +28,7 @@ namespace eStore.WebMVC.Controllers
             _mapper = mapper;
             _userManager = userManager;
         }
-        
+
         public async Task<IActionResult> Index([FromQuery] KeyboardFilterModel filterModel)
         {
             var keyboards = await _keyboardService.GetPresentByFilterAsync(filterModel);
@@ -43,12 +44,14 @@ namespace eStore.WebMVC.Controllers
 
             return View(models);
         }
-        
+
         public async Task<IActionResult> Keyboard(int id)
         {
-            var keyboard = await _keyboardService.GetByIdAsync(id);
-            if (keyboard == null || keyboard.IsDeleted) 
+            Keyboard keyboard = await _keyboardService.GetByIdAsync(id);
+            if (keyboard == null || keyboard.IsDeleted)
+            {
                 return NotFound();
+            }
 
             var model = _mapper.Map<KeyboardViewModel>(keyboard);
             await CheckIfInCartAsync(model);
@@ -60,7 +63,7 @@ namespace eStore.WebMVC.Controllers
         {
             if (User.Identity?.IsAuthenticated == true)
             {
-                var user = await _userManager.GetUserAsync(HttpContext.User);
+                ApplicationUser user = await _userManager.GetUserAsync(HttpContext.User);
                 model.IsAddedToCart = await _goodsService.CheckIfAddedToCartAsync(user.CustomerId, model.Id);
             }
         }
@@ -69,9 +72,11 @@ namespace eStore.WebMVC.Controllers
         {
             if (User.Identity?.IsAuthenticated == true)
             {
-                var user = await _userManager.GetUserAsync(HttpContext.User);
-                foreach (var model in models)
+                ApplicationUser user = await _userManager.GetUserAsync(HttpContext.User);
+                foreach (GoodsViewModel model in models)
+                {
                     model.IsAddedToCart = await _goodsService.CheckIfAddedToCartAsync(user.CustomerId, model.Id);
+                }
             }
         }
     }

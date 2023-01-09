@@ -96,8 +96,9 @@ namespace eStore.Application.Tests.Services
             IKeyboardService service = new KeyboardService(_mockUnitOfWork.Object);
 
             var expected = _helper.Keyboards.Where(k =>
-                !k.IsDeleted && (k.ConnectionType.Equals("ConnectionType1", StringComparison.InvariantCultureIgnoreCase) ||
-                                 k.ConnectionType.Equals("ConnectionType2", StringComparison.InvariantCultureIgnoreCase)));
+                !k.IsDeleted &&
+                (k.ConnectionType.Equals("ConnectionType1", StringComparison.InvariantCultureIgnoreCase) ||
+                 k.ConnectionType.Equals("ConnectionType2", StringComparison.InvariantCultureIgnoreCase)));
             var filterModel = new KeyboardFilterModel
             {
                 ConnectionTypes = new List<string> { "ConnectionType1", "ConnectionType2" }
@@ -274,7 +275,8 @@ namespace eStore.Application.Tests.Services
             IKeyboardService service = new KeyboardService(_mockUnitOfWork.Object);
 
             var expected =
-                _helper.Keyboards.Where(k => !k.IsDeleted && (k.Backlight == "Backlight1" || k.Backlight == "Backlight2"));
+                _helper.Keyboards.Where(k =>
+                    !k.IsDeleted && (k.Backlight == "Backlight1" || k.Backlight == "Backlight2"));
             var filterModel = new KeyboardFilterModel
             {
                 Backlights = new List<string> { "Backlight1", "Backlight2" }
@@ -319,7 +321,8 @@ namespace eStore.Application.Tests.Services
             IKeyboardService service = new KeyboardService(_mockUnitOfWork.Object);
 
             var expected =
-                _helper.Keyboards.Where(k => !k.IsDeleted && (k.KeyRollover == "Rollover1" || k.KeyRollover == "Rollover2"));
+                _helper.Keyboards.Where(k =>
+                    !k.IsDeleted && (k.KeyRollover == "Rollover1" || k.KeyRollover == "Rollover2"));
             var filterModel = new KeyboardFilterModel
             {
                 KeyRollovers = new List<string> { "Rollover1", "Rollover2" }
@@ -364,7 +367,8 @@ namespace eStore.Application.Tests.Services
             IKeyboardService service = new KeyboardService(_mockUnitOfWork.Object);
 
             var expected =
-                _helper.Keyboards.Where(k => !k.IsDeleted && (k.Manufacturer == "Manufacturer4" || k.Manufacturer == "Manufacturer5"));
+                _helper.Keyboards.Where(k =>
+                    !k.IsDeleted && (k.Manufacturer == "Manufacturer4" || k.Manufacturer == "Manufacturer5"));
             var filterModel = new KeyboardFilterModel
             {
                 Manufacturers = new List<string> { "Manufacturer4", "Manufacturer5" }
@@ -487,12 +491,12 @@ namespace eStore.Application.Tests.Services
         public async Task GetByIdAsync_ExistingKeyboard_ReturnsKeyboard()
         {
             // Arrange   
-            var expected = _helper.Keyboards.First(k => k.Id == 5);
+            Keyboard expected = _helper.Keyboards.First(k => k.Id == 5);
             _mockUnitOfWork.Setup(x => x.KeyboardRepository.GetByIdAsync(5)).ReturnsAsync(expected);
             IKeyboardService service = new KeyboardService(_mockUnitOfWork.Object);
 
             // Act
-            var actual = await service.GetByIdAsync(5);
+            Keyboard actual = await service.GetByIdAsync(5);
 
             // Assert
             Assert.That(actual, Is.EqualTo(expected), "The actual keyboard is not equal to expected.");
@@ -506,7 +510,7 @@ namespace eStore.Application.Tests.Services
             IKeyboardService service = new KeyboardService(_mockUnitOfWork.Object);
 
             // Act
-            var actual = await service.GetByIdAsync(1);
+            Keyboard actual = await service.GetByIdAsync(1);
 
             // Assert
             Assert.That(actual, Is.Null, "The method returned not-null object.");
@@ -533,8 +537,10 @@ namespace eStore.Application.Tests.Services
         {
             // Arrange
             var keyboards = _helper.Keyboards.ToList();
-            foreach (var keyboard in keyboards)
+            foreach (Keyboard keyboard in keyboards)
+            {
                 keyboard.Switch = _helper.KeyboardSwitches.FirstOrDefault(sw => sw.Id == keyboard.SwitchId);
+            }
 
             _mockUnitOfWork.Setup(x => x.KeyboardRepository.GetAllAsync()).ReturnsAsync(keyboards);
             IKeyboardService service = new KeyboardService(_mockUnitOfWork.Object);

@@ -32,13 +32,14 @@ namespace eStore.Infrastructure.Tests.Persistence
         public async Task GetByIdAsync_ExistingMouse_ReturnsMouse(int id)
         {
             // Arrange
-            var expected = _helper.Mouses.FirstOrDefault(c => c.Id == id);
+            Mouse expected = _helper.Mouses.FirstOrDefault(c => c.Id == id);
 
             // Act
-            var actual = await _repository.GetByIdAsync(id);
+            Mouse actual = await _repository.GetByIdAsync(id);
 
             // Assert
-            Assert.That(actual, Is.EqualTo(expected).Using(new MouseEqualityComparer()), "The actual mouse is not equal to the expected.");
+            Assert.That(actual, Is.EqualTo(expected).Using(new MouseEqualityComparer()),
+                "The actual mouse is not equal to the expected.");
         }
 
         [TestCase(13)]
@@ -49,7 +50,7 @@ namespace eStore.Infrastructure.Tests.Persistence
             // Arrange
 
             // Act
-            var actual = await _repository.GetByIdAsync(id);
+            Mouse actual = await _repository.GetByIdAsync(id);
 
             // Assert
             Assert.That(actual, Is.Null, "The method returned not-null mouse.");
@@ -104,21 +105,23 @@ namespace eStore.Infrastructure.Tests.Persistence
 
             // Assert
             Assert.That(_context.Mouses.Count(), Is.EqualTo(4), "The new mouse has not been added to the context.");
-            Assert.That(await _context.Mouses.FindAsync(16), Is.Not.Null, "The new mouse has been added with the wrong ID.");
+            Assert.That(await _context.Mouses.FindAsync(16), Is.Not.Null,
+                "The new mouse has been added with the wrong ID.");
         }
 
         [Test]
         public async Task UpdateAsync_ExistingMouse_UpdatesMouseAndSavesToDb()
         {
             // Arrange
-            var mouse = await _context.Mouses.FindAsync(12);
+            Mouse mouse = await _context.Mouses.FindAsync(12);
 
             // Act
             mouse.Name = "NewName";
             await _repository.UpdateAsync(mouse);
 
             // Assert
-            Assert.That((await _context.Mouses.FindAsync(mouse.Id)).Name, Is.EqualTo("NewName"), "The mouse has not been updated.");
+            Assert.That((await _context.Mouses.FindAsync(mouse.Id)).Name, Is.EqualTo("NewName"),
+                "The mouse has not been updated.");
         }
 
         [TestCase(10)]

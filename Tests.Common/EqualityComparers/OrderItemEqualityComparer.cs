@@ -8,23 +8,31 @@ namespace eStore.Tests.Common.EqualityComparers
     {
         public bool Equals(OrderItem x, OrderItem y)
         {
-            if (ReferenceEquals(x, y)) 
+            if (ReferenceEquals(x, y))
+            {
                 return true;
-            
-            if (ReferenceEquals(x, null)) 
+            }
+
+            if (ReferenceEquals(x, null))
+            {
                 return false;
-            
-            if (ReferenceEquals(y, null)) 
+            }
+
+            if (ReferenceEquals(y, null))
+            {
                 return false;
-            
-            if (x.GetType() != y.GetType()) 
+            }
+
+            if (x.GetType() != y.GetType())
+            {
                 return false;
-            
-            return x.Id == y.Id 
-                   && x.IsDeleted == y.IsDeleted 
-                   && x.OrderId == y.OrderId 
-                   && x.UnitPrice == y.UnitPrice 
-                   && x.GoodsId == y.GoodsId 
+            }
+
+            return x.Id == y.Id
+                   && x.IsDeleted == y.IsDeleted
+                   && x.OrderId == y.OrderId
+                   && x.UnitPrice == y.UnitPrice
+                   && x.GoodsId == y.GoodsId
                    && x.Quantity == y.Quantity;
         }
 

@@ -4,9 +4,7 @@ namespace eStore.WebMVC.Models
 {
     public class RegisterViewModel
     {
-        [Required]
-        [EmailAddress]
-        public string Email { get; set; }
+        [Required] [EmailAddress] public string Email { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
@@ -30,14 +28,11 @@ namespace eStore.WebMVC.Models
         [MaxLength(20)]
         public string PhoneNumber { get; set; }
 
-        [MaxLength(100)]
-        public string Country { get; set; }
+        [MaxLength(100)] public string Country { get; set; }
 
-        [MaxLength(100)]
-        public string City { get; set; }
+        [MaxLength(100)] public string City { get; set; }
 
-        [MaxLength(100)]
-        public string Address { get; set; }
+        [MaxLength(100)] public string Address { get; set; }
 
         [Display(Name = "Postal code")]
         [MaxLength(10)]

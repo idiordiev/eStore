@@ -26,7 +26,8 @@ namespace eStore.Application.Services
 
         public async Task<IEnumerable<Gamepad>> GetPresentByFilterAsync(GamepadFilterModel filter)
         {
-            IFilterExpressionFactory<Gamepad, GamepadFilterModel> filterExpressionFactory = new GamepadFilterExpressionFactory();
+            IFilterExpressionFactory<Gamepad, GamepadFilterModel> filterExpressionFactory =
+                new GamepadFilterExpressionFactory();
             var queryExpression = filterExpressionFactory.GetExpression(filter);
             return await Task.FromResult(_unitOfWork.GamepadRepository.Query(queryExpression));
         }

@@ -8,7 +8,7 @@
 <aside id="filter-sidebar" class="filter-sidebar d-flex flex-row">
     <form id="filter-form" class="filter-list d-flex flex-column align-items-center justify-content-start" asp-action="Index" asp-controller="Mouses" method="get">
         <label class="filter-category-name">BRAND</label>
-        @foreach (var manufacturer in ViewBag.Manufacturers)
+        @foreach (dynamic manufacturer in ViewBag.Manufacturers)
         {
             <div class="filter-option-group">
                 <input type="checkbox" value="@manufacturer" name="manufacturers" checked="@Context.Request.Query["manufacturers"].Contains((string)manufacturer)"/>
@@ -16,7 +16,7 @@
             </div>
         }
         <label class="filter-category-name">CONNECTION TYPE</label>
-        @foreach (var connectionType in ViewBag.ConnectionTypes)
+        @foreach (dynamic connectionType in ViewBag.ConnectionTypes)
         {
             <div class="filter-option-group">
                 <input type="checkbox" value="@connectionType" name="connectionTypes" checked="@Context.Request.Query["connectionTypeIds"].Contains((string)connectionType)"/>
@@ -24,7 +24,7 @@
             </div>
         }
         <label class="filter-category-name">BACKLIGHT</label>
-        @foreach (var backlight in ViewBag.Backlights)
+        @foreach (dynamic backlight in ViewBag.Backlights)
         {
             <div class="filter-option-group">
                 <input type="checkbox" value="@backlight" name="backlights" checked="@Context.Request.Query["backlights"].Contains((string)backlight)"/>
@@ -59,7 +59,7 @@
 </aside>
 <h1 class="goods-title">MOUSES</h1>
 <section class="goods-container goods-container d-flex flex-column align-items-center justify-content-center">
-    @foreach (var mouse in Model)
+    @foreach (MouseViewModel mouse in Model)
     {
         @await Html.PartialAsync("_Mouse", mouse)
     }

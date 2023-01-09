@@ -51,7 +51,7 @@ namespace eStore.Infrastructure.Persistence.Repositories
 
         public async Task DeleteAsync(int id)
         {
-            var order = await GetByIdAsync(id);
+            Order order = await GetByIdAsync(id);
             _context.Orders.Remove(order);
             await _context.SaveChangesAsync();
         }

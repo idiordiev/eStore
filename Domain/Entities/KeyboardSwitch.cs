@@ -8,7 +8,7 @@ namespace eStore.Domain.Entities
         public string Manufacturer { get; set; }
         public bool IsTactile { get; set; }
         public bool IsClicking { get; set; }
-        
+
         public ICollection<Keyboard> Keyboards { get; set; }
     }
 }

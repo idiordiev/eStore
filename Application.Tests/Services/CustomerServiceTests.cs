@@ -35,12 +35,12 @@ namespace eStore.Application.Tests.Services
         public async Task GetCustomerByIdAsync_ExistingCustomer_ReturnsCustomer()
         {
             // Arrange
-            var expected = _helper.Customers.First(c => c.Id == 1);
+            Customer expected = _helper.Customers.First(c => c.Id == 1);
             _mockUnitOfWork.Setup(x => x.CustomerRepository.GetByIdAsync(1)).ReturnsAsync(expected);
             ICustomerService service = new CustomerService(_mockUnitOfWork.Object, _mockEmailService.Object);
 
             // Act
-            var actual = await service.GetCustomerByIdAsync(1);
+            Customer actual = await service.GetCustomerByIdAsync(1);
 
             // Assert
             Assert.That(actual, Is.EqualTo(expected).Using(new CustomerEqualityComparer()),
@@ -55,7 +55,7 @@ namespace eStore.Application.Tests.Services
             ICustomerService service = new CustomerService(_mockUnitOfWork.Object, _mockEmailService.Object);
 
             // Act
-            var actual = await service.GetCustomerByIdAsync(1);
+            Customer actual = await service.GetCustomerByIdAsync(1);
 
             // Assert
             Assert.That(actual, Is.Null, "The method returned not-null object.");
@@ -81,10 +81,12 @@ namespace eStore.Application.Tests.Services
 
             // Assert
             _mockUnitOfWork.Verify(
-                x => x.CustomerRepository.AddAsync(It.Is<Customer>(c => c.Email == "email3@mail.com" && c.ShoppingCart != null)),
+                x => x.CustomerRepository.AddAsync(It.Is<Customer>(c =>
+                    c.Email == "email3@mail.com" && c.ShoppingCart != null)),
                 Times.Once);
             _mockEmailService.Verify(
-                x => x.SendRegisterEmailAsync(It.Is<Customer>(c => c.Email == "email3@mail.com" && c.ShoppingCart != null)), Times.Once);
+                x => x.SendRegisterEmailAsync(It.Is<Customer>(c =>
+                    c.Email == "email3@mail.com" && c.ShoppingCart != null)), Times.Once);
         }
 
         [Test]
@@ -102,7 +104,8 @@ namespace eStore.Application.Tests.Services
             };
 
             // Act
-            var exception = Assert.ThrowsAsync<EmailNotUniqueException>(async () => await service.AddCustomerAsync(customer));
+            var exception =
+                Assert.ThrowsAsync<EmailNotUniqueException>(async () => await service.AddCustomerAsync(customer));
 
             // Assert
             Assert.That(exception, Is.Not.Null, "The method didn't throw EmailNotUniqueException.");
@@ -114,7 +117,7 @@ namespace eStore.Application.Tests.Services
             // Arrange
             _mockUnitOfWork.Setup(x => x.CustomerRepository.UpdateAsync(It.IsAny<Customer>()));
             ICustomerService service = new CustomerService(_mockUnitOfWork.Object, _mockEmailService.Object);
-            var customer = _helper.Customers.First();
+            Customer customer = _helper.Customers.First();
             customer.FirstName = "NewName";
 
             // Act
@@ -130,7 +133,8 @@ namespace eStore.Application.Tests.Services
             // Arrange
             _mockEmailService.Setup(x => x.SendDeactivationEmailAsync(It.IsAny<string>()));
             _mockUnitOfWork.Setup(x => x.CustomerRepository.UpdateAsync(It.IsAny<Customer>()));
-            _mockUnitOfWork.Setup(x => x.CustomerRepository.GetByIdAsync(1)).ReturnsAsync(_helper.Customers.First(c => c.Id == 1));
+            _mockUnitOfWork.Setup(x => x.CustomerRepository.GetByIdAsync(1))
+                .ReturnsAsync(_helper.Customers.First(c => c.Id == 1));
             ICustomerService service = new CustomerService(_mockUnitOfWork.Object, _mockEmailService.Object);
 
             // Act
@@ -138,7 +142,8 @@ namespace eStore.Application.Tests.Services
 
             // Assert
             _mockUnitOfWork.Verify(
-                x => x.CustomerRepository.UpdateAsync(It.Is<Customer>(c => c.Id == 1 && c.IsDeleted == true && c.Email == null)),
+                x => x.CustomerRepository.UpdateAsync(It.Is<Customer>(c =>
+                    c.Id == 1 && c.IsDeleted == true && c.Email == null)),
                 Times.Once);
             _mockEmailService.Verify(x => x.SendDeactivationEmailAsync("email1@mail.com"), Times.Once);
         }
@@ -151,7 +156,8 @@ namespace eStore.Application.Tests.Services
             ICustomerService service = new CustomerService(_mockUnitOfWork.Object, _mockEmailService.Object);
 
             // Act
-            var exception = Assert.ThrowsAsync<CustomerNotFoundException>(async () => await service.DeactivateAccountAsync(1));
+            var exception =
+                Assert.ThrowsAsync<CustomerNotFoundException>(async () => await service.DeactivateAccountAsync(1));
 
             // Assert
             Assert.That(exception, Is.Not.Null, "The method didn't throw CustomerNotFoundException.");
@@ -161,11 +167,13 @@ namespace eStore.Application.Tests.Services
         public void DeactivateAccount_DeactivatedAccount_ThrowsAccountDeactivatedException()
         {
             // Arrange
-            _mockUnitOfWork.Setup(x => x.CustomerRepository.GetByIdAsync(2)).ReturnsAsync(_helper.Customers.First(c => c.Id == 2));
+            _mockUnitOfWork.Setup(x => x.CustomerRepository.GetByIdAsync(2))
+                .ReturnsAsync(_helper.Customers.First(c => c.Id == 2));
             ICustomerService service = new CustomerService(_mockUnitOfWork.Object, _mockEmailService.Object);
 
             // Act
-            var exception = Assert.ThrowsAsync<AccountDeactivatedException>(async () => await service.DeactivateAccountAsync(2));
+            var exception =
+                Assert.ThrowsAsync<AccountDeactivatedException>(async () => await service.DeactivateAccountAsync(2));
 
             // Assert
             Assert.That(exception, Is.Not.Null, "The method didn't throw AccountDeactivatedException.");
@@ -175,8 +183,10 @@ namespace eStore.Application.Tests.Services
         public async Task AddGoodsToCartAsync_ExistingCustomerAndGoods_AddsGoodsToCustomerCart()
         {
             // Arrange
-            _mockUnitOfWork.Setup(x => x.CustomerRepository.GetByIdAsync(1)).ReturnsAsync(_helper.Customers.First(c => c.Id == 1));
-            _mockUnitOfWork.Setup(x => x.GoodsRepository.GetByIdAsync(5)).ReturnsAsync(_helper.Goods.First(c => c.Id == 5));
+            _mockUnitOfWork.Setup(x => x.CustomerRepository.GetByIdAsync(1))
+                .ReturnsAsync(_helper.Customers.First(c => c.Id == 1));
+            _mockUnitOfWork.Setup(x => x.GoodsRepository.GetByIdAsync(5))
+                .ReturnsAsync(_helper.Goods.First(c => c.Id == 5));
             _mockUnitOfWork.Setup(x => x.CustomerRepository.UpdateAsync(It.IsAny<Customer>()));
             ICustomerService service = new CustomerService(_mockUnitOfWork.Object, _mockEmailService.Object);
 
@@ -184,7 +194,8 @@ namespace eStore.Application.Tests.Services
             await service.AddGoodsToCartAsync(1, 5);
 
             // Assert
-            _mockUnitOfWork.Verify(x => x.CustomerRepository.UpdateAsync(It.Is<Customer>(c => c.ShoppingCart.Goods.Any(g => g.Id == 1))));
+            _mockUnitOfWork.Verify(x =>
+                x.CustomerRepository.UpdateAsync(It.Is<Customer>(c => c.ShoppingCart.Goods.Any(g => g.Id == 1))));
         }
 
         [Test]
@@ -195,7 +206,8 @@ namespace eStore.Application.Tests.Services
             ICustomerService service = new CustomerService(_mockUnitOfWork.Object, _mockEmailService.Object);
 
             // Act
-            var exception = Assert.ThrowsAsync<CustomerNotFoundException>(async () => await service.AddGoodsToCartAsync(1, 1));
+            var exception =
+                Assert.ThrowsAsync<CustomerNotFoundException>(async () => await service.AddGoodsToCartAsync(1, 1));
 
             // Assert
             Assert.That(exception, Is.Not.Null, "The method didn't throw CustomerNotFoundException.");
@@ -210,7 +222,8 @@ namespace eStore.Application.Tests.Services
             ICustomerService service = new CustomerService(_mockUnitOfWork.Object, _mockEmailService.Object);
 
             // Act
-            var exception = Assert.ThrowsAsync<AccountDeactivatedException>(async () => await service.AddGoodsToCartAsync(1, 1));
+            var exception =
+                Assert.ThrowsAsync<AccountDeactivatedException>(async () => await service.AddGoodsToCartAsync(1, 1));
 
             // Assert
             Assert.That(exception, Is.Not.Null, "The method didn't throw AccountDeactivatedException.");
@@ -225,7 +238,8 @@ namespace eStore.Application.Tests.Services
             ICustomerService service = new CustomerService(_mockUnitOfWork.Object, _mockEmailService.Object);
 
             // Act
-            var exception = Assert.ThrowsAsync<GoodsAlreadyAddedException>(async () => await service.AddGoodsToCartAsync(1, 1));
+            var exception =
+                Assert.ThrowsAsync<GoodsAlreadyAddedException>(async () => await service.AddGoodsToCartAsync(1, 1));
 
             // Assert
             Assert.That(exception, Is.Not.Null, "The method didn't throw GoodsAlreadyAddedException.");
@@ -235,12 +249,14 @@ namespace eStore.Application.Tests.Services
         public void AddGoodsToCartAsync_NotExistingGoods_ThrowsGoodsNotFoundException()
         {
             // Arrange
-            _mockUnitOfWork.Setup(x => x.CustomerRepository.GetByIdAsync(1)).ReturnsAsync(_helper.Customers.First(c => c.Id == 1));
+            _mockUnitOfWork.Setup(x => x.CustomerRepository.GetByIdAsync(1))
+                .ReturnsAsync(_helper.Customers.First(c => c.Id == 1));
             _mockUnitOfWork.Setup(x => x.GoodsRepository.GetByIdAsync(It.IsAny<int>())).ReturnsAsync((Goods)null);
             ICustomerService service = new CustomerService(_mockUnitOfWork.Object, _mockEmailService.Object);
 
             // Act
-            var exception = Assert.ThrowsAsync<GoodsNotFoundException>(async () => await service.AddGoodsToCartAsync(1, 17));
+            var exception =
+                Assert.ThrowsAsync<GoodsNotFoundException>(async () => await service.AddGoodsToCartAsync(1, 17));
 
             // Assert
             Assert.That(exception, Is.Not.Null, "The method didn't throw GoodsNotFoundException.");
@@ -250,12 +266,15 @@ namespace eStore.Application.Tests.Services
         public void AddGoodsToCartAsync_DeletedGoods_ThrowsEntityDeletedException()
         {
             // Arrange
-            _mockUnitOfWork.Setup(x => x.CustomerRepository.GetByIdAsync(1)).ReturnsAsync(_helper.Customers.First(c => c.Id == 1));
-            _mockUnitOfWork.Setup(x => x.GoodsRepository.GetByIdAsync(It.IsAny<int>())).ReturnsAsync(_helper.Goods.First(c => c.Id == 2));
+            _mockUnitOfWork.Setup(x => x.CustomerRepository.GetByIdAsync(1))
+                .ReturnsAsync(_helper.Customers.First(c => c.Id == 1));
+            _mockUnitOfWork.Setup(x => x.GoodsRepository.GetByIdAsync(It.IsAny<int>()))
+                .ReturnsAsync(_helper.Goods.First(c => c.Id == 2));
             ICustomerService service = new CustomerService(_mockUnitOfWork.Object, _mockEmailService.Object);
 
             // Act
-            var exception = Assert.ThrowsAsync<EntityDeletedException>(async () => await service.AddGoodsToCartAsync(1, 13));
+            var exception =
+                Assert.ThrowsAsync<EntityDeletedException>(async () => await service.AddGoodsToCartAsync(1, 13));
 
             // Assert
             Assert.That(exception, Is.Not.Null, "The method didn't throw EntityDeletedException.");
@@ -265,14 +284,16 @@ namespace eStore.Application.Tests.Services
         public async Task RemoveGoodsFromCartAsync_ExistingCustomerAndGoods_RemovesGoodsFromCustomerCart()
         {
             // Arrange
-            _mockUnitOfWork.Setup(x => x.CustomerRepository.GetByIdAsync(1)).ReturnsAsync(_helper.Customers.First(c => c.Id == 1));
+            _mockUnitOfWork.Setup(x => x.CustomerRepository.GetByIdAsync(1))
+                .ReturnsAsync(_helper.Customers.First(c => c.Id == 1));
             ICustomerService service = new CustomerService(_mockUnitOfWork.Object, _mockEmailService.Object);
 
             // Act
             await service.RemoveGoodsFromCartAsync(1, 1);
 
             // Assert
-            _mockUnitOfWork.Verify(x => x.CustomerRepository.UpdateAsync(It.Is<Customer>(c => c.ShoppingCart.Goods.All(g => g.Id != 1))),
+            _mockUnitOfWork.Verify(
+                x => x.CustomerRepository.UpdateAsync(It.Is<Customer>(c => c.ShoppingCart.Goods.All(g => g.Id != 1))),
                 Times.Once);
         }
 
@@ -284,7 +305,8 @@ namespace eStore.Application.Tests.Services
             ICustomerService service = new CustomerService(_mockUnitOfWork.Object, _mockEmailService.Object);
 
             // Act
-            var exception = Assert.ThrowsAsync<CustomerNotFoundException>(async () => await service.RemoveGoodsFromCartAsync(1, 1));
+            var exception =
+                Assert.ThrowsAsync<CustomerNotFoundException>(async () => await service.RemoveGoodsFromCartAsync(1, 1));
 
             // Assert
             Assert.That(exception, Is.Not.Null, "The method didn't throw CustomerNotFoundException.");
@@ -294,11 +316,14 @@ namespace eStore.Application.Tests.Services
         public void RemoveGoodsFromCartAsync_DeactivatedAccount_ThrowsAccountDeactivatedException()
         {
             // Arrange
-            _mockUnitOfWork.Setup(x => x.CustomerRepository.GetByIdAsync(2)).ReturnsAsync(_helper.Customers.First(c => c.Id == 2));
+            _mockUnitOfWork.Setup(x => x.CustomerRepository.GetByIdAsync(2))
+                .ReturnsAsync(_helper.Customers.First(c => c.Id == 2));
             ICustomerService service = new CustomerService(_mockUnitOfWork.Object, _mockEmailService.Object);
 
             // Act
-            var exception = Assert.ThrowsAsync<AccountDeactivatedException>(async () => await service.RemoveGoodsFromCartAsync(2, 1));
+            var exception =
+                Assert.ThrowsAsync<AccountDeactivatedException>(
+                    async () => await service.RemoveGoodsFromCartAsync(2, 1));
 
             // Assert
             Assert.That(exception, Is.Not.Null, "The method didn't throw AccountDeactivatedException.");
@@ -308,11 +333,13 @@ namespace eStore.Application.Tests.Services
         public void RemoveGoodsFromCartAsync_NotExistingGoods_ThrowsGoodsNotFoundException()
         {
             // Arrange
-            _mockUnitOfWork.Setup(x => x.CustomerRepository.GetByIdAsync(1)).ReturnsAsync(_helper.Customers.First(c => c.Id == 1));
+            _mockUnitOfWork.Setup(x => x.CustomerRepository.GetByIdAsync(1))
+                .ReturnsAsync(_helper.Customers.First(c => c.Id == 1));
             ICustomerService service = new CustomerService(_mockUnitOfWork.Object, _mockEmailService.Object);
 
             // Act
-            var exception = Assert.ThrowsAsync<GoodsNotFoundException>(async () => await service.RemoveGoodsFromCartAsync(1, 5));
+            var exception =
+                Assert.ThrowsAsync<GoodsNotFoundException>(async () => await service.RemoveGoodsFromCartAsync(1, 5));
 
             // Assert
             Assert.That(exception, Is.Not.Null, "The method didn't throw GoodsNotFoundException.");
@@ -322,7 +349,8 @@ namespace eStore.Application.Tests.Services
         public async Task ClearCustomerCartAsync_ExistingCustomer_RemovesGoodsFromCustomerCart()
         {
             // Arrange
-            _mockUnitOfWork.Setup(x => x.CustomerRepository.GetByIdAsync(1)).ReturnsAsync(_helper.Customers.First(c => c.Id == 1));
+            _mockUnitOfWork.Setup(x => x.CustomerRepository.GetByIdAsync(1))
+                .ReturnsAsync(_helper.Customers.First(c => c.Id == 1));
             _mockUnitOfWork.Setup(x => x.CustomerRepository.UpdateAsync(It.IsAny<Customer>()));
             ICustomerService service = new CustomerService(_mockUnitOfWork.Object, _mockEmailService.Object);
 
@@ -330,7 +358,8 @@ namespace eStore.Application.Tests.Services
             await service.ClearCustomerCartAsync(1);
 
             // Assert
-            _mockUnitOfWork.Verify(x => x.CustomerRepository.UpdateAsync(It.Is<Customer>(c => c.Id == 1 && !c.ShoppingCart.Goods.Any())),
+            _mockUnitOfWork.Verify(
+                x => x.CustomerRepository.UpdateAsync(It.Is<Customer>(c => c.Id == 1 && !c.ShoppingCart.Goods.Any())),
                 Times.Once);
         }
 
@@ -342,7 +371,8 @@ namespace eStore.Application.Tests.Services
             ICustomerService service = new CustomerService(_mockUnitOfWork.Object, _mockEmailService.Object);
 
             // Act
-            var exception = Assert.ThrowsAsync<CustomerNotFoundException>(async () => await service.ClearCustomerCartAsync(1));
+            var exception =
+                Assert.ThrowsAsync<CustomerNotFoundException>(async () => await service.ClearCustomerCartAsync(1));
 
             // Assert
             Assert.That(exception, Is.Not.Null, "The method didn't throw CustomerNotFoundException.");
@@ -352,11 +382,13 @@ namespace eStore.Application.Tests.Services
         public void ClearCustomerCartAsync_DeactivatedAccount_ThrowsAccountDeactivatedException()
         {
             // Arrange
-            _mockUnitOfWork.Setup(x => x.CustomerRepository.GetByIdAsync(2)).ReturnsAsync(_helper.Customers.First(c => c.Id == 2));
+            _mockUnitOfWork.Setup(x => x.CustomerRepository.GetByIdAsync(2))
+                .ReturnsAsync(_helper.Customers.First(c => c.Id == 2));
             ICustomerService service = new CustomerService(_mockUnitOfWork.Object, _mockEmailService.Object);
 
             // Act
-            var exception = Assert.ThrowsAsync<AccountDeactivatedException>(async () => await service.ClearCustomerCartAsync(2));
+            var exception =
+                Assert.ThrowsAsync<AccountDeactivatedException>(async () => await service.ClearCustomerCartAsync(2));
 
             // Assert
             Assert.That(exception, Is.Not.Null, "The method didn't throw AccountDeactivatedException.");

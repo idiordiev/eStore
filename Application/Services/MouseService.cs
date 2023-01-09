@@ -26,7 +26,8 @@ namespace eStore.Application.Services
 
         public async Task<IEnumerable<Mouse>> GetPresentByFilterAsync(MouseFilterModel filter)
         {
-            IFilterExpressionFactory<Mouse, MouseFilterModel> filterExpressionFactory = new MouseFilterExpressionFactory();
+            IFilterExpressionFactory<Mouse, MouseFilterModel> filterExpressionFactory =
+                new MouseFilterExpressionFactory();
             var queryExpression = filterExpressionFactory.GetExpression(filter);
             return await Task.FromResult(_unitOfWork.MouseRepository.Query(queryExpression));
         }

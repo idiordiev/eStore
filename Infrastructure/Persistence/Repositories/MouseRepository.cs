@@ -45,7 +45,7 @@ namespace eStore.Infrastructure.Persistence.Repositories
 
         public async Task DeleteAsync(int id)
         {
-            var mouse = await GetByIdAsync(id);
+            Mouse mouse = await GetByIdAsync(id);
             _context.Mouses.Remove(mouse);
             await _context.SaveChangesAsync();
         }

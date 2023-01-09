@@ -32,7 +32,7 @@ namespace eStore.WebMVC
             services.AddHtmlEmailSender();
             services.AddEmailService();
             services.AddAttachmentService();
-            
+
             services.AddAutoMapper(typeof(AutomapperProfile));
         }
 
@@ -61,8 +61,8 @@ namespace eStore.WebMVC
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    "default",
+                    "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }
