@@ -2,12 +2,11 @@
 
     <PropertyGroup>
         <TargetFramework>net6.0</TargetFramework>
-        <RootNamespace>eStore.WebMVC</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Application\Application.csproj" />
-        <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
+        <ProjectReference Include="..\eStore.Application\eStore.Application.csproj" />
+        <ProjectReference Include="..\eStore.Infrastructure\eStore.Infrastructure.csproj" />
     </ItemGroup>
 
     <ItemGroup>

@@ -4,8 +4,6 @@
         <TargetFramework>net6.0</TargetFramework>
 
         <IsPackable>false</IsPackable>
-
-        <RootNamespace>eStore.Application.Tests</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
@@ -18,8 +16,8 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Application\Application.csproj" />
-        <ProjectReference Include="..\Tests.Common\Tests.Common.csproj" />
+        <ProjectReference Include="..\eStore.Infrastructure\eStore.Infrastructure.csproj" />
+        <ProjectReference Include="..\eStore.Tests.Common\eStore.Tests.Common.csproj" />
     </ItemGroup>
 
 </Project>

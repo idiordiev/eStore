@@ -3,11 +3,10 @@
     <PropertyGroup>
         <TargetFramework>net6.0</TargetFramework>
         <UserSecretsId>1d384eca-4690-4df9-adf9-038b563943c5</UserSecretsId>
-        <RootNamespace>eStore.Infrastructure</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Application\Application.csproj" />
+        <ProjectReference Include="..\eStore.Application\eStore.Application.csproj" />
     </ItemGroup>
 
     <ItemGroup>

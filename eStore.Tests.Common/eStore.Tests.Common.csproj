@@ -2,12 +2,11 @@
 
     <PropertyGroup>
         <TargetFramework>net6.0</TargetFramework>
-        <RootNamespace>eStore.Tests.Common</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Domain\Domain.csproj" />
-        <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
+        <ProjectReference Include="..\eStore.Domain\eStore.Domain.csproj" />
+        <ProjectReference Include="..\eStore.Infrastructure\eStore.Infrastructure.csproj" />
     </ItemGroup>
 
     <ItemGroup>
