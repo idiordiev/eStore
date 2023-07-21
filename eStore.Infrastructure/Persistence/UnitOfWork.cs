@@ -2,148 +2,147 @@
 using eStore.Domain.Entities;
 using eStore.Infrastructure.Persistence.Repositories;
 
-namespace eStore.Infrastructure.Persistence
+namespace eStore.Infrastructure.Persistence;
+
+public class UnitOfWork : IUnitOfWork
 {
-    public class UnitOfWork : IUnitOfWork
+    private readonly ApplicationContext _context;
+
+    private IRepository<Customer> _customerRepository;
+    private IRepository<Gamepad> _gamepadRepository;
+    private IRepository<Goods> _goodsRepository;
+    private IRepository<Keyboard> _keyboardRepository;
+    private IRepository<Mousepad> _mousepadRepository;
+    private IRepository<Mouse> _mouseRepository;
+    private IRepository<OrderItem> _orderItemRepository;
+    private IRepository<Order> _orderRepository;
+
+    public UnitOfWork(ApplicationContext context)
     {
-        private readonly ApplicationContext _context;
+        _context = context;
+    }
 
-        private IRepository<Customer> _customerRepository;
-        private IRepository<Gamepad> _gamepadRepository;
-        private IRepository<Goods> _goodsRepository;
-        private IRepository<Keyboard> _keyboardRepository;
-        private IRepository<Mousepad> _mousepadRepository;
-        private IRepository<Mouse> _mouseRepository;
-        private IRepository<OrderItem> _orderItemRepository;
-        private IRepository<Order> _orderRepository;
-
-        public UnitOfWork(ApplicationContext context)
+    public IRepository<Customer> CustomerRepository
+    {
+        get
         {
-            _context = context;
-        }
-
-        public IRepository<Customer> CustomerRepository
-        {
-            get
+            if (_customerRepository == null)
             {
-                if (_customerRepository == null)
-                {
-                    _customerRepository = new CustomerRepository(_context);
-                }
-
-                return _customerRepository;
+                _customerRepository = new CustomerRepository(_context);
             }
-        }
 
-        public IRepository<Goods> GoodsRepository
+            return _customerRepository;
+        }
+    }
+
+    public IRepository<Goods> GoodsRepository
+    {
+        get
         {
-            get
+            if (_goodsRepository == null)
             {
-                if (_goodsRepository == null)
-                {
-                    _goodsRepository = new GoodsRepository(_context);
-                }
-
-                return _goodsRepository;
+                _goodsRepository = new GoodsRepository(_context);
             }
-        }
 
-        public IRepository<Gamepad> GamepadRepository
+            return _goodsRepository;
+        }
+    }
+
+    public IRepository<Gamepad> GamepadRepository
+    {
+        get
         {
-            get
+            if (_gamepadRepository == null)
             {
-                if (_gamepadRepository == null)
-                {
-                    _gamepadRepository = new GamepadRepository(_context);
-                }
-
-                return _gamepadRepository;
+                _gamepadRepository = new GamepadRepository(_context);
             }
-        }
 
-        public IRepository<Keyboard> KeyboardRepository
+            return _gamepadRepository;
+        }
+    }
+
+    public IRepository<Keyboard> KeyboardRepository
+    {
+        get
         {
-            get
+            if (_keyboardRepository == null)
             {
-                if (_keyboardRepository == null)
-                {
-                    _keyboardRepository = new KeyboardRepository(_context);
-                }
-
-                return _keyboardRepository;
+                _keyboardRepository = new KeyboardRepository(_context);
             }
-        }
 
-        public IRepository<Mouse> MouseRepository
+            return _keyboardRepository;
+        }
+    }
+
+    public IRepository<Mouse> MouseRepository
+    {
+        get
         {
-            get
+            if (_mouseRepository == null)
             {
-                if (_mouseRepository == null)
-                {
-                    _mouseRepository = new MouseRepository(_context);
-                }
-
-                return _mouseRepository;
+                _mouseRepository = new MouseRepository(_context);
             }
-        }
 
-        public IRepository<Mousepad> MousepadRepository
+            return _mouseRepository;
+        }
+    }
+
+    public IRepository<Mousepad> MousepadRepository
+    {
+        get
         {
-            get
+            if (_mousepadRepository == null)
             {
-                if (_mousepadRepository == null)
-                {
-                    _mousepadRepository = new MousepadRepository(_context);
-                }
-
-                return _mousepadRepository;
+                _mousepadRepository = new MousepadRepository(_context);
             }
-        }
 
-        public IRepository<Order> OrderRepository
+            return _mousepadRepository;
+        }
+    }
+
+    public IRepository<Order> OrderRepository
+    {
+        get
         {
-            get
+            if (_orderRepository == null)
             {
-                if (_orderRepository == null)
-                {
-                    _orderRepository = new OrderRepository(_context);
-                }
-
-                return _orderRepository;
+                _orderRepository = new OrderRepository(_context);
             }
-        }
 
-        public IRepository<OrderItem> OrderItemRepository
+            return _orderRepository;
+        }
+    }
+
+    public IRepository<OrderItem> OrderItemRepository
+    {
+        get
         {
-            get
+            if (_orderItemRepository == null)
             {
-                if (_orderItemRepository == null)
-                {
-                    _orderItemRepository = new OrderItemRepository(_context);
-                }
-
-                return _orderItemRepository;
+                _orderItemRepository = new OrderItemRepository(_context);
             }
+
+            return _orderItemRepository;
         }
+    }
 
-        private bool _disposed;
+    private bool _disposed;
 
-        public void Dispose()
+    public void Dispose()
+    {
+        Dispose(true);
+    }
+
+    protected virtual void Dispose(bool disposing)
+    {
+        if (!_disposed)
         {
-            Dispose(true);
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!_disposed)
+            if (disposing)
             {
-                if (disposing)
-                {
-                    _context.Dispose();
-                }
-
-                _disposed = true;
+                _context.Dispose();
             }
+
+            _disposed = true;
         }
     }
 }

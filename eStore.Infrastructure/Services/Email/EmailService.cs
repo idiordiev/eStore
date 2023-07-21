@@ -6,74 +6,73 @@ using System.Threading.Tasks;
 using eStore.Application.Interfaces;
 using eStore.Domain.Entities;
 
-namespace eStore.Infrastructure.Services.Email
+namespace eStore.Infrastructure.Services.Email;
+
+public class EmailService : IEmailService
 {
-    public class EmailService : IEmailService
+    private readonly IHtmlEmailSender _htmlEmailSender;
+
+    public EmailService(IHtmlEmailSender htmlEmailSender)
     {
-        private readonly IHtmlEmailSender _htmlEmailSender;
+        _htmlEmailSender = htmlEmailSender;
+    }
 
-        public EmailService(IHtmlEmailSender htmlEmailSender)
+    public async Task SendRegisterEmailAsync(Customer customer)
+    {
+        if (customer == null)
         {
-            _htmlEmailSender = htmlEmailSender;
+            throw new ArgumentNullException(nameof(customer), "The order is null.");
         }
 
-        public async Task SendRegisterEmailAsync(Customer customer)
-        {
-            if (customer == null)
-            {
-                throw new ArgumentNullException(nameof(customer), "The order is null.");
-            }
+        string bodyPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) +
+                          "/Services/Email/Templates/RegisterEmailTemplate.html";
+        string body = await File.ReadAllTextAsync(bodyPath);
+        body = body.Replace("FIRST_NAME", customer.FirstName);
+        body = body.Replace("LAST_NAME", customer.LastName);
+        body = body.Replace("PHONE_NUMBER", customer.PhoneNumber);
+        body = body.Replace("EMAIL_ADDRESS", customer.Email);
+        await _htmlEmailSender.SendEmailAsync(customer.Email, "You've been successfully registered at eStore.com!",
+            body);
+    }
 
-            string bodyPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) +
-                              "/Services/Email/Templates/RegisterEmailTemplate.html";
-            string body = await File.ReadAllTextAsync(bodyPath);
-            body = body.Replace("FIRST_NAME", customer.FirstName);
-            body = body.Replace("LAST_NAME", customer.LastName);
-            body = body.Replace("PHONE_NUMBER", customer.PhoneNumber);
-            body = body.Replace("EMAIL_ADDRESS", customer.Email);
-            await _htmlEmailSender.SendEmailAsync(customer.Email, "You've been successfully registered at eStore.com!",
-                body);
+    public async Task SendDeactivationEmailAsync(string email)
+    {
+        string bodyPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) +
+                          "/Services/Email/Templates/DeactivateAccountEmailTemplate.html";
+        string body = await File.ReadAllTextAsync(bodyPath);
+        body = body.Replace("DEACTIVATION_DATE", DateTime.Now.ToShortDateString());
+        body = body.Replace("DEACTIVATION_TIME", DateTime.Now.ToShortTimeString());
+        await _htmlEmailSender.SendEmailAsync(email, "Your account has been deactivated", body);
+    }
+
+    public async Task SendChangePasswordEmailAsync(string email)
+    {
+        string bodyPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) +
+                          "/Services/Email/Templates/ChangePasswordEmailTemplate.html";
+        string body = await File.ReadAllTextAsync(bodyPath);
+        body = body.Replace("CHANGING_DATE", DateTime.Now.ToShortDateString());
+        body = body.Replace("CHANGING_TIME", DateTime.Now.ToShortTimeString());
+        await _htmlEmailSender.SendEmailAsync(email, "You have changed password", body);
+    }
+
+    public async Task SendPurchaseEmailAsyncAsync(Order order, string attachmentFilePath)
+    {
+        if (order == null)
+        {
+            throw new ArgumentNullException(nameof(order), "The order is null.");
         }
 
-        public async Task SendDeactivationEmailAsync(string email)
-        {
-            string bodyPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) +
-                              "/Services/Email/Templates/DeactivateAccountEmailTemplate.html";
-            string body = await File.ReadAllTextAsync(bodyPath);
-            body = body.Replace("DEACTIVATION_DATE", DateTime.Now.ToShortDateString());
-            body = body.Replace("DEACTIVATION_TIME", DateTime.Now.ToShortTimeString());
-            await _htmlEmailSender.SendEmailAsync(email, "Your account has been deactivated", body);
-        }
-
-        public async Task SendChangePasswordEmailAsync(string email)
-        {
-            string bodyPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) +
-                              "/Services/Email/Templates/ChangePasswordEmailTemplate.html";
-            string body = await File.ReadAllTextAsync(bodyPath);
-            body = body.Replace("CHANGING_DATE", DateTime.Now.ToShortDateString());
-            body = body.Replace("CHANGING_TIME", DateTime.Now.ToShortTimeString());
-            await _htmlEmailSender.SendEmailAsync(email, "You have changed password", body);
-        }
-
-        public async Task SendPurchaseEmailAsyncAsync(Order order, string attachmentFilePath)
-        {
-            if (order == null)
-            {
-                throw new ArgumentNullException(nameof(order), "The order is null.");
-            }
-
-            string bodyPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) +
-                              "/Services/Email/Templates/OrderEmailTemplate.html";
-            string body = await File.ReadAllTextAsync(bodyPath);
-            body = body.Replace("FIRST_NAME", order.Customer.FirstName);
-            body = body.Replace("LAST_NAME", order.Customer.LastName);
-            body = body.Replace("PHONE_NUMBER", order.Customer.PhoneNumber);
-            body = body.Replace("CITY", order.ShippingCity);
-            body = body.Replace("ADDRESS", order.ShippingAddress);
-            body = body.Replace("POSTAL_CODE", order.ShippingPostalCode);
-            body = body.Replace("PRICE", order.Total.ToString(CultureInfo.InvariantCulture));
-            await _htmlEmailSender.SendEmailAsync(order.Customer.Email, "Thanks for purchase!", body,
-                attachmentFilePath);
-        }
+        string bodyPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) +
+                          "/Services/Email/Templates/OrderEmailTemplate.html";
+        string body = await File.ReadAllTextAsync(bodyPath);
+        body = body.Replace("FIRST_NAME", order.Customer.FirstName);
+        body = body.Replace("LAST_NAME", order.Customer.LastName);
+        body = body.Replace("PHONE_NUMBER", order.Customer.PhoneNumber);
+        body = body.Replace("CITY", order.ShippingCity);
+        body = body.Replace("ADDRESS", order.ShippingAddress);
+        body = body.Replace("POSTAL_CODE", order.ShippingPostalCode);
+        body = body.Replace("PRICE", order.Total.ToString(CultureInfo.InvariantCulture));
+        await _htmlEmailSender.SendEmailAsync(order.Customer.Email, "Thanks for purchase!", body,
+            attachmentFilePath);
     }
 }

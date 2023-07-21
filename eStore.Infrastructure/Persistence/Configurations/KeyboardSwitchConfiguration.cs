@@ -2,17 +2,16 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace eStore.Infrastructure.Persistence.Configurations
+namespace eStore.Infrastructure.Persistence.Configurations;
+
+public class KeyboardSwitchConfiguration : IEntityTypeConfiguration<KeyboardSwitch>
 {
-    public class KeyboardSwitchConfiguration : IEntityTypeConfiguration<KeyboardSwitch>
+    public void Configure(EntityTypeBuilder<KeyboardSwitch> builder)
     {
-        public void Configure(EntityTypeBuilder<KeyboardSwitch> builder)
-        {
-            builder.HasKey(s => s.Id);
-            builder.Property(s => s.Name)
-                .HasMaxLength(100);
-            builder.Property(s => s.Manufacturer)
-                .HasMaxLength(150);
-        }
+        builder.HasKey(s => s.Id);
+        builder.Property(s => s.Name)
+            .HasMaxLength(100);
+        builder.Property(s => s.Manufacturer)
+            .HasMaxLength(150);
     }
 }

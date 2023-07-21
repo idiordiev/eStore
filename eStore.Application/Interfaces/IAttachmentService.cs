@@ -1,9 +1,8 @@
 ﻿using eStore.Domain.Entities;
 
-namespace eStore.Application.Interfaces
+namespace eStore.Application.Interfaces;
+
+public interface IAttachmentService
 {
-    public interface IAttachmentService
-    {
-        string CreateInvoice(Order order);
-    }
+    string CreateInvoice(Order order);
 }

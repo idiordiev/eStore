@@ -1,25 +1,24 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace eStore.Application.Exceptions
+namespace eStore.Application.Exceptions;
+
+[Serializable]
+public class OrderNotFoundException : ApplicationException
 {
-    [Serializable]
-    public class OrderNotFoundException : ApplicationException
+    public OrderNotFoundException()
     {
-        public OrderNotFoundException()
-        {
-        }
+    }
 
-        public OrderNotFoundException(string message) : base(message)
-        {
-        }
+    public OrderNotFoundException(string message) : base(message)
+    {
+    }
 
-        public OrderNotFoundException(string message, Exception innerException) : base(message, innerException)
-        {
-        }
+    public OrderNotFoundException(string message, Exception innerException) : base(message, innerException)
+    {
+    }
 
-        public OrderNotFoundException(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-        }
+    public OrderNotFoundException(SerializationInfo info, StreamingContext context) : base(info, context)
+    {
     }
 }

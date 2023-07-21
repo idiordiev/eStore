@@ -6,58 +6,57 @@ using eStore.Application.Interfaces.Data;
 using eStore.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace eStore.Infrastructure.Persistence.Repositories
+namespace eStore.Infrastructure.Persistence.Repositories;
+
+public class CustomerRepository : IRepository<Customer>
 {
-    public class CustomerRepository : IRepository<Customer>
+    private readonly ApplicationContext _context;
+
+    public CustomerRepository(ApplicationContext context)
     {
-        private readonly ApplicationContext _context;
+        _context = context;
+    }
 
-        public CustomerRepository(ApplicationContext context)
-        {
-            _context = context;
-        }
+    public async Task<Customer> GetByIdAsync(int id)
+    {
+        return await _context.Customers
+            .Include(c => c.ShoppingCart)
+            .ThenInclude(c => c.Goods)
+            .FirstOrDefaultAsync(c => c.Id == id);
+    }
 
-        public async Task<Customer> GetByIdAsync(int id)
-        {
-            return await _context.Customers
-                .Include(c => c.ShoppingCart)
-                .ThenInclude(c => c.Goods)
-                .FirstOrDefaultAsync(c => c.Id == id);
-        }
+    public async Task<IEnumerable<Customer>> GetAllAsync()
+    {
+        return await _context.Customers
+            .Include(c => c.ShoppingCart)
+            .ThenInclude(c => c.Goods)
+            .ToListAsync();
+    }
 
-        public async Task<IEnumerable<Customer>> GetAllAsync()
-        {
-            return await _context.Customers
-                .Include(c => c.ShoppingCart)
-                .ThenInclude(c => c.Goods)
-                .ToListAsync();
-        }
+    public IEnumerable<Customer> Query(Func<Customer, bool> predicate)
+    {
+        return _context.Customers
+            .Include(c => c.ShoppingCart)
+            .ThenInclude(c => c.Goods)
+            .Where(predicate);
+    }
 
-        public IEnumerable<Customer> Query(Func<Customer, bool> predicate)
-        {
-            return _context.Customers
-                .Include(c => c.ShoppingCart)
-                .ThenInclude(c => c.Goods)
-                .Where(predicate);
-        }
+    public async Task AddAsync(Customer entity)
+    {
+        await _context.Customers.AddAsync(entity);
+        await _context.SaveChangesAsync();
+    }
 
-        public async Task AddAsync(Customer entity)
-        {
-            await _context.Customers.AddAsync(entity);
-            await _context.SaveChangesAsync();
-        }
+    public async Task DeleteAsync(int id)
+    {
+        Customer customer = await GetByIdAsync(id);
+        _context.Customers.Remove(customer);
+        await _context.SaveChangesAsync();
+    }
 
-        public async Task DeleteAsync(int id)
-        {
-            Customer customer = await GetByIdAsync(id);
-            _context.Customers.Remove(customer);
-            await _context.SaveChangesAsync();
-        }
-
-        public async Task UpdateAsync(Customer entity)
-        {
-            _context.Customers.Update(entity);
-            await _context.SaveChangesAsync();
-        }
+    public async Task UpdateAsync(Customer entity)
+    {
+        _context.Customers.Update(entity);
+        await _context.SaveChangesAsync();
     }
 }

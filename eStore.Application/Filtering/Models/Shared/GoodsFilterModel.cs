@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
 
-namespace eStore.Application.Filtering.Models.Shared
+namespace eStore.Application.Filtering.Models.Shared;
+
+public abstract class GoodsFilterModel
 {
-    public abstract class GoodsFilterModel
-    {
-        public ICollection<string> Manufacturers { get; set; }
-        public decimal? MinPrice { get; set; }
-        public decimal? MaxPrice { get; set; }
-    }
+    public ICollection<string> Manufacturers { get; set; }
+    public decimal? MinPrice { get; set; }
+    public decimal? MaxPrice { get; set; }
 }
