@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 using eStore.Application.Interfaces.Data;
 using eStore.Domain.Entities;
@@ -32,11 +31,11 @@ namespace eStore.Infrastructure.Persistence.Repositories
                 .ToListAsync();
         }
 
-        public IEnumerable<Keyboard> Query(Expression<Func<Keyboard, bool>> predicate)
+        public IEnumerable<Keyboard> Query(Func<Keyboard, bool> predicate)
         {
             return _context.Keyboards
                 .Include(k => k.Switch)
-                .Where(predicate.Compile())
+                .Where(predicate)
                 .ToList();
         }
 

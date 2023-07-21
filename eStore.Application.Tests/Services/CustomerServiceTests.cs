@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 using eStore.Application.Exceptions;
 using eStore.Application.Interfaces;
@@ -66,7 +65,7 @@ namespace eStore.Application.Tests.Services
         {
             // Arrange
             _mockEmailService.Setup(x => x.SendRegisterEmailAsync(It.IsAny<Customer>()));
-            _mockUnitOfWork.Setup(x => x.CustomerRepository.Query(It.IsAny<Expression<Func<Customer, bool>>>()))
+            _mockUnitOfWork.Setup(x => x.CustomerRepository.Query(It.IsAny<Func<Customer, bool>>()))
                 .Returns(new List<Customer>());
             _mockUnitOfWork.Setup(x => x.CustomerRepository.AddAsync(It.IsAny<Customer>()));
             ICustomerService service = new CustomerService(_mockUnitOfWork.Object, _mockEmailService.Object);
@@ -94,7 +93,7 @@ namespace eStore.Application.Tests.Services
         {
             // Arrange
             _mockEmailService.Setup(x => x.SendRegisterEmailAsync(It.IsAny<Customer>()));
-            _mockUnitOfWork.Setup(x => x.CustomerRepository.Query(It.IsAny<Expression<Func<Customer, bool>>>()))
+            _mockUnitOfWork.Setup(x => x.CustomerRepository.Query(It.IsAny<Func<Customer, bool>>()))
                 .Returns(new List<Customer>(_helper.Customers.Where(c => c.Email == "email1@mail.com")));
             ICustomerService service = new CustomerService(_mockUnitOfWork.Object, _mockEmailService.Object);
             var customer = new Customer

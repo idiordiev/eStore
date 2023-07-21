@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 using eStore.Application.Interfaces.Data;
 using eStore.Domain.Entities;
@@ -30,10 +29,10 @@ namespace eStore.Infrastructure.Persistence.Repositories
                 .ToListAsync();
         }
 
-        public IEnumerable<Mousepad> Query(Expression<Func<Mousepad, bool>> predicate)
+        public IEnumerable<Mousepad> Query(Func<Mousepad, bool> predicate)
         {
             return _context.Mousepads
-                .Where(predicate.Compile())
+                .Where(predicate)
                 .ToList();
         }
 

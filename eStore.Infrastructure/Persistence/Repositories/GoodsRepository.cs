@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 using eStore.Application.Interfaces.Data;
 using eStore.Domain.Entities;
@@ -30,10 +29,10 @@ namespace eStore.Infrastructure.Persistence.Repositories
                 .ToListAsync();
         }
 
-        public IEnumerable<Goods> Query(Expression<Func<Goods, bool>> predicate)
+        public IEnumerable<Goods> Query(Func<Goods, bool> predicate)
         {
             return _context.Goods
-                .Where(predicate.Compile())
+                .Where(predicate)
                 .ToList();
         }
 

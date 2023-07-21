@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 using eStore.Application.Filtering.Models;
 using eStore.Application.Interfaces.Data;
@@ -32,8 +31,8 @@ namespace eStore.Application.Tests.Services
         public async Task GetPresentAsync_NotEmptyDb_ReturnsCollectionOfGamepads()
         {
             // Arrange
-            _mockUnitOfWork.Setup(x => x.GamepadRepository.Query(It.IsAny<Expression<Func<Gamepad, bool>>>()))
-                .Returns((Expression<Func<Gamepad, bool>> predicate) => _helper.Gamepads.Where(predicate.Compile()));
+            _mockUnitOfWork.Setup(x => x.GamepadRepository.Query(It.IsAny<Func<Gamepad, bool>>()))
+                .Returns((Func<Gamepad, bool> predicate) => _helper.Gamepads.Where(predicate));
             IGamepadService service = new GamepadService(_mockUnitOfWork.Object);
 
             var expected = _helper.Gamepads.Where(g => !g.IsDeleted);
@@ -50,8 +49,8 @@ namespace eStore.Application.Tests.Services
         public async Task GetPresentByFilterAsync_OnlyNotDeleted_ReturnsNotDeleted()
         {
             // Arrange
-            _mockUnitOfWork.Setup(x => x.GamepadRepository.Query(It.IsAny<Expression<Func<Gamepad, bool>>>()))
-                .Returns((Expression<Func<Gamepad, bool>> predicate) => _helper.Gamepads.Where(predicate.Compile()));
+            _mockUnitOfWork.Setup(x => x.GamepadRepository.Query(It.IsAny<Func<Gamepad, bool>>()))
+                .Returns((Func<Gamepad, bool> predicate) => _helper.Gamepads.Where(predicate));
             IGamepadService service = new GamepadService(_mockUnitOfWork.Object);
 
             var expected = _helper.Gamepads.Where(g => !g.IsDeleted);
@@ -69,8 +68,8 @@ namespace eStore.Application.Tests.Services
         public async Task GetPresentByFilterAsync_NotDeletedAndSingleCompatibleDevice_ReturnsCollection()
         {
             // Arrange
-            _mockUnitOfWork.Setup(x => x.GamepadRepository.Query(It.IsAny<Expression<Func<Gamepad, bool>>>()))
-                .Returns((Expression<Func<Gamepad, bool>> predicate) => _helper.Gamepads.Where(predicate.Compile()));
+            _mockUnitOfWork.Setup(x => x.GamepadRepository.Query(It.IsAny<Func<Gamepad, bool>>()))
+                .Returns((Func<Gamepad, bool> predicate) => _helper.Gamepads.Where(predicate));
             IGamepadService service = new GamepadService(_mockUnitOfWork.Object);
 
             var expected =
@@ -92,8 +91,8 @@ namespace eStore.Application.Tests.Services
         public async Task GetPresentByFilterAsync_NotDeletedAndMultipleCompatibleDevices_ReturnsCollection()
         {
             // Arrange
-            _mockUnitOfWork.Setup(x => x.GamepadRepository.Query(It.IsAny<Expression<Func<Gamepad, bool>>>()))
-                .Returns((Expression<Func<Gamepad, bool>> predicate) => _helper.Gamepads.Where(predicate.Compile()));
+            _mockUnitOfWork.Setup(x => x.GamepadRepository.Query(It.IsAny<Func<Gamepad, bool>>()))
+                .Returns((Func<Gamepad, bool> predicate) => _helper.Gamepads.Where(predicate));
             IGamepadService service = new GamepadService(_mockUnitOfWork.Object);
 
             var expected = _helper.Gamepads.Where(g =>
@@ -116,8 +115,8 @@ namespace eStore.Application.Tests.Services
         public async Task GetPresentByFilterAsync_NotDeletedAndSingleConnectionType_ReturnsCollection()
         {
             // Arrange
-            _mockUnitOfWork.Setup(x => x.GamepadRepository.Query(It.IsAny<Expression<Func<Gamepad, bool>>>()))
-                .Returns((Expression<Func<Gamepad, bool>> predicate) => _helper.Gamepads.Where(predicate.Compile()));
+            _mockUnitOfWork.Setup(x => x.GamepadRepository.Query(It.IsAny<Func<Gamepad, bool>>()))
+                .Returns((Func<Gamepad, bool> predicate) => _helper.Gamepads.Where(predicate));
             IGamepadService service = new GamepadService(_mockUnitOfWork.Object);
 
             var expected = _helper.Gamepads.Where(g => !g.IsDeleted && g.ConnectionType == "ConnectionType1");
@@ -138,8 +137,8 @@ namespace eStore.Application.Tests.Services
         public async Task GetPresentByFilterAsync_NotDeletedAndMultipleConnectionTypes_ReturnsCollection()
         {
             // Arrange
-            _mockUnitOfWork.Setup(x => x.GamepadRepository.Query(It.IsAny<Expression<Func<Gamepad, bool>>>()))
-                .Returns((Expression<Func<Gamepad, bool>> predicate) => _helper.Gamepads.Where(predicate.Compile()));
+            _mockUnitOfWork.Setup(x => x.GamepadRepository.Query(It.IsAny<Func<Gamepad, bool>>()))
+                .Returns((Func<Gamepad, bool> predicate) => _helper.Gamepads.Where(predicate));
             IGamepadService service = new GamepadService(_mockUnitOfWork.Object);
 
             var expected = _helper.Gamepads.Where(g =>
@@ -161,8 +160,8 @@ namespace eStore.Application.Tests.Services
         public async Task GetPresentByFilterAsync_NotDeletedAndSingleFeedback_ReturnsCollection()
         {
             // Arrange
-            _mockUnitOfWork.Setup(x => x.GamepadRepository.Query(It.IsAny<Expression<Func<Gamepad, bool>>>()))
-                .Returns((Expression<Func<Gamepad, bool>> predicate) => _helper.Gamepads.Where(predicate.Compile()));
+            _mockUnitOfWork.Setup(x => x.GamepadRepository.Query(It.IsAny<Func<Gamepad, bool>>()))
+                .Returns((Func<Gamepad, bool> predicate) => _helper.Gamepads.Where(predicate));
             IGamepadService service = new GamepadService(_mockUnitOfWork.Object);
 
             var expected = _helper.Gamepads.Where(g => !g.IsDeleted && g.Feedback == "Feedback1");
@@ -183,8 +182,8 @@ namespace eStore.Application.Tests.Services
         public async Task GetPresentByFilterAsync_NotDeletedAndMultipleFeedbacks_ReturnsCollection()
         {
             // Arrange
-            _mockUnitOfWork.Setup(x => x.GamepadRepository.Query(It.IsAny<Expression<Func<Gamepad, bool>>>()))
-                .Returns((Expression<Func<Gamepad, bool>> predicate) => _helper.Gamepads.Where(predicate.Compile()));
+            _mockUnitOfWork.Setup(x => x.GamepadRepository.Query(It.IsAny<Func<Gamepad, bool>>()))
+                .Returns((Func<Gamepad, bool> predicate) => _helper.Gamepads.Where(predicate));
             IGamepadService service = new GamepadService(_mockUnitOfWork.Object);
 
             var expected = _helper.Gamepads.Where(g =>
@@ -206,8 +205,8 @@ namespace eStore.Application.Tests.Services
         public async Task GetPresentByFilterAsync_NotDeletedAndSingleManufacturer_ReturnsCollection()
         {
             // Arrange
-            _mockUnitOfWork.Setup(x => x.GamepadRepository.Query(It.IsAny<Expression<Func<Gamepad, bool>>>()))
-                .Returns((Expression<Func<Gamepad, bool>> predicate) => _helper.Gamepads.Where(predicate.Compile()));
+            _mockUnitOfWork.Setup(x => x.GamepadRepository.Query(It.IsAny<Func<Gamepad, bool>>()))
+                .Returns((Func<Gamepad, bool> predicate) => _helper.Gamepads.Where(predicate));
             IGamepadService service = new GamepadService(_mockUnitOfWork.Object);
 
             var expected = _helper.Gamepads.Where(g => !g.IsDeleted && g.Manufacturer.Equals("Manufacturer3"));
@@ -228,8 +227,8 @@ namespace eStore.Application.Tests.Services
         public async Task GetPresentByFilterAsync_NotDeletedAndMultipleManufacturers_ReturnsCollection()
         {
             // Arrange
-            _mockUnitOfWork.Setup(x => x.GamepadRepository.Query(It.IsAny<Expression<Func<Gamepad, bool>>>()))
-                .Returns((Expression<Func<Gamepad, bool>> predicate) => _helper.Gamepads.Where(predicate.Compile()));
+            _mockUnitOfWork.Setup(x => x.GamepadRepository.Query(It.IsAny<Func<Gamepad, bool>>()))
+                .Returns((Func<Gamepad, bool> predicate) => _helper.Gamepads.Where(predicate));
             IGamepadService service = new GamepadService(_mockUnitOfWork.Object);
 
             var expected =
@@ -252,8 +251,8 @@ namespace eStore.Application.Tests.Services
         public async Task GetPresentByFilterAsync_NotDeletedAndMinPrice_ReturnsCollection()
         {
             // Arrange
-            _mockUnitOfWork.Setup(x => x.GamepadRepository.Query(It.IsAny<Expression<Func<Gamepad, bool>>>()))
-                .Returns((Expression<Func<Gamepad, bool>> predicate) => _helper.Gamepads.Where(predicate.Compile()));
+            _mockUnitOfWork.Setup(x => x.GamepadRepository.Query(It.IsAny<Func<Gamepad, bool>>()))
+                .Returns((Func<Gamepad, bool> predicate) => _helper.Gamepads.Where(predicate));
             IGamepadService service = new GamepadService(_mockUnitOfWork.Object);
 
             var expected = _helper.Gamepads.Where(g => !g.IsDeleted && g.Price >= 34.99m);
@@ -274,8 +273,8 @@ namespace eStore.Application.Tests.Services
         public async Task GetPresentByFilterAsync_NotDeletedAndMaxPrice_ReturnsCollection()
         {
             // Arrange
-            _mockUnitOfWork.Setup(x => x.GamepadRepository.Query(It.IsAny<Expression<Func<Gamepad, bool>>>()))
-                .Returns((Expression<Func<Gamepad, bool>> predicate) => _helper.Gamepads.Where(predicate.Compile()));
+            _mockUnitOfWork.Setup(x => x.GamepadRepository.Query(It.IsAny<Func<Gamepad, bool>>()))
+                .Returns((Func<Gamepad, bool> predicate) => _helper.Gamepads.Where(predicate));
             IGamepadService service = new GamepadService(_mockUnitOfWork.Object);
 
             var expected = _helper.Gamepads.Where(g => !g.IsDeleted && g.Price <= 34.99m);
@@ -296,8 +295,8 @@ namespace eStore.Application.Tests.Services
         public async Task GetPresentByFilterAsync_NotDeletedAndPrice_ReturnsCollection()
         {
             // Arrange
-            _mockUnitOfWork.Setup(x => x.GamepadRepository.Query(It.IsAny<Expression<Func<Gamepad, bool>>>()))
-                .Returns((Expression<Func<Gamepad, bool>> predicate) => _helper.Gamepads.Where(predicate.Compile()));
+            _mockUnitOfWork.Setup(x => x.GamepadRepository.Query(It.IsAny<Func<Gamepad, bool>>()))
+                .Returns((Func<Gamepad, bool> predicate) => _helper.Gamepads.Where(predicate));
             IGamepadService service = new GamepadService(_mockUnitOfWork.Object);
 
             var expected = _helper.Gamepads.Where(g => !g.IsDeleted && g.Price >= 34.99m && g.Price <= 44.99m);
@@ -319,8 +318,8 @@ namespace eStore.Application.Tests.Services
         public async Task GetPresentByFilterAsync_NotDeletedAndAllOtherParameters_ReturnsNotDeleted()
         {
             // Arrange
-            _mockUnitOfWork.Setup(x => x.GamepadRepository.Query(It.IsAny<Expression<Func<Gamepad, bool>>>()))
-                .Returns((Expression<Func<Gamepad, bool>> predicate) => _helper.Gamepads.Where(predicate.Compile()));
+            _mockUnitOfWork.Setup(x => x.GamepadRepository.Query(It.IsAny<Func<Gamepad, bool>>()))
+                .Returns((Func<Gamepad, bool> predicate) => _helper.Gamepads.Where(predicate));
             IGamepadService service = new GamepadService(_mockUnitOfWork.Object);
 
             var expected = _helper.Gamepads.Where(g => !g.IsDeleted);

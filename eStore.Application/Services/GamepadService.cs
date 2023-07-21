@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using eStore.Application.Filtering.Factories;
 using eStore.Application.Filtering.Models;
-using eStore.Application.Interfaces;
 using eStore.Application.Interfaces.Data;
 using eStore.Application.Interfaces.Services;
 using eStore.Domain.Entities;
@@ -26,9 +24,7 @@ namespace eStore.Application.Services
 
         public async Task<IEnumerable<Gamepad>> GetPresentByFilterAsync(GamepadFilterModel filter)
         {
-            IFilterExpressionFactory<Gamepad, GamepadFilterModel> filterExpressionFactory =
-                new GamepadFilterExpressionFactory();
-            var queryExpression = filterExpressionFactory.GetExpression(filter);
+            var queryExpression = filter.GetPredicate();
             return await Task.FromResult(_unitOfWork.GamepadRepository.Query(queryExpression));
         }
 

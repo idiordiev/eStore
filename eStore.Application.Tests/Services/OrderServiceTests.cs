@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 using eStore.Application.DTOs;
 using eStore.Application.Exceptions;
@@ -40,7 +39,7 @@ namespace eStore.Application.Tests.Services
         {
             // Arrange
             var expected = _helper.Orders.Where(o => o.CustomerId == 1);
-            _mockUnitOfWork.Setup(x => x.OrderRepository.Query(It.IsAny<Expression<Func<Order, bool>>>()))
+            _mockUnitOfWork.Setup(x => x.OrderRepository.Query(It.IsAny<Func<Order, bool>>()))
                 .Returns(expected);
             IOrderService service = new OrderService(_mockUnitOfWork.Object, _mockEmailService.Object,
                 _mockAttachmentService.Object);
