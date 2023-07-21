@@ -83,18 +83,17 @@ public class GoodsRepositoryTests
     }
 
     [Test]
-    public Task Query_WithPredicate_ReturnsSuitableGoods()
+    public async Task Query_WithPredicate_ReturnsSuitableGoods()
     {
         // Arrange
         var expected = _helper.Goods.Where(c => c.Id == 13);
 
         // Act
-        var actual = _repository.Query(c => c.Id == 13);
+        var actual = await _repository.QueryAsync(c => c.Id == 13);
 
         // Assert
         Assert.That(actual, Is.EqualTo(expected).Using(new GoodsEqualityComparer()),
             "The actual collection of goods is not equal to the expected.");
-        return Task.CompletedTask;
     }
 
     [Test]

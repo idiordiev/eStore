@@ -19,13 +19,13 @@ public class KeyboardService : IKeyboardService
 
     public async Task<IEnumerable<Keyboard>> GetPresentAsync()
     {
-        return await Task.FromResult(_unitOfWork.KeyboardRepository.Query(k => !k.IsDeleted));
+        return await _unitOfWork.KeyboardRepository.QueryAsync(k => !k.IsDeleted);
     }
 
     public async Task<IEnumerable<Keyboard>> GetPresentByFilterAsync(KeyboardFilterModel filter)
     {
         var queryExpression = filter.GetPredicate();
-        return await Task.FromResult(_unitOfWork.KeyboardRepository.Query(queryExpression));
+        return await _unitOfWork.KeyboardRepository.QueryAsync(queryExpression);
     }
 
     public async Task<Keyboard> GetByIdAsync(int keyboardId)

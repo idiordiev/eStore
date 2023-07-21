@@ -81,18 +81,17 @@ public class OrderItemRepositoryTests
     }
 
     [Test]
-    public Task Query_WithPredicate_ReturnsSuitableOrderItems()
+    public async Task Query_WithPredicate_ReturnsSuitableOrderItems()
     {
         // Arrange
         var expected = _helper.OrderItems.Where(c => c.Id == 13);
 
         // Act
-        var actual = _repository.Query(c => c.Id == 13);
+        var actual = await _repository.QueryAsync(c => c.Id == 13);
 
         // Assert
         Assert.That(actual, Is.EqualTo(expected).Using(new OrderItemEqualityComparer()),
             "The actual collection of order items is not equal to the expected.");
-        return Task.CompletedTask;
     }
 
     [Test]

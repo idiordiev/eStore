@@ -19,13 +19,13 @@ public class GamepadService : IGamepadService
 
     public async Task<IEnumerable<Gamepad>> GetPresentAsync()
     {
-        return await Task.FromResult(_unitOfWork.GamepadRepository.Query(g => !g.IsDeleted));
+        return await _unitOfWork.GamepadRepository.QueryAsync(g => !g.IsDeleted);
     }
 
     public async Task<IEnumerable<Gamepad>> GetPresentByFilterAsync(GamepadFilterModel filter)
     {
         var queryExpression = filter.GetPredicate();
-        return await Task.FromResult(_unitOfWork.GamepadRepository.Query(queryExpression));
+        return await _unitOfWork.GamepadRepository.QueryAsync(queryExpression);
     }
 
     public async Task<Gamepad> GetByIdAsync(int gamepadId)

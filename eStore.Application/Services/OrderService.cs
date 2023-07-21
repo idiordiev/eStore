@@ -26,7 +26,7 @@ public class OrderService : IOrderService
 
     public async Task<IEnumerable<Order>> GetOrdersByCustomerIdAsync(int customerId)
     {
-        return await Task.FromResult(_unitOfWork.OrderRepository.Query(o => o.CustomerId == customerId));
+        return await _unitOfWork.OrderRepository.QueryAsync(o => o.CustomerId == customerId);
     }
 
     public async Task<Order> GetOrderByIdAsync(int orderId)

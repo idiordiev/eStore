@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using eStore.Application.Interfaces.Data;
 using eStore.Domain.Entities;
@@ -33,13 +34,13 @@ public class OrderRepository : IRepository<Order>
             .ToListAsync();
     }
 
-    public IEnumerable<Order> Query(Func<Order, bool> predicate)
+    public async Task<IEnumerable<Order>> QueryAsync(Expression<Func<Order, bool>> predicate)
     {
-        return _context.Orders
+        return await _context.Orders
             .Include(o => o.OrderItems)
             .ThenInclude(oi => oi.Goods)
             .Where(predicate)
-            .ToList();
+            .ToListAsync();
     }
 
     public async Task AddAsync(Order entity)

@@ -19,13 +19,13 @@ public class MousepadService : IMousepadService
 
     public async Task<IEnumerable<Mousepad>> GetPresentAsync()
     {
-        return await Task.FromResult(_unitOfWork.MousepadRepository.Query(m => !m.IsDeleted));
+        return await _unitOfWork.MousepadRepository.QueryAsync(m => !m.IsDeleted);
     }
 
     public async Task<IEnumerable<Mousepad>> GetPresentByFilterAsync(MousepadFilterModel filter)
     {
         var queryExpression = filter.GetPredicate();
-        return await Task.FromResult(_unitOfWork.MousepadRepository.Query(queryExpression));
+        return await _unitOfWork.MousepadRepository.QueryAsync(queryExpression);
     }
 
     public async Task<Mousepad> GetByIdAsync(int mousepadId)

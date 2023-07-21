@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using eStore.Application.Interfaces.Data;
 using eStore.Domain.Entities;
@@ -29,11 +30,11 @@ public class MouseRepository : IRepository<Mouse>
             .ToListAsync();
     }
 
-    public IEnumerable<Mouse> Query(Func<Mouse, bool> predicate)
+    public async Task<IEnumerable<Mouse>> QueryAsync(Expression<Func<Mouse, bool>> predicate)
     {
-        return _context.Mouses
+        return await _context.Mouses
             .Where(predicate)
-            .ToList();
+            .ToListAsync();
     }
 
     public async Task AddAsync(Mouse entity)

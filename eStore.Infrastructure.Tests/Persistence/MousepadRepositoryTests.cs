@@ -71,18 +71,17 @@ public class MousepadRepositoryTests
     }
 
     [Test]
-    public Task Query_WithPredicate_ReturnsSuitableMousepads()
+    public async Task Query_WithPredicate_ReturnsSuitableMousepads()
     {
         // Arrange
         var expected = _helper.Mousepads.Where(c => c.Id == 13);
 
         // Act
-        var actual = _repository.Query(c => c.Id == 13);
+        var actual = await _repository.QueryAsync(c => c.Id == 13);
 
         // Assert
         Assert.That(actual, Is.EqualTo(expected).Using(new MousepadEqualityComparer()),
             "The actual collection of mousepads is not equal to the expected.");
-        return Task.CompletedTask;
     }
 
     [Test]

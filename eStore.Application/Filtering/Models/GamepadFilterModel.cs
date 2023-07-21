@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using eStore.Application.Filtering.Models.Shared;
 using eStore.Application.Utility;
 using eStore.Domain.Entities;
@@ -13,7 +14,7 @@ public class GamepadFilterModel : GoodsFilterModel
     public ICollection<string> Feedbacks { get; set; }
     public ICollection<string> CompatibleDevices { get; set; }
 
-    public Func<Gamepad, bool> GetPredicate()
+    public Expression<Func<Gamepad, bool>> GetPredicate()
     {
         var expression = PredicateBuilder.True<Gamepad>().And(g => !g.IsDeleted);
 
@@ -48,6 +49,6 @@ public class GamepadFilterModel : GoodsFilterModel
                 g.CompatibleDevices.Select(d => d).Distinct().Intersect(CompatibleDevices).Any());
         }
 
-        return expression.Compile();
+        return expression;
     }
 }

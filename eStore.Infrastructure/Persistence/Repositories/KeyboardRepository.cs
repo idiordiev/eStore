@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using eStore.Application.Interfaces.Data;
 using eStore.Domain.Entities;
@@ -31,12 +32,12 @@ public class KeyboardRepository : IRepository<Keyboard>
             .ToListAsync();
     }
 
-    public IEnumerable<Keyboard> Query(Func<Keyboard, bool> predicate)
+    public async Task<IEnumerable<Keyboard>> QueryAsync(Expression<Func<Keyboard, bool>> predicate)
     {
-        return _context.Keyboards
+        return await _context.Keyboards
             .Include(k => k.Switch)
             .Where(predicate)
-            .ToList();
+            .ToListAsync();
     }
 
     public async Task AddAsync(Keyboard entity)

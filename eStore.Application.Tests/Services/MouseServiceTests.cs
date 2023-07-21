@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using eStore.Application.Filtering.Models;
 using eStore.Application.Interfaces.Data;
@@ -31,8 +32,8 @@ public class MouseServiceTests
     public async Task GetPresentAsync_NotEmptyDb_ReturnsCollectionOfMouses()
     {
         // Arrange
-        _mockUnitOfWork.Setup(x => x.MouseRepository.Query(It.IsAny<Func<Mouse, bool>>()))
-            .Returns((Func<Mouse, bool> predicate) => _helper.Mouses.Where(predicate));
+        _mockUnitOfWork.Setup(x => x.MouseRepository.QueryAsync(It.IsAny<Expression<Func<Mouse, bool>>>()))
+            .ReturnsAsync((Expression<Func<Mouse, bool>> predicate) => _helper.Mouses.Where(predicate.Compile()));
         IMouseService service = new MouseService(_mockUnitOfWork.Object);
 
         var expected = _helper.Mouses.Where(m => !m.IsDeleted);
@@ -49,8 +50,8 @@ public class MouseServiceTests
     public async Task GetPresentByFilterAsync_NotDeleted_ReturnsNotDeleted()
     {
         // Arrange
-        _mockUnitOfWork.Setup(x => x.MouseRepository.Query(It.IsAny<Func<Mouse, bool>>()))
-            .Returns((Func<Mouse, bool> predicate) => _helper.Mouses.Where(predicate));
+        _mockUnitOfWork.Setup(x => x.MouseRepository.QueryAsync(It.IsAny<Expression<Func<Mouse, bool>>>()))
+            .ReturnsAsync((Expression<Func<Mouse, bool>> predicate) => _helper.Mouses.Where(predicate.Compile()));
         IMouseService service = new MouseService(_mockUnitOfWork.Object);
 
         var expected = _helper.Mouses.Where(m => !m.IsDeleted);
@@ -68,8 +69,8 @@ public class MouseServiceTests
     public async Task GetPresentByFilterAsync_NotDeletedAndSingleConnectionType_ReturnsCollection()
     {
         // Arrange
-        _mockUnitOfWork.Setup(x => x.MouseRepository.Query(It.IsAny<Func<Mouse, bool>>()))
-            .Returns((Func<Mouse, bool> predicate) => _helper.Mouses.Where(predicate));
+        _mockUnitOfWork.Setup(x => x.MouseRepository.QueryAsync(It.IsAny<Expression<Func<Mouse, bool>>>()))
+            .ReturnsAsync((Expression<Func<Mouse, bool>> predicate) => _helper.Mouses.Where(predicate.Compile()));
         IMouseService service = new MouseService(_mockUnitOfWork.Object);
 
         var expected = _helper.Mouses.Where(m => !m.IsDeleted && m.ConnectionType == "ConnectionType1");
@@ -90,8 +91,8 @@ public class MouseServiceTests
     public async Task GetPresentByFilterAsync_NotDeletedAndMultipleConnectionTypes_ReturnsCollection()
     {
         // Arrange
-        _mockUnitOfWork.Setup(x => x.MouseRepository.Query(It.IsAny<Func<Mouse, bool>>()))
-            .Returns((Func<Mouse, bool> predicate) => _helper.Mouses.Where(predicate));
+        _mockUnitOfWork.Setup(x => x.MouseRepository.QueryAsync(It.IsAny<Expression<Func<Mouse, bool>>>()))
+            .ReturnsAsync((Expression<Func<Mouse, bool>> predicate) => _helper.Mouses.Where(predicate.Compile()));
         IMouseService service = new MouseService(_mockUnitOfWork.Object);
 
         var expected =
@@ -114,8 +115,8 @@ public class MouseServiceTests
     public async Task GetPresentByFilterAsync_NotDeletedAndSingleBacklight_ReturnsCollection()
     {
         // Arrange
-        _mockUnitOfWork.Setup(x => x.MouseRepository.Query(It.IsAny<Func<Mouse, bool>>()))
-            .Returns((Func<Mouse, bool> predicate) => _helper.Mouses.Where(predicate));
+        _mockUnitOfWork.Setup(x => x.MouseRepository.QueryAsync(It.IsAny<Expression<Func<Mouse, bool>>>()))
+            .ReturnsAsync((Expression<Func<Mouse, bool>> predicate) => _helper.Mouses.Where(predicate.Compile()));
         IMouseService service = new MouseService(_mockUnitOfWork.Object);
 
         var expected = _helper.Mouses.Where(m => !m.IsDeleted && m.Backlight == "Backlight2");
@@ -136,8 +137,8 @@ public class MouseServiceTests
     public async Task GetPresentByFilterAsync_NotDeletedAndMultipleBacklights_ReturnsCollection()
     {
         // Arrange
-        _mockUnitOfWork.Setup(x => x.MouseRepository.Query(It.IsAny<Func<Mouse, bool>>()))
-            .Returns((Func<Mouse, bool> predicate) => _helper.Mouses.Where(predicate));
+        _mockUnitOfWork.Setup(x => x.MouseRepository.QueryAsync(It.IsAny<Expression<Func<Mouse, bool>>>()))
+            .ReturnsAsync((Expression<Func<Mouse, bool>> predicate) => _helper.Mouses.Where(predicate.Compile()));
         IMouseService service = new MouseService(_mockUnitOfWork.Object);
 
         var expected = _helper.Mouses.Where(m =>
@@ -159,8 +160,8 @@ public class MouseServiceTests
     public async Task GetPresentByFilterAsync_NotDeletedAndSingleManufacturer_ReturnsCollection()
     {
         // Arrange
-        _mockUnitOfWork.Setup(x => x.MouseRepository.Query(It.IsAny<Func<Mouse, bool>>()))
-            .Returns((Func<Mouse, bool> predicate) => _helper.Mouses.Where(predicate));
+        _mockUnitOfWork.Setup(x => x.MouseRepository.QueryAsync(It.IsAny<Expression<Func<Mouse, bool>>>()))
+            .ReturnsAsync((Expression<Func<Mouse, bool>> predicate) => _helper.Mouses.Where(predicate.Compile()));
         IMouseService service = new MouseService(_mockUnitOfWork.Object);
 
         var expected = _helper.Mouses.Where(m => !m.IsDeleted && m.Manufacturer == "Manufacturer3");
@@ -181,8 +182,8 @@ public class MouseServiceTests
     public async Task GetPresentByFilterAsync_NotDeletedAndMultipleManufacturers_ReturnsCollection()
     {
         // Arrange
-        _mockUnitOfWork.Setup(x => x.MouseRepository.Query(It.IsAny<Func<Mouse, bool>>()))
-            .Returns((Func<Mouse, bool> predicate) => _helper.Mouses.Where(predicate));
+        _mockUnitOfWork.Setup(x => x.MouseRepository.QueryAsync(It.IsAny<Expression<Func<Mouse, bool>>>()))
+            .ReturnsAsync((Expression<Func<Mouse, bool>> predicate) => _helper.Mouses.Where(predicate.Compile()));
         IMouseService service = new MouseService(_mockUnitOfWork.Object);
 
         var expected =
@@ -205,8 +206,8 @@ public class MouseServiceTests
     public async Task GetPresentByFilterAsync_NotDeletedAndMinPrice_ReturnsCollection()
     {
         // Arrange
-        _mockUnitOfWork.Setup(x => x.MouseRepository.Query(It.IsAny<Func<Mouse, bool>>()))
-            .Returns((Func<Mouse, bool> predicate) => _helper.Mouses.Where(predicate));
+        _mockUnitOfWork.Setup(x => x.MouseRepository.QueryAsync(It.IsAny<Expression<Func<Mouse, bool>>>()))
+            .ReturnsAsync((Expression<Func<Mouse, bool>> predicate) => _helper.Mouses.Where(predicate.Compile()));
         IMouseService service = new MouseService(_mockUnitOfWork.Object);
 
         var expected = _helper.Mouses.Where(m => !m.IsDeleted && m.Price >= 34.99m);
@@ -227,8 +228,8 @@ public class MouseServiceTests
     public async Task GetPresentByFilterAsync_NotDeletedAndMaxPrice_ReturnsCollection()
     {
         // Arrange
-        _mockUnitOfWork.Setup(x => x.MouseRepository.Query(It.IsAny<Func<Mouse, bool>>()))
-            .Returns((Func<Mouse, bool> predicate) => _helper.Mouses.Where(predicate));
+        _mockUnitOfWork.Setup(x => x.MouseRepository.QueryAsync(It.IsAny<Expression<Func<Mouse, bool>>>()))
+            .ReturnsAsync((Expression<Func<Mouse, bool>> predicate) => _helper.Mouses.Where(predicate.Compile()));
         IMouseService service = new MouseService(_mockUnitOfWork.Object);
 
         var expected = _helper.Mouses.Where(m => !m.IsDeleted && m.Price <= 34.99m);
@@ -249,8 +250,8 @@ public class MouseServiceTests
     public async Task GetPresentByFilterAsync_NotDeletedAndPrice_ReturnsCollection()
     {
         // Arrange
-        _mockUnitOfWork.Setup(x => x.MouseRepository.Query(It.IsAny<Func<Mouse, bool>>()))
-            .Returns((Func<Mouse, bool> predicate) => _helper.Mouses.Where(predicate));
+        _mockUnitOfWork.Setup(x => x.MouseRepository.QueryAsync(It.IsAny<Expression<Func<Mouse, bool>>>()))
+            .ReturnsAsync((Expression<Func<Mouse, bool>> predicate) => _helper.Mouses.Where(predicate.Compile()));
         IMouseService service = new MouseService(_mockUnitOfWork.Object);
 
         var expected = _helper.Mouses.Where(g => !g.IsDeleted && g.Price >= 34.99m && g.Price <= 44.99m);
@@ -272,8 +273,8 @@ public class MouseServiceTests
     public async Task GetPresentByFilterAsync_NotDeletedAndMinWeight_ReturnsCollection()
     {
         // Arrange
-        _mockUnitOfWork.Setup(x => x.MouseRepository.Query(It.IsAny<Func<Mouse, bool>>()))
-            .Returns((Func<Mouse, bool> predicate) => _helper.Mouses.Where(predicate));
+        _mockUnitOfWork.Setup(x => x.MouseRepository.QueryAsync(It.IsAny<Expression<Func<Mouse, bool>>>()))
+            .ReturnsAsync((Expression<Func<Mouse, bool>> predicate) => _helper.Mouses.Where(predicate.Compile()));
         IMouseService service = new MouseService(_mockUnitOfWork.Object);
 
         var expected = _helper.Mouses.Where(m => !m.IsDeleted && m.Weight >= 70);
@@ -294,8 +295,8 @@ public class MouseServiceTests
     public async Task GetPresentByFilterAsync_NotDeletedAndMaxWeight_ReturnsCollection()
     {
         // Arrange
-        _mockUnitOfWork.Setup(x => x.MouseRepository.Query(It.IsAny<Func<Mouse, bool>>()))
-            .Returns((Func<Mouse, bool> predicate) => _helper.Mouses.Where(predicate));
+        _mockUnitOfWork.Setup(x => x.MouseRepository.QueryAsync(It.IsAny<Expression<Func<Mouse, bool>>>()))
+            .ReturnsAsync((Expression<Func<Mouse, bool>> predicate) => _helper.Mouses.Where(predicate.Compile()));
         IMouseService service = new MouseService(_mockUnitOfWork.Object);
 
         var expected = _helper.Mouses.Where(m => !m.IsDeleted && m.Weight <= 70);
@@ -316,8 +317,8 @@ public class MouseServiceTests
     public async Task GetPresentByFilterAsync_NotDeletedAndWeight_ReturnsCollection()
     {
         // Arrange
-        _mockUnitOfWork.Setup(x => x.MouseRepository.Query(It.IsAny<Func<Mouse, bool>>()))
-            .Returns((Func<Mouse, bool> predicate) => _helper.Mouses.Where(predicate));
+        _mockUnitOfWork.Setup(x => x.MouseRepository.QueryAsync(It.IsAny<Expression<Func<Mouse, bool>>>()))
+            .ReturnsAsync((Expression<Func<Mouse, bool>> predicate) => _helper.Mouses.Where(predicate.Compile()));
         IMouseService service = new MouseService(_mockUnitOfWork.Object);
 
         var expected = _helper.Mouses.Where(m => !m.IsDeleted && m.Weight >= 70 && m.Weight <= 83);

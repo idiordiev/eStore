@@ -26,7 +26,7 @@ public class CustomerService : ICustomerService
 
     public async Task AddCustomerAsync(Customer customer)
     {
-        var existingCustomers = _unitOfWork.CustomerRepository.Query(c => c.Email == customer.Email);
+        var existingCustomers = await _unitOfWork.CustomerRepository.QueryAsync(c => c.Email == customer.Email);
         if (existingCustomers.Any())
         {
             throw new EmailNotUniqueException($"The email {customer.Email} is already used.");

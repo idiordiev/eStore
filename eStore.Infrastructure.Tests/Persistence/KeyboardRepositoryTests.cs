@@ -73,18 +73,17 @@ public class KeyboardRepositoryTests
     }
 
     [Test]
-    public Task Query_WithPredicate_ReturnsSuitableKeyboards()
+    public async Task Query_WithPredicate_ReturnsSuitableKeyboards()
     {
         // Arrange
         var expected = _helper.Keyboards.Where(c => c.Id == 5);
 
         // Act
-        var actual = _repository.Query(c => c.Id == 5);
+        var actual = await _repository.QueryAsync(c => c.Id == 5);
 
         // Assert
         Assert.That(actual, Is.EqualTo(expected).Using(new KeyboardEqualityComparer()),
             "The actual collection of keyboards is not equal to the expected.");
-        return Task.CompletedTask;
     }
 
     [Test]

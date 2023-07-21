@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using eStore.Application.Filtering.Models;
 using eStore.Application.Interfaces.Data;
@@ -31,8 +32,8 @@ public class KeyboardServiceTests
     public async Task GetPresentAsync_NotEmptyDb_ReturnsCollectionOfKeyboards()
     {
         // Arrange
-        _mockUnitOfWork.Setup(x => x.KeyboardRepository.Query(It.IsAny<Func<Keyboard, bool>>()))
-            .Returns((Func<Keyboard, bool> predicate) => _helper.Keyboards.Where(predicate));
+        _mockUnitOfWork.Setup(x => x.KeyboardRepository.QueryAsync(It.IsAny<Expression<Func<Keyboard, bool>>>()))
+            .ReturnsAsync((Expression<Func<Keyboard, bool>> predicate) => _helper.Keyboards.Where(predicate.Compile()));
         IKeyboardService service = new KeyboardService(_mockUnitOfWork.Object);
 
         var expected = _helper.Keyboards.Where(k => !k.IsDeleted);
@@ -49,8 +50,8 @@ public class KeyboardServiceTests
     public async Task GetPresentByFilterAsync_OnlyNotDeleted_ReturnsCollection()
     {
         // Arrange
-        _mockUnitOfWork.Setup(x => x.KeyboardRepository.Query(It.IsAny<Func<Keyboard, bool>>()))
-            .Returns((Func<Keyboard, bool> predicate) => _helper.Keyboards.Where(predicate));
+        _mockUnitOfWork.Setup(x => x.KeyboardRepository.QueryAsync(It.IsAny<Expression<Func<Keyboard, bool>>>()))
+            .ReturnsAsync((Expression<Func<Keyboard, bool>> predicate) => _helper.Keyboards.Where(predicate.Compile()));
         IKeyboardService service = new KeyboardService(_mockUnitOfWork.Object);
 
         var expected = _helper.Keyboards.Where(k => !k.IsDeleted);
@@ -68,8 +69,8 @@ public class KeyboardServiceTests
     public async Task GetPresentByFilterAsync_NotDeletedAndSingleConnectionType_ReturnsCollection()
     {
         // Arrange
-        _mockUnitOfWork.Setup(x => x.KeyboardRepository.Query(It.IsAny<Func<Keyboard, bool>>()))
-            .Returns((Func<Keyboard, bool> predicate) => _helper.Keyboards.Where(predicate));
+        _mockUnitOfWork.Setup(x => x.KeyboardRepository.QueryAsync(It.IsAny<Expression<Func<Keyboard, bool>>>()))
+            .ReturnsAsync((Expression<Func<Keyboard, bool>> predicate) => _helper.Keyboards.Where(predicate.Compile()));
         IKeyboardService service = new KeyboardService(_mockUnitOfWork.Object);
 
         var expected = _helper.Keyboards.Where(k => !k.IsDeleted && k.ConnectionType == "ConnectionType1");
@@ -90,8 +91,8 @@ public class KeyboardServiceTests
     public async Task GetPresentByFilterAsync_NotDeletedAndMultipleConnectionTypes_ReturnsCollection()
     {
         // Arrange
-        _mockUnitOfWork.Setup(x => x.KeyboardRepository.Query(It.IsAny<Func<Keyboard, bool>>()))
-            .Returns((Func<Keyboard, bool> predicate) => _helper.Keyboards.Where(predicate));
+        _mockUnitOfWork.Setup(x => x.KeyboardRepository.QueryAsync(It.IsAny<Expression<Func<Keyboard, bool>>>()))
+            .ReturnsAsync((Expression<Func<Keyboard, bool>> predicate) => _helper.Keyboards.Where(predicate.Compile()));
         IKeyboardService service = new KeyboardService(_mockUnitOfWork.Object);
 
         var expected = _helper.Keyboards.Where(k =>
@@ -115,8 +116,8 @@ public class KeyboardServiceTests
     public async Task GetPresentByFilterAsync_NotDeletedAndSingleSwitch_ReturnsCollection()
     {
         // Arrange
-        _mockUnitOfWork.Setup(x => x.KeyboardRepository.Query(It.IsAny<Func<Keyboard, bool>>()))
-            .Returns((Func<Keyboard, bool> predicate) => _helper.Keyboards.Where(predicate));
+        _mockUnitOfWork.Setup(x => x.KeyboardRepository.QueryAsync(It.IsAny<Expression<Func<Keyboard, bool>>>()))
+            .ReturnsAsync((Expression<Func<Keyboard, bool>> predicate) => _helper.Keyboards.Where(predicate.Compile()));
         IKeyboardService service = new KeyboardService(_mockUnitOfWork.Object);
 
         var expected = _helper.Keyboards.Where(k => !k.IsDeleted && k.SwitchId == 1);
@@ -137,8 +138,8 @@ public class KeyboardServiceTests
     public async Task GetPresentByFilterAsync_NotDeletedAndMultipleSwitches_ReturnsCollection()
     {
         // Arrange
-        _mockUnitOfWork.Setup(x => x.KeyboardRepository.Query(It.IsAny<Func<Keyboard, bool>>()))
-            .Returns((Func<Keyboard, bool> predicate) => _helper.Keyboards.Where(predicate));
+        _mockUnitOfWork.Setup(x => x.KeyboardRepository.QueryAsync(It.IsAny<Expression<Func<Keyboard, bool>>>()))
+            .ReturnsAsync((Expression<Func<Keyboard, bool>> predicate) => _helper.Keyboards.Where(predicate.Compile()));
         IKeyboardService service = new KeyboardService(_mockUnitOfWork.Object);
 
         var expected = _helper.Keyboards.Where(k => !k.IsDeleted && (k.SwitchId == 1 || k.SwitchId == 2));
@@ -159,8 +160,8 @@ public class KeyboardServiceTests
     public async Task GetPresentByFilterAsync_NotDeletedAndSingleType_ReturnsCollection()
     {
         // Arrange
-        _mockUnitOfWork.Setup(x => x.KeyboardRepository.Query(It.IsAny<Func<Keyboard, bool>>()))
-            .Returns((Func<Keyboard, bool> predicate) => _helper.Keyboards.Where(predicate));
+        _mockUnitOfWork.Setup(x => x.KeyboardRepository.QueryAsync(It.IsAny<Expression<Func<Keyboard, bool>>>()))
+            .ReturnsAsync((Expression<Func<Keyboard, bool>> predicate) => _helper.Keyboards.Where(predicate.Compile()));
         IKeyboardService service = new KeyboardService(_mockUnitOfWork.Object);
 
         var expected = _helper.Keyboards.Where(k => !k.IsDeleted && k.Type == "Type1");
@@ -181,8 +182,8 @@ public class KeyboardServiceTests
     public async Task GetPresentByFilterAsync_NotDeletedAndMultipleTypes_ReturnsCollection()
     {
         // Arrange
-        _mockUnitOfWork.Setup(x => x.KeyboardRepository.Query(It.IsAny<Func<Keyboard, bool>>()))
-            .Returns((Func<Keyboard, bool> predicate) => _helper.Keyboards.Where(predicate));
+        _mockUnitOfWork.Setup(x => x.KeyboardRepository.QueryAsync(It.IsAny<Expression<Func<Keyboard, bool>>>()))
+            .ReturnsAsync((Expression<Func<Keyboard, bool>> predicate) => _helper.Keyboards.Where(predicate.Compile()));
         IKeyboardService service = new KeyboardService(_mockUnitOfWork.Object);
 
         var expected = _helper.Keyboards.Where(k => !k.IsDeleted && (k.Type == "Type1" || k.Type == "Type2"));
@@ -203,8 +204,8 @@ public class KeyboardServiceTests
     public async Task GetPresentByFilterAsync_NotDeletedAndSingleSize_ReturnsCollection()
     {
         // Arrange
-        _mockUnitOfWork.Setup(x => x.KeyboardRepository.Query(It.IsAny<Func<Keyboard, bool>>()))
-            .Returns((Func<Keyboard, bool> predicate) => _helper.Keyboards.Where(predicate));
+        _mockUnitOfWork.Setup(x => x.KeyboardRepository.QueryAsync(It.IsAny<Expression<Func<Keyboard, bool>>>()))
+            .ReturnsAsync((Expression<Func<Keyboard, bool>> predicate) => _helper.Keyboards.Where(predicate.Compile()));
         IKeyboardService service = new KeyboardService(_mockUnitOfWork.Object);
 
         var expected = _helper.Keyboards.Where(k => !k.IsDeleted && k.Size == "Size1");
@@ -225,8 +226,8 @@ public class KeyboardServiceTests
     public async Task GetPresentByFilterAsync_NotDeletedAndMultipleSizes_ReturnsCollection()
     {
         // Arrange
-        _mockUnitOfWork.Setup(x => x.KeyboardRepository.Query(It.IsAny<Func<Keyboard, bool>>()))
-            .Returns((Func<Keyboard, bool> predicate) => _helper.Keyboards.Where(predicate));
+        _mockUnitOfWork.Setup(x => x.KeyboardRepository.QueryAsync(It.IsAny<Expression<Func<Keyboard, bool>>>()))
+            .ReturnsAsync((Expression<Func<Keyboard, bool>> predicate) => _helper.Keyboards.Where(predicate.Compile()));
         IKeyboardService service = new KeyboardService(_mockUnitOfWork.Object);
 
         var expected = _helper.Keyboards.Where(k => !k.IsDeleted && (k.Size == "Size1" || k.Size == "Size2"));
@@ -247,8 +248,8 @@ public class KeyboardServiceTests
     public async Task GetPresentByFilterAsync_NotDeletedAndSingleBacklight_ReturnsCollection()
     {
         // Arrange
-        _mockUnitOfWork.Setup(x => x.KeyboardRepository.Query(It.IsAny<Func<Keyboard, bool>>()))
-            .Returns((Func<Keyboard, bool> predicate) => _helper.Keyboards.Where(predicate));
+        _mockUnitOfWork.Setup(x => x.KeyboardRepository.QueryAsync(It.IsAny<Expression<Func<Keyboard, bool>>>()))
+            .ReturnsAsync((Expression<Func<Keyboard, bool>> predicate) => _helper.Keyboards.Where(predicate.Compile()));
         IKeyboardService service = new KeyboardService(_mockUnitOfWork.Object);
 
         var expected = _helper.Keyboards.Where(k => !k.IsDeleted && k.Backlight == "Backlight1");
@@ -269,8 +270,8 @@ public class KeyboardServiceTests
     public async Task GetPresentByFilterAsync_NotDeletedAndMultipleBacklights_ReturnsCollection()
     {
         // Arrange
-        _mockUnitOfWork.Setup(x => x.KeyboardRepository.Query(It.IsAny<Func<Keyboard, bool>>()))
-            .Returns((Func<Keyboard, bool> predicate) => _helper.Keyboards.Where(predicate));
+        _mockUnitOfWork.Setup(x => x.KeyboardRepository.QueryAsync(It.IsAny<Expression<Func<Keyboard, bool>>>()))
+            .ReturnsAsync((Expression<Func<Keyboard, bool>> predicate) => _helper.Keyboards.Where(predicate.Compile()));
         IKeyboardService service = new KeyboardService(_mockUnitOfWork.Object);
 
         var expected =
@@ -293,8 +294,8 @@ public class KeyboardServiceTests
     public async Task GetPresentByFilterAsync_NotDeletedAndSingleKeyRollover_ReturnsCollection()
     {
         // Arrange
-        _mockUnitOfWork.Setup(x => x.KeyboardRepository.Query(It.IsAny<Func<Keyboard, bool>>()))
-            .Returns((Func<Keyboard, bool> predicate) => _helper.Keyboards.Where(predicate));
+        _mockUnitOfWork.Setup(x => x.KeyboardRepository.QueryAsync(It.IsAny<Expression<Func<Keyboard, bool>>>()))
+            .ReturnsAsync((Expression<Func<Keyboard, bool>> predicate) => _helper.Keyboards.Where(predicate.Compile()));
         IKeyboardService service = new KeyboardService(_mockUnitOfWork.Object);
 
         var expected = _helper.Keyboards.Where(k => !k.IsDeleted && k.KeyRollover == "Rollover1");
@@ -315,8 +316,8 @@ public class KeyboardServiceTests
     public async Task GetPresentByFilterAsync_NotDeletedAndMultipleKeyRollovers_ReturnsCollection()
     {
         // Arrange
-        _mockUnitOfWork.Setup(x => x.KeyboardRepository.Query(It.IsAny<Func<Keyboard, bool>>()))
-            .Returns((Func<Keyboard, bool> predicate) => _helper.Keyboards.Where(predicate));
+        _mockUnitOfWork.Setup(x => x.KeyboardRepository.QueryAsync(It.IsAny<Expression<Func<Keyboard, bool>>>()))
+            .ReturnsAsync((Expression<Func<Keyboard, bool>> predicate) => _helper.Keyboards.Where(predicate.Compile()));
         IKeyboardService service = new KeyboardService(_mockUnitOfWork.Object);
 
         var expected =
@@ -339,8 +340,8 @@ public class KeyboardServiceTests
     public async Task GetPresentByFilterAsync_NotDeletedAndSingleManufacturer_ReturnsCollection()
     {
         // Arrange
-        _mockUnitOfWork.Setup(x => x.KeyboardRepository.Query(It.IsAny<Func<Keyboard, bool>>()))
-            .Returns((Func<Keyboard, bool> predicate) => _helper.Keyboards.Where(predicate));
+        _mockUnitOfWork.Setup(x => x.KeyboardRepository.QueryAsync(It.IsAny<Expression<Func<Keyboard, bool>>>()))
+            .ReturnsAsync((Expression<Func<Keyboard, bool>> predicate) => _helper.Keyboards.Where(predicate.Compile()));
         IKeyboardService service = new KeyboardService(_mockUnitOfWork.Object);
 
         var expected = _helper.Keyboards.Where(k => !k.IsDeleted && k.Manufacturer == "Manufacturer4");
@@ -361,8 +362,8 @@ public class KeyboardServiceTests
     public async Task GetPresentByFilterAsync_NotDeletedAndMultipleManufacturers_ReturnsCollection()
     {
         // Arrange
-        _mockUnitOfWork.Setup(x => x.KeyboardRepository.Query(It.IsAny<Func<Keyboard, bool>>()))
-            .Returns((Func<Keyboard, bool> predicate) => _helper.Keyboards.Where(predicate));
+        _mockUnitOfWork.Setup(x => x.KeyboardRepository.QueryAsync(It.IsAny<Expression<Func<Keyboard, bool>>>()))
+            .ReturnsAsync((Expression<Func<Keyboard, bool>> predicate) => _helper.Keyboards.Where(predicate.Compile()));
         IKeyboardService service = new KeyboardService(_mockUnitOfWork.Object);
 
         var expected =
@@ -385,8 +386,8 @@ public class KeyboardServiceTests
     public async Task GetPresentByFilterAsync_NotDeletedAndMinPrice_ReturnsCollection()
     {
         // Arrange
-        _mockUnitOfWork.Setup(x => x.KeyboardRepository.Query(It.IsAny<Func<Keyboard, bool>>()))
-            .Returns((Func<Keyboard, bool> predicate) => _helper.Keyboards.Where(predicate));
+        _mockUnitOfWork.Setup(x => x.KeyboardRepository.QueryAsync(It.IsAny<Expression<Func<Keyboard, bool>>>()))
+            .ReturnsAsync((Expression<Func<Keyboard, bool>> predicate) => _helper.Keyboards.Where(predicate.Compile()));
         IKeyboardService service = new KeyboardService(_mockUnitOfWork.Object);
 
         var expected = _helper.Keyboards.Where(k => !k.IsDeleted && k.Price >= 47.99m);
@@ -407,8 +408,8 @@ public class KeyboardServiceTests
     public async Task GetPresentByFilterAsync_NotDeletedAndMaxPrice_ReturnsCollection()
     {
         // Arrange
-        _mockUnitOfWork.Setup(x => x.KeyboardRepository.Query(It.IsAny<Func<Keyboard, bool>>()))
-            .Returns((Func<Keyboard, bool> predicate) => _helper.Keyboards.Where(predicate));
+        _mockUnitOfWork.Setup(x => x.KeyboardRepository.QueryAsync(It.IsAny<Expression<Func<Keyboard, bool>>>()))
+            .ReturnsAsync((Expression<Func<Keyboard, bool>> predicate) => _helper.Keyboards.Where(predicate.Compile()));
         IKeyboardService service = new KeyboardService(_mockUnitOfWork.Object);
 
         var expected = _helper.Keyboards.Where(k => !k.IsDeleted && k.Price <= 47.99m);
@@ -429,8 +430,8 @@ public class KeyboardServiceTests
     public async Task GetPresentByFilterAsync_NotDeletedAndPrice_ReturnsCollection()
     {
         // Arrange
-        _mockUnitOfWork.Setup(x => x.KeyboardRepository.Query(It.IsAny<Func<Keyboard, bool>>()))
-            .Returns((Func<Keyboard, bool> predicate) => _helper.Keyboards.Where(predicate));
+        _mockUnitOfWork.Setup(x => x.KeyboardRepository.QueryAsync(It.IsAny<Expression<Func<Keyboard, bool>>>()))
+            .ReturnsAsync((Expression<Func<Keyboard, bool>> predicate) => _helper.Keyboards.Where(predicate.Compile()));
         IKeyboardService service = new KeyboardService(_mockUnitOfWork.Object);
 
         var expected = _helper.Keyboards.Where(k => !k.IsDeleted && k.Price <= 57.99m && k.Price >= 47.99m);
@@ -452,8 +453,8 @@ public class KeyboardServiceTests
     public async Task GetPresentByFilterAsync_NotDeletedAndAllOtherParameters_ReturnsFirst()
     {
         // Arrange
-        _mockUnitOfWork.Setup(x => x.KeyboardRepository.Query(It.IsAny<Func<Keyboard, bool>>()))
-            .Returns((Func<Keyboard, bool> predicate) => _helper.Keyboards.Where(predicate));
+        _mockUnitOfWork.Setup(x => x.KeyboardRepository.QueryAsync(It.IsAny<Expression<Func<Keyboard, bool>>>()))
+            .ReturnsAsync((Expression<Func<Keyboard, bool>> predicate) => _helper.Keyboards.Where(predicate.Compile()));
         IKeyboardService service = new KeyboardService(_mockUnitOfWork.Object);
 
         var expected = _helper.Keyboards.Where(k => !k.IsDeleted);

@@ -71,18 +71,17 @@ public class MouseRepositoryTests
     }
 
     [Test]
-    public Task Query_WithPredicate_ReturnsSuitableMouses()
+    public async Task Query_WithPredicate_ReturnsSuitableMouses()
     {
         // Arrange
         var expected = _helper.Mouses.Where(c => c.Id == 13);
 
         // Act
-        var actual = _repository.Query(c => c.Id == 13);
+        var actual = await _repository.QueryAsync(c => c.Id == 13);
 
         // Assert
         Assert.That(actual, Is.EqualTo(expected).Using(new MouseEqualityComparer()),
             "The actual collection of mouses is not equal to the expected.");
-        return Task.CompletedTask;
     }
 
     [Test]

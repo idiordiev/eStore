@@ -71,18 +71,17 @@ public class GamepadRepositoryTests
     }
 
     [Test]
-    public Task Query_WithPredicate_ReturnsSuitableGamepads()
+    public async Task Query_WithPredicate_ReturnsSuitableGamepads()
     {
         // Arrange
         var expected = _helper.Gamepads.Where(c => c.Id == 2);
 
         // Act
-        var actual = _repository.Query(c => c.Id == 2);
+        var actual = await _repository.QueryAsync(c => c.Id == 2);
 
         // Assert
         Assert.That(actual, Is.EqualTo(expected).Using(new GamepadEqualityComparer()),
             "The actual collection of gamepads is not equal to the expected.");
-        return Task.CompletedTask;
     }
 
     [Test]

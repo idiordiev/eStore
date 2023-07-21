@@ -73,18 +73,17 @@ public class OrderRepositoryTests
     }
 
     [Test]
-    public Task Query_WithPredicate_ReturnsSuitableOrders()
+    public async Task Query_WithPredicate_ReturnsSuitableOrders()
     {
         // Arrange
         var expected = _helper.Orders.Where(c => c.Id == 2);
 
         // Act
-        var actual = _repository.Query(c => c.Id == 2);
+        var actual = await _repository.QueryAsync(c => c.Id == 2);
 
         // Assert
         Assert.That(actual, Is.EqualTo(expected).Using(new OrderEqualityComparer()),
             "The actual collection of orders is not equal to the expected.");
-        return Task.CompletedTask;
     }
 
     [Test]

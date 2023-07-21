@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using eStore.Application.Filtering.Models.Shared;
 using eStore.Application.Utility;
 using eStore.Domain.Entities;
@@ -16,7 +17,7 @@ public class KeyboardFilterModel : GoodsFilterModel
     public ICollection<string> KeyRollovers { get; set; }
     public ICollection<string> Backlights { get; set; }
 
-    public Func<Keyboard, bool> GetPredicate()
+    public Expression<Func<Keyboard, bool>> GetPredicate()
     {
         var expression = PredicateBuilder.True<Keyboard>().And(k => !k.IsDeleted);
 
@@ -65,6 +66,6 @@ public class KeyboardFilterModel : GoodsFilterModel
             expression = expression.And(k => Backlights.Contains(k.Backlight));
         }
 
-        return expression.Compile();
+        return expression;
     }
 }

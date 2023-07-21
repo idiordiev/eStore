@@ -19,13 +19,13 @@ public class MouseService : IMouseService
 
     public async Task<IEnumerable<Mouse>> GetPresentAsync()
     {
-        return await Task.FromResult(_unitOfWork.MouseRepository.Query(m => !m.IsDeleted));
+        return await _unitOfWork.MouseRepository.QueryAsync(m => !m.IsDeleted);
     }
 
     public async Task<IEnumerable<Mouse>> GetPresentByFilterAsync(MouseFilterModel filter)
     {
         var queryExpression = filter.GetPredicate();
-        return await Task.FromResult(_unitOfWork.MouseRepository.Query(queryExpression));
+        return await _unitOfWork.MouseRepository.QueryAsync(queryExpression);
     }
 
     public async Task<Mouse> GetByIdAsync(int mouseId)

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using eStore.Application.Filtering.Models;
 using eStore.Application.Interfaces.Data;
@@ -31,8 +32,8 @@ public class MousepadServiceTests
     public async Task GetPresentAsync_NotEmptyDb_ReturnsCollectionOfMousepads()
     {
         // Arrange
-        _mockUnitOfWork.Setup(x => x.MousepadRepository.Query(It.IsAny<Func<Mousepad, bool>>()))
-            .Returns((Func<Mousepad, bool> predicate) => _helper.Mousepads.Where(predicate));
+        _mockUnitOfWork.Setup(x => x.MousepadRepository.QueryAsync(It.IsAny<Expression<Func<Mousepad, bool>>>()))
+            .ReturnsAsync((Expression<Func<Mousepad, bool>> predicate) => _helper.Mousepads.Where(predicate.Compile()));
         IMousepadService service = new MousepadService(_mockUnitOfWork.Object);
 
         var expected = _helper.Mousepads.Where(m => !m.IsDeleted);
@@ -49,8 +50,8 @@ public class MousepadServiceTests
     public async Task GetPresentByFilterAsync_OnlyNotDeleted_ReturnsCollection()
     {
         // Arrange
-        _mockUnitOfWork.Setup(x => x.MousepadRepository.Query(It.IsAny<Func<Mousepad, bool>>()))
-            .Returns((Func<Mousepad, bool> predicate) => _helper.Mousepads.Where(predicate));
+        _mockUnitOfWork.Setup(x => x.MousepadRepository.QueryAsync(It.IsAny<Expression<Func<Mousepad, bool>>>()))
+            .ReturnsAsync((Expression<Func<Mousepad, bool>> predicate) => _helper.Mousepads.Where(predicate.Compile()));
         IMousepadService service = new MousepadService(_mockUnitOfWork.Object);
 
         var expected = _helper.Mousepads.Where(m => !m.IsDeleted);
@@ -68,8 +69,8 @@ public class MousepadServiceTests
     public async Task GetPresentByFilterAsync_NotDeletedAndSingleBottomMaterial_ReturnsCollection()
     {
         // Arrange
-        _mockUnitOfWork.Setup(x => x.MousepadRepository.Query(It.IsAny<Func<Mousepad, bool>>()))
-            .Returns((Func<Mousepad, bool> predicate) => _helper.Mousepads.Where(predicate));
+        _mockUnitOfWork.Setup(x => x.MousepadRepository.QueryAsync(It.IsAny<Expression<Func<Mousepad, bool>>>()))
+            .ReturnsAsync((Expression<Func<Mousepad, bool>> predicate) => _helper.Mousepads.Where(predicate.Compile()));
         IMousepadService service = new MousepadService(_mockUnitOfWork.Object);
 
         var expected = _helper.Mousepads.Where(m => !m.IsDeleted && m.BottomMaterial == "Material4");
@@ -90,8 +91,8 @@ public class MousepadServiceTests
     public async Task GetPresentByFilterAsync_NotDeletedAndMultipleBottomMaterials_ReturnsCollection()
     {
         // Arrange
-        _mockUnitOfWork.Setup(x => x.MousepadRepository.Query(It.IsAny<Func<Mousepad, bool>>()))
-            .Returns((Func<Mousepad, bool> predicate) => _helper.Mousepads.Where(predicate));
+        _mockUnitOfWork.Setup(x => x.MousepadRepository.QueryAsync(It.IsAny<Expression<Func<Mousepad, bool>>>()))
+            .ReturnsAsync((Expression<Func<Mousepad, bool>> predicate) => _helper.Mousepads.Where(predicate.Compile()));
         IMousepadService service = new MousepadService(_mockUnitOfWork.Object);
 
         var expected =
@@ -114,8 +115,8 @@ public class MousepadServiceTests
     public async Task GetPresentByFilterAsync_NotDeletedAndSingleTopMaterial_ReturnsCollection()
     {
         // Arrange
-        _mockUnitOfWork.Setup(x => x.MousepadRepository.Query(It.IsAny<Func<Mousepad, bool>>()))
-            .Returns((Func<Mousepad, bool> predicate) => _helper.Mousepads.Where(predicate));
+        _mockUnitOfWork.Setup(x => x.MousepadRepository.QueryAsync(It.IsAny<Expression<Func<Mousepad, bool>>>()))
+            .ReturnsAsync((Expression<Func<Mousepad, bool>> predicate) => _helper.Mousepads.Where(predicate.Compile()));
         IMousepadService service = new MousepadService(_mockUnitOfWork.Object);
 
         var expected = _helper.Mousepads.Where(m => !m.IsDeleted && m.TopMaterial == "Material5");
@@ -136,8 +137,8 @@ public class MousepadServiceTests
     public async Task GetPresentByFilterAsync_NotDeletedAndMultipleTopMaterials_ReturnsCollection()
     {
         // Arrange
-        _mockUnitOfWork.Setup(x => x.MousepadRepository.Query(It.IsAny<Func<Mousepad, bool>>()))
-            .Returns((Func<Mousepad, bool> predicate) => _helper.Mousepads.Where(predicate));
+        _mockUnitOfWork.Setup(x => x.MousepadRepository.QueryAsync(It.IsAny<Expression<Func<Mousepad, bool>>>()))
+            .ReturnsAsync((Expression<Func<Mousepad, bool>> predicate) => _helper.Mousepads.Where(predicate.Compile()));
         IMousepadService service = new MousepadService(_mockUnitOfWork.Object);
 
         var expected =
@@ -160,8 +161,8 @@ public class MousepadServiceTests
     public async Task GetPresentByFilterAsync_NotDeletedAndSingleBacklight_ReturnsCollection()
     {
         // Arrange
-        _mockUnitOfWork.Setup(x => x.MousepadRepository.Query(It.IsAny<Func<Mousepad, bool>>()))
-            .Returns((Func<Mousepad, bool> predicate) => _helper.Mousepads.Where(predicate));
+        _mockUnitOfWork.Setup(x => x.MousepadRepository.QueryAsync(It.IsAny<Expression<Func<Mousepad, bool>>>()))
+            .ReturnsAsync((Expression<Func<Mousepad, bool>> predicate) => _helper.Mousepads.Where(predicate.Compile()));
         IMousepadService service = new MousepadService(_mockUnitOfWork.Object);
 
         var expected = _helper.Mousepads.Where(m => !m.IsDeleted && m.Backlight == "Backlight1");
@@ -182,8 +183,8 @@ public class MousepadServiceTests
     public async Task GetPresentByFilterAsync_NotDeletedAndMultipleBacklights_ReturnsCollection()
     {
         // Arrange
-        _mockUnitOfWork.Setup(x => x.MousepadRepository.Query(It.IsAny<Func<Mousepad, bool>>()))
-            .Returns((Func<Mousepad, bool> predicate) => _helper.Mousepads.Where(predicate));
+        _mockUnitOfWork.Setup(x => x.MousepadRepository.QueryAsync(It.IsAny<Expression<Func<Mousepad, bool>>>()))
+            .ReturnsAsync((Expression<Func<Mousepad, bool>> predicate) => _helper.Mousepads.Where(predicate.Compile()));
         IMousepadService service = new MousepadService(_mockUnitOfWork.Object);
 
         var expected =
@@ -206,8 +207,8 @@ public class MousepadServiceTests
     public async Task GetPresentByFilterAsync_NotDeletedAndNotStitched_ReturnsCollection()
     {
         // Arrange
-        _mockUnitOfWork.Setup(x => x.MousepadRepository.Query(It.IsAny<Func<Mousepad, bool>>()))
-            .Returns((Func<Mousepad, bool> predicate) => _helper.Mousepads.Where(predicate));
+        _mockUnitOfWork.Setup(x => x.MousepadRepository.QueryAsync(It.IsAny<Expression<Func<Mousepad, bool>>>()))
+            .ReturnsAsync((Expression<Func<Mousepad, bool>> predicate) => _helper.Mousepads.Where(predicate.Compile()));
         IMousepadService service = new MousepadService(_mockUnitOfWork.Object);
 
         var expected = _helper.Mousepads.Where(m => !m.IsDeleted && !m.IsStitched);
@@ -228,8 +229,8 @@ public class MousepadServiceTests
     public async Task GetPresentByFilterAsync_NotDeletedAndStitched_ReturnsCollection()
     {
         // Arrange
-        _mockUnitOfWork.Setup(x => x.MousepadRepository.Query(It.IsAny<Func<Mousepad, bool>>()))
-            .Returns((Func<Mousepad, bool> predicate) => _helper.Mousepads.Where(predicate));
+        _mockUnitOfWork.Setup(x => x.MousepadRepository.QueryAsync(It.IsAny<Expression<Func<Mousepad, bool>>>()))
+            .ReturnsAsync((Expression<Func<Mousepad, bool>> predicate) => _helper.Mousepads.Where(predicate.Compile()));
         IMousepadService service = new MousepadService(_mockUnitOfWork.Object);
 
         var expected = _helper.Mousepads.Where(m => !m.IsDeleted && m.IsStitched);
@@ -250,8 +251,8 @@ public class MousepadServiceTests
     public async Task GetPresentByFilterAsync_NotDeletedAndMultipleIsStitchedValues_ReturnsCollection()
     {
         // Arrange
-        _mockUnitOfWork.Setup(x => x.MousepadRepository.Query(It.IsAny<Func<Mousepad, bool>>()))
-            .Returns((Func<Mousepad, bool> predicate) => _helper.Mousepads.Where(predicate));
+        _mockUnitOfWork.Setup(x => x.MousepadRepository.QueryAsync(It.IsAny<Expression<Func<Mousepad, bool>>>()))
+            .ReturnsAsync((Expression<Func<Mousepad, bool>> predicate) => _helper.Mousepads.Where(predicate.Compile()));
         IMousepadService service = new MousepadService(_mockUnitOfWork.Object);
 
         var expected = _helper.Mousepads.Where(m => !m.IsDeleted && (m.IsStitched || !m.IsStitched));
@@ -272,8 +273,8 @@ public class MousepadServiceTests
     public async Task GetPresentByFilterAsync_NotDeletedAndSingleManufacturer_ReturnsCollection()
     {
         // Arrange
-        _mockUnitOfWork.Setup(x => x.MousepadRepository.Query(It.IsAny<Func<Mousepad, bool>>()))
-            .Returns((Func<Mousepad, bool> predicate) => _helper.Mousepads.Where(predicate));
+        _mockUnitOfWork.Setup(x => x.MousepadRepository.QueryAsync(It.IsAny<Expression<Func<Mousepad, bool>>>()))
+            .ReturnsAsync((Expression<Func<Mousepad, bool>> predicate) => _helper.Mousepads.Where(predicate.Compile()));
         IMousepadService service = new MousepadService(_mockUnitOfWork.Object);
 
         var expected = _helper.Mousepads.Where(m => !m.IsDeleted && m.Manufacturer == "Manufacturer4");
@@ -294,8 +295,8 @@ public class MousepadServiceTests
     public async Task GetPresentByFilterAsync_NotDeletedAndMultipleManufacturers_ReturnsCollection()
     {
         // Arrange
-        _mockUnitOfWork.Setup(x => x.MousepadRepository.Query(It.IsAny<Func<Mousepad, bool>>()))
-            .Returns((Func<Mousepad, bool> predicate) => _helper.Mousepads.Where(predicate));
+        _mockUnitOfWork.Setup(x => x.MousepadRepository.QueryAsync(It.IsAny<Expression<Func<Mousepad, bool>>>()))
+            .ReturnsAsync((Expression<Func<Mousepad, bool>> predicate) => _helper.Mousepads.Where(predicate.Compile()));
         IMousepadService service = new MousepadService(_mockUnitOfWork.Object);
 
         var expected = _helper.Mousepads.Where(m =>
@@ -317,8 +318,8 @@ public class MousepadServiceTests
     public async Task GetPresentByFilterAsync_NotDeletedAndMinPrice_ReturnsCollection()
     {
         // Arrange
-        _mockUnitOfWork.Setup(x => x.MousepadRepository.Query(It.IsAny<Func<Mousepad, bool>>()))
-            .Returns((Func<Mousepad, bool> predicate) => _helper.Mousepads.Where(predicate));
+        _mockUnitOfWork.Setup(x => x.MousepadRepository.QueryAsync(It.IsAny<Expression<Func<Mousepad, bool>>>()))
+            .ReturnsAsync((Expression<Func<Mousepad, bool>> predicate) => _helper.Mousepads.Where(predicate.Compile()));
         IMousepadService service = new MousepadService(_mockUnitOfWork.Object);
 
         var expected = _helper.Mousepads.Where(m => !m.IsDeleted && m.Price >= 45.99m);
@@ -339,8 +340,8 @@ public class MousepadServiceTests
     public async Task GetPresentByFilterAsync_NotDeletedAndMaxPrice_ReturnsCollection()
     {
         // Arrange
-        _mockUnitOfWork.Setup(x => x.MousepadRepository.Query(It.IsAny<Func<Mousepad, bool>>()))
-            .Returns((Func<Mousepad, bool> predicate) => _helper.Mousepads.Where(predicate));
+        _mockUnitOfWork.Setup(x => x.MousepadRepository.QueryAsync(It.IsAny<Expression<Func<Mousepad, bool>>>()))
+            .ReturnsAsync((Expression<Func<Mousepad, bool>> predicate) => _helper.Mousepads.Where(predicate.Compile()));
         IMousepadService service = new MousepadService(_mockUnitOfWork.Object);
 
         var expected = _helper.Mousepads.Where(m => !m.IsDeleted && m.Price <= 45.99m);
@@ -361,8 +362,8 @@ public class MousepadServiceTests
     public async Task GetPresentByFilterAsync_NotDeletedAndPrice_ReturnsCollection()
     {
         // Arrange
-        _mockUnitOfWork.Setup(x => x.MousepadRepository.Query(It.IsAny<Func<Mousepad, bool>>()))
-            .Returns((Func<Mousepad, bool> predicate) => _helper.Mousepads.Where(predicate));
+        _mockUnitOfWork.Setup(x => x.MousepadRepository.QueryAsync(It.IsAny<Expression<Func<Mousepad, bool>>>()))
+            .ReturnsAsync((Expression<Func<Mousepad, bool>> predicate) => _helper.Mousepads.Where(predicate.Compile()));
         IMousepadService service = new MousepadService(_mockUnitOfWork.Object);
 
         var expected = _helper.Mousepads.Where(m => !m.IsDeleted && m.Price >= 45.99m && m.Price <= 48.99m);
@@ -384,8 +385,8 @@ public class MousepadServiceTests
     public async Task GetPresentByFilterAsync_NotDeletedAndAllOtherParameters_ReturnsFirst()
     {
         // Arrange
-        _mockUnitOfWork.Setup(x => x.MousepadRepository.Query(It.IsAny<Func<Mousepad, bool>>()))
-            .Returns((Func<Mousepad, bool> predicate) => _helper.Mousepads.Where(predicate));
+        _mockUnitOfWork.Setup(x => x.MousepadRepository.QueryAsync(It.IsAny<Expression<Func<Mousepad, bool>>>()))
+            .ReturnsAsync((Expression<Func<Mousepad, bool>> predicate) => _helper.Mousepads.Where(predicate.Compile()));
         IMousepadService service = new MousepadService(_mockUnitOfWork.Object);
 
         var expected = _helper.Mousepads.Where(m => !m.IsDeleted);

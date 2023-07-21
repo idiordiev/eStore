@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using eStore.Application.Filtering.Models.Shared;
 using eStore.Application.Utility;
 using eStore.Domain.Entities;
@@ -14,7 +15,7 @@ public class MouseFilterModel : GoodsFilterModel
     public ICollection<string> ConnectionTypes { get; set; }
     public ICollection<string> Backlights { get; set; }
 
-    public Func<Mouse, bool> GetPredicate()
+    public Expression<Func<Mouse, bool>> GetPredicate()
     {
         var expression = PredicateBuilder.True<Mouse>().And(m => !m.IsDeleted);
 
@@ -53,6 +54,6 @@ public class MouseFilterModel : GoodsFilterModel
             expression = expression.And(m => Backlights.Contains(m.Backlight));
         }
 
-        return expression.Compile();
+        return expression;
     }
 }
