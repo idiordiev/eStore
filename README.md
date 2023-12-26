@@ -2,7 +2,7 @@
 This is the implementation of online store website for selling computer peripherals, such as keyboards, mouses, mousepads and gamepads.
 The site is built with **ASP.NET Core MVC** & **EF Core**, with **Clean Architecture** principles.
 ## Frameworks & Technologies
-- **.NET 5**
+- **.NET 6**
 - **ASP.NET Core MVC**
 - **EntityFramework Core**
 - **MS SQL Server**
