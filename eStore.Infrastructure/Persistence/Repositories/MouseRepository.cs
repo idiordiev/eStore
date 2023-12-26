@@ -45,7 +45,7 @@ public class MouseRepository : IRepository<Mouse>
 
     public async Task DeleteAsync(int id)
     {
-        Mouse mouse = await GetByIdAsync(id);
+        var mouse = await GetByIdAsync(id);
         _context.Mouses.Remove(mouse);
         await _context.SaveChangesAsync();
     }

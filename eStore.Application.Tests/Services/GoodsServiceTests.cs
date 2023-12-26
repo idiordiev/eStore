@@ -45,12 +45,12 @@ public class GoodsServiceTests
     public async Task GetByIdAsync_ExistingGoods_ReturnsGoods()
     {
         // Arrange
-        Goods expected = _helper.Goods.First();
+        var expected = _helper.Goods.First();
         _mockUnitOfWork.Setup(x => x.GoodsRepository.GetByIdAsync(1)).ReturnsAsync(expected);
         IGoodsService service = new GoodsService(_mockUnitOfWork.Object);
 
         // Act
-        Goods actual = await service.GetByIdAsync(1);
+        var actual = await service.GetByIdAsync(1);
 
         // Assert
         Assert.That(actual, Is.EqualTo(expected).Using(new GoodsEqualityComparer()),
@@ -65,7 +65,7 @@ public class GoodsServiceTests
         IGoodsService service = new GoodsService(_mockUnitOfWork.Object);
 
         // Act
-        Goods actual = await service.GetByIdAsync(1);
+        var actual = await service.GetByIdAsync(1);
 
         // Assert
         Assert.That(actual, Is.Null, "the method returned not-null object.");
@@ -75,7 +75,7 @@ public class GoodsServiceTests
     public async Task GetGoodsInCustomerCartAsync_ExistingCustomerWithGoods_ReturnsCollectionOfGoods()
     {
         // Arrange
-        Customer customer = _helper.Customers.First(c => c.Id == 1);
+        var customer = _helper.Customers.First(c => c.Id == 1);
         _mockUnitOfWork.Setup(x => x.CustomerRepository.GetByIdAsync(1)).ReturnsAsync(customer);
         IGoodsService service = new GoodsService(_mockUnitOfWork.Object);
 
@@ -127,7 +127,7 @@ public class GoodsServiceTests
         IGoodsService service = new GoodsService(_mockUnitOfWork.Object);
 
         // Act
-        bool result = await service.CheckIfAddedToCartAsync(1, 1);
+        var result = await service.CheckIfAddedToCartAsync(1, 1);
 
         // Assert
         Assert.That(result, Is.True, "The method returned wrong result.");
@@ -143,7 +143,7 @@ public class GoodsServiceTests
         IGoodsService service = new GoodsService(_mockUnitOfWork.Object);
 
         // Act
-        bool result = await service.CheckIfAddedToCartAsync(1, 5);
+        var result = await service.CheckIfAddedToCartAsync(1, 5);
 
         // Assert
         Assert.That(result, Is.False, "The method returned wrong result.");

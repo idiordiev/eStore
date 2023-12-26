@@ -42,7 +42,7 @@ public class GamepadsController : Controller
 
     public async Task<IActionResult> Gamepad(int id)
     {
-        Gamepad gamepad = await _gamepadService.GetByIdAsync(id);
+        var gamepad = await _gamepadService.GetByIdAsync(id);
         if (gamepad == null || gamepad.IsDeleted)
         {
             return NotFound();
@@ -58,7 +58,7 @@ public class GamepadsController : Controller
     {
         if (User.Identity?.IsAuthenticated == true)
         {
-            ApplicationUser user = await _userManager.GetUserAsync(HttpContext.User);
+            var user = await _userManager.GetUserAsync(HttpContext.User);
             model.IsAddedToCart = await _goodsService.CheckIfAddedToCartAsync(user.CustomerId, model.Id);
         }
     }
@@ -67,8 +67,8 @@ public class GamepadsController : Controller
     {
         if (User.Identity?.IsAuthenticated == true)
         {
-            ApplicationUser user = await _userManager.GetUserAsync(HttpContext.User);
-            foreach (GoodsViewModel model in models)
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            foreach (var model in models)
             {
                 model.IsAddedToCart = await _goodsService.CheckIfAddedToCartAsync(user.CustomerId, model.Id);
             }

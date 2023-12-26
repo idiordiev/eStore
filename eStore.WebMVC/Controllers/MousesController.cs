@@ -43,7 +43,7 @@ public class MousesController : Controller
 
     public async Task<IActionResult> Mouse(int id)
     {
-        Mouse mouse = await _mouseService.GetByIdAsync(id);
+        var mouse = await _mouseService.GetByIdAsync(id);
         if (mouse == null || mouse.IsDeleted)
         {
             return NotFound();
@@ -59,7 +59,7 @@ public class MousesController : Controller
     {
         if (User.Identity?.IsAuthenticated == true)
         {
-            ApplicationUser user = await _userManager.GetUserAsync(HttpContext.User);
+            var user = await _userManager.GetUserAsync(HttpContext.User);
             model.IsAddedToCart = await _goodsService.CheckIfAddedToCartAsync(user.CustomerId, model.Id);
         }
     }
@@ -68,8 +68,8 @@ public class MousesController : Controller
     {
         if (User.Identity?.IsAuthenticated == true)
         {
-            ApplicationUser user = await _userManager.GetUserAsync(HttpContext.User);
-            foreach (GoodsViewModel model in models)
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            foreach (var model in models)
             {
                 model.IsAddedToCart = await _goodsService.CheckIfAddedToCartAsync(user.CustomerId, model.Id);
             }

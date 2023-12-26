@@ -40,10 +40,10 @@ public class AccountController : Controller
     [HttpGet]
     public async Task<IActionResult> Index()
     {
-        ApplicationUser user = await _userManager.GetUserAsync(HttpContext.User);
-        Customer customer = await _customerService.GetCustomerByIdAsync(user.CustomerId);
+        var user = await _userManager.GetUserAsync(HttpContext.User);
+        var customer = await _customerService.GetCustomerByIdAsync(user.CustomerId);
         var model = _mapper.Map<CustomerViewModel>(customer);
-        foreach (Goods goods in customer.ShoppingCart.Goods)
+        foreach (var goods in customer.ShoppingCart.Goods)
         {
             if (goods is Keyboard keyboard)
             {
@@ -63,7 +63,7 @@ public class AccountController : Controller
             }
         }
 
-        foreach (GoodsViewModel goods in model.GoodsInCart)
+        foreach (var goods in model.GoodsInCart)
         {
             goods.IsAddedToCart = await _goodsService.CheckIfAddedToCartAsync(user.CustomerId, goods.Id);
         }
@@ -128,7 +128,7 @@ public class AccountController : Controller
             };
             await _customerService.AddCustomerAsync(customer);
             identityUser.CustomerId = customer.Id;
-            IdentityResult registerResult = await _userManager.CreateAsync(identityUser, model.Password);
+            var registerResult = await _userManager.CreateAsync(identityUser, model.Password);
             if (registerResult.Succeeded)
             {
                 await _signInManager.SignInAsync(identityUser, true);
@@ -158,7 +158,7 @@ public class AccountController : Controller
             return View(model);
         }
 
-        SignInResult result =
+        var result =
             await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
         if (result.Succeeded)
         {
@@ -185,8 +185,8 @@ public class AccountController : Controller
     [HttpPost]
     public async Task<IActionResult> AddGoodsToCart(int goodsId, string returnUrl = null)
     {
-        ApplicationUser identityUser = await _userManager.GetUserAsync(HttpContext.User);
-        Customer customer = await _customerService.GetCustomerByIdAsync(identityUser.CustomerId);
+        var identityUser = await _userManager.GetUserAsync(HttpContext.User);
+        var customer = await _customerService.GetCustomerByIdAsync(identityUser.CustomerId);
         await _customerService.AddGoodsToCartAsync(customer.Id, goodsId);
         if (string.IsNullOrWhiteSpace(returnUrl))
         {
@@ -200,8 +200,8 @@ public class AccountController : Controller
     [HttpPost]
     public async Task<IActionResult> RemoveGoodsFromCart(int goodsId, string returnUrl = null)
     {
-        ApplicationUser identityUser = await _userManager.GetUserAsync(HttpContext.User);
-        Customer customer = await _customerService.GetCustomerByIdAsync(identityUser.CustomerId);
+        var identityUser = await _userManager.GetUserAsync(HttpContext.User);
+        var customer = await _customerService.GetCustomerByIdAsync(identityUser.CustomerId);
         await _customerService.RemoveGoodsFromCartAsync(customer.Id, goodsId);
         if (string.IsNullOrWhiteSpace(returnUrl))
         {
@@ -225,7 +225,7 @@ public class AccountController : Controller
     {
         if (ModelState.IsValid)
         {
-            ApplicationUser user = await _userManager.GetUserAsync(HttpContext.User);
+            var user = await _userManager.GetUserAsync(HttpContext.User);
             if (!await _userManager.CheckPasswordAsync(user, model.CurrentPassword))
             {
                 ModelState.AddModelError("", "The current password is not correct.");
@@ -244,8 +244,8 @@ public class AccountController : Controller
     [Authorize]
     public async Task<IActionResult> DeactivateAccount()
     {
-        ApplicationUser user = await _userManager.GetUserAsync(HttpContext.User);
-        Customer customer = await _customerService.GetCustomerByIdAsync(user.CustomerId);
+        var user = await _userManager.GetUserAsync(HttpContext.User);
+        var customer = await _customerService.GetCustomerByIdAsync(user.CustomerId);
         await _customerService.DeactivateAccountAsync(customer.Id);
         await _userManager.DeleteAsync(user);
         await _signInManager.SignOutAsync();

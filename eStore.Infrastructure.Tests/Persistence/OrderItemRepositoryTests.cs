@@ -43,10 +43,10 @@ public class OrderItemRepositoryTests
     public async Task GetByIdAsync_ExistingOrderItem_ReturnsOrderItem(int id)
     {
         // Arrange
-        OrderItem expected = _helper.OrderItems.FirstOrDefault(c => c.Id == id);
+        var expected = _helper.OrderItems.FirstOrDefault(c => c.Id == id);
 
         // Act
-        OrderItem actual = await _repository.GetByIdAsync(id);
+        var actual = await _repository.GetByIdAsync(id);
 
         // Assert
         Assert.That(actual, Is.EqualTo(expected).Using(new OrderItemEqualityComparer()),
@@ -60,7 +60,7 @@ public class OrderItemRepositoryTests
         // Arrange
 
         // Act
-        OrderItem actual = await _repository.GetByIdAsync(id);
+        var actual = await _repository.GetByIdAsync(id);
 
         // Assert
         Assert.That(actual, Is.Null, "The method returned not-null order item.");
@@ -117,7 +117,7 @@ public class OrderItemRepositoryTests
     public async Task UpdateAsync_ExistingOrderItem_UpdatesOrderItemAndSavesToDb()
     {
         // Arrange
-        OrderItem orderItem = await _context.OrderItems.FindAsync(12);
+        var orderItem = await _context.OrderItems.FindAsync(12);
 
         // Act
         orderItem.OrderId = 4;

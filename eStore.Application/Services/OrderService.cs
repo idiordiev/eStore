@@ -37,7 +37,7 @@ public class OrderService : IOrderService
     public async Task<Order> CreateOrderAsync(int customerId, IEnumerable<OrderItemDto> items,
         OrderAddressDto address)
     {
-        Customer customer = await _unitOfWork.CustomerRepository.GetByIdAsync(customerId);
+        var customer = await _unitOfWork.CustomerRepository.GetByIdAsync(customerId);
         CheckIfCustomerIsPresent(customer);
 
         var order = new Order
@@ -52,9 +52,9 @@ public class OrderService : IOrderService
             ShippingCity = address.ShippingCity,
             ShippingPostalCode = address.ShippingPostalCode
         };
-        foreach (OrderItemDto orderItem in items)
+        foreach (var orderItem in items)
         {
-            Goods goods = await _unitOfWork.GoodsRepository.GetByIdAsync(orderItem.GoodsId);
+            var goods = await _unitOfWork.GoodsRepository.GetByIdAsync(orderItem.GoodsId);
 
             CheckIfGoodsIsPresent(goods);
             if (orderItem.Quantity < 1)
@@ -68,14 +68,14 @@ public class OrderService : IOrderService
         }
 
         await _unitOfWork.OrderRepository.AddAsync(order);
-        string emailAttachment = _attachmentService.CreateInvoice(order);
+        var emailAttachment = _attachmentService.CreateInvoice(order);
         await _emailService.SendPurchaseEmailAsyncAsync(order, emailAttachment);
         return order;
     }
 
     public async Task PayOrderAsync(int orderId)
     {
-        Order order = await _unitOfWork.OrderRepository.GetByIdAsync(orderId);
+        var order = await _unitOfWork.OrderRepository.GetByIdAsync(orderId);
 
         if (order == null)
         {
@@ -93,7 +93,7 @@ public class OrderService : IOrderService
 
     public async Task CancelOrderAsync(int orderId)
     {
-        Order order = await _unitOfWork.OrderRepository.GetByIdAsync(orderId);
+        var order = await _unitOfWork.OrderRepository.GetByIdAsync(orderId);
 
         if (order == null)
         {

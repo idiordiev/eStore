@@ -48,7 +48,7 @@ public class KeyboardRepository : IRepository<Keyboard>
 
     public async Task DeleteAsync(int id)
     {
-        Keyboard keyboard = await GetByIdAsync(id);
+        var keyboard = await GetByIdAsync(id);
         _context.Keyboards.Remove(keyboard);
         await _context.SaveChangesAsync();
     }

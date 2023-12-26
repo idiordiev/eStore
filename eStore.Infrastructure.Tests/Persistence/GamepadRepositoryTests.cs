@@ -33,10 +33,10 @@ public class GamepadRepositoryTests
     public async Task GetByIdAsync_ExistingGamepad_ReturnsGamepad(int id)
     {
         // Arrange
-        Gamepad expected = _helper.Gamepads.FirstOrDefault(c => c.Id == id);
+        var expected = _helper.Gamepads.FirstOrDefault(c => c.Id == id);
 
         // Act
-        Gamepad actual = await _repository.GetByIdAsync(id);
+        var actual = await _repository.GetByIdAsync(id);
 
         // Assert
         Assert.That(actual, Is.EqualTo(expected).Using(new GamepadEqualityComparer()),
@@ -50,7 +50,7 @@ public class GamepadRepositoryTests
         // Arrange
 
         // Act
-        Gamepad actual = await _repository.GetByIdAsync(id);
+        var actual = await _repository.GetByIdAsync(id);
 
         // Assert
         Assert.That(actual, Is.Null, "The method returned not-null gamepad.");
@@ -110,7 +110,7 @@ public class GamepadRepositoryTests
     public async Task UpdateAsync_ExistingGamepad_UpdatesGamepadAndSavesToDb()
     {
         // Arrange
-        Gamepad gamepad = await _context.Gamepads.FindAsync(1);
+        var gamepad = await _context.Gamepads.FindAsync(1);
 
         // Act
         gamepad.Name = "Name1";

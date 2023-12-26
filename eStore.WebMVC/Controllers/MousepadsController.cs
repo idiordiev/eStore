@@ -44,7 +44,7 @@ public class MousepadsController : Controller
 
     public async Task<IActionResult> Mousepad(int id)
     {
-        Mousepad mousepad = await _mousepadService.GetByIdAsync(id);
+        var mousepad = await _mousepadService.GetByIdAsync(id);
         if (mousepad == null || mousepad.IsDeleted)
         {
             return NotFound();
@@ -60,7 +60,7 @@ public class MousepadsController : Controller
     {
         if (User.Identity?.IsAuthenticated == true)
         {
-            ApplicationUser user = await _userManager.GetUserAsync(HttpContext.User);
+            var user = await _userManager.GetUserAsync(HttpContext.User);
             model.IsAddedToCart = await _goodsService.CheckIfAddedToCartAsync(user.CustomerId, model.Id);
         }
     }
@@ -69,8 +69,8 @@ public class MousepadsController : Controller
     {
         if (User.Identity?.IsAuthenticated == true)
         {
-            ApplicationUser user = await _userManager.GetUserAsync(HttpContext.User);
-            foreach (GoodsViewModel model in models)
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            foreach (var model in models)
             {
                 model.IsAddedToCart = await _goodsService.CheckIfAddedToCartAsync(user.CustomerId, model.Id);
             }

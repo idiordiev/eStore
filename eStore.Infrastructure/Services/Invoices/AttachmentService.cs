@@ -53,11 +53,11 @@ public class AttachmentService : IAttachmentService
         }
 
         SpreadsheetInfo.SetLicense("FREE-LIMITED-KEY");
-        string templatePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) +
-                              "/Services/Invoices/Template.xlsx";
-        ExcelFile excel = ExcelFile.Load(templatePath);
+        var templatePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) +
+                           "/Services/Invoices/Template.xlsx";
+        var excel = ExcelFile.Load(templatePath);
 
-        ExcelWorksheet worksheet = excel.Worksheets.First();
+        var worksheet = excel.Worksheets.First();
         worksheet.Cells[InvoiceNumberCell].Value = 121;
         worksheet.Cells[InvoiceDateCell].Value = DateTime.Now.ToShortDateString();
 
@@ -76,8 +76,8 @@ public class AttachmentService : IAttachmentService
         worksheet.Cells[ShippingAddressCell].Value = GetFullShippingAddress(order);
         worksheet.Cells[ShippingPhoneCell].Value = order.Customer.PhoneNumber;
 
-        int rowIndex = FirstItemRowIndex;
-        foreach (OrderItem orderItem in order.OrderItems)
+        var rowIndex = FirstItemRowIndex;
+        foreach (var orderItem in order.OrderItems)
         {
             worksheet.Cells[rowIndex, ItemDescriptionColumnIndex].Value = orderItem.Goods.Name;
             worksheet.Cells[rowIndex, ItemQuantityColumnIndex].Value = orderItem.Quantity;
@@ -87,8 +87,8 @@ public class AttachmentService : IAttachmentService
 
         // there are formulas in the template to calculate total
         worksheet.Calculate();
-        string invoiceFileName = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) +
-                                 $"/Invoices/{order.TimeStamp:yyyyMMdd}-{order.Customer.FirstName}-{order.Customer.LastName}-{order.Id}.pdf";
+        var invoiceFileName = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) +
+                              $"/Invoices/{order.TimeStamp:yyyyMMdd}-{order.Customer.FirstName}-{order.Customer.LastName}-{order.Id}.pdf";
         excel.Save(invoiceFileName);
         return invoiceFileName;
     }

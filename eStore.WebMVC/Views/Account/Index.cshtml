@@ -77,7 +77,7 @@
         <section class="account-cart-container">
             @if (Model.GoodsInCart.Any())
             {
-                @foreach (GoodsViewModel goods in Model.GoodsInCart)
+                @foreach (var goods in Model.GoodsInCart)
                 {
                     if (goods is KeyboardViewModel keyboardModel)
                     {

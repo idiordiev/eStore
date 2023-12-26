@@ -340,12 +340,12 @@ public class MouseServiceTests
     public async Task GetByIdAsync_ExistingMouse_ReturnsMouse()
     {
         // Arrange
-        Mouse expected = _helper.Mouses.First(g => g.Id == 11);
+        var expected = _helper.Mouses.First(g => g.Id == 11);
         _mockUnitOfWork.Setup(x => x.MouseRepository.GetByIdAsync(11)).ReturnsAsync(expected);
         IMouseService service = new MouseService(_mockUnitOfWork.Object);
 
         // Act
-        Mouse actual = await service.GetByIdAsync(11);
+        var actual = await service.GetByIdAsync(11);
 
         // Assert
         Assert.That(actual, Is.EqualTo(expected).Using(new MouseEqualityComparer()),
@@ -360,7 +360,7 @@ public class MouseServiceTests
         IMouseService service = new MouseService(_mockUnitOfWork.Object);
 
         // Act
-        Mouse actual = await service.GetByIdAsync(1);
+        var actual = await service.GetByIdAsync(1);
 
         // Assert
         Assert.That(actual, Is.Null, "The method returned not-null object.");

@@ -47,7 +47,7 @@ public class KeyboardsController : Controller
 
     public async Task<IActionResult> Keyboard(int id)
     {
-        Keyboard keyboard = await _keyboardService.GetByIdAsync(id);
+        var keyboard = await _keyboardService.GetByIdAsync(id);
         if (keyboard == null || keyboard.IsDeleted)
         {
             return NotFound();
@@ -63,7 +63,7 @@ public class KeyboardsController : Controller
     {
         if (User.Identity?.IsAuthenticated == true)
         {
-            ApplicationUser user = await _userManager.GetUserAsync(HttpContext.User);
+            var user = await _userManager.GetUserAsync(HttpContext.User);
             model.IsAddedToCart = await _goodsService.CheckIfAddedToCartAsync(user.CustomerId, model.Id);
         }
     }
@@ -72,8 +72,8 @@ public class KeyboardsController : Controller
     {
         if (User.Identity?.IsAuthenticated == true)
         {
-            ApplicationUser user = await _userManager.GetUserAsync(HttpContext.User);
-            foreach (GoodsViewModel model in models)
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            foreach (var model in models)
             {
                 model.IsAddedToCart = await _goodsService.CheckIfAddedToCartAsync(user.CustomerId, model.Id);
             }

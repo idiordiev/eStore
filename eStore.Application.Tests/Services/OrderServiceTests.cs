@@ -57,13 +57,13 @@ public class OrderServiceTests
     public async Task GetOrderByIdAsync_ExistingOrder_ReturnsOrder()
     {
         // Arrange
-        Order expected = _helper.Orders.First(o => o.Id == 1);
+        var expected = _helper.Orders.First(o => o.Id == 1);
         _mockUnitOfWork.Setup(x => x.OrderRepository.GetByIdAsync(1)).ReturnsAsync(expected);
         IOrderService service = new OrderService(_mockUnitOfWork.Object, _mockEmailService.Object,
             _mockAttachmentService.Object);
 
         // Act
-        Order actual = await service.GetOrderByIdAsync(1);
+        var actual = await service.GetOrderByIdAsync(1);
 
         // Assert
         Assert.That(actual, Is.EqualTo(expected).Using(new OrderEqualityComparer()),
@@ -79,7 +79,7 @@ public class OrderServiceTests
             _mockAttachmentService.Object);
 
         // Act
-        Order actual = await service.GetOrderByIdAsync(1);
+        var actual = await service.GetOrderByIdAsync(1);
 
         // Assert
         Assert.That(actual, Is.Null, "The method returned not-null object.");
@@ -89,8 +89,8 @@ public class OrderServiceTests
     public async Task CreateOrderAsync_EverythingOk_CreatesOrderAndSendsEmail()
     {
         // Arrange
-        Customer customer = _helper.Customers.First(c => c.Id == 1);
-        Goods goods = _helper.Goods.First(g => g.Id == 1);
+        var customer = _helper.Customers.First(c => c.Id == 1);
+        var goods = _helper.Goods.First(g => g.Id == 1);
         _mockUnitOfWork.Setup(x => x.CustomerRepository.GetByIdAsync(1)).ReturnsAsync(customer);
         _mockUnitOfWork.Setup(x => x.GoodsRepository.GetByIdAsync(1)).ReturnsAsync(goods);
         _mockUnitOfWork.Setup(x => x.OrderRepository.AddAsync(It.IsAny<Order>()));
@@ -126,7 +126,7 @@ public class OrderServiceTests
     public void CreateOrderAsync_NotExistingCustomer_ThrowsCustomerNotFoundException()
     {
         // Arrange
-        Goods goods = _helper.Goods.First(g => g.Id == 1);
+        var goods = _helper.Goods.First(g => g.Id == 1);
         _mockUnitOfWork.Setup(x => x.CustomerRepository.GetByIdAsync(1)).ReturnsAsync((Customer)null);
         _mockUnitOfWork.Setup(x => x.GoodsRepository.GetByIdAsync(1)).ReturnsAsync(goods);
         _mockUnitOfWork.Setup(x => x.OrderRepository.AddAsync(It.IsAny<Order>()));
@@ -154,8 +154,8 @@ public class OrderServiceTests
     public void CreateOrderAsync_DeactivatedAccount_ThrowsAccountDeactivatedException()
     {
         // Arrange
-        Customer customer = _helper.Customers.First(c => c.Id == 2);
-        Goods goods = _helper.Goods.First(c => c.Id == 1);
+        var customer = _helper.Customers.First(c => c.Id == 2);
+        var goods = _helper.Goods.First(c => c.Id == 1);
         _mockUnitOfWork.Setup(x => x.CustomerRepository.GetByIdAsync(1)).ReturnsAsync(customer);
         _mockUnitOfWork.Setup(x => x.GoodsRepository.GetByIdAsync(1)).ReturnsAsync(goods);
         _mockUnitOfWork.Setup(x => x.OrderRepository.AddAsync(It.IsAny<Order>()));
@@ -184,7 +184,7 @@ public class OrderServiceTests
     public void CreateOrderAsync_NotExistingGoods_ThrowsGoodsNotFoundException()
     {
         // Arrange
-        Customer customer = _helper.Customers.First(c => c.Id == 1);
+        var customer = _helper.Customers.First(c => c.Id == 1);
         _mockUnitOfWork.Setup(x => x.CustomerRepository.GetByIdAsync(1)).ReturnsAsync(customer);
         _mockUnitOfWork.Setup(x => x.GoodsRepository.GetByIdAsync(1)).ReturnsAsync((Goods)null);
         _mockUnitOfWork.Setup(x => x.OrderRepository.AddAsync(It.IsAny<Order>()));
@@ -212,8 +212,8 @@ public class OrderServiceTests
     public void CreateOrderAsync_GoodsDeleted_ThrowsEntityDeletedException()
     {
         // Arrange
-        Customer customer = _helper.Customers.First(c => c.Id == 1);
-        Goods goods = _helper.Goods.First(c => c.Id == 2);
+        var customer = _helper.Customers.First(c => c.Id == 1);
+        var goods = _helper.Goods.First(c => c.Id == 2);
         _mockUnitOfWork.Setup(x => x.CustomerRepository.GetByIdAsync(1)).ReturnsAsync(customer);
         _mockUnitOfWork.Setup(x => x.GoodsRepository.GetByIdAsync(1)).ReturnsAsync(goods);
         _mockUnitOfWork.Setup(x => x.OrderRepository.AddAsync(It.IsAny<Order>()));
@@ -241,8 +241,8 @@ public class OrderServiceTests
     public void CreateOrderAsync_GoodsQuantityLessThan1_ThrowsInvalidQuantityException()
     {
         // Arrange
-        Customer customer = _helper.Customers.First(c => c.Id == 1);
-        Goods goods = _helper.Goods.First(c => c.Id == 1);
+        var customer = _helper.Customers.First(c => c.Id == 1);
+        var goods = _helper.Goods.First(c => c.Id == 1);
         _mockUnitOfWork.Setup(x => x.CustomerRepository.GetByIdAsync(1)).ReturnsAsync(customer);
         _mockUnitOfWork.Setup(x => x.GoodsRepository.GetByIdAsync(1)).ReturnsAsync(goods);
         _mockUnitOfWork.Setup(x => x.OrderRepository.AddAsync(It.IsAny<Order>()));

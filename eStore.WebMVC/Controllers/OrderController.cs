@@ -32,7 +32,7 @@ public class OrderController : Controller
     [HttpGet]
     public async Task<IActionResult> Index()
     {
-        ApplicationUser user = await _userManager.GetUserAsync(HttpContext.User);
+        var user = await _userManager.GetUserAsync(HttpContext.User);
         var orders = await _orderService.GetOrdersByCustomerIdAsync(user.CustomerId);
         var model = _mapper.Map<IEnumerable<OrderViewModel>>(orders);
         return View(model);
@@ -41,8 +41,8 @@ public class OrderController : Controller
     [HttpGet]
     public async Task<IActionResult> New()
     {
-        ApplicationUser user = await _userManager.GetUserAsync(HttpContext.User);
-        Customer customer = await _customerService.GetCustomerByIdAsync(user.CustomerId);
+        var user = await _userManager.GetUserAsync(HttpContext.User);
+        var customer = await _customerService.GetCustomerByIdAsync(user.CustomerId);
         var model = new OrderViewModel
         {
             ShippingCountry = customer.Country,
@@ -52,7 +52,7 @@ public class OrderController : Controller
             OrderItems = new List<OrderItemViewModel>()
         };
         var goods = customer.ShoppingCart.Goods;
-        foreach (Goods good in goods)
+        foreach (var good in goods)
         {
             if (good is Keyboard keyboard)
             {
@@ -109,7 +109,7 @@ public class OrderController : Controller
 
         var orderItems = _mapper.Map<IEnumerable<OrderItemDto>>(model.OrderItems);
         var shippingAddress = _mapper.Map<OrderAddressDto>(model);
-        ApplicationUser user = await _userManager.GetUserAsync(HttpContext.User);
+        var user = await _userManager.GetUserAsync(HttpContext.User);
         await _orderService.CreateOrderAsync(user.CustomerId, orderItems, shippingAddress);
         await _customerService.ClearCustomerCartAsync(user.CustomerId);
 

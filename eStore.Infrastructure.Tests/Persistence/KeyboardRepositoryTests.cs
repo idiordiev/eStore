@@ -34,10 +34,10 @@ public class KeyboardRepositoryTests
     public async Task GetByIdAsync_ExistingKeyboard_ReturnsKeyboard(int id)
     {
         // Arrange
-        Keyboard expected = _helper.Keyboards.FirstOrDefault(c => c.Id == id);
+        var expected = _helper.Keyboards.FirstOrDefault(c => c.Id == id);
 
         // Act
-        Keyboard actual = await _repository.GetByIdAsync(id);
+        var actual = await _repository.GetByIdAsync(id);
 
         // Assert
         Assert.That(actual, Is.EqualTo(expected).Using(new KeyboardEqualityComparer()),
@@ -52,7 +52,7 @@ public class KeyboardRepositoryTests
         // Arrange
 
         // Act
-        Keyboard actual = await _repository.GetByIdAsync(id);
+        var actual = await _repository.GetByIdAsync(id);
 
         // Assert
         Assert.That(actual, Is.Null, "The method returned not-null keyboard.");
@@ -117,7 +117,7 @@ public class KeyboardRepositoryTests
     public async Task UpdateAsync_ExistingKeyboard_UpdatesKeyboardAndSavesToDb()
     {
         // Arrange
-        Keyboard keyboard = await _context.Keyboards.FindAsync(5);
+        var keyboard = await _context.Keyboards.FindAsync(5);
 
         // Act
         keyboard.Name = "NewName";

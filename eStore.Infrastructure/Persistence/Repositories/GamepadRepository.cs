@@ -44,7 +44,7 @@ public class GamepadRepository : IRepository<Gamepad>
 
     public async Task DeleteAsync(int id)
     {
-        Gamepad gamepad = await GetByIdAsync(id);
+        var gamepad = await GetByIdAsync(id);
         _context.Gamepads.Remove(gamepad);
         await _context.SaveChangesAsync();
     }

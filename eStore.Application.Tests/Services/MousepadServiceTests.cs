@@ -416,12 +416,12 @@ public class MousepadServiceTests
     public async Task GetByIdAsync_ExistingMousepad_ReturnsMousepad()
     {
         // Arrange
-        Mousepad expected = _helper.Mousepads.First(m => m.Id == 14);
+        var expected = _helper.Mousepads.First(m => m.Id == 14);
         _mockUnitOfWork.Setup(x => x.MousepadRepository.GetByIdAsync(14)).ReturnsAsync(expected);
         IMousepadService service = new MousepadService(_mockUnitOfWork.Object);
 
         // Act
-        Mousepad actual = await service.GetByIdAsync(14);
+        var actual = await service.GetByIdAsync(14);
 
         // Assert
         Assert.That(actual, Is.EqualTo(expected).Using(new MousepadEqualityComparer()),
@@ -436,7 +436,7 @@ public class MousepadServiceTests
         IMousepadService service = new MousepadService(_mockUnitOfWork.Object);
 
         // Act
-        Mousepad actual = await service.GetByIdAsync(14);
+        var actual = await service.GetByIdAsync(14);
 
         // Assert
         Assert.That(actual, Is.Null, "THe method returned not-null object.");

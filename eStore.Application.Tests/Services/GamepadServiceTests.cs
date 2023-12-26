@@ -352,12 +352,12 @@ public class GamepadServiceTests
     public async Task GetByIdAsync_ExistingGamepad_ReturnsGamepad()
     {
         // Arrange
-        Gamepad expected = _helper.Gamepads.First(g => g.Id == 1);
+        var expected = _helper.Gamepads.First(g => g.Id == 1);
         _mockUnitOfWork.Setup(x => x.GamepadRepository.GetByIdAsync(1)).ReturnsAsync(expected);
         IGamepadService service = new GamepadService(_mockUnitOfWork.Object);
 
         // Act
-        Gamepad actual = await service.GetByIdAsync(1);
+        var actual = await service.GetByIdAsync(1);
 
         // Assert
         Assert.That(actual, Is.EqualTo(expected).Using(new GamepadEqualityComparer()),
@@ -372,7 +372,7 @@ public class GamepadServiceTests
         IGamepadService service = new GamepadService(_mockUnitOfWork.Object);
 
         // Act
-        Gamepad actual = await service.GetByIdAsync(1);
+        var actual = await service.GetByIdAsync(1);
 
         // Assert
         Assert.That(actual, Is.Null, "The method returned not-null object.");

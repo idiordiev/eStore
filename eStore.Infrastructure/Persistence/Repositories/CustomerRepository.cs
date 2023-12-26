@@ -51,7 +51,7 @@ public class CustomerRepository : IRepository<Customer>
 
     public async Task DeleteAsync(int id)
     {
-        Customer customer = await GetByIdAsync(id);
+        var customer = await GetByIdAsync(id);
         _context.Customers.Remove(customer);
         await _context.SaveChangesAsync();
     }

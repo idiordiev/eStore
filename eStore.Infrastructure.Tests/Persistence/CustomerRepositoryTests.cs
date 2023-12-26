@@ -31,10 +31,10 @@ public class CustomerRepositoryTests
     public async Task GetByIdAsync_ExistingCustomer_ReturnsCustomer(int id)
     {
         // Arrange
-        Customer expected = _helper.Customers.FirstOrDefault(c => c.Id == id);
+        var expected = _helper.Customers.FirstOrDefault(c => c.Id == id);
 
         // Act
-        Customer actual = await _repository.GetByIdAsync(id);
+        var actual = await _repository.GetByIdAsync(id);
 
         // Assert
         Assert.That(actual, Is.EqualTo(expected).Using(new CustomerEqualityComparer()),
@@ -49,7 +49,7 @@ public class CustomerRepositoryTests
         // Arrange
 
         // Act
-        Customer actual = await _repository.GetByIdAsync(id);
+        var actual = await _repository.GetByIdAsync(id);
 
         // Assert
         Assert.That(actual, Is.Null, "The method returned not-null customer.");
@@ -109,7 +109,7 @@ public class CustomerRepositoryTests
     public async Task UpdateAsync_ExistingCustomer_UpdatesCustomerAndSavesToDb()
     {
         // Arrange
-        Customer customer = await _context.Customers.FindAsync(1);
+        var customer = await _context.Customers.FindAsync(1);
 
         // Act
         customer.FirstName = "Name1";

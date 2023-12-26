@@ -8,7 +8,7 @@
 <aside id="filter-sidebar" class="filter-sidebar d-flex flex-row">
     <form id="filter-form" class="filter-list d-flex flex-column align-items-center justify-content-start" asp-action="Index" asp-controller="Gamepads" method="get">
         <label class="filter-category-name">BRAND</label>
-        @foreach (dynamic manufacturer in ViewBag.Manufacturers)
+        @foreach (var manufacturer in ViewBag.Manufacturers)
         {
             <div class="filter-option-group">
                 <input type="checkbox" value="@manufacturer" name="manufacturers" checked="@Context.Request.Query["manufacturers"].Contains((string)manufacturer)"/>
@@ -16,7 +16,7 @@
             </div>
         }
         <label class="filter-category-name">CONNECTION TYPE</label>
-        @foreach (dynamic connectionType in ViewBag.ConnectionTypes)
+        @foreach (var connectionType in ViewBag.ConnectionTypes)
         {
             <div class="filter-option-group">
                 <input type="checkbox" value="@connectionType" name="connectionTypes" checked="@Context.Request.Query["connectionTypes"].Contains((string)connectionType)"/>
@@ -24,7 +24,7 @@
             </div>
         }
         <label class="filter-category-name">FEEDBACK</label>
-        @foreach (dynamic feedback in ViewBag.Feedbacks)
+        @foreach (var feedback in ViewBag.Feedbacks)
         {
             <div class="filter-option-group">
                 <input type="checkbox" value="@feedback" name="feedbacks" checked="@Context.Request.Query["feedbacks"].Contains((string)feedback)"/>
@@ -32,7 +32,7 @@
             </div>
         }
         <label class="filter-category-name">COMPATIBLE WITH</label>
-        @foreach (dynamic cd in ViewBag.CompatibleDevices)
+        @foreach (var cd in ViewBag.CompatibleDevices)
         {
             <div class="filter-option-group">
                 <input type="checkbox" value="@cd" name="compatibleDevices" checked="@Context.Request.Query["compatibleDevices"].Contains((string)cd)"/>
@@ -56,7 +56,7 @@
 </aside>
 <h1 class="goods-title">GAMEPADS</h1>
 <section class="goods-container d-flex flex-column align-items-center justify-content-center">
-    @foreach (GamepadViewModel gamepad in Model)
+    @foreach (var gamepad in Model)
     {
         @await Html.PartialAsync("_Gamepad", gamepad)
     }

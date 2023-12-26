@@ -491,12 +491,12 @@ public class KeyboardServiceTests
     public async Task GetByIdAsync_ExistingKeyboard_ReturnsKeyboard()
     {
         // Arrange   
-        Keyboard expected = _helper.Keyboards.First(k => k.Id == 5);
+        var expected = _helper.Keyboards.First(k => k.Id == 5);
         _mockUnitOfWork.Setup(x => x.KeyboardRepository.GetByIdAsync(5)).ReturnsAsync(expected);
         IKeyboardService service = new KeyboardService(_mockUnitOfWork.Object);
 
         // Act
-        Keyboard actual = await service.GetByIdAsync(5);
+        var actual = await service.GetByIdAsync(5);
 
         // Assert
         Assert.That(actual, Is.EqualTo(expected), "The actual keyboard is not equal to expected.");
@@ -510,7 +510,7 @@ public class KeyboardServiceTests
         IKeyboardService service = new KeyboardService(_mockUnitOfWork.Object);
 
         // Act
-        Keyboard actual = await service.GetByIdAsync(1);
+        var actual = await service.GetByIdAsync(1);
 
         // Assert
         Assert.That(actual, Is.Null, "The method returned not-null object.");
@@ -537,7 +537,7 @@ public class KeyboardServiceTests
     {
         // Arrange
         var keyboards = _helper.Keyboards.ToList();
-        foreach (Keyboard keyboard in keyboards)
+        foreach (var keyboard in keyboards)
         {
             keyboard.Switch = _helper.KeyboardSwitches.FirstOrDefault(sw => sw.Id == keyboard.SwitchId);
         }

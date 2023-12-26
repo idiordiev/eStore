@@ -29,7 +29,7 @@ public class GoodsService : IGoodsService
 
     public async Task<IEnumerable<Goods>> GetGoodsInCustomerCartAsync(int customerId)
     {
-        Customer customer = await _unitOfWork.CustomerRepository.GetByIdAsync(customerId);
+        var customer = await _unitOfWork.CustomerRepository.GetByIdAsync(customerId);
         if (customer == null)
         {
             throw new CustomerNotFoundException($"The customer with the id {customerId} has not been found.");
@@ -46,7 +46,7 @@ public class GoodsService : IGoodsService
 
     public async Task<bool> CheckIfAddedToCartAsync(int customerId, int goodsId)
     {
-        Customer customer = await _unitOfWork.CustomerRepository.GetByIdAsync(customerId);
+        var customer = await _unitOfWork.CustomerRepository.GetByIdAsync(customerId);
         if (customer == null)
         {
             throw new CustomerNotFoundException($"The customer with the id {customerId} has not been found.");

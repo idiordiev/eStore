@@ -44,10 +44,10 @@ public class GoodsRepositoryTests
     public async Task GetByIdAsync_ExistingGoods_ReturnsGoods(int id)
     {
         // Arrange
-        Goods expected = _helper.Goods.FirstOrDefault(c => c.Id == id);
+        var expected = _helper.Goods.FirstOrDefault(c => c.Id == id);
 
         // Act
-        Goods actual = await _repository.GetByIdAsync(id);
+        var actual = await _repository.GetByIdAsync(id);
 
         // Assert
         Assert.That(actual, Is.EqualTo(expected).Using(new GoodsEqualityComparer()),
@@ -62,7 +62,7 @@ public class GoodsRepositoryTests
         // Arrange
 
         // Act
-        Goods actual = await _repository.GetByIdAsync(id);
+        var actual = await _repository.GetByIdAsync(id);
 
         // Assert
         Assert.That(actual, Is.Null, "The method returned not-null goods.");
@@ -124,7 +124,7 @@ public class GoodsRepositoryTests
     public async Task UpdateAsync_ExistingGoods_UpdatesGoodsAndSavesToDb()
     {
         // Arrange
-        Goods goods = await _context.Goods.FindAsync(13);
+        var goods = await _context.Goods.FindAsync(13);
 
         // Act
         goods.Name = "NewName";

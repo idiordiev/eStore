@@ -35,10 +35,10 @@ public class OrderRepositoryTests
     public async Task GetByIdAsync_ExistingOrder_ReturnsOrder(int id)
     {
         // Arrange
-        Order expected = _helper.Orders.FirstOrDefault(c => c.Id == id);
+        var expected = _helper.Orders.FirstOrDefault(c => c.Id == id);
 
         // Act
-        Order actual = await _repository.GetByIdAsync(id);
+        var actual = await _repository.GetByIdAsync(id);
 
         // Assert
         Assert.That(actual, Is.EqualTo(expected).Using(new OrderEqualityComparer()),
@@ -52,7 +52,7 @@ public class OrderRepositoryTests
         // Arrange
 
         // Act
-        Order actual = await _repository.GetByIdAsync(id);
+        var actual = await _repository.GetByIdAsync(id);
 
         // Assert
         Assert.That(actual, Is.Null, "The method returned not-null order.");
@@ -123,7 +123,7 @@ public class OrderRepositoryTests
     public async Task UpdateAsync_ExistingOrder_UpdatesOrderAndSavesToDb()
     {
         // Arrange
-        Order order = await _context.Orders.FindAsync(1);
+        var order = await _context.Orders.FindAsync(1);
 
         // Act
         order.ShippingCity = "NewCity";

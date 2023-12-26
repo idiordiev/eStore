@@ -32,10 +32,10 @@ public class MousepadRepositoryTests
     public async Task GetByIdAsync_ExistingMousepad_ReturnsMousepad(int id)
     {
         // Arrange
-        Mousepad expected = _helper.Mousepads.FirstOrDefault(c => c.Id == id);
+        var expected = _helper.Mousepads.FirstOrDefault(c => c.Id == id);
 
         // Act
-        Mousepad actual = await _repository.GetByIdAsync(id);
+        var actual = await _repository.GetByIdAsync(id);
 
         // Assert
         Assert.That(actual, Is.EqualTo(expected).Using(new MousepadEqualityComparer()),
@@ -50,7 +50,7 @@ public class MousepadRepositoryTests
         // Arrange
 
         // Act
-        Mousepad actual = await _repository.GetByIdAsync(id);
+        var actual = await _repository.GetByIdAsync(id);
 
         // Assert
         Assert.That(actual, Is.Null, "The method returned not-null mousepad.");
@@ -111,7 +111,7 @@ public class MousepadRepositoryTests
     public async Task UpdateAsync_ExistingMousepad_UpdatesMousepadAndSavesToDb()
     {
         // Arrange
-        Mousepad mousepad = await _context.Mousepads.FindAsync(13);
+        var mousepad = await _context.Mousepads.FindAsync(13);
 
         // Act
         mousepad.Name = "NewName";

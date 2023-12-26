@@ -44,11 +44,11 @@ public class CustomerService : ICustomerService
 
     public async Task DeactivateAccountAsync(int customerId)
     {
-        Customer customer = await _unitOfWork.CustomerRepository.GetByIdAsync(customerId);
+        var customer = await _unitOfWork.CustomerRepository.GetByIdAsync(customerId);
         CheckIfCustomerIsPresent(customer);
 
         customer.IsDeleted = true;
-        string email = customer.Email;
+        var email = customer.Email;
         customer.Email = null;
         await _unitOfWork.CustomerRepository.UpdateAsync(customer);
         await _emailService.SendDeactivationEmailAsync(email);
@@ -56,7 +56,7 @@ public class CustomerService : ICustomerService
 
     public async Task AddGoodsToCartAsync(int customerId, int goodsId)
     {
-        Customer customer = await _unitOfWork.CustomerRepository.GetByIdAsync(customerId);
+        var customer = await _unitOfWork.CustomerRepository.GetByIdAsync(customerId);
         CheckIfCustomerIsPresent(customer);
 
         if (customer.ShoppingCart.Goods.Any(g => g.Id == goodsId))
@@ -65,7 +65,7 @@ public class CustomerService : ICustomerService
                 $"The goods with id {goodsId} is already added to the cart of the customer {customerId}.");
         }
 
-        Goods goods = await _unitOfWork.GoodsRepository.GetByIdAsync(goodsId);
+        var goods = await _unitOfWork.GoodsRepository.GetByIdAsync(goodsId);
         CheckIfGoodsIsPresent(goods);
 
         customer.ShoppingCart.Goods.Add(goods);
@@ -74,10 +74,10 @@ public class CustomerService : ICustomerService
 
     public async Task RemoveGoodsFromCartAsync(int customerId, int goodsId)
     {
-        Customer customer = await _unitOfWork.CustomerRepository.GetByIdAsync(customerId);
+        var customer = await _unitOfWork.CustomerRepository.GetByIdAsync(customerId);
         CheckIfCustomerIsPresent(customer);
 
-        Goods goodsInCart = customer.ShoppingCart.Goods.FirstOrDefault(g => g.Id == goodsId);
+        var goodsInCart = customer.ShoppingCart.Goods.FirstOrDefault(g => g.Id == goodsId);
         if (goodsInCart == null)
         {
             throw new GoodsNotFoundException(
@@ -90,7 +90,7 @@ public class CustomerService : ICustomerService
 
     public async Task ClearCustomerCartAsync(int customerId)
     {
-        Customer customer = await _unitOfWork.CustomerRepository.GetByIdAsync(customerId);
+        var customer = await _unitOfWork.CustomerRepository.GetByIdAsync(customerId);
         CheckIfCustomerIsPresent(customer);
 
         customer.ShoppingCart.Goods.Clear();

@@ -30,7 +30,7 @@ public class EmailServiceTests
         _mockHtmlEmailSender.Setup(
             x => x.SendEmailAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()));
         IEmailService service = new EmailService(_mockHtmlEmailSender.Object);
-        Customer customer = _helper.Customers.First();
+        var customer = _helper.Customers.First();
 
         // Act
         await service.SendRegisterEmailAsync(customer);
@@ -92,7 +92,7 @@ public class EmailServiceTests
         _mockHtmlEmailSender.Setup(
             x => x.SendEmailAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()));
         IEmailService service = new EmailService(_mockHtmlEmailSender.Object);
-        Order order = _helper.Orders.First();
+        var order = _helper.Orders.First();
         order.Customer = _helper.Customers.First(c => c.Id == order.CustomerId);
 
         // Act

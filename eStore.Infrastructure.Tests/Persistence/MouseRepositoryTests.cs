@@ -32,10 +32,10 @@ public class MouseRepositoryTests
     public async Task GetByIdAsync_ExistingMouse_ReturnsMouse(int id)
     {
         // Arrange
-        Mouse expected = _helper.Mouses.FirstOrDefault(c => c.Id == id);
+        var expected = _helper.Mouses.FirstOrDefault(c => c.Id == id);
 
         // Act
-        Mouse actual = await _repository.GetByIdAsync(id);
+        var actual = await _repository.GetByIdAsync(id);
 
         // Assert
         Assert.That(actual, Is.EqualTo(expected).Using(new MouseEqualityComparer()),
@@ -50,7 +50,7 @@ public class MouseRepositoryTests
         // Arrange
 
         // Act
-        Mouse actual = await _repository.GetByIdAsync(id);
+        var actual = await _repository.GetByIdAsync(id);
 
         // Assert
         Assert.That(actual, Is.Null, "The method returned not-null mouse.");
@@ -112,7 +112,7 @@ public class MouseRepositoryTests
     public async Task UpdateAsync_ExistingMouse_UpdatesMouseAndSavesToDb()
     {
         // Arrange
-        Mouse mouse = await _context.Mouses.FindAsync(12);
+        var mouse = await _context.Mouses.FindAsync(12);
 
         // Act
         mouse.Name = "NewName";

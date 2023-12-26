@@ -45,7 +45,7 @@ public class MousepadRepository : IRepository<Mousepad>
 
     public async Task DeleteAsync(int id)
     {
-        Mousepad mousepad = await GetByIdAsync(id);
+        var mousepad = await GetByIdAsync(id);
         _context.Mousepads.Remove(mousepad);
         await _context.SaveChangesAsync();
     }

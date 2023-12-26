@@ -8,7 +8,7 @@
 <aside id="filter-sidebar" class="filter-sidebar d-flex flex-row">
     <form id="filter-form" class="filter-list d-flex flex-column align-items-center justify-content-start" asp-action="Index" asp-controller="Keyboards" method="get">
         <label class="filter-category-name">BRAND</label>
-        @foreach (dynamic manufacturer in ViewBag.Manufacturers)
+        @foreach (var manufacturer in ViewBag.Manufacturers)
         {
             <div class="filter-option-group">
                 <input type="checkbox" value="@manufacturer" name="manufacturers" checked="@Context.Request.Query["manufacturers"].Contains((string)manufacturer)"/>
@@ -16,7 +16,7 @@
             </div>
         }
         <label class="filter-category-name">TYPE</label>
-        @foreach (dynamic type in ViewBag.Types)
+        @foreach (var type in ViewBag.Types)
         {
             <div class="filter-option-group">
                 <input type="checkbox" value="@type" name="keyboardTypes" checked="@Context.Request.Query["keyboardTypes"].Contains((string)type)"/>
@@ -24,7 +24,7 @@
             </div>
         }
         <label class="filter-category-name">FORMAT</label>
-        @foreach (dynamic size in ViewBag.Sizes)
+        @foreach (var size in ViewBag.Sizes)
         {
             <div class="filter-option-group">
                 <input type="checkbox" value="@size" name="keyboardSizes" checked="@Context.Request.Query["keyboardSizes"].Contains((string)size)"/>
@@ -32,7 +32,7 @@
             </div>
         }
         <label class="filter-category-name">SWITCHES</label>
-        @foreach (dynamic sw in ViewBag.Switches)
+        @foreach (var sw in ViewBag.Switches)
         {
             <div class="filter-option-group">
                 <input type="checkbox" value="@sw.Id" name="switchIds" checked="@(Context.Request.Query["switchIds"].Contains(((int)sw.Id).ToString()))"/>
@@ -40,7 +40,7 @@
             </div>
         }
         <label class="filter-category-name">CONNECTION TYPE</label>
-        @foreach (dynamic connectionType in ViewBag.ConnectionTypes)
+        @foreach (var connectionType in ViewBag.ConnectionTypes)
         {
             <div class="filter-option-group">
                 <input type="checkbox" value="@connectionType" name="connectionTypes" checked="@Context.Request.Query["connectionTypes"].Contains((string)connectionType)"/>
@@ -48,7 +48,7 @@
             </div>
         }
         <label class="filter-category-name">BACKLIGHT</label>
-        @foreach (dynamic backlight in ViewBag.Backlights)
+        @foreach (var backlight in ViewBag.Backlights)
         {
             <div class="filter-option-group">
                 <input type="checkbox" value="@backlight" name="backlights" checked="@Context.Request.Query["backlights"].Contains((string)backlight)"/>
@@ -56,7 +56,7 @@
             </div>
         }
         <label class="filter-category-name">KEY ROLLOVER</label>
-        @foreach (dynamic keyRollover in ViewBag.KeyRollovers)
+        @foreach (var keyRollover in ViewBag.KeyRollovers)
         {
             <div class="filter-option-group">
                 <input type="checkbox" value="@keyRollover" name="keyRollovers" checked="@Context.Request.Query["keyRollovers"].Contains((string)keyRollover)"/>
@@ -81,7 +81,7 @@
 </aside>
 <h1 class="goods-title">KEYBOARDS</h1>
 <section class="goods-container goods-container d-flex flex-column align-items-center justify-content-center">
-    @foreach (KeyboardViewModel keyboard in Model)
+    @foreach (var keyboard in Model)
     {
         @await Html.PartialAsync("_Keyboard", keyboard)
     }

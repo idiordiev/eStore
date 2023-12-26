@@ -35,12 +35,12 @@ public class CustomerServiceTests
     public async Task GetCustomerByIdAsync_ExistingCustomer_ReturnsCustomer()
     {
         // Arrange
-        Customer expected = _helper.Customers.First(c => c.Id == 1);
+        var expected = _helper.Customers.First(c => c.Id == 1);
         _mockUnitOfWork.Setup(x => x.CustomerRepository.GetByIdAsync(1)).ReturnsAsync(expected);
         ICustomerService service = new CustomerService(_mockUnitOfWork.Object, _mockEmailService.Object);
 
         // Act
-        Customer actual = await service.GetCustomerByIdAsync(1);
+        var actual = await service.GetCustomerByIdAsync(1);
 
         // Assert
         Assert.That(actual, Is.EqualTo(expected).Using(new CustomerEqualityComparer()),
@@ -55,7 +55,7 @@ public class CustomerServiceTests
         ICustomerService service = new CustomerService(_mockUnitOfWork.Object, _mockEmailService.Object);
 
         // Act
-        Customer actual = await service.GetCustomerByIdAsync(1);
+        var actual = await service.GetCustomerByIdAsync(1);
 
         // Assert
         Assert.That(actual, Is.Null, "The method returned not-null object.");
@@ -117,7 +117,7 @@ public class CustomerServiceTests
         // Arrange
         _mockUnitOfWork.Setup(x => x.CustomerRepository.UpdateAsync(It.IsAny<Customer>()));
         ICustomerService service = new CustomerService(_mockUnitOfWork.Object, _mockEmailService.Object);
-        Customer customer = _helper.Customers.First();
+        var customer = _helper.Customers.First();
         customer.FirstName = "NewName";
 
         // Act
