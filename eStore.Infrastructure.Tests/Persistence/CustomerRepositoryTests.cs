@@ -147,4 +147,10 @@ public class CustomerRepositoryTests
         Assert.That(exception, Is.Not.Null, "The method has not thrown the ArgumentNullException.");
         return Task.CompletedTask;
     }
+    
+    [TearDown]
+    public void TearDown()
+    {
+        _context?.Dispose();
+    }
 }

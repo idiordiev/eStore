@@ -272,4 +272,11 @@ public class UnitOfWorkTests
         context.Verify(x => x.Dispose(), Times.Once);
         return Task.CompletedTask;
     }
+    
+    [TearDown]
+    public void TearDown()
+    {
+        _context?.Dispose();
+        _unitOfWork?.Dispose();
+    }
 }
