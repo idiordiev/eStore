@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using eStore.Application.Interfaces;
@@ -11,7 +9,6 @@ using eStore.WebMVC.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
 
 namespace eStore.WebMVC.Controllers;
 
@@ -24,9 +21,13 @@ public class AccountController : Controller
     private readonly SignInManager<ApplicationUser> _signInManager;
     private readonly UserManager<ApplicationUser> _userManager;
 
-    public AccountController(ICustomerService customerService, IGoodsService goodsService,
-        IMapper mapper, IEmailService emailService,
-        UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+    public AccountController(
+        ICustomerService customerService,
+        IGoodsService goodsService,
+        IMapper mapper,
+        IEmailService emailService,
+        UserManager<ApplicationUser> userManager,
+        SignInManager<ApplicationUser> signInManager)
     {
         _customerService = customerService;
         _goodsService = goodsService;

@@ -18,7 +18,8 @@ public class MousepadsController : Controller
     private readonly IMapper _mapper;
     private readonly UserManager<ApplicationUser> _userManager;
 
-    public MousepadsController(IMousepadService mousepadService,
+    public MousepadsController(
+        IMousepadService mousepadService,
         IMapper mapper,
         UserManager<ApplicationUser> userManager,
         IGoodsService goodsService)

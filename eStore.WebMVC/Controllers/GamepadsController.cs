@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using AutoMapper;
 using eStore.Application.Filtering.Models;
 using eStore.Application.Interfaces.Services;
-using eStore.Domain.Entities;
 using eStore.Infrastructure.Identity;
 using eStore.WebMVC.Models;
 using Microsoft.AspNetCore.Identity;
@@ -18,7 +17,10 @@ public class GamepadsController : Controller
     private readonly IMapper _mapper;
     private readonly UserManager<ApplicationUser> _userManager;
 
-    public GamepadsController(IGoodsService goodsService, IGamepadService gamepadService, IMapper mapper,
+    public GamepadsController(
+        IGoodsService goodsService,
+        IGamepadService gamepadService,
+        IMapper mapper,
         UserManager<ApplicationUser> userManager)
     {
         _goodsService = goodsService;

@@ -32,7 +32,7 @@ public static class ServiceCollectionExtensions
     {
         services.AddDbContext<ApplicationContext>(options =>
         {
-            options.UseSqlServer(config.GetConnectionString("Application"));
+            options.UseSqlServer(config.GetConnectionString("ApplicationDbConnection"));
         });
     }
 

@@ -29,7 +29,7 @@ public class Startup
         
         services.AddDbContext<IdentityContext>(options =>
         {
-            options.UseSqlServer(Configuration.GetConnectionString("Identity"));
+            options.UseSqlServer(Configuration.GetConnectionString("IdentityDbConnection"));
         });
 
         services.AddIdentity<ApplicationUser, IdentityRole>(opt =>

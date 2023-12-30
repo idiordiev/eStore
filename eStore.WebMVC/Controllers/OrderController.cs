@@ -20,8 +20,11 @@ public class OrderController : Controller
     private readonly IOrderService _orderService;
     private readonly UserManager<ApplicationUser> _userManager;
 
-    public OrderController(IOrderService orderService, ICustomerService customerService,
-        UserManager<ApplicationUser> userManager, IMapper mapper)
+    public OrderController(
+        IOrderService orderService,
+        ICustomerService customerService,
+        UserManager<ApplicationUser> userManager,
+        IMapper mapper)
     {
         _orderService = orderService;
         _customerService = customerService;
